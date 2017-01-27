@@ -1,2 +1,9 @@
 /nbproject/private/
 /target/
+
+build/
+javadoc/
+jfreechart-*-javadocs.zip
+jfreechart-*.zip
+lib/jfreechart-*-src.jar
+lib/jfreechart-*.jar
