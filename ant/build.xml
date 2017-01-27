@@ -104,6 +104,50 @@
 
     </target>
 
+    <property environment="env"/>
+
+    <property name="checkerframework" value="${env.CHECKERFRAMEWORK}" />
+
+    <!-- On Mac/Linux, use the javac shell script; on Windows, use javac.bat -->
+    <condition property="cfJavac" value="javac.bat" else="javac">
+            <os family="windows" />
+    </condition>
+
+    <presetdef name="jsr308.javac">
+        <javac fork="yes" executable="${checkerframework}/checker/bin/${cfJavac}" >
+            <!-- JSR-308-related compiler arguments -->
+            <compilerarg value="-version"/>
+            <compilerarg value="-implicit:class"/>
+        </javac>
+    </presetdef>
+
+    <!-- Compile the JFreeChart classes -->
+    <target name="check-index" depends="initialise"
+            description="Compile the JFreeChart source code.">
+
+        <!-- create a temp build directory -->
+        <mkdir dir="${basedir}/build" />
+
+        <!-- type-check the source -->
+        <jsr308.javac srcdir="${basedir}/src/main/java"
+               destdir="${basedir}/build"
+               debug="on"
+               deprecation="false"
+               source="${src.version}"
+               target="${target.version}"
+               includeantruntime="false">
+            <compilerarg line="-processor org.checkerframework.checker.index.IndexChecker"/>
+            <compilerarg line="-Xmaxerrs 10000"/>
+            <classpath refid="build.classpath" />
+            <include name="org/jfree/**"/>
+            <exclude name="org/jfree/chart/fx/**"/>
+        </jsr308.javac>
+
+        <!-- delete the temp directory -->
+        <delete dir="${basedir}/build" />
+
+    </target>
+
     <!-- Generate the JFreeChart source code jar -->
     <target name="source-jar" depends="initialise"
             description="Package the JFreeChart source code in a jar">
