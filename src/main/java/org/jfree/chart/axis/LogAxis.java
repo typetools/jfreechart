@@ -82,14 +82,14 @@ import org.jfree.chart.event.AxisChangeEvent;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.ValueAxisPlot;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.ui.TextAnchor;
 import org.jfree.chart.util.AttrStringUtils;
 import org.jfree.chart.util.LogFormat;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
 import org.jfree.data.Range;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.TextAnchor;
-import org.jfree.util.ObjectUtilities;
 
 /**
  * A numerical axis that uses a logarithmic scale.  The class is an
@@ -222,7 +222,7 @@ public class LogAxis extends ValueAxis {
      * @since 1.0.18
      */
     public void setBaseFormatter(Format formatter) {
-        ParamChecks.nullNotPermitted(formatter, "formatter");
+        Args.nullNotPermitted(formatter, "formatter");
         this.baseFormatter = formatter;
         fireChangeEvent();
     }
@@ -296,7 +296,7 @@ public class LogAxis extends ValueAxis {
      */
     public void setTickUnit(NumberTickUnit unit, boolean notify,
             boolean turnOffAutoSelect) {
-        ParamChecks.nullNotPermitted(unit, "unit");
+        Args.nullNotPermitted(unit, "unit");
         this.tickUnit = unit;
         if (turnOffAutoSelect) {
             setAutoTickUnitSelection(false, false);
@@ -1056,7 +1056,7 @@ public class LogAxis extends ValueAxis {
         if (this.base != that.base) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseSymbol, that.baseSymbol)) {
+        if (!ObjectUtils.equal(this.baseSymbol, that.baseSymbol)) {
             return false;
         }
         if (!this.baseFormatter.equals(that.baseFormatter)) {
@@ -1065,7 +1065,7 @@ public class LogAxis extends ValueAxis {
         if (this.smallestValue != that.smallestValue) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.numberFormatOverride, 
+        if (!ObjectUtils.equal(this.numberFormatOverride, 
                 that.numberFormatOverride)) {
             return false;
         }
@@ -1091,37 +1091,4 @@ public class LogAxis extends ValueAxis {
         return result;
     }
 
-    /**
-     * Returns a collection of tick units for log (base 10) values.
-     * Uses a given Locale to create the DecimalFormats.
-     *
-     * @param locale the locale to use to represent Numbers.
-     *
-     * @return A collection of tick units for integer values.
-     *
-     * @since 1.0.7
-     * 
-     * @deprecated This method is no longer used internally and will be removed
-     *     from a future version.  If you need this method, copy the source
-     *     code into your project.
-     */
-    public static TickUnitSource createLogTickUnits(Locale locale) {
-        TickUnits units = new TickUnits();
-        NumberFormat numberFormat = new LogFormat();
-        units.add(new NumberTickUnit(0.05, numberFormat, 2));
-        units.add(new NumberTickUnit(0.1, numberFormat, 10));
-        units.add(new NumberTickUnit(0.2, numberFormat, 2));
-        units.add(new NumberTickUnit(0.5, numberFormat, 5));
-        units.add(new NumberTickUnit(1, numberFormat, 10));
-        units.add(new NumberTickUnit(2, numberFormat, 10));
-        units.add(new NumberTickUnit(3, numberFormat, 15));
-        units.add(new NumberTickUnit(4, numberFormat, 20));
-        units.add(new NumberTickUnit(5, numberFormat, 25));
-        units.add(new NumberTickUnit(6, numberFormat));
-        units.add(new NumberTickUnit(7, numberFormat));
-        units.add(new NumberTickUnit(8, numberFormat));
-        units.add(new NumberTickUnit(9, numberFormat));
-        units.add(new NumberTickUnit(10, numberFormat));
-        return units;
-    }
 }

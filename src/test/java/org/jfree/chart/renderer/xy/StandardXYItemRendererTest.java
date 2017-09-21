@@ -62,13 +62,13 @@ import org.jfree.chart.LegendItem;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.entity.XYItemEntity;
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.UnitType;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.util.PublicCloneable;
-import org.jfree.util.UnitType;
 import org.junit.Test;
 
 /**
@@ -118,11 +118,6 @@ public class StandardXYItemRendererTest {
         r1.setLegendLine(new Line2D.Double(1.0, 2.0, 3.0, 4.0));
         assertFalse(r1.equals(r2));
         r2.setLegendLine(new Line2D.Double(1.0, 2.0, 3.0, 4.0));
-        assertTrue(r1.equals(r2));
-
-        r1.setShapesFilled(false);
-        assertFalse(r1.equals(r2));
-        r2.setShapesFilled(false);
         assertTrue(r1.equals(r2));
 
         r1.setSeriesShapesFilled(1, Boolean.TRUE);
@@ -195,7 +190,7 @@ public class StandardXYItemRendererTest {
     public void testSerialization() {
         StandardXYItemRenderer r1 = new StandardXYItemRenderer();
         StandardXYItemRenderer r2 = (StandardXYItemRenderer) 
-                TestUtilities.serialised(r1);
+                TestUtils.serialised(r1);
         assertEquals(r1, r2);
     }
 
@@ -260,7 +255,7 @@ public class StandardXYItemRendererTest {
         chart.draw(g2, new Rectangle2D.Double(0, 0, 200, 100), null, info);
         g2.dispose();
         EntityCollection ec = info.getEntityCollection();
-        assertFalse(TestUtilities.containsInstanceOf(ec.getEntities(),
+        assertFalse(TestUtils.containsInstanceOf(ec.getEntities(),
                 XYItemEntity.class));
     }
 

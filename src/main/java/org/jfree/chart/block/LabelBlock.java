@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ---------------
  * LabelBlock.java
  * ---------------
- * (C) Copyright 2004-2016, by Object Refinery Limited.
+ * (C) Copyright 2004-2017, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Pierre-Marie Le Biot;
@@ -64,16 +64,16 @@ import java.io.ObjectOutputStream;
 
 import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.entity.StandardEntityCollection;
-import org.jfree.chart.util.ParamChecks;
-import org.jfree.io.SerialUtilities;
-import org.jfree.text.TextBlock;
-import org.jfree.text.TextBlockAnchor;
-import org.jfree.text.TextUtilities;
-import org.jfree.ui.RectangleAnchor;
-import org.jfree.ui.Size2D;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.PublicCloneable;
+import org.jfree.chart.text.TextBlock;
+import org.jfree.chart.text.TextBlockAnchor;
+import org.jfree.chart.text.TextUtils;
+import org.jfree.chart.ui.RectangleAnchor;
+import org.jfree.chart.ui.Size2D;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
 
 /**
  * A block containing a label.
@@ -103,7 +103,7 @@ public class LabelBlock extends AbstractBlock
     private String urlText;
 
     /** The default color. */
-    public static final Paint DEFAULT_PAINT = Color.black;
+    public static final Paint DEFAULT_PAINT = Color.BLACK;
 
     /** The paint. */
     private transient Paint paint;
@@ -151,7 +151,7 @@ public class LabelBlock extends AbstractBlock
     public LabelBlock(String text, Font font, Paint paint) {
         this.text = text;
         this.paint = paint;
-        this.label = TextUtilities.createTextBlock(text, font, this.paint);
+        this.label = TextUtils.createTextBlock(text, font, this.paint);
         this.font = font;
         this.toolTipText = null;
         this.urlText = null;
@@ -178,9 +178,9 @@ public class LabelBlock extends AbstractBlock
      * @see #getFont()
      */
     public void setFont(Font font) {
-        ParamChecks.nullNotPermitted(font, "font");
+        Args.nullNotPermitted(font, "font");
         this.font = font;
-        this.label = TextUtilities.createTextBlock(this.text, font, this.paint);
+        this.label = TextUtils.createTextBlock(this.text, font, this.paint);
     }
 
     /**
@@ -202,9 +202,9 @@ public class LabelBlock extends AbstractBlock
      * @see #getPaint()
      */
     public void setPaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.paint = paint;
-        this.label = TextUtilities.createTextBlock(this.text, this.font,
+        this.label = TextUtils.createTextBlock(this.text, this.font,
                 this.paint);
     }
 
@@ -272,7 +272,7 @@ public class LabelBlock extends AbstractBlock
      * @since 1.0.13
      */
     public void setContentAlignmentPoint(TextBlockAnchor anchor) {
-        ParamChecks.nullNotPermitted(anchor, "anchor");
+        Args.nullNotPermitted(anchor, "anchor");
         this.contentAlignmentPoint = anchor;
     }
 
@@ -355,7 +355,7 @@ public class LabelBlock extends AbstractBlock
         }
         g2.setPaint(this.paint);
         g2.setFont(this.font);
-        Point2D pt = RectangleAnchor.coordinates(area, this.textAnchor);
+        Point2D pt = this.textAnchor.getAnchorPoint(area);
         this.label.draw(g2, (float) pt.getX(), (float) pt.getY(),
                 this.contentAlignmentPoint);
         BlockResult result = null;
@@ -390,13 +390,13 @@ public class LabelBlock extends AbstractBlock
         if (!this.font.equals(that.font)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.paint, that.paint)) {
+        if (!PaintUtils.equal(this.paint, that.paint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.toolTipText, that.toolTipText)) {
+        if (!ObjectUtils.equal(this.toolTipText, that.toolTipText)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.urlText, that.urlText)) {
+        if (!ObjectUtils.equal(this.urlText, that.urlText)) {
             return false;
         }
         if (!this.contentAlignmentPoint.equals(that.contentAlignmentPoint)) {
@@ -429,7 +429,7 @@ public class LabelBlock extends AbstractBlock
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.paint, stream);
+        SerialUtils.writePaint(this.paint, stream);
     }
 
     /**
@@ -443,7 +443,7 @@ public class LabelBlock extends AbstractBlock
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.paint = SerialUtilities.readPaint(stream);
+        this.paint = SerialUtils.readPaint(stream);
     }
 
 }

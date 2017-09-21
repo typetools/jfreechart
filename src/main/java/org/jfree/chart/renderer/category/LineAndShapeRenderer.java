@@ -109,12 +109,11 @@ import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.event.RendererChangeEvent;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.util.BooleanList;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.ShapeUtils;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.util.BooleanList;
-import org.jfree.util.BooleanUtilities;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
-import org.jfree.util.ShapeUtilities;
 
 /**
  * A renderer that draws shapes for each data item, and lines between data
@@ -132,13 +131,6 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
     private static final long serialVersionUID = -197749519869226398L;
 
     /**
-     * A flag that controls whether or not lines are visible for ALL series.
-     *
-     * @deprecated As of 1.0.7 (this override flag is unnecessary).
-     */
-    private Boolean linesVisible;
-
-    /**
      * A table of flags that control (per series) whether or not lines are
      * visible.
      */
@@ -148,14 +140,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      * A flag indicating whether or not lines are drawn between non-null
      * points.
      */
-    private boolean baseLinesVisible;
-
-    /**
-     * A flag that controls whether or not shapes are visible for ALL series.
-     *
-     * @deprecated As of 1.0.7 (this override flag is unnecessary).
-     */
-    private Boolean shapesVisible;
+    private boolean defaultLinesVisible;
 
     /**
      * A table of flags that control (per series) whether or not shapes are
@@ -164,14 +149,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
     private BooleanList seriesShapesVisible;
 
     /** The default value returned by the getShapeVisible() method. */
-    private boolean baseShapesVisible;
-
-    /**
-     * A flag that controls whether or not shapes are filled for ALL series.
-     *
-     * @deprecated As of 1.0.7 (this override flag is unnecessary).
-     */
-    private Boolean shapesFilled;
+    private boolean defaultShapesVisible;
 
     /**
      * A table of flags that control (per series) whether or not shapes are
@@ -180,7 +158,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
     private BooleanList seriesShapesFilled;
 
     /** The default value returned by the getShapeFilled() method. */
-    private boolean baseShapesFilled;
+    private boolean defaultShapesFilled;
 
     /**
      * A flag that controls whether the fill paint is used for filling
@@ -228,15 +206,12 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      */
     public LineAndShapeRenderer(boolean lines, boolean shapes) {
         super();
-        this.linesVisible = null;
         this.seriesLinesVisible = new BooleanList();
-        this.baseLinesVisible = lines;
-        this.shapesVisible = null;
+        this.defaultLinesVisible = lines;
         this.seriesShapesVisible = new BooleanList();
-        this.baseShapesVisible = shapes;
-        this.shapesFilled = null;
+        this.defaultShapesVisible = shapes;
         this.seriesShapesFilled = new BooleanList();
-        this.baseShapesFilled = true;
+        this.defaultShapesFilled = true;
         this.useFillPaint = false;
         this.drawOutlines = true;
         this.useOutlinePaint = false;
@@ -256,66 +231,11 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      * @return A boolean.
      */
     public boolean getItemLineVisible(int series, int item) {
-        Boolean flag = this.linesVisible;
-        if (flag == null) {
-            flag = getSeriesLinesVisible(series);
-        }
+        Boolean flag = getSeriesLinesVisible(series);
         if (flag != null) {
-            return flag.booleanValue();
+            return flag;
         }
-        else {
-            return this.baseLinesVisible;
-        }
-    }
-
-    /**
-     * Returns a flag that controls whether or not lines are drawn for ALL
-     * series.  If this flag is {@code null}, then the "per series"
-     * settings will apply.
-     *
-     * @return A flag (possibly {@code null}).
-     *
-     * @see #setLinesVisible(Boolean)
-     *
-     * @deprecated As of 1.0.7 (the override facility is unnecessary, just
-     *     use the per-series and base (default) settings).
-     */
-    public Boolean getLinesVisible() {
-        return this.linesVisible;
-    }
-
-    /**
-     * Sets a flag that controls whether or not lines are drawn between the
-     * items in ALL series, and sends a {@link RendererChangeEvent} to all
-     * registered listeners.  You need to set this to {@code null} if you
-     * want the "per series" settings to apply.
-     *
-     * @param visible  the flag ({@code null} permitted).
-     *
-     * @see #getLinesVisible()
-     *
-     * @deprecated As of 1.0.7 (the override facility is unnecessary, just
-     *     use the per-series and base (default) settings).
-     */
-    public void setLinesVisible(Boolean visible) {
-        this.linesVisible = visible;
-        fireChangeEvent();
-    }
-
-    /**
-     * Sets a flag that controls whether or not lines are drawn between the
-     * items in ALL series, and sends a {@link RendererChangeEvent} to all
-     * registered listeners.
-     *
-     * @param visible  the flag.
-     *
-     * @see #getLinesVisible()
-     *
-     * @deprecated As of 1.0.7 (the override facility is unnecessary, just
-     *     use the per-series and base (default) settings).
-     */
-    public void setLinesVisible(boolean visible) {
-        setLinesVisible(BooleanUtilities.valueOf(visible));
+        return this.defaultLinesVisible;
     }
 
     /**
@@ -356,30 +276,30 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      * @see #getSeriesLinesVisible(int)
      */
     public void setSeriesLinesVisible(int series, boolean visible) {
-        setSeriesLinesVisible(series, BooleanUtilities.valueOf(visible));
+        setSeriesLinesVisible(series, Boolean.valueOf(visible));
     }
 
     /**
-     * Returns the base 'lines visible' attribute.
+     * Returns the default 'lines visible' attribute.
      *
-     * @return The base flag.
+     * @return The default flag.
      *
-     * @see #getBaseLinesVisible()
+     * @see #getDefaultLinesVisible()
      */
-    public boolean getBaseLinesVisible() {
-        return this.baseLinesVisible;
+    public boolean getDefaultLinesVisible() {
+        return this.defaultLinesVisible;
     }
 
     /**
-     * Sets the base 'lines visible' flag and sends a
+     * Sets the default 'lines visible' flag and sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param flag  the flag.
      *
-     * @see #getBaseLinesVisible()
+     * @see #getDefaultLinesVisible()
      */
-    public void setBaseLinesVisible(boolean flag) {
-        this.baseLinesVisible = flag;
+    public void setDefaultLinesVisible(boolean flag) {
+        this.defaultLinesVisible = flag;
         fireChangeEvent();
     }
 
@@ -395,62 +315,11 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      * @return A boolean.
      */
     public boolean getItemShapeVisible(int series, int item) {
-        Boolean flag = this.shapesVisible;
-        if (flag == null) {
-            flag = getSeriesShapesVisible(series);
-        }
+        Boolean flag = getSeriesShapesVisible(series);
         if (flag != null) {
-            return flag.booleanValue();
+            return flag;
         }
-        else {
-            return this.baseShapesVisible;
-        }
-    }
-
-    /**
-     * Returns the flag that controls whether the shapes are visible for the
-     * items in ALL series.
-     *
-     * @return The flag (possibly {@code null}).
-     *
-     * @see #setShapesVisible(Boolean)
-     *
-     * @deprecated As of 1.0.7 (the override facility is unnecessary, just
-     *     use the per-series and base (default) settings).
-     */
-    public Boolean getShapesVisible() {
-        return this.shapesVisible;
-    }
-
-    /**
-     * Sets the 'shapes visible' for ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param visible  the flag ({@code null} permitted).
-     *
-     * @see #getShapesVisible()
-     *
-     * @deprecated As of 1.0.7 (the override facility is unnecessary, just
-     *     use the per-series and base (default) settings).
-     */
-    public void setShapesVisible(Boolean visible) {
-        this.shapesVisible = visible;
-        fireChangeEvent();
-    }
-
-    /**
-     * Sets the 'shapes visible' for ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param visible  the flag.
-     *
-     * @see #getShapesVisible()
-     *
-     * @deprecated As of 1.0.7 (the override facility is unnecessary, just
-     *     use the per-series and base (default) settings).
-     */
-    public void setShapesVisible(boolean visible) {
-        setShapesVisible(BooleanUtilities.valueOf(visible));
+        return this.defaultShapesVisible;
     }
 
     /**
@@ -477,7 +346,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      * @see #getSeriesShapesVisible(int)
      */
     public void setSeriesShapesVisible(int series, boolean visible) {
-        setSeriesShapesVisible(series, BooleanUtilities.valueOf(visible));
+        setSeriesShapesVisible(series, Boolean.valueOf(visible));
     }
 
     /**
@@ -495,26 +364,26 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
     }
 
     /**
-     * Returns the base 'shape visible' attribute.
+     * Returns the default 'shape visible' attribute.
      *
      * @return The base flag.
      *
-     * @see #setBaseShapesVisible(boolean)
+     * @see #setDefaultShapesVisible(boolean)
      */
-    public boolean getBaseShapesVisible() {
-        return this.baseShapesVisible;
+    public boolean getDefaultShapesVisible() {
+        return this.defaultShapesVisible;
     }
 
     /**
-     * Sets the base 'shapes visible' flag and sends a
+     * Sets the default 'shapes visible' flag and sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param flag  the flag.
      *
-     * @see #getBaseShapesVisible()
+     * @see #getDefaultShapesVisible()
      */
-    public void setBaseShapesVisible(boolean flag) {
-        this.baseShapesVisible = flag;
+    public void setDefaultShapesVisible(boolean flag) {
+        this.defaultShapesVisible = flag;
         fireChangeEvent();
     }
 
@@ -599,72 +468,11 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      * @return A boolean.
      */
     public boolean getSeriesShapesFilled(int series) {
-
-        // return the overall setting, if there is one...
-        if (this.shapesFilled != null) {
-            return this.shapesFilled.booleanValue();
-        }
-
-        // otherwise look up the paint table
         Boolean flag = this.seriesShapesFilled.getBoolean(series);
         if (flag != null) {
-            return flag.booleanValue();
+            return flag;
         }
-        else {
-            return this.baseShapesFilled;
-        }
-
-    }
-
-    /**
-     * Returns the flag that controls whether or not shapes are filled for
-     * ALL series.
-     *
-     * @return A Boolean.
-     *
-     * @see #setShapesFilled(Boolean)
-     *
-     * @deprecated As of 1.0.7 (the override facility is unnecessary, just
-     *     use the per-series and base (default) settings).
-     */
-    public Boolean getShapesFilled() {
-        return this.shapesFilled;
-    }
-
-    /**
-     * Sets the 'shapes filled' for ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param filled  the flag.
-     *
-     * @see #getShapesFilled()
-     *
-     * @deprecated As of 1.0.7 (the override facility is unnecessary, just
-     *     use the per-series and base (default) settings).
-     */
-    public void setShapesFilled(boolean filled) {
-        if (filled) {
-            setShapesFilled(Boolean.TRUE);
-        }
-        else {
-            setShapesFilled(Boolean.FALSE);
-        }
-    }
-
-    /**
-     * Sets the 'shapes filled' for ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param filled  the flag ({@code null} permitted).
-     *
-     * @see #getShapesFilled()
-     *
-     * @deprecated As of 1.0.7 (the override facility is unnecessary, just
-     *     use the per-series and base (default) settings).
-     */
-    public void setShapesFilled(Boolean filled) {
-        this.shapesFilled = filled;
-        fireChangeEvent();
+        return this.defaultShapesFilled;
     }
 
     /**
@@ -692,30 +500,30 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      */
     public void setSeriesShapesFilled(int series, boolean filled) {
         // delegate
-        setSeriesShapesFilled(series, BooleanUtilities.valueOf(filled));
+        setSeriesShapesFilled(series, Boolean.valueOf(filled));
     }
 
     /**
-     * Returns the base 'shape filled' attribute.
+     * Returns the default 'shape filled' attribute.
      *
      * @return The base flag.
      *
-     * @see #setBaseShapesFilled(boolean)
+     * @see #setDefaultShapesFilled(boolean)
      */
-    public boolean getBaseShapesFilled() {
-        return this.baseShapesFilled;
+    public boolean getDefaultShapesFilled() {
+        return this.defaultShapesFilled;
     }
 
     /**
-     * Sets the base 'shapes filled' flag and sends a
+     * Sets the default 'shapes filled' flag and sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param flag  the flag.
      *
-     * @see #getBaseShapesFilled()
+     * @see #getDefaultShapesFilled()
      */
-    public void setBaseShapesFilled(boolean flag) {
-        this.baseShapesFilled = flag;
+    public void setDefaultShapesFilled(boolean flag) {
+        this.defaultShapesFilled = flag;
         fireChangeEvent();
     }
 
@@ -983,10 +791,10 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
         if (pass == 1) {
             Shape shape = getItemShape(row, column);
             if (orientation == PlotOrientation.HORIZONTAL) {
-                shape = ShapeUtilities.createTranslatedShape(shape, y1, x1);
+                shape = ShapeUtils.createTranslatedShape(shape, y1, x1);
             }
             else if (orientation == PlotOrientation.VERTICAL) {
-                shape = ShapeUtilities.createTranslatedShape(shape, x1, y1);
+                shape = ShapeUtils.createTranslatedShape(shape, x1, y1);
             }
 
             if (getItemShapeVisible(row, column)) {
@@ -1056,34 +864,25 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
         }
 
         LineAndShapeRenderer that = (LineAndShapeRenderer) obj;
-        if (this.baseLinesVisible != that.baseLinesVisible) {
+        if (this.defaultLinesVisible != that.defaultLinesVisible) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.seriesLinesVisible,
+        if (!ObjectUtils.equal(this.seriesLinesVisible,
                 that.seriesLinesVisible)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.linesVisible, that.linesVisible)) {
+        if (this.defaultShapesVisible != that.defaultShapesVisible) {
             return false;
         }
-        if (this.baseShapesVisible != that.baseShapesVisible) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.seriesShapesVisible,
+        if (!ObjectUtils.equal(this.seriesShapesVisible,
                 that.seriesShapesVisible)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.shapesVisible, that.shapesVisible)) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.shapesFilled, that.shapesFilled)) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.seriesShapesFilled,
+        if (!ObjectUtils.equal(this.seriesShapesFilled,
                 that.seriesShapesFilled)) {
             return false;
         }
-        if (this.baseShapesFilled != that.baseShapesFilled) {
+        if (this.defaultShapesFilled != that.defaultShapesFilled) {
             return false;
         }
         if (this.useOutlinePaint != that.useOutlinePaint) {

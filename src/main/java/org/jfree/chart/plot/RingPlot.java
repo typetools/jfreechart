@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * -------------
  * RingPlot.java
  * -------------
- * (C) Copyright 2004-2016, by Object Refinery Limited.
+ * (C) Copyright 2004-2017, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limtied);
  * Contributor(s):   Christoph Beck (bug 2121818);
@@ -74,19 +74,19 @@ import java.text.Format;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.entity.PieSectionEntity;
 import org.jfree.chart.labels.PieToolTipGenerator;
+import org.jfree.chart.text.TextUtils;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.ui.TextAnchor;
 import org.jfree.chart.urls.PieURLGenerator;
-import org.jfree.chart.util.LineUtilities;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.LineUtils;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.Rotation;
+import org.jfree.chart.util.SerialUtils;
+import org.jfree.chart.util.ShapeUtils;
+import org.jfree.chart.util.UnitType;
 import org.jfree.data.general.PieDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.text.TextUtilities;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.TextAnchor;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.Rotation;
-import org.jfree.util.ShapeUtilities;
-import org.jfree.util.UnitType;
 
 /**
  * A customised pie plot that leaves a hole in the middle.
@@ -199,7 +199,7 @@ public class RingPlot extends PiePlot implements Cloneable, Serializable {
      * @since 1.0.18
      */
     public void setCenterTextMode(CenterTextMode mode) {
-        ParamChecks.nullNotPermitted(mode, "mode");
+        Args.nullNotPermitted(mode, "mode");
         this.centerTextMode = mode;
         fireChangeEvent();
     }
@@ -252,7 +252,7 @@ public class RingPlot extends PiePlot implements Cloneable, Serializable {
      * @since 1.0.18
      */
     public void setCenterTextFormatter(Format formatter) {
-        ParamChecks.nullNotPermitted(formatter, "formatter");
+        Args.nullNotPermitted(formatter, "formatter");
         this.centerTextFormatter = formatter;
     }
     
@@ -277,7 +277,7 @@ public class RingPlot extends PiePlot implements Cloneable, Serializable {
      * @since 1.0.18
      */
     public void setCenterTextFont(Font font) {
-        ParamChecks.nullNotPermitted(font, "font");
+        Args.nullNotPermitted(font, "font");
         this.centerTextFont = font;
         fireChangeEvent();
     }
@@ -303,7 +303,7 @@ public class RingPlot extends PiePlot implements Cloneable, Serializable {
      * @since 1.0.18
      */
     public void setCenterTextColor(Color color) {
-        ParamChecks.nullNotPermitted(color, "color");
+        Args.nullNotPermitted(color, "color");
         this.centerTextColor = color;
         fireChangeEvent();
     }
@@ -354,7 +354,7 @@ public class RingPlot extends PiePlot implements Cloneable, Serializable {
      * @see #getSeparatorStroke()
      */
     public void setSeparatorStroke(Stroke stroke) {
-        ParamChecks.nullNotPermitted(stroke, "stroke");
+        Args.nullNotPermitted(stroke, "stroke");
         this.separatorStroke = stroke;
         fireChangeEvent();
     }
@@ -379,7 +379,7 @@ public class RingPlot extends PiePlot implements Cloneable, Serializable {
      * @see #getSeparatorPaint()
      */
     public void setSeparatorPaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.separatorPaint = paint;
         fireChangeEvent();
     }
@@ -563,7 +563,7 @@ public class RingPlot extends PiePlot implements Cloneable, Serializable {
                 double shadowXOffset = getShadowXOffset();
                 double shadowYOffset = getShadowYOffset();
                 if (shadowPaint != null && getShadowGenerator() == null) {
-                    Shape shadowArc = ShapeUtilities.createTranslatedShape(
+                    Shape shadowArc = ShapeUtils.createTranslatedShape(
                             path, (float) shadowXOffset, (float) shadowYOffset);
                     g2.setPaint(shadowPaint);
                     g2.fill(shadowArc);
@@ -592,7 +592,7 @@ public class RingPlot extends PiePlot implements Cloneable, Serializable {
                     if (nstr != null) {
                         g2.setFont(this.centerTextFont);
                         g2.setPaint(this.centerTextColor);
-                        TextUtilities.drawAlignedString(nstr, g2, 
+                        TextUtils.drawAlignedString(nstr, g2, 
                             (float) dataArea.getCenterX(), 
                             (float) dataArea.getCenterY(),  
                             TextAnchor.CENTER);                        
@@ -625,7 +625,7 @@ public class RingPlot extends PiePlot implements Cloneable, Serializable {
             }
             else if (currentPass == 2) {
                 if (this.separatorsVisible) {
-                    Line2D extendedSeparator = LineUtilities.extendLine(
+                    Line2D extendedSeparator = LineUtils.extendLine(
                             separator, this.innerSeparatorExtension,
                             this.outerSeparatorExtension);
                     g2.setStroke(this.separatorStroke);
@@ -667,7 +667,7 @@ public class RingPlot extends PiePlot implements Cloneable, Serializable {
         if (!this.centerTextMode.equals(that.centerTextMode)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.centerText, that.centerText)) {
+        if (!ObjectUtils.equal(this.centerText, that.centerText)) {
             return false;
         }
         if (!this.centerTextFormatter.equals(that.centerTextFormatter)) {
@@ -682,11 +682,11 @@ public class RingPlot extends PiePlot implements Cloneable, Serializable {
         if (this.separatorsVisible != that.separatorsVisible) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.separatorStroke,
+        if (!ObjectUtils.equal(this.separatorStroke,
                 that.separatorStroke)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.separatorPaint, that.separatorPaint)) {
+        if (!PaintUtils.equal(this.separatorPaint, that.separatorPaint)) {
             return false;
         }
         if (this.innerSeparatorExtension != that.innerSeparatorExtension) {
@@ -710,8 +710,8 @@ public class RingPlot extends PiePlot implements Cloneable, Serializable {
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writeStroke(this.separatorStroke, stream);
-        SerialUtilities.writePaint(this.separatorPaint, stream);
+        SerialUtils.writeStroke(this.separatorStroke, stream);
+        SerialUtils.writePaint(this.separatorPaint, stream);
     }
 
     /**
@@ -725,8 +725,8 @@ public class RingPlot extends PiePlot implements Cloneable, Serializable {
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.separatorStroke = SerialUtilities.readStroke(stream);
-        this.separatorPaint = SerialUtilities.readPaint(stream);
+        this.separatorStroke = SerialUtils.readStroke(stream);
+        this.separatorPaint = SerialUtils.readPaint(stream);
     }
 
 }

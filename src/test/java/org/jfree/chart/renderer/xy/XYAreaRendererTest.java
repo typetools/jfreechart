@@ -54,15 +54,15 @@ import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.ui.GradientPaintTransformType;
+import org.jfree.chart.ui.StandardGradientPaintTransformer;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.xy.DefaultTableXYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.GradientPaintTransformType;
-import org.jfree.ui.StandardGradientPaintTransformer;
-import org.jfree.util.PublicCloneable;
 import org.junit.Test;
 
 /**
@@ -178,7 +178,7 @@ public class XYAreaRendererTest {
     @Test
     public void testSerialization() {
         XYAreaRenderer r1 = new XYAreaRenderer();
-        XYAreaRenderer r2 = (XYAreaRenderer) TestUtilities.serialised(r1);
+        XYAreaRenderer r2 = (XYAreaRenderer) TestUtils.serialised(r1);
         assertEquals(r1, r2);
     }
 

@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * --------------
  * TextTitle.java
  * --------------
- * (C) Copyright 2000-2016, by David Berry and Contributors.
+ * (C) Copyright 2000-2017, by David Berry and Contributors.
  *
  * Original Author:  David Berry;
  * Contributor(s):   David Gilbert (for Object Refinery Limited);
@@ -104,21 +104,21 @@ import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.entity.StandardEntityCollection;
 import org.jfree.chart.entity.TitleEntity;
 import org.jfree.chart.event.TitleChangeEvent;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.text.G2TextMeasurer;
+import org.jfree.chart.text.TextBlock;
+import org.jfree.chart.text.TextBlockAnchor;
+import org.jfree.chart.text.TextUtils;
+import org.jfree.chart.ui.HorizontalAlignment;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.ui.Size2D;
+import org.jfree.chart.ui.VerticalAlignment;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
 import org.jfree.data.Range;
-import org.jfree.io.SerialUtilities;
-import org.jfree.text.G2TextMeasurer;
-import org.jfree.text.TextBlock;
-import org.jfree.text.TextBlockAnchor;
-import org.jfree.text.TextUtilities;
-import org.jfree.ui.HorizontalAlignment;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.Size2D;
-import org.jfree.ui.VerticalAlignment;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A chart title that displays a text string with automatic wrapping as
@@ -135,7 +135,7 @@ public class TextTitle extends Title
             12);
 
     /** The default text color. */
-    public static final Paint DEFAULT_TEXT_PAINT = Color.black;
+    public static final Paint DEFAULT_TEXT_PAINT = Color.BLACK;
 
     /** The title text. */
     private String text;
@@ -266,7 +266,7 @@ public class TextTitle extends Title
      * @param text  the text ({@code null} not permitted).
      */
     public void setText(String text) {
-        ParamChecks.nullNotPermitted(text, "text");
+        Args.nullNotPermitted(text, "text");
         if (!this.text.equals(text)) {
             this.text = text;
             notifyListeners(new TitleChangeEvent(this));
@@ -292,7 +292,7 @@ public class TextTitle extends Title
      * @param alignment  the alignment ({@code null} not permitted).
      */
     public void setTextAlignment(HorizontalAlignment alignment) {
-        ParamChecks.nullNotPermitted(alignment, "alignment");
+        Args.nullNotPermitted(alignment, "alignment");
         this.textAlignment = alignment;
         notifyListeners(new TitleChangeEvent(this));
     }
@@ -317,7 +317,7 @@ public class TextTitle extends Title
      * @see #getFont()
      */
     public void setFont(Font font) {
-        ParamChecks.nullNotPermitted(font, "font");
+        Args.nullNotPermitted(font, "font");
         if (!this.font.equals(font)) {
             this.font = font;
             notifyListeners(new TitleChangeEvent(this));
@@ -344,7 +344,7 @@ public class TextTitle extends Title
      * @see #getPaint()
      */
     public void setPaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         if (!this.paint.equals(paint)) {
             this.paint = paint;
             notifyListeners(new TitleChangeEvent(this));
@@ -551,7 +551,7 @@ public class TextTitle extends Title
         if (position == RectangleEdge.TOP || position == RectangleEdge.BOTTOM) {
             float maxWidth = (float) w;
             g2.setFont(this.font);
-            this.content = TextUtilities.createTextBlock(this.text, this.font,
+            this.content = TextUtils.createTextBlock(this.text, this.font,
                     this.paint, maxWidth, this.maximumLinesToDisplay,
                     new G2TextMeasurer(g2));
             this.content.setLineAlignment(this.textAlignment);
@@ -567,7 +567,7 @@ public class TextTitle extends Title
                 == RectangleEdge.RIGHT) {
             float maxWidth = Float.MAX_VALUE;
             g2.setFont(this.font);
-            this.content = TextUtilities.createTextBlock(this.text, this.font,
+            this.content = TextUtils.createTextBlock(this.text, this.font,
                     this.paint, maxWidth, this.maximumLinesToDisplay,
                     new G2TextMeasurer(g2));
             this.content.setLineAlignment(this.textAlignment);
@@ -625,7 +625,7 @@ public class TextTitle extends Title
         if (position == RectangleEdge.TOP || position == RectangleEdge.BOTTOM) {
             float maxWidth = (float) widthRange.getUpperBound();
             g2.setFont(this.font);
-            this.content = TextUtilities.createTextBlock(this.text, this.font,
+            this.content = TextUtils.createTextBlock(this.text, this.font,
                     this.paint, maxWidth, this.maximumLinesToDisplay,
                     new G2TextMeasurer(g2));
             this.content.setLineAlignment(this.textAlignment);
@@ -641,7 +641,7 @@ public class TextTitle extends Title
                 == RectangleEdge.RIGHT) {
             float maxWidth = (float) heightRange.getUpperBound();
             g2.setFont(this.font);
-            this.content = TextUtilities.createTextBlock(this.text, this.font,
+            this.content = TextUtils.createTextBlock(this.text, this.font,
                     this.paint, maxWidth, this.maximumLinesToDisplay,
                     new G2TextMeasurer(g2));
             this.content.setLineAlignment(this.textAlignment);
@@ -835,19 +835,19 @@ public class TextTitle extends Title
             return false;
         }
         TextTitle that = (TextTitle) obj;
-        if (!ObjectUtilities.equal(this.text, that.text)) {
+        if (!ObjectUtils.equal(this.text, that.text)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.font, that.font)) {
+        if (!ObjectUtils.equal(this.font, that.font)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.paint, that.paint)) {
+        if (!PaintUtils.equal(this.paint, that.paint)) {
             return false;
         }
         if (this.textAlignment != that.textAlignment) {
             return false;
         }
-        if (!PaintUtilities.equal(this.backgroundPaint, that.backgroundPaint)) {
+        if (!PaintUtils.equal(this.backgroundPaint, that.backgroundPaint)) {
             return false;
         }
         if (this.maximumLinesToDisplay != that.maximumLinesToDisplay) {
@@ -856,10 +856,10 @@ public class TextTitle extends Title
         if (this.expandToFitSpace != that.expandToFitSpace) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.toolTipText, that.toolTipText)) {
+        if (!ObjectUtils.equal(this.toolTipText, that.toolTipText)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.urlText, that.urlText)) {
+        if (!ObjectUtils.equal(this.urlText, that.urlText)) {
             return false;
         }
         return super.equals(obj);
@@ -902,8 +902,8 @@ public class TextTitle extends Title
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.paint, stream);
-        SerialUtilities.writePaint(this.backgroundPaint, stream);
+        SerialUtils.writePaint(this.paint, stream);
+        SerialUtils.writePaint(this.backgroundPaint, stream);
     }
 
     /**
@@ -917,8 +917,8 @@ public class TextTitle extends Title
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.paint = SerialUtilities.readPaint(stream);
-        this.backgroundPaint = SerialUtilities.readPaint(stream);
+        this.paint = SerialUtils.readPaint(stream);
+        this.backgroundPaint = SerialUtils.readPaint(stream);
     }
 
 }

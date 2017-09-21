@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * -------------------------
  * XYDifferenceRenderer.java
  * -------------------------
- * (C) Copyright 2003-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2003-2017, by Object Refinery Limited and Contributors.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Richard West, Advanced Micro Devices, Inc. (major rewrite
@@ -77,6 +77,7 @@
  * 13-Feb-2012 : Applied patch 3450234 for bug 3425881 by Patrick Schlott and
  *               Christoph Schroeder (MH);
  * 03-Jul-2013 : Use ParamChecks (DG);
+ * 18-Feb-2017 : Updates for crosshairs (bug #36) (DG);
  *
  */
 
@@ -106,14 +107,14 @@ import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.chart.urls.XYURLGenerator;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
+import org.jfree.chart.util.ShapeUtils;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.PublicCloneable;
-import org.jfree.util.ShapeUtilities;
 
 /**
  * A renderer for an {@link XYPlot} that highlights the differences between two
@@ -157,7 +158,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
      * Creates a new renderer with default attributes.
      */
     public XYDifferenceRenderer() {
-        this(Color.green, Color.red, false);
+        this(Color.green, Color.RED, false);
     }
 
     /**
@@ -171,8 +172,8 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
      */
     public XYDifferenceRenderer(Paint positivePaint, Paint negativePaint,
                                 boolean shapes) {
-        ParamChecks.nullNotPermitted(positivePaint, "positivePaint");
-        ParamChecks.nullNotPermitted(negativePaint, "negativePaint");
+        Args.nullNotPermitted(positivePaint, "positivePaint");
+        Args.nullNotPermitted(negativePaint, "negativePaint");
         this.positivePaint = positivePaint;
         this.negativePaint = negativePaint;
         this.shapesVisible = shapes;
@@ -200,7 +201,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
      * @see #getPositivePaint()
      */
     public void setPositivePaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.positivePaint = paint;
         fireChangeEvent();
     }
@@ -224,7 +225,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
      * @see #getNegativePaint()
      */
     public void setNegativePaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.negativePaint = paint;
         notifyListeners(new RendererChangeEvent(this));
     }
@@ -275,7 +276,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
      * @see #getLegendLine()
      */
     public void setLegendLine(Shape line) {
-        ParamChecks.nullNotPermitted(line, "line");
+        Args.nullNotPermitted(line, "line");
         this.legendLine = line;
         fireChangeEvent();
     }
@@ -891,11 +892,11 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
         if (getShapesVisible()) {
             Shape l_shape = getItemShape(x_series, x_item);
             if (l_orientation == PlotOrientation.HORIZONTAL) {
-                l_shape = ShapeUtilities.createTranslatedShape(l_shape,
+                l_shape = ShapeUtils.createTranslatedShape(l_shape,
                         l_y1, l_x1);
             }
             else {
-                l_shape = ShapeUtilities.createTranslatedShape(l_shape,
+                l_shape = ShapeUtils.createTranslatedShape(l_shape,
                         l_x1, l_y1);
             }
             if (l_shape.intersects(x_dataArea)) {
@@ -935,10 +936,9 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
                           x_item, l_x1, l_y1, (l_y1 < 0.0));
         }
 
-        int l_domainAxisIndex = x_plot.getDomainAxisIndex(x_domainAxis);
-        int l_rangeAxisIndex  = x_plot.getRangeAxisIndex(x_rangeAxis);
-        updateCrosshairValues(x_crosshairState, l_x0, l_y0, l_domainAxisIndex,
-                              l_rangeAxisIndex, l_x1, l_y1, l_orientation);
+        int datasetIndex = x_plot.indexOf(x_dataset);
+        updateCrosshairValues(x_crosshairState, l_x0, l_y0, datasetIndex,
+                              l_x1, l_y1, l_orientation);
 
         if (0 == x_item) {
             return;
@@ -1178,16 +1178,16 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
             return false;
         }
         XYDifferenceRenderer that = (XYDifferenceRenderer) obj;
-        if (!PaintUtilities.equal(this.positivePaint, that.positivePaint)) {
+        if (!PaintUtils.equal(this.positivePaint, that.positivePaint)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.negativePaint, that.negativePaint)) {
+        if (!PaintUtils.equal(this.negativePaint, that.negativePaint)) {
             return false;
         }
         if (this.shapesVisible != that.shapesVisible) {
             return false;
         }
-        if (!ShapeUtilities.equal(this.legendLine, that.legendLine)) {
+        if (!ShapeUtils.equal(this.legendLine, that.legendLine)) {
             return false;
         }
         if (this.roundXCoordinates != that.roundXCoordinates) {
@@ -1206,7 +1206,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
     @Override
     public Object clone() throws CloneNotSupportedException {
         XYDifferenceRenderer clone = (XYDifferenceRenderer) super.clone();
-        clone.legendLine = ShapeUtilities.clone(this.legendLine);
+        clone.legendLine = ShapeUtils.clone(this.legendLine);
         return clone;
     }
 
@@ -1219,9 +1219,9 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.positivePaint, stream);
-        SerialUtilities.writePaint(this.negativePaint, stream);
-        SerialUtilities.writeShape(this.legendLine, stream);
+        SerialUtils.writePaint(this.positivePaint, stream);
+        SerialUtils.writePaint(this.negativePaint, stream);
+        SerialUtils.writeShape(this.legendLine, stream);
     }
 
     /**
@@ -1235,9 +1235,9 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.positivePaint = SerialUtilities.readPaint(stream);
-        this.negativePaint = SerialUtilities.readPaint(stream);
-        this.legendLine = SerialUtilities.readShape(stream);
+        this.positivePaint = SerialUtils.readPaint(stream);
+        this.negativePaint = SerialUtils.readPaint(stream);
+        this.legendLine = SerialUtils.readShape(stream);
     }
 
 }

@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * -----------------------
  * XYStepAreaRenderer.java
  * -----------------------
- * (C) Copyright 2003-2016, by Matthias Rose and Contributors.
+ * (C) Copyright 2003-2017, by Matthias Rose and Contributors.
  *
  * Original Author:  Matthias Rose (based on XYAreaRenderer.java);
  * Contributor(s):   David Gilbert (for Object Refinery Limited);
@@ -52,6 +52,7 @@
  * 14-May-2008 : Call addEntity() from within drawItem() (DG);
  * 19-May-2009 : Fixed FindBugs warnings, patch by Michal Wozniak (DG);
  * 05-Dec-2013 : Added setStepPoint() method (LR);
+ * 18-Feb-2017 : Updates for crosshairs (bug #36) (DG);
  *
  */
 
@@ -74,9 +75,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.urls.XYURLGenerator;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.ShapeUtils;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.util.PublicCloneable;
-import org.jfree.util.ShapeUtilities;
 
 /**
  * A step chart renderer that fills the area between the step and the x-axis.
@@ -163,7 +164,7 @@ public class XYStepAreaRenderer extends AbstractXYItemRenderer
     public XYStepAreaRenderer(int type, XYToolTipGenerator toolTipGenerator,
             XYURLGenerator urlGenerator) {
         super();
-        setBaseToolTipGenerator(toolTipGenerator);
+        setDefaultToolTipGenerator(toolTipGenerator);
         setURLGenerator(urlGenerator);
 
         if (type == AREA) {
@@ -494,11 +495,11 @@ public class XYStepAreaRenderer extends AbstractXYItemRenderer
             if (getShapesVisible()) {
                 shape = getItemShape(series, item);
                 if (orientation == PlotOrientation.VERTICAL) {
-                    shape = ShapeUtilities.createTranslatedShape(shape,
+                    shape = ShapeUtils.createTranslatedShape(shape,
                             transX1, transY1);
                 }
                 else if (orientation == PlotOrientation.HORIZONTAL) {
-                    shape = ShapeUtilities.createTranslatedShape(shape,
+                    shape = ShapeUtils.createTranslatedShape(shape,
                             transY1, transX1);
                 }
                 if (isShapesFilled()) {
@@ -512,8 +513,7 @@ public class XYStepAreaRenderer extends AbstractXYItemRenderer
                 if (orientation == PlotOrientation.VERTICAL) {
                     shape = new Rectangle2D.Double(transX1 - 2, transY1 - 2,
                             4.0, 4.0);
-                }
-                else if (orientation == PlotOrientation.HORIZONTAL) {
+                } else if (orientation == PlotOrientation.HORIZONTAL) {
                     shape = new Rectangle2D.Double(transY1 - 2, transX1 - 2,
                             4.0, 4.0);
                 }
@@ -557,16 +557,15 @@ public class XYStepAreaRenderer extends AbstractXYItemRenderer
 
         // do we need to update the crosshair values?
         if (!Double.isNaN(y1)) {
-            int domainAxisIndex = plot.getDomainAxisIndex(domainAxis);
-            int rangeAxisIndex = plot.getRangeAxisIndex(rangeAxis);
-            updateCrosshairValues(crosshairState, x1, y1, domainAxisIndex,
-                    rangeAxisIndex, transX1, transY1, orientation);
+            int datasetIndex = plot.indexOf(dataset);
+            updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
+                    transX1, transY1, orientation);
         }
 
         // collect entity and tool tip information...
         EntityCollection entities = state.getEntityCollection();
-        if (entities != null) {
-            addEntity(entities, shape, dataset, series, item, transX1, transY1);
+        if (entities != null && shape != null) {
+            addEntity(entities, shape, dataset, series, item, 0.0, 0.0);
         }
     }
 

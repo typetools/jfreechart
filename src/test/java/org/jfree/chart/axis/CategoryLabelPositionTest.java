@@ -45,11 +45,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
+import org.jfree.chart.text.TextBlockAnchor;
+import org.jfree.chart.ui.RectangleAnchor;
+import org.jfree.chart.ui.TextAnchor;
 
-import org.jfree.text.TextBlockAnchor;
-import org.jfree.ui.RectangleAnchor;
-import org.jfree.ui.TextAnchor;
 import org.junit.Test;
 
 /**
@@ -147,7 +147,7 @@ public class CategoryLabelPositionTest {
     @Test
     public void testSerialization() {
         CategoryLabelPosition p1 = new CategoryLabelPosition();
-        CategoryLabelPosition p2 = (CategoryLabelPosition) TestUtilities.serialised(p1);
+        CategoryLabelPosition p2 = (CategoryLabelPosition) TestUtils.serialised(p1);
         assertEquals(p1, p2);
     }
 

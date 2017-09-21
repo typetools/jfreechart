@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -71,7 +71,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.Args;
 
 /**
  * Represents an hour in a specific day.  This class is immutable, which is a
@@ -114,7 +114,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
      * @param day  the day ({@code null} not permitted).
      */
     public Hour(int hour, Day day) {
-        ParamChecks.nullNotPermitted(day, "day");
+        Args.nullNotPermitted(day, "day");
         this.hour = (byte) hour;
         this.day = day;
         peg(Calendar.getInstance());
@@ -138,25 +138,11 @@ public class Hour extends RegularTimePeriod implements Serializable {
      *
      * @param time  the date-time ({@code null} not permitted).
      *
-     * @see #Hour(Date, TimeZone)
+     * @see #Hour(Date, TimeZone, Locale)
      */
     public Hour(Date time) {
         // defer argument checking...
         this(time, TimeZone.getDefault(), Locale.getDefault());
-    }
-
-    /**
-     * Constructs a new instance, based on the supplied date/time evaluated
-     * in the specified time zone.
-     *
-     * @param time  the date-time ({@code null} not permitted).
-     * @param zone  the time zone ({@code null} not permitted).
-     *
-     * @deprecated As of 1.0.13, use the constructor that specifies the locale
-     *     also.
-     */
-    public Hour(Date time, TimeZone zone) {
-        this(time, zone, Locale.getDefault());
     }
 
     /**
@@ -170,9 +156,9 @@ public class Hour extends RegularTimePeriod implements Serializable {
      * @since 1.0.13
      */
     public Hour(Date time, TimeZone zone, Locale locale) {
-        ParamChecks.nullNotPermitted(time, "time");
-        ParamChecks.nullNotPermitted(zone, "zone");
-        ParamChecks.nullNotPermitted(locale, "locale");
+        Args.nullNotPermitted(time, "time");
+        Args.nullNotPermitted(zone, "zone");
+        Args.nullNotPermitted(locale, "locale");
         Calendar calendar = Calendar.getInstance(zone, locale);
         calendar.setTime(time);
         this.hour = (byte) calendar.get(Calendar.HOUR_OF_DAY);

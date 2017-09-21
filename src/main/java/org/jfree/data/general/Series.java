@@ -64,9 +64,9 @@ import java.beans.VetoableChangeSupport;
 import java.io.Serializable;
 
 import javax.swing.event.EventListenerList;
+import org.jfree.chart.util.ObjectUtils;
 
-import org.jfree.chart.util.ParamChecks;
-import org.jfree.util.ObjectUtilities;
+import org.jfree.chart.util.Args;
 
 /**
  * Base class representing a data series.  Subclasses are left to implement the
@@ -117,7 +117,7 @@ public abstract class Series implements Cloneable, Serializable {
      * @param description  the series description ({@code null} permitted).
      */
     protected Series(Comparable key, String description) {
-        ParamChecks.nullNotPermitted(key, "key");
+        Args.nullNotPermitted(key, "key");
         this.key = key;
         this.description = description;
         this.listeners = new EventListenerList();
@@ -149,7 +149,7 @@ public abstract class Series implements Cloneable, Serializable {
      * @see #getKey()
      */
     public void setKey(Comparable key) {
-        ParamChecks.nullNotPermitted(key, "key");
+        Args.nullNotPermitted(key, "key");
         Comparable old = this.key;
         try {
             // if this series belongs to a dataset, the dataset might veto the
@@ -282,7 +282,7 @@ public abstract class Series implements Cloneable, Serializable {
         if (!getKey().equals(that.getKey())) {
             return false;
         }
-        if (!ObjectUtilities.equal(getDescription(), that.getDescription())) {
+        if (!ObjectUtils.equal(getDescription(), that.getDescription())) {
             return false;
         }
         return true;

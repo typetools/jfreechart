@@ -84,12 +84,12 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
 
 import org.jfree.data.general.Series;
 import org.jfree.data.general.SeriesChangeEvent;
 import org.jfree.data.general.SeriesException;
-import org.jfree.util.ObjectUtilities;
 
 /**
  * Represents a sequence of zero or more data items in the form (x, y).  By
@@ -504,7 +504,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *                listeners.
      */
     public void add(XYDataItem item, boolean notify) {
-        ParamChecks.nullNotPermitted(item, "item");
+        Args.nullNotPermitted(item, "item");
         item = (XYDataItem) item.clone();
         if (this.autoSort) {
             int index = Collections.binarySearch(this.data, item);
@@ -657,38 +657,6 @@ public class XYSeries extends Series implements Cloneable, Serializable {
     }
 
     /**
-     * Updates the value of an item in the series and sends a
-     * {@link SeriesChangeEvent} to all registered listeners.
-     *
-     * @param index  the item (zero based index).
-     * @param y  the new value ({@code null} permitted).
-     *
-     * @deprecated Renamed {@link #updateByIndex(int, Number)} to avoid
-     *         confusion with the {@link #update(Number, Number)} method.
-     */
-    public void update(int index, Number y) {
-        XYDataItem item = getRawDataItem(index);
-
-        // figure out if we need to iterate through all the y-values
-        boolean iterate = false;
-        double oldY = item.getYValue();
-        if (!Double.isNaN(oldY)) {
-            iterate = oldY <= this.minY || oldY >= this.maxY;
-        }
-        item.setY(y);
-
-        if (iterate) {
-            findBoundsByIteration();
-        }
-        else if (y != null) {
-            double yy = y.doubleValue();
-            this.minY = minIgnoreNaN(this.minY, yy);
-            this.maxY = maxIgnoreNaN(this.maxY, yy);
-        }
-        fireSeriesChanged();
-    }
-
-    /**
      * A function to find the minimum of two values, but ignoring any
      * Double.NaN values.
      *
@@ -736,7 +704,25 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      * @since 1.0.1
      */
     public void updateByIndex(int index, Number y) {
-        update(index, y);
+        XYDataItem item = getRawDataItem(index);
+
+        // figure out if we need to iterate through all the y-values
+        boolean iterate = false;
+        double oldY = item.getYValue();
+        if (!Double.isNaN(oldY)) {
+            iterate = oldY <= this.minY || oldY >= this.maxY;
+        }
+        item.setY(y);
+
+        if (iterate) {
+            findBoundsByIteration();
+        }
+        else if (y != null) {
+            double yy = y.doubleValue();
+            this.minY = minIgnoreNaN(this.minY, yy);
+            this.maxY = maxIgnoreNaN(this.maxY, yy);
+        }
+        fireSeriesChanged();
     }
 
     /**
@@ -798,7 +784,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      * @since 1.0.14
      */
     public XYDataItem addOrUpdate(XYDataItem item) {
-        ParamChecks.nullNotPermitted(item, "item");
+        Args.nullNotPermitted(item, "item");
         if (this.allowDuplicateXValues) {
             add(item);
             return null;
@@ -909,7 +895,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         XYSeries clone = (XYSeries) super.clone();
-        clone.data = (List) ObjectUtilities.deepClone(this.data);
+        clone.data = (List) ObjectUtils.deepClone(this.data);
         return clone;
     }
 
@@ -974,7 +960,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
         if (this.allowDuplicateXValues != that.allowDuplicateXValues) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.data, that.data)) {
+        if (!ObjectUtils.equal(this.data, that.data)) {
             return false;
         }
         return true;

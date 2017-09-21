@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -58,7 +58,7 @@ import java.awt.Color;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.ItemLabelAnchor;
@@ -66,12 +66,12 @@ import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.RendererChangeDetector;
+import org.jfree.chart.ui.GradientPaintTransformType;
+import org.jfree.chart.ui.StandardGradientPaintTransformer;
+import org.jfree.chart.ui.TextAnchor;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.Range;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.ui.GradientPaintTransformType;
-import org.jfree.ui.StandardGradientPaintTransformer;
-import org.jfree.ui.TextAnchor;
-import org.jfree.util.PublicCloneable;
 import org.junit.Test;
 
 /**
@@ -155,9 +155,9 @@ public class BarRendererTest {
         r2.setShadowVisible(false);
         assertTrue(r1.equals(r2));
 
-        r1.setShadowPaint(Color.red);
+        r1.setShadowPaint(Color.RED);
         assertFalse(r1.equals(r2));
-        r2.setShadowPaint(Color.red);
+        r2.setShadowPaint(Color.RED);
         assertTrue(r1.equals(r2));
 
         // shadowXOffset
@@ -193,7 +193,7 @@ public class BarRendererTest {
     @Test
     public void testCloning() throws CloneNotSupportedException {
         BarRenderer r1 = new BarRenderer();
-        r1.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+        r1.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
         r1.setBarPainter(new GradientBarPainter(0.11, 0.22, 0.33));
         BarRenderer r2 = (BarRenderer) r1.clone();
         assertTrue(r1 != r2);
@@ -216,7 +216,7 @@ public class BarRendererTest {
     @Test
     public void testSerialization() {
         BarRenderer r1 = new BarRenderer();
-        BarRenderer r2 = (BarRenderer) TestUtilities.serialised(r1);
+        BarRenderer r2 = (BarRenderer) TestUtils.serialised(r1);
         assertEquals(r1, r2);
     }
 
@@ -231,7 +231,7 @@ public class BarRendererTest {
         r1.addChangeListener(detector);
 
         detector.setNotified(false);
-        r1.setBasePaint(Color.red);
+        r1.setDefaultPaint(Color.RED);
         assertTrue(detector.getNotified());
 
     }

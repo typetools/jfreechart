@@ -48,10 +48,10 @@ package org.jfree.data.gantt;
 
 import java.util.Collections;
 import java.util.List;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
 
 import org.jfree.data.general.Series;
-import org.jfree.util.ObjectUtilities;
 
 /**
  * A series that contains zero, one or many {@link Task} objects.
@@ -82,7 +82,7 @@ public class TaskSeries extends Series {
      * @param task  the task ({@code null} not permitted).
      */
     public void add(Task task) {
-        ParamChecks.nullNotPermitted(task, "task");
+        Args.nullNotPermitted(task, "task");
         this.tasks.add(task);
         fireSeriesChanged();
     }
@@ -195,7 +195,7 @@ public class TaskSeries extends Series {
     @Override
     public Object clone() throws CloneNotSupportedException {
         TaskSeries clone = (TaskSeries) super.clone();
-        clone.tasks = (List) ObjectUtilities.deepClone(this.tasks);
+        clone.tasks = (List) ObjectUtils.deepClone(this.tasks);
         return clone;
     }
 

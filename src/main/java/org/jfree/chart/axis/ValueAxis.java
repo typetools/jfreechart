@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * --------------
  * ValueAxis.java
  * --------------
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Jonathan Nash;
@@ -133,15 +133,15 @@ import java.util.List;
 
 import org.jfree.chart.event.AxisChangeEvent;
 import org.jfree.chart.plot.Plot;
+import org.jfree.chart.text.TextUtils;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleInsets;
 import org.jfree.chart.util.AttrStringUtils;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
 import org.jfree.data.Range;
-import org.jfree.io.SerialUtilities;
-import org.jfree.text.TextUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * The base class for axes that display value data, where values are measured
@@ -171,22 +171,6 @@ public abstract class ValueAxis extends Axis
 
     /** The default value for the upper margin (0.05 = 5%). */
     public static final double DEFAULT_UPPER_MARGIN = 0.05;
-
-    /**
-     * The default lower bound for the axis.
-     *
-     * @deprecated From 1.0.5 onwards, the axis defines a defaultRange
-     *     attribute (see {@link #getDefaultAutoRange()}).
-     */
-    public static final double DEFAULT_LOWER_BOUND = 0.0;
-
-    /**
-     * The default upper bound for the axis.
-     *
-     * @deprecated From 1.0.5 onwards, the axis defines a defaultRange
-     *     attribute (see {@link #getDefaultAutoRange()}).
-     */
-    public static final double DEFAULT_UPPER_BOUND = 1.0;
 
     /** The default auto-tick-unit-selection value. */
     public static final boolean DEFAULT_AUTO_TICK_UNIT_SELECTION = true;
@@ -449,7 +433,7 @@ public abstract class ValueAxis extends Axis
      * @see #getUpArrow()
      */
     public void setUpArrow(Shape arrow) {
-        ParamChecks.nullNotPermitted(arrow, "arrow");
+        Args.nullNotPermitted(arrow, "arrow");
         this.upArrow = arrow;
         fireChangeEvent();
     }
@@ -476,7 +460,7 @@ public abstract class ValueAxis extends Axis
      * @see #getDownArrow()
      */
     public void setDownArrow(Shape arrow) {
-        ParamChecks.nullNotPermitted(arrow, "arrow");
+        Args.nullNotPermitted(arrow, "arrow");
         this.downArrow = arrow;
         fireChangeEvent();
     }
@@ -503,7 +487,7 @@ public abstract class ValueAxis extends Axis
      * @see #getLeftArrow()
      */
     public void setLeftArrow(Shape arrow) {
-        ParamChecks.nullNotPermitted(arrow, "arrow");
+        Args.nullNotPermitted(arrow, "arrow");
         this.leftArrow = arrow;
         fireChangeEvent();
     }
@@ -530,7 +514,7 @@ public abstract class ValueAxis extends Axis
      * @see #getRightArrow()
      */
     public void setRightArrow(Shape arrow) {
-        ParamChecks.nullNotPermitted(arrow, "arrow");
+        Args.nullNotPermitted(arrow, "arrow");
         this.rightArrow = arrow;
         fireChangeEvent();
     }
@@ -714,7 +698,7 @@ public abstract class ValueAxis extends Axis
                     if (tick.getText() == null) {
                         continue;
                     }
-                    TextUtilities.drawRotatedString(tick.getText(), g2,
+                    TextUtils.drawRotatedString(tick.getText(), g2,
                             anchorPoint[0], anchorPoint[1], 
                             tick.getTextAnchor(), tick.getAngle(), 
                             tick.getRotationAnchor());
@@ -876,7 +860,7 @@ public abstract class ValueAxis extends Axis
                                 lt.getAttributedLabel(), g2);
                     }
                 } else if (tick.getText() != null) {
-                    labelBounds = TextUtilities.getTextBounds(
+                    labelBounds = TextUtils.getTextBounds(
                             tick.getText(), g2, fm);
                 }
                 if (labelBounds != null && labelBounds.getWidth() 
@@ -925,7 +909,7 @@ public abstract class ValueAxis extends Axis
                                 lt.getAttributedLabel(), g2);
                     }
                 } else if (tick.getText() != null) {
-                    labelBounds = TextUtilities.getTextBounds(tick.getText(), 
+                    labelBounds = TextUtils.getTextBounds(tick.getText(), 
                             g2, fm);
                 }
                 if (labelBounds != null 
@@ -1010,14 +994,12 @@ public abstract class ValueAxis extends Axis
      * @see #isAutoRange()
      */
     protected void setAutoRange(boolean auto, boolean notify) {
-        if (this.autoRange != auto) {
-            this.autoRange = auto;
-            if (this.autoRange) {
-                autoAdjustRange();
-            }
-            if (notify) {
-                fireChangeEvent();
-            }
+        this.autoRange = auto;
+        if (this.autoRange) {
+            autoAdjustRange();
+        }
+        if (notify) {
+            fireChangeEvent();
         }
     }
 
@@ -1096,7 +1078,7 @@ public abstract class ValueAxis extends Axis
      * @since 1.0.5
      */
     public void setDefaultAutoRange(Range range) {
-        ParamChecks.nullNotPermitted(range, "range");
+        Args.nullNotPermitted(range, "range");
         this.defaultAutoRange = range;
         fireChangeEvent();
     }
@@ -1291,7 +1273,7 @@ public abstract class ValueAxis extends Axis
      */
     public void setRange(Range range, boolean turnOffAutoRange, 
             boolean notify) {
-        ParamChecks.nullNotPermitted(range, "range");
+        Args.nullNotPermitted(range, "range");
         if (range.getLength() <= 0.0) {
             throw new IllegalArgumentException(
                     "A positive range length is required: " + range);
@@ -1346,7 +1328,7 @@ public abstract class ValueAxis extends Axis
      */
     public void setRangeWithMargins(Range range, boolean turnOffAutoRange,
                                     boolean notify) {
-        ParamChecks.nullNotPermitted(range, "range");
+        Args.nullNotPermitted(range, "range");
         setRange(Range.expand(range, getLowerMargin(), getUpperMargin()),
                 turnOffAutoRange, notify);
     }
@@ -1701,7 +1683,7 @@ public abstract class ValueAxis extends Axis
             return false;
         }
         // if autoRange is true, then the current range is irrelevant
-        if (!this.autoRange && !ObjectUtilities.equal(this.range, that.range)) {
+        if (!this.autoRange && !ObjectUtils.equal(this.range, that.range)) {
             return false;
         }
         if (this.autoRange != that.autoRange) {
@@ -1725,7 +1707,7 @@ public abstract class ValueAxis extends Axis
         if (this.autoTickUnitSelection != that.autoTickUnitSelection) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.standardTickUnits,
+        if (!ObjectUtils.equal(this.standardTickUnits,
                 that.standardTickUnits)) {
             return false;
         }
@@ -1761,10 +1743,10 @@ public abstract class ValueAxis extends Axis
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writeShape(this.upArrow, stream);
-        SerialUtilities.writeShape(this.downArrow, stream);
-        SerialUtilities.writeShape(this.leftArrow, stream);
-        SerialUtilities.writeShape(this.rightArrow, stream);
+        SerialUtils.writeShape(this.upArrow, stream);
+        SerialUtils.writeShape(this.downArrow, stream);
+        SerialUtils.writeShape(this.leftArrow, stream);
+        SerialUtils.writeShape(this.rightArrow, stream);
     }
 
     /**
@@ -1779,10 +1761,10 @@ public abstract class ValueAxis extends Axis
             throws IOException, ClassNotFoundException {
 
         stream.defaultReadObject();
-        this.upArrow = SerialUtilities.readShape(stream);
-        this.downArrow = SerialUtilities.readShape(stream);
-        this.leftArrow = SerialUtilities.readShape(stream);
-        this.rightArrow = SerialUtilities.readShape(stream);
+        this.upArrow = SerialUtils.readShape(stream);
+        this.downArrow = SerialUtils.readShape(stream);
+        this.leftArrow = SerialUtils.readShape(stream);
+        this.rightArrow = SerialUtils.readShape(stream);
     }
 
 }

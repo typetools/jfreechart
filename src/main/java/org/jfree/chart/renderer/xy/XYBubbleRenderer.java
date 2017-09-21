@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ---------------------
  * XYBubbleRenderer.java
  * ---------------------
- * (C) Copyright 2003-2016, by Object Refinery Limited.
+ * (C) Copyright 2003-2017, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Christian W. Zuckschwerdt;
@@ -58,6 +58,7 @@
  * 18-May-2007 : Set dataset and seriesKey for LegendItem (DG);
  * 13-Jun-2007 : Fixed seriesVisibility bug (DG);
  * 17-Jun-2008 : Apply legend shape, font and paint attributes (DG);
+ * 18-Feb-2017 : Updates for crosshairs (bug #36) (DG);
  *
  */
 
@@ -77,10 +78,10 @@ import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A renderer that draws a circle at each data point with a diameter that is
@@ -139,7 +140,7 @@ public class XYBubbleRenderer extends AbstractXYItemRenderer
             throw new IllegalArgumentException("Invalid 'scaleType'.");
         }
         this.scaleType = scaleType;
-        setBaseLegendShape(new Ellipse2D.Double(-4.0, -4.0, 8.0, 8.0));
+        setDefaultLegendShape(new Ellipse2D.Double(-4.0, -4.0, 8.0, 8.0));
     }
 
     /**
@@ -268,10 +269,9 @@ public class XYBubbleRenderer extends AbstractXYItemRenderer
                 }
             }
 
-            int domainAxisIndex = plot.getDomainAxisIndex(domainAxis);
-            int rangeAxisIndex = plot.getRangeAxisIndex(rangeAxis);
-            updateCrosshairValues(crosshairState, x, y, domainAxisIndex,
-                    rangeAxisIndex, transX, transY, orientation);
+            int datasetIndex = plot.indexOf(dataset);
+            updateCrosshairValues(crosshairState, x, y, datasetIndex,
+                    transX, transY, orientation);
         }
 
     }

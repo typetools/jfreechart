@@ -52,13 +52,13 @@ import static org.junit.Assert.fail;
 import java.awt.Color;
 
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.Range;
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
-import org.jfree.util.PublicCloneable;
 import org.junit.Test;
 
 /**
@@ -78,9 +78,9 @@ public class StatisticalLineAndShapeRendererTest {
         assertTrue(r1.equals(r2));
         assertTrue(r2.equals(r1));
 
-        r1.setErrorIndicatorPaint(Color.red);
+        r1.setErrorIndicatorPaint(Color.RED);
         assertFalse(r1.equals(r2));
-        r2.setErrorIndicatorPaint(Color.red);
+        r2.setErrorIndicatorPaint(Color.RED);
         assertTrue(r2.equals(r1));
     }
 
@@ -131,7 +131,7 @@ public class StatisticalLineAndShapeRendererTest {
         StatisticalLineAndShapeRenderer r1
                 = new StatisticalLineAndShapeRenderer();
         StatisticalLineAndShapeRenderer r2 = (StatisticalLineAndShapeRenderer) 
-                TestUtilities.serialised(r1);
+                TestUtils.serialised(r1);
         assertEquals(r1, r2);
     }
 
@@ -165,12 +165,12 @@ public class StatisticalLineAndShapeRendererTest {
     public void test1562759() {
         StatisticalLineAndShapeRenderer r
             = new StatisticalLineAndShapeRenderer(true, false);
-        assertTrue(r.getBaseLinesVisible());
-        assertFalse(r.getBaseShapesVisible());
+        assertTrue(r.getDefaultLinesVisible());
+        assertFalse(r.getDefaultShapesVisible());
 
         r = new StatisticalLineAndShapeRenderer(false, true);
-        assertFalse(r.getBaseLinesVisible());
-        assertTrue(r.getBaseShapesVisible());
+        assertFalse(r.getDefaultLinesVisible());
+        assertTrue(r.getDefaultShapesVisible());
     }
 
     /**

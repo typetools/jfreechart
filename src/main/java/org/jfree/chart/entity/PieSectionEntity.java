@@ -57,9 +57,9 @@ package org.jfree.chart.entity;
 import java.awt.Shape;
 import java.io.Serializable;
 
-import org.jfree.chart.HashUtilities;
+import org.jfree.chart.HashUtils;
+import org.jfree.chart.util.ObjectUtils;
 import org.jfree.data.general.PieDataset;
-import org.jfree.util.ObjectUtilities;
 
 /**
  * A chart entity that represents one section within a pie plot.
@@ -213,7 +213,7 @@ public class PieSectionEntity extends ChartEntity
             return false;
         }
         PieSectionEntity that = (PieSectionEntity) obj;
-        if (!ObjectUtilities.equal(this.dataset, that.dataset)) {
+        if (!ObjectUtils.equal(this.dataset, that.dataset)) {
             return false;
         }
         if (this.pieIndex != that.pieIndex) {
@@ -222,7 +222,7 @@ public class PieSectionEntity extends ChartEntity
         if (this.sectionIndex != that.sectionIndex) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.sectionKey, that.sectionKey)) {
+        if (!ObjectUtils.equal(this.sectionKey, that.sectionKey)) {
             return false;
         }
         return super.equals(obj);
@@ -236,8 +236,8 @@ public class PieSectionEntity extends ChartEntity
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = HashUtilities.hashCode(result, this.pieIndex);
-        result = HashUtilities.hashCode(result, this.sectionIndex);
+        result = HashUtils.hashCode(result, this.pieIndex);
+        result = HashUtils.hashCode(result, this.sectionIndex);
         return result;
     }
 

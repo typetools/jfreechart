@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -90,10 +90,10 @@ import org.jfree.chart.event.RendererChangeEvent;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.AreaRendererEndType;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A category item renderer that draws area charts.  You can use this renderer
@@ -119,7 +119,7 @@ public class AreaRenderer extends AbstractCategoryItemRenderer
     public AreaRenderer() {
         super();
         this.endType = AreaRendererEndType.TAPER;
-        setBaseLegendShape(new Rectangle2D.Double(-4.0, -4.0, 8.0, 8.0));
+        setDefaultLegendShape(new Rectangle2D.Double(-4.0, -4.0, 8.0, 8.0));
     }
 
     /**
@@ -143,7 +143,7 @@ public class AreaRenderer extends AbstractCategoryItemRenderer
      * @see #getEndType()
      */
     public void setEndType(AreaRendererEndType type) {
-        ParamChecks.nullNotPermitted(type, "type");
+        Args.nullNotPermitted(type, "type");
         this.endType = type;
         fireChangeEvent();
     }

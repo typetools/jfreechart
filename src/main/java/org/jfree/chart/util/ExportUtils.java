@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ----------------
  * ExportUtils.java
  * ----------------
- * (C) Copyright 2014, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2014, 2017 by Object Refinery Limited and Contributors.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   -;
@@ -54,7 +54,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import javax.imageio.ImageIO;
-import org.jfree.ui.Drawable;
+import org.jfree.chart.ui.Drawable;
 
 /**
  * Utility functions for exporting charts to SVG and PDF format.
@@ -83,7 +83,7 @@ public class ExportUtils {
     /**
      * Returns {@code true} if OrsonPDF is on the classpath, and 
      * {@code false} otherwise.  The OrsonPDF library can be found at
-     * http://www.object-refinery.com/pdf/
+     * http://www.object-refinery.com/orsonpdf/
      * 
      * @return A boolean.
      */
@@ -92,7 +92,7 @@ public class ExportUtils {
         try {
             pdfDocumentClass = Class.forName("com.orsonpdf.PDFDocument");
         } catch (ClassNotFoundException e) {
-            // pdfDocument class will be null so the function will return false
+            // pdfDocumentClass will be null so the function will return false
         }
         return (pdfDocumentClass != null);
     }
@@ -114,8 +114,8 @@ public class ExportUtils {
             throw new IllegalStateException(
                     "JFreeSVG is not present on the classpath.");
         }
-        ParamChecks.nullNotPermitted(drawable, "drawable");
-        ParamChecks.nullNotPermitted(file, "file");
+        Args.nullNotPermitted(drawable, "drawable");
+        Args.nullNotPermitted(file, "file");
         try {
             Class<?> svg2Class = Class.forName(
                     "org.jfree.graphics2d.svg.SVGGraphics2D");
@@ -164,8 +164,8 @@ public class ExportUtils {
             throw new IllegalStateException(
                     "OrsonPDF is not present on the classpath.");
         }
-        ParamChecks.nullNotPermitted(drawable, "drawable");
-        ParamChecks.nullNotPermitted(file, "file");
+        Args.nullNotPermitted(drawable, "drawable");
+        Args.nullNotPermitted(file, "file");
         try {
             Class<?> pdfDocClass = Class.forName("com.orsonpdf.PDFDocument");
             Object pdfDoc = pdfDocClass.newInstance();

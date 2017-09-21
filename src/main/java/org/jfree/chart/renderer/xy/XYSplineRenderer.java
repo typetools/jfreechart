@@ -63,12 +63,12 @@ import org.jfree.chart.event.RendererChangeEvent;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.GradientPaintTransformer;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.StandardGradientPaintTransformer;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.ui.GradientPaintTransformer;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.StandardGradientPaintTransformer;
-import org.jfree.util.ObjectUtilities;
 
 /**
  * A renderer that connects data points with natural cubic splines and/or
@@ -166,7 +166,7 @@ public class XYSplineRenderer extends XYLineAndShapeRenderer {
         if (precision <= 0) {
             throw new IllegalArgumentException("Requires precision > 0.");
         }
-        ParamChecks.nullNotPermitted(fillType, "fillType");
+        Args.nullNotPermitted(fillType, "fillType");
         this.precision = precision;
         this.fillType = fillType;
         this.gradientPaintTransformer = new StandardGradientPaintTransformer();
@@ -503,7 +503,7 @@ public class XYSplineRenderer extends XYLineAndShapeRenderer {
         if (this.fillType != that.fillType) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.gradientPaintTransformer, 
+        if (!ObjectUtils.equal(this.gradientPaintTransformer, 
                 that.gradientPaintTransformer)) {
             return false;
         }

@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ------------------
  * XYDotRenderer.java
  * ------------------
- * (C) Copyright 2002-2016, by Object Refinery Limited.
+ * (C) Copyright 2002-2017, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Christian W. Zuckschwerdt;
@@ -49,6 +49,7 @@
  *               getLegendItem() (DG);
  * 17-Jun-2008 : Apply legend shape, font and paint attributes (DG);
  * 03-Jul-2013 : Use ParamChecks (DG);
+ * 18-Feb-2017 : Updates for crosshairs (bug #36) (DG);
  *
  */
 
@@ -69,12 +70,12 @@ import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
+import org.jfree.chart.util.ShapeUtils;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.PublicCloneable;
-import org.jfree.util.ShapeUtilities;
 
 /**
  * A renderer that draws a small dot at each data point for an {@link XYPlot}.
@@ -200,7 +201,7 @@ public class XYDotRenderer extends AbstractXYItemRenderer
      * @since 1.0.7
      */
     public void setLegendShape(Shape shape) {
-        ParamChecks.nullNotPermitted(shape, "shape");
+        Args.nullNotPermitted(shape, "shape");
         this.legendShape = shape;
         fireChangeEvent();
     }
@@ -258,10 +259,9 @@ public class XYDotRenderer extends AbstractXYItemRenderer
                         this.dotHeight);
             }
 
-            int domainAxisIndex = plot.getDomainAxisIndex(domainAxis);
-            int rangeAxisIndex = plot.getRangeAxisIndex(rangeAxis);
-            updateCrosshairValues(crosshairState, x, y, domainAxisIndex,
-                    rangeAxisIndex, transX, transY, orientation);
+            int datasetIndex = plot.indexOf(dataset);
+            updateCrosshairValues(crosshairState, x, y, datasetIndex,
+                    transX, transY, orientation);
         }
 
     }
@@ -351,7 +351,7 @@ public class XYDotRenderer extends AbstractXYItemRenderer
         if (this.dotHeight != that.dotHeight) {
             return false;
         }
-        if (!ShapeUtilities.equal(this.legendShape, that.legendShape)) {
+        if (!ShapeUtils.equal(this.legendShape, that.legendShape)) {
             return false;
         }
         return super.equals(obj);
@@ -380,7 +380,7 @@ public class XYDotRenderer extends AbstractXYItemRenderer
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.legendShape = SerialUtilities.readShape(stream);
+        this.legendShape = SerialUtils.readShape(stream);
     }
 
     /**
@@ -392,7 +392,7 @@ public class XYDotRenderer extends AbstractXYItemRenderer
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writeShape(this.legendShape, stream);
+        SerialUtils.writeShape(this.legendShape, stream);
     }
 
 }

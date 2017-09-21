@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ---------------------
  * XYLineAnnotation.java
  * ---------------------
- * (C) Copyright 2003-2016, by Object Refinery Limited.
+ * (C) Copyright 2003-2017, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Peter Kolb (see patch 2809117);
@@ -68,14 +68,14 @@ import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.util.LineUtilities;
-import org.jfree.chart.util.ParamChecks;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.PublicCloneable;
-import org.jfree.util.ShapeUtilities;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.util.LineUtils;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
+import org.jfree.chart.util.ShapeUtils;
 
 /**
  * A simple line annotation that can be placed on an {@link XYPlot}.
@@ -115,7 +115,7 @@ public class XYLineAnnotation extends AbstractXYAnnotation
      * @param y2  the y-coordinate for the end of the line.
      */
     public XYLineAnnotation(double x1, double y1, double x2, double y2) {
-        this(x1, y1, x2, y2, new BasicStroke(1.0f), Color.black);
+        this(x1, y1, x2, y2, new BasicStroke(1.0f), Color.BLACK);
     }
 
     /**
@@ -134,8 +134,8 @@ public class XYLineAnnotation extends AbstractXYAnnotation
                             Stroke stroke, Paint paint) {
 
         super();
-        ParamChecks.nullNotPermitted(stroke, "stroke");
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(stroke, "stroke");
+        Args.nullNotPermitted(paint, "paint");
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
@@ -198,7 +198,7 @@ public class XYLineAnnotation extends AbstractXYAnnotation
         Line2D line = new Line2D.Float(j2DX1, j2DY1, j2DX2, j2DY2);
         // line is clipped to avoid JRE bug 6574155, for more info
         // see JFreeChart bug 2221495
-        boolean visible = LineUtilities.clipLine(line, dataArea);
+        boolean visible = LineUtils.clipLine(line, dataArea);
         if (visible) {
             g2.draw(line);
         }
@@ -206,7 +206,7 @@ public class XYLineAnnotation extends AbstractXYAnnotation
         String toolTip = getToolTipText();
         String url = getURL();
         if (toolTip != null || url != null) {
-            addEntity(info, ShapeUtilities.createLineRegion(line, 1.0f),
+            addEntity(info, ShapeUtils.createLineRegion(line, 1.0f),
                     rendererIndex, toolTip, url);
         }
     }
@@ -242,10 +242,10 @@ public class XYLineAnnotation extends AbstractXYAnnotation
         if (this.y2 != that.y2) {
             return false;
         }
-        if (!PaintUtilities.equal(this.paint, that.paint)) {
+        if (!PaintUtils.equal(this.paint, that.paint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.stroke, that.stroke)) {
+        if (!ObjectUtils.equal(this.stroke, that.stroke)) {
             return false;
         }
         // seems to be the same...
@@ -293,8 +293,8 @@ public class XYLineAnnotation extends AbstractXYAnnotation
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.paint, stream);
-        SerialUtilities.writeStroke(this.stroke, stream);
+        SerialUtils.writePaint(this.paint, stream);
+        SerialUtils.writeStroke(this.stroke, stream);
     }
 
     /**
@@ -308,8 +308,8 @@ public class XYLineAnnotation extends AbstractXYAnnotation
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.paint = SerialUtilities.readPaint(stream);
-        this.stroke = SerialUtilities.readStroke(stream);
+        this.paint = SerialUtils.readPaint(stream);
+        this.stroke = SerialUtils.readStroke(stream);
     }
 
 }

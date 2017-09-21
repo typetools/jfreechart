@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -51,13 +51,13 @@ import static org.junit.Assert.assertNull;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.Range;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.util.PublicCloneable;
 import org.junit.Test;
 
 /**
@@ -75,9 +75,9 @@ public class LineAndShapeRendererTest {
         LineAndShapeRenderer r2 = new LineAndShapeRenderer();
         assertEquals(r1, r2);
 
-        r1.setBaseLinesVisible(!r1.getBaseLinesVisible());
+        r1.setDefaultLinesVisible(!r1.getDefaultLinesVisible());
         assertFalse(r1.equals(r2));
-        r2.setBaseLinesVisible(r1.getBaseLinesVisible());
+        r2.setDefaultLinesVisible(r1.getDefaultLinesVisible());
         assertTrue(r1.equals(r2));
 
         r1.setSeriesLinesVisible(1, true);
@@ -85,14 +85,9 @@ public class LineAndShapeRendererTest {
         r2.setSeriesLinesVisible(1, true);
         assertTrue(r1.equals(r2));
 
-        r1.setLinesVisible(false);
+        r1.setDefaultShapesVisible(!r1.getDefaultShapesVisible());
         assertFalse(r1.equals(r2));
-        r2.setLinesVisible(false);
-        assertTrue(r1.equals(r2));
-
-        r1.setBaseShapesVisible(!r1.getBaseShapesVisible());
-        assertFalse(r1.equals(r2));
-        r2.setBaseShapesVisible(r1.getBaseShapesVisible());
+        r2.setDefaultShapesVisible(r1.getDefaultShapesVisible());
         assertTrue(r1.equals(r2));
 
         r1.setSeriesShapesVisible(1, true);
@@ -100,24 +95,14 @@ public class LineAndShapeRendererTest {
         r2.setSeriesShapesVisible(1, true);
         assertTrue(r1.equals(r2));
 
-        r1.setShapesVisible(false);
-        assertFalse(r1.equals(r2));
-        r2.setShapesVisible(false);
-        assertTrue(r1.equals(r2));
-
-        r1.setShapesFilled(false);
-        assertFalse(r1.equals(r2));
-        r2.setShapesFilled(false);
-        assertTrue(r1.equals(r2));
-
         r1.setSeriesShapesFilled(1, true);
         assertFalse(r1.equals(r2));
         r2.setSeriesShapesFilled(1, true);
         assertTrue(r1.equals(r2));
 
-        r1.setBaseShapesFilled(false);
+        r1.setDefaultShapesFilled(false);
         assertFalse(r1.equals(r2));
-        r2.setBaseShapesFilled(false);
+        r2.setDefaultShapesFilled(false);
         assertTrue(r1.equals(r2));
 
         r1.setUseOutlinePaint(true);
@@ -189,11 +174,11 @@ public class LineAndShapeRendererTest {
         }
 
         // and independent...
-        r1.setBaseLinesVisible(!r1.getBaseLinesVisible());
+        r1.setDefaultLinesVisible(!r1.getDefaultLinesVisible());
         if (r1.equals(r2)) {
             return false;
         }
-        r2.setBaseLinesVisible(r1.getBaseLinesVisible());
+        r2.setDefaultLinesVisible(r1.getDefaultLinesVisible());
         if (!r1.equals(r2)) {
             return false;
         }
@@ -207,20 +192,11 @@ public class LineAndShapeRendererTest {
             return false;
         }
 
-        r1.setLinesVisible(false);
+        r1.setDefaultShapesVisible(!r1.getDefaultShapesVisible());
         if (r1.equals(r2)) {
             return false;
         }
-        r2.setLinesVisible(false);
-        if (!r1.equals(r2)) {
-            return false;
-        }
-
-        r1.setBaseShapesVisible(!r1.getBaseShapesVisible());
-        if (r1.equals(r2)) {
-            return false;
-        }
-        r2.setBaseShapesVisible(r1.getBaseShapesVisible());
+        r2.setDefaultShapesVisible(r1.getDefaultShapesVisible());
         if (!r1.equals(r2)) {
             return false;
         }
@@ -234,31 +210,6 @@ public class LineAndShapeRendererTest {
             return false;
         }
 
-        r1.setShapesVisible(false);
-        if (r1.equals(r2)) {
-            return false;
-        }
-        r2.setShapesVisible(false);
-        if (!r1.equals(r2)) {
-            return false;
-        }
-
-        boolean flag = true;
-        Boolean existing = r1.getShapesFilled();
-        if (existing != null) {
-            flag = !existing.booleanValue();
-        }
-        r1.setShapesFilled(flag);
-        if (r1.equals(r2)) {
-            return false;
-        }
-        r2.setShapesFilled(flag);
-        if (!r1.equals(r2)) {
-            return false;
-        }
-
-        r1.setShapesFilled(false);
-        r2.setShapesFilled(false);
         r1.setSeriesShapesFilled(0, false);
         r2.setSeriesShapesFilled(0, true);
         if (r1.equals(r2)) {
@@ -269,12 +220,12 @@ public class LineAndShapeRendererTest {
             return false;
         }
 
-        r1.setBaseShapesFilled(false);
-        r2.setBaseShapesFilled(true);
+        r1.setDefaultShapesFilled(false);
+        r2.setDefaultShapesFilled(true);
         if (r1.equals(r2)) {
             return false;
         }
-        r2.setBaseShapesFilled(false);
+        r2.setDefaultShapesFilled(false);
         if (!r1.equals(r2)) {
             return false;
         }
@@ -289,7 +240,7 @@ public class LineAndShapeRendererTest {
     public void testSerialization() {
         LineAndShapeRenderer r1 = new LineAndShapeRenderer();
         LineAndShapeRenderer r2 = (LineAndShapeRenderer) 
-                TestUtilities.serialised(r1);
+                TestUtils.serialised(r1);
         assertEquals(r1, r2);
     }
 

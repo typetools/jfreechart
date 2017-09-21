@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -28,7 +28,7 @@
  * CategoryItemRenderer.java
  * -------------------------
  *
- * (C) Copyright 2001-2011, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2001-2017, by Object Refinery Limited and Contributors.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Mark Watson (www.markwatson.com);
@@ -117,10 +117,10 @@ import org.jfree.chart.plot.CategoryMarker;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Marker;
 import org.jfree.chart.plot.PlotRenderingInfo;
+import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.chart.urls.CategoryURLGenerator;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.ui.RectangleEdge;
 
 /**
  * A plug-in object that is used by the {@link CategoryPlot} class to display
@@ -130,16 +130,12 @@ import org.jfree.ui.RectangleEdge;
  * If you are implementing a custom renderer, you should consider extending the
  * {@link AbstractCategoryItemRenderer} class.
  * <p>
- * Most renderer attributes are defined using a "three layer" approach.  When
+ * Most renderer attributes are defined using a two layer approach.  When
  * looking up an attribute (for example, the outline paint) the renderer first
- * checks to see if there is a setting (in layer 0) that applies to ALL items
+ * checks to see if there is a setting that applies to a specific series
  * that the renderer draws.  If there is, that setting is used, but if it is
- * {@code null} the renderer looks up the next layer, which contains
- * "per series" settings for the attribute (many attributes are defined on a
- * per series basis, so this is the layer that is most commonly used).  If the
- * layer 1 setting is {@code null}, the renderer will look up the final
- * layer, which provides a default or "base" setting.  Some attributes allow
- * the base setting to be {@code null}, while other attributes enforce
+ * {@code null} the renderer looks up the default setting.  Some attributes 
+ * allow the base setting to be {@code null}, while other attributes enforce
  * non-{@code null} values.
  */
 public interface CategoryItemRenderer extends LegendItemSource {
@@ -248,54 +244,6 @@ public interface CategoryItemRenderer extends LegendItemSource {
     public boolean isSeriesVisible(int series);
 
     /**
-     * Returns the flag that controls the visibility of ALL series.  This flag
-     * overrides the per series and default settings - you must set it to
-     * {@code null} if you want the other settings to apply.
-     *
-     * @return The flag (possibly {@code null}).
-     *
-     * @see #setSeriesVisible(Boolean)
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #getSeriesVisible(int)} and
-     *     {@link #getBaseSeriesVisible()}.
-     */
-    public Boolean getSeriesVisible();
-
-    /**
-     * Sets the flag that controls the visibility of ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.  This flag
-     * overrides the per series and default settings - you must set it to
-     * {@code null} if you want the other settings to apply.
-     *
-     * @param visible  the flag ({@code null} permitted).
-     *
-     * @see #getSeriesVisible()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesVisible(int, Boolean)}
-     *     and {@link #setBaseSeriesVisible(boolean)}.
-     */
-    public void setSeriesVisible(Boolean visible);
-
-    /**
-     * Sets the flag that controls the visibility of ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.  This flag
-     * overrides the per series and default settings - you must set it to
-     * {@code null} if you want the other settings to apply.
-     *
-     * @param visible  the flag ({@code null} permitted).
-     * @param notify  notify listeners?
-     *
-     * @see #getSeriesVisible()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesVisible(int, Boolean,
-     *     boolean)} and {@link #setBaseSeriesVisible(boolean, boolean)}.
-     */
-    public void setSeriesVisible(Boolean visible, boolean notify);
-
-    /**
      * Returns the flag that controls whether a series is visible.
      *
      * @param series  the series index (zero-based).
@@ -331,34 +279,34 @@ public interface CategoryItemRenderer extends LegendItemSource {
     public void setSeriesVisible(int series, Boolean visible, boolean notify);
 
     /**
-     * Returns the base visibility for all series.
+     * Returns the default visibility for all series.
      *
-     * @return The base visibility.
+     * @return The default visibility.
      *
-     * @see #setBaseSeriesVisible(boolean)
+     * @see #setDefaultSeriesVisible(boolean)
      */
-    public boolean getBaseSeriesVisible();
+    public boolean getDefaultSeriesVisible();
 
     /**
-     * Sets the base visibility and sends a {@link RendererChangeEvent} to all
+     * Sets the default visibility and sends a {@link RendererChangeEvent} to all
      * registered listeners.
      *
      * @param visible  the flag.
      *
-     * @see #getBaseSeriesVisible()
+     * @see #getDefaultSeriesVisible()
      */
-    public void setBaseSeriesVisible(boolean visible);
+    public void setDefaultSeriesVisible(boolean visible);
 
     /**
-     * Sets the base visibility and, if requested, sends
+     * Sets the default visibility and, if requested, sends
      * a {@link RendererChangeEvent} to all registered listeners.
      *
      * @param visible  the visibility.
      * @param notify  notify listeners?
      *
-     * @see #getBaseSeriesVisible()
+     * @see #getDefaultSeriesVisible()
      */
-    public void setBaseSeriesVisible(boolean visible, boolean notify);
+    public void setDefaultSeriesVisible(boolean visible, boolean notify);
 
     // SERIES VISIBLE IN LEGEND (not yet respected by all renderers)
 
@@ -371,56 +319,6 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @return A boolean.
      */
     public boolean isSeriesVisibleInLegend(int series);
-
-    /**
-     * Returns the flag that controls the visibility of ALL series in the
-     * legend.  This flag overrides the per series and default settings - you
-     * must set it to {@code null} if you want the other settings to
-     * apply.
-     *
-     * @return The flag (possibly {@code null}).
-     *
-     * @see #setSeriesVisibleInLegend(Boolean)
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #getSeriesVisibleInLegend(int)}
-     *     and {@link #getBaseSeriesVisibleInLegend()}.
-     */
-    public Boolean getSeriesVisibleInLegend();
-
-    /**
-     * Sets the flag that controls the visibility of ALL series in the legend
-     * and sends a {@link RendererChangeEvent} to all registered listeners.
-     * This flag overrides the per series and default settings - you must set
-     * it to {@code null} if you want the other settings to apply.
-     *
-     * @param visible  the flag ({@code null} permitted).
-     *
-     * @see #getSeriesVisibleInLegend()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesVisibleInLegend(int,
-     *     Boolean)} and {@link #setBaseSeriesVisibleInLegend(boolean)}.
-     */
-    public void setSeriesVisibleInLegend(Boolean visible);
-
-    /**
-     * Sets the flag that controls the visibility of ALL series in the legend
-     * and sends a {@link RendererChangeEvent} to all registered listeners.
-     * This flag overrides the per series and default settings - you must set
-     * it to {@code null} if you want the other settings to apply.
-     *
-     * @param visible  the flag ({@code null} permitted).
-     * @param notify  notify listeners?
-     *
-     * @see #getSeriesVisibleInLegend()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesVisibleInLegend(int,
-     *     Boolean, boolean)} and {@link #setBaseSeriesVisibleInLegend(boolean,
-     *     boolean)}.
-     */
-    public void setSeriesVisibleInLegend(Boolean visible, boolean notify);
 
     /**
      * Returns the flag that controls whether a series is visible in the
@@ -462,34 +360,34 @@ public interface CategoryItemRenderer extends LegendItemSource {
                                          boolean notify);
 
     /**
-     * Returns the base visibility in the legend for all series.
+     * Returns the default visibility in the legend for all series.
      *
-     * @return The base visibility.
+     * @return The default visibility.
      *
-     * @see #setBaseSeriesVisibleInLegend(boolean)
+     * @see #setDefaultSeriesVisibleInLegend(boolean)
      */
-    public boolean getBaseSeriesVisibleInLegend();
+    public boolean getDefaultSeriesVisibleInLegend();
 
     /**
-     * Sets the base visibility in the legend and sends a
+     * Sets the default visibility in the legend and sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param visible  the flag.
      *
-     * @see #getBaseSeriesVisibleInLegend()
+     * @see #getDefaultSeriesVisibleInLegend()
      */
-    public void setBaseSeriesVisibleInLegend(boolean visible);
+    public void setDefaultSeriesVisibleInLegend(boolean visible);
 
     /**
-     * Sets the base visibility in the legend and, if requested, sends
+     * Sets the default visibility in the legend and, if requested, sends
      * a {@link RendererChangeEvent} to all registered listeners.
      *
      * @param visible  the visibility.
      * @param notify  notify listeners?
      *
-     * @see #getBaseSeriesVisibleInLegend()
+     * @see #getDefaultSeriesVisibleInLegend()
      */
-    public void setBaseSeriesVisibleInLegend(boolean visible, boolean notify);
+    public void setDefaultSeriesVisibleInLegend(boolean visible, boolean notify);
 
 
     //// PAINT /////////////////////////////////////////////////////////////////
@@ -503,19 +401,6 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @return The paint (never {@code null}).
      */
     public Paint getItemPaint(int row, int column);
-
-    /**
-     * Sets the paint to be used for ALL series, and sends a
-     * {@link RendererChangeEvent} to all registered listeners.  If this is
-     * {@code null}, the renderer will use the paint for the series.
-     *
-     * @param paint  the paint ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesPaint(int, Paint)} and
-     *     {@link #setBasePaint(Paint)}.
-     */
-    public void setPaint(Paint paint);
 
     /**
      * Returns the paint used to fill an item drawn by the renderer.
@@ -539,81 +424,81 @@ public interface CategoryItemRenderer extends LegendItemSource {
      */
     public void setSeriesPaint(int series, Paint paint);
 
-    // FIXME: add setSeriesPaint(int, Paint, boolean)?
+    public void setSeriesPaint(int series, Paint paint, boolean notify);
 
     /**
-     * Returns the base paint.
+     * Returns the default paint.
      *
-     * @return The base paint (never {@code null}).
+     * @return The default paint (never {@code null}).
      *
-     * @see #setBasePaint(Paint)
+     * @see #setDefaultPaint(Paint)
      */
-    public Paint getBasePaint();
+    public Paint getDefaultPaint();
 
     /**
-     * Sets the base paint and sends a {@link RendererChangeEvent} to all
+     * Sets the default paint and sends a {@link RendererChangeEvent} to all
      * registered listeners.
      *
      * @param paint  the paint ({@code null} not permitted).
      *
-     * @see #getBasePaint()
+     * @see #getDefaultPaint()
      */
-    public void setBasePaint(Paint paint);
+    public void setDefaultPaint(Paint paint);
 
-    // FIXME: add setBasePaint(int, Paint, boolean)?
+    public void setDefaultPaint(Paint paint, boolean notify);
 
     //// FILL PAINT /////////////////////////////////////////////////////////
 
-//    /**
-//     * Returns the paint used to fill data items as they are drawn.
-//     *
-//     * @param row  the row (or series) index (zero-based).
-//     * @param column  the column (or category) index (zero-based).
-//     *
-//     * @return The paint (never {@code null}).
-//     */
-//    public Paint getItemFillPaint(int row, int column);
-//
-//    /**
-//     * Returns the paint used to fill an item drawn by the renderer.
-//     *
-//     * @param series  the series (zero-based index).
-//     *
-//     * @return The paint (possibly {@code null}).
-//     *
-//     * @see #setSeriesFillPaint(int, Paint)
-//     */
-//    public Paint getSeriesFillPaint(int series);
-//
-//    /**
-//     * Sets the paint used for a series outline and sends a
-//     * {@link RendererChangeEvent} to all registered listeners.
-//     *
-//     * @param series  the series index (zero-based).
-//     * @param paint  the paint ({@code null} permitted).
-//     *
-//     * @see #getSeriesFillPaint(int)
-//     */
-//    public void setSeriesFillPaint(int series, Paint paint);
-//
-//    /**
-//     * Returns the base outline paint.
-//     *
-//     * @return The paint (never {@code null}).
-//     *
-//     * @see #setBaseFillPaint(Paint)
-//     */
-//    public Paint getBaseFillPaint();
-//
-//    /**
-//     * Sets the base outline paint and sends a {@link RendererChangeEvent} to
-//     * all registered listeners.
-//     *
-//     * @param paint  the paint ({@code null} not permitted).
-//     *
-//     * @see #getBaseFillPaint()
-//     */
-//    public void setBaseFillPaint(Paint paint);
+    /**
+     * Returns the paint used to fill data items as they are drawn.
+     *
+     * @param row  the row (or series) index (zero-based).
+     * @param column  the column (or category) index (zero-based).
+     *
+     * @return The paint (never {@code null}).
+     */
+    public Paint getItemFillPaint(int row, int column);
+
+    /**
+     * Returns the paint used to fill an item drawn by the renderer.
+     *
+     * @param series  the series (zero-based index).
+     *
+     * @return The paint (possibly {@code null}).
+     *
+     * @see #setSeriesFillPaint(int, Paint)
+     */
+    public Paint getSeriesFillPaint(int series);
+
+    /**
+     * Sets the paint used for a series outline and sends a
+     * {@link RendererChangeEvent} to all registered listeners.
+     *
+     * @param series  the series index (zero-based).
+     * @param paint  the paint ({@code null} permitted).
+     *
+     * @see #getSeriesFillPaint(int)
+     */
+    public void setSeriesFillPaint(int series, Paint paint);
+
+    /**
+     * Returns the default outline paint.
+     *
+     * @return The paint (never {@code null}).
+     *
+     * @see #setDefaultFillPaint(Paint)
+     */
+    public Paint getDefaultFillPaint();
+
+    /**
+     * Sets the default outline paint and sends a {@link RendererChangeEvent} to
+     * all registered listeners.
+     *
+     * @param paint  the paint ({@code null} not permitted).
+     *
+     * @see #getDefaultFillPaint()
+     */
+    public void setDefaultFillPaint(Paint paint);
 
     //// OUTLINE PAINT /////////////////////////////////////////////////////////
 
@@ -626,17 +511,6 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @return The paint (never {@code null}).
      */
     public Paint getItemOutlinePaint(int row, int column);
-
-    /**
-     * Sets the outline paint for ALL series (optional).
-     *
-     * @param paint  the paint ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesOutlinePaint(int,
-     *     Paint)} and {@link #setBaseOutlinePaint(Paint)}.
-     */
-    public void setOutlinePaint(Paint paint);
 
     /**
      * Returns the paint used to outline an item drawn by the renderer.
@@ -660,28 +534,28 @@ public interface CategoryItemRenderer extends LegendItemSource {
      */
     public void setSeriesOutlinePaint(int series, Paint paint);
 
-    // FIXME: add setSeriesOutlinePaint(int, Paint, boolean)?
+    public void setSeriesOutlinePaint(int series, Paint paint, boolean notify);
 
     /**
-     * Returns the base outline paint.
+     * Returns the default outline paint.
      *
      * @return The paint (never {@code null}).
      *
-     * @see #setBaseOutlinePaint(Paint)
+     * @see #setDefaultOutlinePaint(Paint)
      */
-    public Paint getBaseOutlinePaint();
+    public Paint getDefaultOutlinePaint();
 
     /**
-     * Sets the base outline paint and sends a {@link RendererChangeEvent} to
+     * Sets the default outline paint and sends a {@link RendererChangeEvent} to
      * all registered listeners.
      *
      * @param paint  the paint ({@code null} not permitted).
      *
-     * @see #getBaseOutlinePaint()
+     * @see #getDefaultOutlinePaint()
      */
-    public void setBaseOutlinePaint(Paint paint);
+    public void setDefaultOutlinePaint(Paint paint);
 
-    // FIXME: add setBaseOutlinePaint(Paint, boolean)?
+    public void setDefaultOutlinePaint(Paint paint, boolean notify);
 
     //// STROKE ////////////////////////////////////////////////////////////////
 
@@ -694,18 +568,6 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @return The stroke (never {@code null}).
      */
     public Stroke getItemStroke(int row, int column);
-
-    /**
-     * Sets the stroke for ALL series and sends a {@link RendererChangeEvent}
-     * to all registered listeners.
-     *
-     * @param stroke  the stroke ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesStroke(int, Stroke)}
-     *     and {@link #setBaseStroke(Stroke)}.
-     */
-    public void setStroke(Stroke stroke);
 
     /**
      * Returns the stroke used to draw the items in a series.
@@ -729,28 +591,28 @@ public interface CategoryItemRenderer extends LegendItemSource {
      */
     public void setSeriesStroke(int series, Stroke stroke);
 
-    // FIXME: add setSeriesStroke(int, Stroke, boolean) ?
+    public void setSeriesStroke(int series, Stroke stroke, boolean notify);
 
     /**
-     * Returns the base stroke.
+     * Returns the default stroke.
      *
-     * @return The base stroke (never {@code null}).
+     * @return The default stroke (never {@code null}).
      *
-     * @see #setBaseStroke(Stroke)
+     * @see #setDefaultStroke(Stroke)
      */
-    public Stroke getBaseStroke();
+    public Stroke getDefaultStroke();
 
     /**
-     * Sets the base stroke and sends a {@link RendererChangeEvent} to all
+     * Sets the default stroke and sends a {@link RendererChangeEvent} to all
      * registered listeners.
      *
      * @param stroke  the stroke ({@code null} not permitted).
      *
-     * @see #getBaseStroke()
+     * @see #getDefaultStroke()
      */
-    public void setBaseStroke(Stroke stroke);
+    public void setDefaultStroke(Stroke stroke);
 
-    // FIXME: add setBaseStroke(Stroke, boolean) ?
+    public void setDefaultStroke(Stroke stroke, boolean notify);
 
     //// OUTLINE STROKE ////////////////////////////////////////////////////////
 
@@ -767,18 +629,6 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @return The stroke (never {@code null}).
      */
     public Stroke getItemOutlineStroke(int row, int column);
-
-    /**
-     * Sets the outline stroke for ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param stroke  the stroke ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesOutlineStroke(int,
-     *     Stroke)} and {@link #setBaseOutlineStroke(Stroke)}.
-     */
-    public void setOutlineStroke(Stroke stroke);
 
     /**
      * Returns the stroke used to outline the items in a series.
@@ -802,28 +652,28 @@ public interface CategoryItemRenderer extends LegendItemSource {
      */
     public void setSeriesOutlineStroke(int series, Stroke stroke);
 
-    // FIXME: add setSeriesOutlineStroke(int, Stroke, boolean) ?
+    public void setSeriesOutlineStroke(int series, Stroke stroke, boolean notify);
 
     /**
-     * Returns the base outline stroke.
+     * Returns the default outline stroke.
      *
      * @return The stroke (never {@code null}).
      *
-     * @see #setBaseOutlineStroke(Stroke)
+     * @see #setDefaultOutlineStroke(Stroke)
      */
-    public Stroke getBaseOutlineStroke();
+    public Stroke getDefaultOutlineStroke();
 
     /**
-     * Sets the base outline stroke and sends a {@link RendererChangeEvent} to
+     * Sets the default outline stroke and sends a {@link RendererChangeEvent} to
      * all registered listeners.
      *
      * @param stroke  the stroke ({@code null} not permitted).
      *
-     * @see #getBaseOutlineStroke()
+     * @see #getDefaultOutlineStroke()
      */
-    public void setBaseOutlineStroke(Stroke stroke);
+    public void setDefaultOutlineStroke(Stroke stroke);
 
-    // FIXME: add setBaseOutlineStroke(Stroke, boolean) ?
+    public void setDefaultOutlineStroke(Stroke stroke, boolean notify);
 
     //// SHAPE /////////////////////////////////////////////////////////////////
 
@@ -836,18 +686,6 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @return The shape (never {@code null}).
      */
     public Shape getItemShape(int row, int column);
-
-    /**
-     * Sets the shape for ALL series (optional) and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param shape  the shape ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesShape(int, Shape)} and
-     *     {@link #setBaseShape(Shape)}.
-     */
-    public void setShape(Shape shape);
 
     /**
      * Returns a shape used to represent the items in a series.
@@ -871,28 +709,28 @@ public interface CategoryItemRenderer extends LegendItemSource {
      */
     public void setSeriesShape(int series, Shape shape);
 
-    // FIXME: add setSeriesShape(int, Shape, boolean) ?
+    public void setSeriesShape(int series, Shape shape, boolean notify);
 
     /**
-     * Returns the base shape.
+     * Returns the default shape.
      *
      * @return The shape (never {@code null}).
      *
-     * @see #setBaseShape(Shape)
+     * @see #setDefaultShape(Shape)
      */
-    public Shape getBaseShape();
+    public Shape getDefaultShape();
 
     /**
-     * Sets the base shape and sends a {@link RendererChangeEvent} to all
+     * Sets the default shape and sends a {@link RendererChangeEvent} to all
      * registered listeners.
      *
      * @param shape  the shape ({@code null} not permitted).
      *
-     * @see #getBaseShape()
+     * @see #getDefaultShape()
      */
-    public void setBaseShape(Shape shape);
+    public void setDefaultShape(Shape shape);
 
-    // FIXME: add setBaseShape(Shape, boolean) ?
+    public void setDefaultShape(Shape shape, boolean notify);
 
     // ITEM LABELS VISIBLE
 
@@ -906,50 +744,6 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @return A boolean.
      */
     public boolean isItemLabelVisible(int row, int column);
-
-    /**
-     * Sets a flag that controls whether or not the item labels for ALL series
-     * are visible.
-     *
-     * @param visible  the flag.
-     *
-     * @see #setItemLabelsVisible(Boolean)
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemLabelsVisible(int,
-     *     Boolean)} and {@link #setBaseItemLabelsVisible(boolean)}.
-     */
-    public void setItemLabelsVisible(boolean visible);
-
-    /**
-     * Sets a flag that controls whether or not the item labels for ALL series
-     * are visible.
-     *
-     * @param visible  the flag ({@code null} permitted).
-     *
-     * @see #setItemLabelsVisible(boolean)
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemLabelsVisible(int,
-     *     Boolean)} and {@link #setBaseItemLabelsVisible(boolean)}.
-     */
-    public void setItemLabelsVisible(Boolean visible);
-
-    /**
-     * Sets the visibility of item labels for ALL series and, if requested,
-     * sends a {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param visible  a flag that controls whether or not the item labels are
-     *                 visible ({@code null} permitted).
-     * @param notify  a flag that controls whether or not listeners are
-     *                notified.
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemLabelsVisible(int,
-     *     Boolean, boolean)} and {@link #setBaseItemLabelsVisible(Boolean,
-     *     boolean)}.
-     */
-    public void setItemLabelsVisible(Boolean visible, boolean notify);
 
     /**
      * Returns {@code true} if the item labels for a series are visible,
@@ -998,48 +792,38 @@ public interface CategoryItemRenderer extends LegendItemSource {
                                            boolean notify);
 
     /**
-     * Returns the base setting for item label visibility.  A {@code null}
+     * Returns the default setting for item label visibility.  A {@code null}
      * result should be interpreted as equivalent to {@code Boolean.FALSE}
      * (this is an error in the API design, the return value should have been
      * a boolean primitive).
      *
      * @return A flag (possibly {@code null}).
      *
-     * @see #setBaseItemLabelsVisible(Boolean)
+     * @see #setDefaultItemLabelsVisible(boolean)
      */
-    public Boolean getBaseItemLabelsVisible();
+    public boolean getDefaultItemLabelsVisible();
 
     /**
-     * Sets the base flag that controls whether or not item labels are visible
+     * Sets the default flag that controls whether or not item labels are visible
      * and sends a {@link RendererChangeEvent} to all registered listeners.
      *
      * @param visible  the flag.
      *
-     * @see #getBaseItemLabelsVisible()
+     * @see #getDefaultItemLabelsVisible()
      */
-    public void setBaseItemLabelsVisible(boolean visible);
+    public void setDefaultItemLabelsVisible(boolean visible);
 
     /**
-     * Sets the base setting for item label visibility and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param visible  the flag ({@code null} permitted).
-     *
-     * @see #getBaseItemLabelsVisible()
-     */
-    public void setBaseItemLabelsVisible(Boolean visible);
-
-    /**
-     * Sets the base visibility for item labels and, if requested, sends a
+     * Sets the default visibility for item labels and, if requested, sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param visible  the visibility flag.
      * @param notify  a flag that controls whether or not listeners are
      *                notified.
      *
-     * @see #getBaseItemLabelsVisible()
+     * @see #getDefaultItemLabelsVisible()
      */
-    public void setBaseItemLabelsVisible(Boolean visible, boolean notify);
+    public void setDefaultItemLabelsVisible(boolean visible, boolean notify);
 
     // ITEM LABEL GENERATOR
 
@@ -1053,20 +837,6 @@ public interface CategoryItemRenderer extends LegendItemSource {
      */
     public CategoryItemLabelGenerator getItemLabelGenerator(int series,
             int item);
-
-    /**
-     * Sets the item label generator for ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.  This overrides
-     * the per-series settings.
-     *
-     * @param generator  the generator ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemLabelGenerator(int,
-     *     CategoryItemLabelGenerator)} and
-     *     {@link #setBaseItemLabelGenerator(CategoryItemLabelGenerator)}.
-     */
-    public void setItemLabelGenerator(CategoryItemLabelGenerator generator);
 
     /**
      * Returns the item label generator for a series.
@@ -1091,30 +861,30 @@ public interface CategoryItemRenderer extends LegendItemSource {
     public void setSeriesItemLabelGenerator(int series,
             CategoryItemLabelGenerator generator);
 
-    // FIXME: add setSeriesItemLabelGenerator(int, CategoryItemLabelGenerator,
-    //            boolean)
+    public void setSeriesItemLabelGenerator(int series, 
+            CategoryItemLabelGenerator generator, boolean notify);
 
     /**
-     * Returns the base item label generator.
+     * Returns the default item label generator.
      *
      * @return The generator (possibly {@code null}).
      *
-     * @see #setBaseItemLabelGenerator(CategoryItemLabelGenerator)
+     * @see #setDefaultItemLabelGenerator(CategoryItemLabelGenerator)
      */
-    public CategoryItemLabelGenerator getBaseItemLabelGenerator();
+    public CategoryItemLabelGenerator getDefaultItemLabelGenerator();
 
     /**
-     * Sets the base item label generator and sends a
+     * Sets the default item label generator and sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param generator  the generator ({@code null} permitted).
      *
-     * @see #getBaseItemLabelGenerator()
+     * @see #getDefaultItemLabelGenerator()
      */
-    public void setBaseItemLabelGenerator(CategoryItemLabelGenerator generator);
+    public void setDefaultItemLabelGenerator(CategoryItemLabelGenerator generator);
 
-    // FIXME: add setBaseItemLabelGenerator(CategoryItemLabelGenerator,
-    //            boolean) ?
+    public void setDefaultItemLabelGenerator(CategoryItemLabelGenerator generator,
+            boolean notify);
 
     // TOOL TIP GENERATOR
 
@@ -1129,36 +899,6 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @return The generator (possibly {@code null}).
      */
     public CategoryToolTipGenerator getToolTipGenerator(int row, int column);
-
-    /**
-     * Returns the tool tip generator that will be used for ALL items in the
-     * dataset (the "layer 0" generator).
-     *
-     * @return A tool tip generator (possibly {@code null}).
-     *
-     * @see #setToolTipGenerator(CategoryToolTipGenerator)
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #getSeriesToolTipGenerator(int)}
-     *     and {@link #getBaseToolTipGenerator()}.
-     */
-    public CategoryToolTipGenerator getToolTipGenerator();
-
-    /**
-     * Sets the tool tip generator for ALL series and sends a
-     * {@link org.jfree.chart.event.RendererChangeEvent} to all registered
-     * listeners.
-     *
-     * @param generator  the generator ({@code null} permitted).
-     *
-     * @see #getToolTipGenerator()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesToolTipGenerator(int,
-     *     CategoryToolTipGenerator)} and
-     *     {@link #setBaseToolTipGenerator(CategoryToolTipGenerator)}.
-     */
-    public void setToolTipGenerator(CategoryToolTipGenerator generator);
 
     /**
      * Returns the tool tip generator for the specified series (a "layer 1"
@@ -1183,32 +923,33 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @see #getSeriesToolTipGenerator(int)
      */
     public void setSeriesToolTipGenerator(int series,
-                                          CategoryToolTipGenerator generator);
+            CategoryToolTipGenerator generator);
 
-    // FIXME: add setSeriesToolTipGenerator(int, CategoryToolTipGenerator,
-    //            boolean) ?
+    public void setSeriesToolTipGenerator(int series, 
+            CategoryToolTipGenerator generator, boolean notify);
 
     /**
-     * Returns the base tool tip generator (the "layer 2" generator).
+     * Returns the default tool tip generator (the "layer 2" generator).
      *
      * @return The tool tip generator (possibly {@code null}).
      *
-     * @see #setBaseToolTipGenerator(CategoryToolTipGenerator)
+     * @see #setDefaultToolTipGenerator(CategoryToolTipGenerator)
      */
-    public CategoryToolTipGenerator getBaseToolTipGenerator();
+    public CategoryToolTipGenerator getDefaultToolTipGenerator();
 
     /**
-     * Sets the base tool tip generator and sends a
+     * Sets the default tool tip generator and sends a
      * {@link org.jfree.chart.event.RendererChangeEvent} to all registered
      * listeners.
      *
      * @param generator  the generator ({@code null} permitted).
      *
-     * @see #getBaseToolTipGenerator()
+     * @see #getDefaultToolTipGenerator()
      */
-    public void setBaseToolTipGenerator(CategoryToolTipGenerator generator);
+    public void setDefaultToolTipGenerator(CategoryToolTipGenerator generator);
 
-    // FIXME: add setBaseToolTipGenerator(CategoryToolTipGenerator, boolean) ?
+    public void setDefaultToolTipGenerator(CategoryToolTipGenerator generator, 
+            boolean notify);
 
     //// ITEM LABEL FONT  //////////////////////////////////////////////////////
 
@@ -1221,36 +962,6 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @return The font (never {@code null}).
      */
     public Font getItemLabelFont(int row, int column);
-
-    /**
-     * Returns the font used for all item labels.  This may be
-     * {@code null}, in which case the per series font settings will apply.
-     *
-     * @return The font (possibly {@code null}).
-     *
-     * @see #setItemLabelFont(Font)
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #getSeriesItemLabelFont(int)} and
-     *     {@link #getBaseItemLabelFont()}.
-     */
-    public Font getItemLabelFont();
-
-    /**
-     * Sets the item label font for ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.  You can set
-     * this to {@code null} if you prefer to set the font on a per series
-     * basis.
-     *
-     * @param font  the font ({@code null} permitted).
-     *
-     * @see #getItemLabelFont()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemLabelFont(int,
-     *     Font)} and {@link #setBaseItemLabelFont(Font)}.
-     */
-    public void setItemLabelFont(Font font);
 
     /**
      * Returns the font for all the item labels in a series.
@@ -1274,29 +985,29 @@ public interface CategoryItemRenderer extends LegendItemSource {
      */
     public void setSeriesItemLabelFont(int series, Font font);
 
-    // FIXME: add setSeriesItemLabelFont(int, Font, boolean) ?
+    public void setSeriesItemLabelFont(int series, Font font, boolean notify);
 
     /**
-     * Returns the base item label font (this is used when no other font
+     * Returns the default item label font (this is used when no other font
      * setting is available).
      *
      * @return The font (never {@code null}).
      *
-     * @see #setBaseItemLabelFont(Font)
+     * @see #setDefaultItemLabelFont(Font)
      */
-    public Font getBaseItemLabelFont();
+    public Font getDefaultItemLabelFont();
 
     /**
-     * Sets the base item label font and sends a {@link RendererChangeEvent}
+     * Sets the default item label font and sends a {@link RendererChangeEvent}
      * to all registered listeners.
      *
      * @param font  the font ({@code null} not permitted).
      *
-     * @see #getBaseItemLabelFont()
+     * @see #getDefaultItemLabelFont()
      */
-    public void setBaseItemLabelFont(Font font);
+    public void setDefaultItemLabelFont(Font font);
 
-    // FIXME: add setBaseItemLabelFont(Font, boolean) ?
+    public void setDefaultItemLabelFont(Font font, boolean notify);
 
     //// ITEM LABEL PAINT  /////////////////////////////////////////////////////
 
@@ -1309,35 +1020,6 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @return The paint (never {@code null}).
      */
     public Paint getItemLabelPaint(int row, int column);
-
-    /**
-     * Returns the paint used for all item labels.  This may be
-     * {@code null}, in which case the per series paint settings will
-     * apply.
-     *
-     * @return The paint (possibly {@code null}).
-     *
-     * @see #setItemLabelPaint(Paint)
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #getSeriesItemLabelPaint(int)}
-     *     and {@link #getBaseItemLabelPaint()}.
-     */
-    public Paint getItemLabelPaint();
-
-    /**
-     * Sets the item label paint for ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param paint  the paint ({@code null} permitted).
-     *
-     * @see #getItemLabelPaint()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemLabelPaint(int,
-     *     Paint)} and {@link #setBaseItemLabelPaint(Paint)}.
-     */
-    public void setItemLabelPaint(Paint paint);
 
     /**
      * Returns the paint used to draw the item labels for a series.
@@ -1361,28 +1043,28 @@ public interface CategoryItemRenderer extends LegendItemSource {
      */
     public void setSeriesItemLabelPaint(int series, Paint paint);
 
-    // FIXME: add setSeriesItemLabelPaint(int, Paint, boolean) ?
+    public void setSeriesItemLabelPaint(int series, Paint paint, boolean notify);
 
     /**
-     * Returns the base item label paint.
+     * Returns the default item label paint.
      *
      * @return The paint (never {@code null}).
      *
-     * @see #setBaseItemLabelPaint(Paint)
+     * @see #setDefaultItemLabelPaint(Paint)
      */
-    public Paint getBaseItemLabelPaint();
+    public Paint getDefaultItemLabelPaint();
 
     /**
-     * Sets the base item label paint and sends a {@link RendererChangeEvent}
+     * Sets the default item label paint and sends a {@link RendererChangeEvent}
      * to all registered listeners.
      *
      * @param paint  the paint ({@code null} not permitted).
      *
-     * @see #getBaseItemLabelPaint()
+     * @see #getDefaultItemLabelPaint()
      */
-    public void setBaseItemLabelPaint(Paint paint);
+    public void setDefaultItemLabelPaint(Paint paint);
 
-    // FIXME: add setBaseItemLabelPaint(Paint, boolean) ?
+    public void setDefaultItemLabelPaint(Paint paint, boolean notify);
 
     // POSITIVE ITEM LABEL POSITION...
 
@@ -1395,55 +1077,6 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @return The item label position (never {@code null}).
      */
     public ItemLabelPosition getPositiveItemLabelPosition(int row, int column);
-
-    /**
-     * Returns the item label position for positive values in ALL series.
-     *
-     * @return The item label position (possibly {@code null}).
-     *
-     * @see #setPositiveItemLabelPosition(ItemLabelPosition)
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on
-     *     {@link #getSeriesPositiveItemLabelPosition(int)}
-     *     and {@link #getBasePositiveItemLabelPosition()}.
-     */
-    public ItemLabelPosition getPositiveItemLabelPosition();
-
-    /**
-     * Sets the item label position for positive values in ALL series, and
-     * sends a {@link RendererChangeEvent} to all registered listeners.  You
-     * need to set this to {@code null} to expose the settings for
-     * individual series.
-     *
-     * @param position  the position ({@code null} permitted).
-     *
-     * @see #getPositiveItemLabelPosition()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on
-     *     {@link #setSeriesPositiveItemLabelPosition(int, ItemLabelPosition)}
-     *     and {@link #setBasePositiveItemLabelPosition(ItemLabelPosition)}.
-     */
-    public void setPositiveItemLabelPosition(ItemLabelPosition position);
-
-    /**
-     * Sets the positive item label position for ALL series and (if requested)
-     * sends a {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param position  the position ({@code null} permitted).
-     * @param notify  notify registered listeners?
-     *
-     * @see #getPositiveItemLabelPosition()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on
-     *     {@link #setSeriesPositiveItemLabelPosition(int, ItemLabelPosition,
-     *     boolean)} and {@link #setBasePositiveItemLabelPosition(
-     *     ItemLabelPosition, boolean)}.
-     */
-    public void setPositiveItemLabelPosition(ItemLabelPosition position,
-                                             boolean notify);
 
     /**
      * Returns the item label position for all positive values in a series.
@@ -1466,7 +1099,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @see #getSeriesPositiveItemLabelPosition(int)
      */
     public void setSeriesPositiveItemLabelPosition(int series,
-                                                   ItemLabelPosition position);
+            ItemLabelPosition position);
 
     /**
      * Sets the item label position for all positive values in a series and (if
@@ -1483,34 +1116,34 @@ public interface CategoryItemRenderer extends LegendItemSource {
             ItemLabelPosition position, boolean notify);
 
     /**
-     * Returns the base positive item label position.
+     * Returns the default positive item label position.
      *
      * @return The position.
      *
-     * @see #setBasePositiveItemLabelPosition(ItemLabelPosition)
+     * @see #setDefaultPositiveItemLabelPosition(ItemLabelPosition)
      */
-    public ItemLabelPosition getBasePositiveItemLabelPosition();
+    public ItemLabelPosition getDefaultPositiveItemLabelPosition();
 
     /**
-     * Sets the base positive item label position.
+     * Sets the default positive item label position.
      *
      * @param position  the position.
      *
-     * @see #getBasePositiveItemLabelPosition()
+     * @see #getDefaultPositiveItemLabelPosition()
      */
-    public void setBasePositiveItemLabelPosition(ItemLabelPosition position);
+    public void setDefaultPositiveItemLabelPosition(ItemLabelPosition position);
 
     /**
-     * Sets the base positive item label position and, if requested, sends a
+     * Sets the default positive item label position and, if requested, sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param position  the position.
      * @param notify  notify registered listeners?
      *
-     * @see #getBasePositiveItemLabelPosition()
+     * @see #getDefaultPositiveItemLabelPosition()
      */
-    public void setBasePositiveItemLabelPosition(ItemLabelPosition position,
-                                                 boolean notify);
+    public void setDefaultPositiveItemLabelPosition(ItemLabelPosition position,
+           boolean notify);
 
 
     // NEGATIVE ITEM LABEL POSITION...
@@ -1526,56 +1159,6 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @return The item label position.
      */
     public ItemLabelPosition getNegativeItemLabelPosition(int row, int column);
-
-    /**
-     * Returns the item label position for negative values in ALL series.
-     *
-     * @return The item label position (possibly {@code null}).
-     *
-     * @see #setNegativeItemLabelPosition(ItemLabelPosition)
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on
-     *     {@link #getSeriesNegativeItemLabelPosition(int)}
-     *     and {@link #getBaseNegativeItemLabelPosition()}.
-     */
-    public ItemLabelPosition getNegativeItemLabelPosition();
-
-    /**
-     * Sets the item label position for negative values in ALL series, and
-     * sends a {@link RendererChangeEvent} to all registered listeners.  You
-     * need to set this to {@code null} to expose the settings for
-     * individual series.
-     *
-     * @param position  the position ({@code null} permitted).
-     *
-     * @see #getNegativeItemLabelPosition()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on
-     *     {@link #setSeriesNegativeItemLabelPosition(int, ItemLabelPosition)}
-     *     and {@link #setBaseNegativeItemLabelPosition(ItemLabelPosition)}.
-     */
-    public void setNegativeItemLabelPosition(ItemLabelPosition position);
-
-    /**
-     * Sets the item label position for negative values in ALL series and (if
-     * requested) sends a {@link RendererChangeEvent} to all registered
-     * listeners.
-     *
-     * @param position  the position ({@code null} permitted).
-     * @param notify  notify registered listeners?
-     *
-     * @see #getNegativeItemLabelPosition()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on
-     *     {@link #setSeriesNegativeItemLabelPosition(int, ItemLabelPosition,
-     *     boolean)} and {@link #setBaseNegativeItemLabelPosition(
-     *     ItemLabelPosition, boolean)}.
-     */
-    public void setNegativeItemLabelPosition(ItemLabelPosition position,
-                                             boolean notify);
 
     /**
      * Returns the item label position for all negative values in a series.
@@ -1612,57 +1195,55 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @see #getSeriesNegativeItemLabelPosition(int)
      */
     public void setSeriesNegativeItemLabelPosition(int series,
-                                                   ItemLabelPosition position,
-                                                   boolean notify);
+            ItemLabelPosition position, boolean notify);
 
     /**
-     * Returns the base item label position for negative values.
+     * Returns the default item label position for negative values.
      *
      * @return The position.
      *
-     * @see #setBaseNegativeItemLabelPosition(ItemLabelPosition)
+     * @see #setDefaultNegativeItemLabelPosition(ItemLabelPosition)
      */
-    public ItemLabelPosition getBaseNegativeItemLabelPosition();
+    public ItemLabelPosition getDefaultNegativeItemLabelPosition();
 
     /**
-     * Sets the base item label position for negative values and sends a
+     * Sets the default item label position for negative values and sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param position  the position.
      *
-     * @see #getBaseNegativeItemLabelPosition()
+     * @see #getDefaultNegativeItemLabelPosition()
      */
-    public void setBaseNegativeItemLabelPosition(ItemLabelPosition position);
+    public void setDefaultNegativeItemLabelPosition(ItemLabelPosition position);
 
     /**
-     * Sets the base negative item label position and, if requested, sends a
+     * Sets the default negative item label position and, if requested, sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param position  the position.
      * @param notify  notify registered listeners?
      *
-     * @see #getBaseNegativeItemLabelPosition()
+     * @see #getDefaultNegativeItemLabelPosition()
      */
-    public void setBaseNegativeItemLabelPosition(ItemLabelPosition position,
-                                                 boolean notify);
+    public void setDefaultNegativeItemLabelPosition(ItemLabelPosition position,
+            boolean notify);
 
     // CREATE ENTITIES
-    // FIXME:  these methods should be defined
 
-//    public boolean getItemCreateEntity(int series, int item);
-//
-//    public Boolean getSeriesCreateEntities(int series);
-//
-//    public void setSeriesCreateEntities(int series, Boolean create);
-//
-//    public void setSeriesCreateEntities(int series, Boolean create,
-//            boolean notify);
-//
-//    public boolean getBaseCreateEntities();
-//
-//    public void setBaseCreateEntities(boolean create);
-//
-//    public void setBaseCreateEntities(boolean create, boolean notify);
+    public boolean getItemCreateEntity(int series, int item);
+
+    public Boolean getSeriesCreateEntities(int series);
+
+    public void setSeriesCreateEntities(int series, Boolean create);
+
+    public void setSeriesCreateEntities(int series, Boolean create,
+            boolean notify);
+
+    public boolean getDefaultCreateEntities();
+
+    public void setDefaultCreateEntities(boolean create);
+
+    public void setDefaultCreateEntities(boolean create, boolean notify);
 
 
     // ITEM URL GENERATOR
@@ -1676,20 +1257,6 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @return The item URL generator.
      */
     public CategoryURLGenerator getItemURLGenerator(int series, int item);
-
-    /**
-     * Sets the item URL generator for ALL series.
-     *
-     * @param generator  the generator.
-     *
-     * @see #getSeriesItemURLGenerator(int)
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemURLGenerator(int,
-     *     CategoryURLGenerator)} and
-     *     {@link #setBaseItemURLGenerator(CategoryURLGenerator)}.
-     */
-    public void setItemURLGenerator(CategoryURLGenerator generator);
 
     /**
      * Returns the item URL generator for a series.
@@ -1713,28 +1280,29 @@ public interface CategoryItemRenderer extends LegendItemSource {
     public void setSeriesItemURLGenerator(int series,
                                           CategoryURLGenerator generator);
 
-    // FIXME: add setSeriesItemURLGenerator(int, CategoryURLGenerator, boolean)?
+    public void setSeriesItemURLGenerator(int series, 
+            CategoryURLGenerator generator, boolean notify);
 
     /**
-     * Returns the base item URL generator.
+     * Returns the default item URL generator.
      *
      * @return The item URL generator (possibly {@code null}).
      *
-     * @see #setBaseItemURLGenerator(CategoryURLGenerator)
+     * @see #setDefaultItemURLGenerator(CategoryURLGenerator)
      */
-    public CategoryURLGenerator getBaseItemURLGenerator();
+    public CategoryURLGenerator getDefaultItemURLGenerator();
 
     /**
-     * Sets the base item URL generator and sends a {@link RendererChangeEvent}
+     * Sets the default item URL generator and sends a {@link RendererChangeEvent}
      * to all registered listeners.
      *
      * @param generator  the item URL generator ({@code null} permitted).
      *
-     * @see #getBaseItemURLGenerator()
+     * @see #getDefaultItemURLGenerator()
      */
-    public void setBaseItemURLGenerator(CategoryURLGenerator generator);
+    public void setDefaultItemURLGenerator(CategoryURLGenerator generator);
 
-    // FIXME: add setBaseItemURLGenerator(CategoryURLGenerator, boolean) ?
+    public void setDefaultItemURLGenerator(CategoryURLGenerator generator, boolean notify);
 
     /**
      * Returns a legend item for a series.  This method can return
@@ -1792,12 +1360,8 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @param g2  the graphics device.
      * @param plot  the plot.
-     * @param dataArea  the area for plotting data (not yet adjusted for any
-     *                  3D effect).
+     * @param dataArea  the area for plotting data.
      * @param value  the value.
-     *
-     * @see #drawRangeGridline(Graphics2D, CategoryPlot, ValueAxis,
-     *     Rectangle2D, double)
      */
     public void drawDomainGridline(Graphics2D g2, CategoryPlot plot,
             Rectangle2D dataArea, double value);
@@ -1808,14 +1372,13 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @param g2  the graphics device.
      * @param plot  the plot.
      * @param axis  the value axis.
-     * @param dataArea  the area for plotting data (not yet adjusted for any
-     *                  3D effect).
+     * @param dataArea  the area for plotting data.
      * @param value  the value.
-     *
-     * @see #drawDomainGridline(Graphics2D, CategoryPlot, Rectangle2D, double)
+     * @param paint  the paint ({@code null} not permitted).
+     * @param stroke  the line stroke ({@code null} not permitted).
      */
-    public void drawRangeGridline(Graphics2D g2, CategoryPlot plot,
-            ValueAxis axis, Rectangle2D dataArea, double value);
+    public void drawRangeLine(Graphics2D g2, CategoryPlot plot, ValueAxis axis,
+            Rectangle2D dataArea, double value, Paint paint, Stroke stroke);
 
     /**
      * Draws a line (or some other marker) to indicate a particular category on
@@ -1825,7 +1388,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @param plot  the plot.
      * @param axis  the category axis.
      * @param marker  the marker.
-     * @param dataArea  the area for plotting data (not including 3D effect).
+     * @param dataArea  the area for plotting data.
      *
      * @see #drawRangeMarker(Graphics2D, CategoryPlot, ValueAxis, Marker,
      *     Rectangle2D)
@@ -1841,7 +1404,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      * @param plot  the plot.
      * @param axis  the value axis.
      * @param marker  the marker.
-     * @param dataArea  the area for plotting data (not including 3D effect).
+     * @param dataArea  the area for plotting data.
      *
      * @see #drawDomainMarker(Graphics2D, CategoryPlot, CategoryAxis,
      *     CategoryMarker, Rectangle2D)

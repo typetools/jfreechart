@@ -56,16 +56,16 @@ import java.text.DecimalFormat;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.data.RangeType;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.RectangleEdge;
 import org.junit.Test;
 
 /**
@@ -174,7 +174,7 @@ public class NumberAxisTest {
     @Test
     public void testSerialization() {
         NumberAxis a1 = new NumberAxis("Test Axis");
-        NumberAxis a2 = (NumberAxis) TestUtilities.serialised(a1);
+        NumberAxis a2 = (NumberAxis) TestUtils.serialised(a1);
         assertEquals(a1, a2);
     }
 

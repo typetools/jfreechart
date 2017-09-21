@@ -1,9 +1,17 @@
 /nbproject/private/
 /target/
+/javadoc/
 
 build/
-javadoc/
 jfreechart-*-javadocs.zip
 jfreechart-*.zip
 lib/jfreechart-*-src.jar
 lib/jfreechart-*.jar
+
+# Eclipse files #
+/.classpath
+/.project
+/.settings
+
+# Intellij Idea
+.idea

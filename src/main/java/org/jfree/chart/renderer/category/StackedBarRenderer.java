@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -107,13 +107,13 @@ import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.DataUtilities;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.TextAnchor;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.data.DataUtils;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.general.DatasetUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.TextAnchor;
-import org.jfree.util.PublicCloneable;
+import org.jfree.data.general.DatasetUtils;
 
 /**
  * A stacked bar renderer for use with the {@link CategoryPlot} class.
@@ -158,8 +158,8 @@ public class StackedBarRenderer extends BarRenderer
         // the user requests visible item labels...
         ItemLabelPosition p = new ItemLabelPosition(ItemLabelAnchor.CENTER,
                 TextAnchor.CENTER);
-        setBasePositiveItemLabelPosition(p);
-        setBaseNegativeItemLabelPosition(p);
+        setDefaultPositiveItemLabelPosition(p);
+        setDefaultNegativeItemLabelPosition(p);
         setPositiveItemLabelPositionFallback(null);
         setNegativeItemLabelPositionFallback(null);
     }
@@ -221,7 +221,7 @@ public class StackedBarRenderer extends BarRenderer
             return new Range(0.0, 1.0);
         }
         else {
-            return DatasetUtilities.findStackedRangeBounds(dataset, getBase());
+            return DatasetUtils.findStackedRangeBounds(dataset, getBase());
         }
     }
 
@@ -302,7 +302,7 @@ public class StackedBarRenderer extends BarRenderer
         double value = dataValue.doubleValue();
         double total = 0.0;  // only needed if calculating percentages
         if (this.renderAsPercentages) {
-            total = DataUtilities.calculateColumnTotal(dataset, column,
+            total = DataUtils.calculateColumnTotal(dataset, column,
                     state.getVisibleSeriesArray());
             value = value / total;
         }

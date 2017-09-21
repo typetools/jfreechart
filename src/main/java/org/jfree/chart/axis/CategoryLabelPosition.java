@@ -47,11 +47,10 @@
 package org.jfree.chart.axis;
 
 import java.io.Serializable;
-import org.jfree.chart.util.ParamChecks;
-
-import org.jfree.text.TextBlockAnchor;
-import org.jfree.ui.RectangleAnchor;
-import org.jfree.ui.TextAnchor;
+import org.jfree.chart.text.TextBlockAnchor;
+import org.jfree.chart.ui.RectangleAnchor;
+import org.jfree.chart.ui.TextAnchor;
+import org.jfree.chart.util.Args;
 
 /**
  * The attributes that control the position of the labels for the categories on
@@ -144,10 +143,10 @@ public class CategoryLabelPosition implements Serializable {
             TextBlockAnchor labelAnchor, TextAnchor rotationAnchor, 
             double angle, CategoryLabelWidthType widthType, float widthRatio) {
 
-        ParamChecks.nullNotPermitted(categoryAnchor, "categoryAnchor");
-        ParamChecks.nullNotPermitted(labelAnchor, "labelAnchor");
-        ParamChecks.nullNotPermitted(rotationAnchor, "rotationAnchor");
-        ParamChecks.nullNotPermitted(widthType, "widthType");
+        Args.nullNotPermitted(categoryAnchor, "categoryAnchor");
+        Args.nullNotPermitted(labelAnchor, "labelAnchor");
+        Args.nullNotPermitted(rotationAnchor, "rotationAnchor");
+        Args.nullNotPermitted(widthType, "widthType");
 
         this.categoryAnchor = categoryAnchor;
         this.labelAnchor = labelAnchor;

@@ -55,7 +55,7 @@ import java.awt.GradientPaint;
 
 import org.jfree.chart.event.AnnotationChangeEvent;
 import org.jfree.chart.event.AnnotationChangeListener;
-import org.jfree.ui.TextAnchor;
+import org.jfree.chart.ui.TextAnchor;
 import org.junit.Test;
 
 /**
@@ -85,10 +85,10 @@ public class TextAnnotationTest implements AnnotationChangeListener {
         assertTrue(a1.equals(a2));
 
         // paint
-        a1.setPaint(new GradientPaint(1.0f, 2.0f, Color.red,
+        a1.setPaint(new GradientPaint(1.0f, 2.0f, Color.RED,
                 3.0f, 4.0f, Color.pink));
         assertFalse(a1.equals(a2));
-        a2.setPaint(new GradientPaint(1.0f, 2.0f, Color.red,
+        a2.setPaint(new GradientPaint(1.0f, 2.0f, Color.RED,
                 3.0f, 4.0f, Color.pink));
         assertTrue(a1.equals(a2));
 

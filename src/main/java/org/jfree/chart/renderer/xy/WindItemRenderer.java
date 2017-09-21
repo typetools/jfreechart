@@ -70,10 +70,10 @@ import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.xy.WindDataset;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A specialised renderer for displaying wind intensity/direction data.
@@ -156,7 +156,7 @@ public class WindItemRenderer extends AbstractXYItemRenderer
         Line2D line = new Line2D.Double(ax1, ay1, ax2, ay2);
 
         g2.draw(line);
-        g2.setPaint(Color.blue);
+        g2.setPaint(Color.BLUE);
         g2.setFont(new Font("Dialog", 1, 9));
 
         g2.drawString(dirforce, (float) ax1, (float) ay1);

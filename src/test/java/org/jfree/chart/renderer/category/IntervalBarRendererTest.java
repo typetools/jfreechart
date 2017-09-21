@@ -49,13 +49,13 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.Range;
 import org.jfree.data.category.DefaultIntervalCategoryDataset;
-import org.jfree.util.PublicCloneable;
 import org.junit.Test;
 
 /**
@@ -117,7 +117,7 @@ public class IntervalBarRendererTest {
     @Test
     public void testSerialization() {
         IntervalBarRenderer r1 = new IntervalBarRenderer();
-        IntervalBarRenderer r2 = (IntervalBarRenderer) TestUtilities.serialised(r1);
+        IntervalBarRenderer r2 = (IntervalBarRenderer) TestUtils.serialised(r1);
         assertEquals(r1, r2);
     }
 

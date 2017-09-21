@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ------------------------
  * PeriodAxisLabelInfo.java
  * ------------------------
- * (C) Copyright 2004-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2004-2017, by Object Refinery Limited and Contributors.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   -;
@@ -60,11 +60,11 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.SerialUtils;
 
 import org.jfree.data.time.RegularTimePeriod;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.RectangleInsets;
 
 /**
  * A record that contains information for one "band" of date labels in
@@ -84,13 +84,13 @@ public class PeriodAxisLabelInfo implements Cloneable, Serializable {
             = new Font("SansSerif", Font.PLAIN, 10);
 
     /** The default label paint. */
-    public static final Paint DEFAULT_LABEL_PAINT = Color.black;
+    public static final Paint DEFAULT_LABEL_PAINT = Color.BLACK;
 
     /** The default divider stroke. */
     public static final Stroke DEFAULT_DIVIDER_STROKE = new BasicStroke(0.5f);
 
     /** The default divider paint. */
-    public static final Paint DEFAULT_DIVIDER_PAINT = Color.gray;
+    public static final Paint DEFAULT_DIVIDER_PAINT = Color.GRAY;
 
     /** The subclass of {@link RegularTimePeriod} to use for this band. */
     private Class periodClass;
@@ -148,13 +148,13 @@ public class PeriodAxisLabelInfo implements Cloneable, Serializable {
     public PeriodAxisLabelInfo(Class periodClass, DateFormat dateFormat,
             RectangleInsets padding, Font labelFont, Paint labelPaint,
             boolean drawDividers, Stroke dividerStroke, Paint dividerPaint) {
-        ParamChecks.nullNotPermitted(periodClass, "periodClass");
-        ParamChecks.nullNotPermitted(dateFormat, "dateFormat");
-        ParamChecks.nullNotPermitted(padding, "padding");
-        ParamChecks.nullNotPermitted(labelFont, "labelFont");
-        ParamChecks.nullNotPermitted(labelPaint, "labelPaint");
-        ParamChecks.nullNotPermitted(dividerStroke, "dividerStroke");
-        ParamChecks.nullNotPermitted(dividerPaint, "dividerPaint");
+        Args.nullNotPermitted(periodClass, "periodClass");
+        Args.nullNotPermitted(dateFormat, "dateFormat");
+        Args.nullNotPermitted(padding, "padding");
+        Args.nullNotPermitted(labelFont, "labelFont");
+        Args.nullNotPermitted(labelPaint, "labelPaint");
+        Args.nullNotPermitted(dividerStroke, "dividerStroke");
+        Args.nullNotPermitted(dividerPaint, "dividerPaint");
         this.periodClass = periodClass;
         this.dateFormat = (DateFormat) dateFormat.clone();
         this.padding = padding;
@@ -236,21 +236,6 @@ public class PeriodAxisLabelInfo implements Cloneable, Serializable {
      */
     public Paint getDividerPaint() {
         return this.dividerPaint;
-    }
-
-    /**
-     * Creates a time period that includes the specified millisecond, assuming
-     * the given time zone.
-     *
-     * @param millisecond  the time.
-     * @param zone  the time zone.
-     *
-     * @return The time period.
-     *
-     * @deprecated As of 1.0.13, use the method that specifies the locale also.
-     */
-    public RegularTimePeriod createInstance(Date millisecond, TimeZone zone) {
-        return createInstance(millisecond, zone, Locale.getDefault());
     }
 
     /**
@@ -358,9 +343,9 @@ public class PeriodAxisLabelInfo implements Cloneable, Serializable {
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.labelPaint, stream);
-        SerialUtilities.writeStroke(this.dividerStroke, stream);
-        SerialUtilities.writePaint(this.dividerPaint, stream);
+        SerialUtils.writePaint(this.labelPaint, stream);
+        SerialUtils.writeStroke(this.dividerStroke, stream);
+        SerialUtils.writePaint(this.dividerPaint, stream);
     }
 
     /**
@@ -374,9 +359,9 @@ public class PeriodAxisLabelInfo implements Cloneable, Serializable {
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.labelPaint = SerialUtilities.readPaint(stream);
-        this.dividerStroke = SerialUtilities.readStroke(stream);
-        this.dividerPaint = SerialUtilities.readPaint(stream);
+        this.labelPaint = SerialUtils.readPaint(stream);
+        this.dividerStroke = SerialUtils.readStroke(stream);
+        this.dividerPaint = SerialUtils.readPaint(stream);
     }
 
 }

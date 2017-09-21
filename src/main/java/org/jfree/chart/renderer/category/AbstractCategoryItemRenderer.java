@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ---------------------------------
  * AbstractCategoryItemRenderer.java
  * ---------------------------------
- * (C) Copyright 2002-2016, by Object Refinery Limited.
+ * (C) Copyright 2002-2017, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Richard Atkinson;
@@ -152,23 +152,22 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.renderer.AbstractRenderer;
+import org.jfree.chart.text.TextUtils;
+import org.jfree.chart.ui.GradientPaintTransformer;
+import org.jfree.chart.ui.LengthAdjustmentType;
+import org.jfree.chart.ui.RectangleAnchor;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleInsets;
 import org.jfree.chart.urls.CategoryURLGenerator;
 import org.jfree.chart.util.CloneUtils;
-import org.jfree.chart.util.ParamChecks;
-import org.jfree.chart.util.TextUtils;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SortOrder;
 import org.jfree.data.KeyedValues2DItemKey;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.general.DatasetUtilities;
-import org.jfree.text.TextUtilities;
-import org.jfree.ui.GradientPaintTransformer;
-import org.jfree.ui.LengthAdjustmentType;
-import org.jfree.ui.RectangleAnchor;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
-import org.jfree.util.SortOrder;
+import org.jfree.data.general.DatasetUtils;
 
 /**
  * An abstract base class that you can use to implement a new
@@ -189,20 +188,20 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
     /** A list of item label generators (one per series). */
     private Map<Integer, CategoryItemLabelGenerator> itemLabelGeneratorMap;
 
-    /** The base item label generator. */
-    private CategoryItemLabelGenerator baseItemLabelGenerator;
+    /** The default item label generator. */
+    private CategoryItemLabelGenerator defaultItemLabelGenerator;
 
     /** A list of tool tip generators (one per series). */
     private Map<Integer, CategoryToolTipGenerator> toolTipGeneratorMap;
 
-    /** The base tool tip generator. */
-    private CategoryToolTipGenerator baseToolTipGenerator;
+    /** The default tool tip generator. */
+    private CategoryToolTipGenerator defaultToolTipGenerator;
 
     /** A list of item label generators (one per series). */
     private Map<Integer, CategoryURLGenerator> itemURLGeneratorMap;
 
-    /** The base item label generator. */
-    private CategoryURLGenerator baseItemURLGenerator;
+    /** The default item label generator. */
+    private CategoryURLGenerator defaultItemURLGenerator;
 
     /** The legend item label generator. */
     private CategorySeriesLabelGenerator legendItemLabelGenerator;
@@ -227,13 +226,10 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * generators.
      */
     protected AbstractCategoryItemRenderer() {
-        this.itemLabelGenerator = null;
         this.itemLabelGeneratorMap 
                 = new HashMap<Integer, CategoryItemLabelGenerator>();
-        this.toolTipGenerator = null;
         this.toolTipGeneratorMap 
                 = new HashMap<Integer, CategoryToolTipGenerator>();
-        this.itemURLGenerator = null;
         this.itemURLGeneratorMap = new HashMap<Integer, CategoryURLGenerator>();
         this.legendItemLabelGenerator
                 = new StandardCategorySeriesLabelGenerator();
@@ -276,7 +272,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      */
     @Override
     public void setPlot(CategoryPlot plot) {
-        ParamChecks.nullNotPermitted(plot, "plot");
+        Args.nullNotPermitted(plot, "plot");
         this.plot = plot;
     }
 
@@ -311,16 +307,11 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
     @Override
     public CategoryItemLabelGenerator getSeriesItemLabelGenerator(int series) {
 
-        // return the generator for ALL series, if there is one...
-        if (this.itemLabelGenerator != null) {
-            return this.itemLabelGenerator;
-        }
-
         // otherwise look up the generator table
         CategoryItemLabelGenerator generator = this.itemLabelGeneratorMap.get(
                 series);
         if (generator == null) {
-            generator = this.baseItemLabelGenerator;
+            generator = this.defaultItemLabelGenerator;
         }
         return generator;
     }
@@ -337,35 +328,70 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
     @Override
     public void setSeriesItemLabelGenerator(int series,
             CategoryItemLabelGenerator generator) {
+        setSeriesItemLabelGenerator(series, generator, true);
+    }
+    
+    /**
+     * Sets the item label generator for a series and sends a
+     * {@link RendererChangeEvent} to all registered listeners.
+     *
+     * @param series  the series index (zero based).
+     * @param generator  the generator ({@code null} permitted).
+     * @param notify  notify listeners?
+     *
+     * @see #getSeriesItemLabelGenerator(int)
+     */
+    @Override
+    public void setSeriesItemLabelGenerator(int series,
+            CategoryItemLabelGenerator generator, boolean notify) {
         this.itemLabelGeneratorMap.put(series, generator);
-        fireChangeEvent();
+        if (notify) {
+            fireChangeEvent();
+        }
     }
 
     /**
-     * Returns the base item label generator.
+     * Returns the default item label generator.
      *
      * @return The generator (possibly {@code null}).
      *
-     * @see #setBaseItemLabelGenerator(CategoryItemLabelGenerator)
+     * @see #setDefaultItemLabelGenerator(CategoryItemLabelGenerator)
      */
     @Override
-    public CategoryItemLabelGenerator getBaseItemLabelGenerator() {
-        return this.baseItemLabelGenerator;
+    public CategoryItemLabelGenerator getDefaultItemLabelGenerator() {
+        return this.defaultItemLabelGenerator;
     }
 
     /**
-     * Sets the base item label generator and sends a
+     * Sets the default item label generator and sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param generator  the generator ({@code null} permitted).
      *
-     * @see #getBaseItemLabelGenerator()
+     * @see #getDefaultItemLabelGenerator()
      */
     @Override
-    public void setBaseItemLabelGenerator(
+    public void setDefaultItemLabelGenerator(
             CategoryItemLabelGenerator generator) {
-        this.baseItemLabelGenerator = generator;
-        fireChangeEvent();
+        setDefaultItemLabelGenerator(generator, true);
+    }
+    
+    /**
+     * Sets the default item label generator and sends a
+     * {@link RendererChangeEvent} to all registered listeners.
+     *
+     * @param generator  the generator ({@code null} permitted).
+     * @param notify  notify listeners?
+     *
+     * @see #getDefaultItemLabelGenerator()
+     */
+    @Override
+    public void setDefaultItemLabelGenerator(
+            CategoryItemLabelGenerator generator, boolean notify) {
+        this.defaultItemLabelGenerator = generator;
+        if (notify) {
+            fireChangeEvent();
+        }
     }
 
     // TOOL TIP GENERATOR
@@ -385,15 +411,9 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
     @Override
     public CategoryToolTipGenerator getToolTipGenerator(int row, int column) {
 
-        CategoryToolTipGenerator result;
-        if (this.toolTipGenerator != null) {
-            result = this.toolTipGenerator;
-        }
-        else {
-            result = getSeriesToolTipGenerator(row);
-            if (result == null) {
-                result = this.baseToolTipGenerator;
-            }
+        CategoryToolTipGenerator result = getSeriesToolTipGenerator(row);
+        if (result == null) {
+            result = this.defaultToolTipGenerator;
         }
         return result;
     }
@@ -425,34 +445,68 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
     @Override
     public void setSeriesToolTipGenerator(int series,
             CategoryToolTipGenerator generator) {
+        setSeriesToolTipGenerator(series, generator, true);
+    }
+    
+    /**
+     * Sets the tool tip generator for a series and sends a
+     * {@link RendererChangeEvent} to all registered listeners.
+     *
+     * @param series  the series index (zero-based).
+     * @param generator  the generator ({@code null} permitted).
+     * @param notify  notify listeners?
+     *
+     * @see #getSeriesToolTipGenerator(int)
+     */
+    @Override
+    public void setSeriesToolTipGenerator(int series,
+            CategoryToolTipGenerator generator, boolean notify) {
         this.toolTipGeneratorMap.put(series, generator);
-        fireChangeEvent();
+        if (notify) {
+            fireChangeEvent();
+        }
     }
 
     /**
-     * Returns the base tool tip generator (the "layer 2" generator).
+     * Returns the default tool tip generator (the "layer 2" generator).
      *
      * @return The tool tip generator (possibly {@code null}).
      *
-     * @see #setBaseToolTipGenerator(CategoryToolTipGenerator)
+     * @see #setDefaultToolTipGenerator(CategoryToolTipGenerator)
      */
     @Override
-    public CategoryToolTipGenerator getBaseToolTipGenerator() {
-        return this.baseToolTipGenerator;
+    public CategoryToolTipGenerator getDefaultToolTipGenerator() {
+        return this.defaultToolTipGenerator;
     }
 
     /**
-     * Sets the base tool tip generator and sends a {@link RendererChangeEvent}
+     * Sets the default tool tip generator and sends a {@link RendererChangeEvent}
      * to all registered listeners.
      *
      * @param generator  the generator ({@code null} permitted).
      *
-     * @see #getBaseToolTipGenerator()
+     * @see #getDefaultToolTipGenerator()
      */
     @Override
-    public void setBaseToolTipGenerator(CategoryToolTipGenerator generator) {
-        this.baseToolTipGenerator = generator;
-        fireChangeEvent();
+    public void setDefaultToolTipGenerator(CategoryToolTipGenerator generator) {
+        setDefaultToolTipGenerator(generator, true);
+    }
+    
+    /**
+     * Sets the default tool tip generator and sends a {@link RendererChangeEvent}
+     * to all registered listeners.
+     *
+     * @param generator  the generator ({@code null} permitted).
+     * @param notify  notify listeners?
+     *
+     * @see #getDefaultToolTipGenerator()
+     */
+    @Override
+    public void setDefaultToolTipGenerator(CategoryToolTipGenerator generator, boolean notify) {
+        this.defaultToolTipGenerator = generator;
+        if (notify) {
+            fireChangeEvent();
+        }
     }
 
     // URL GENERATOR
@@ -483,14 +537,10 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      */
     @Override
     public CategoryURLGenerator getSeriesItemURLGenerator(int series) {
-        // return the generator for ALL series, if there is one...
-        if (this.itemURLGenerator != null) {
-            return this.itemURLGenerator;
-        }
         // otherwise look up the generator table
         CategoryURLGenerator generator = this.itemURLGeneratorMap.get(series);
         if (generator == null) {
-            generator = this.baseItemURLGenerator;
+            generator = this.defaultItemURLGenerator;
         }
         return generator;
     }
@@ -507,34 +557,68 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
     @Override
     public void setSeriesItemURLGenerator(int series,
             CategoryURLGenerator generator) {
+        setSeriesItemURLGenerator(series, generator, true);
+    }
+    
+    /**
+     * Sets the URL generator for a series and sends a
+     * {@link RendererChangeEvent} to all registered listeners.
+     *
+     * @param series  the series index (zero based).
+     * @param generator  the generator.
+     * @param notify  notify listeners?
+     *
+     * @see #getSeriesItemURLGenerator(int)
+     */
+    @Override
+    public void setSeriesItemURLGenerator(int series,
+            CategoryURLGenerator generator, boolean notify) {
         this.itemURLGeneratorMap.put(series, generator);
-        fireChangeEvent();
+        if (notify) {
+            fireChangeEvent();
+        }
     }
 
     /**
-     * Returns the base item URL generator.
+     * Returns the default item URL generator.
      *
      * @return The item URL generator.
      *
-     * @see #setBaseItemURLGenerator(CategoryURLGenerator)
+     * @see #setDefaultItemURLGenerator(CategoryURLGenerator)
      */
     @Override
-    public CategoryURLGenerator getBaseItemURLGenerator() {
-        return this.baseItemURLGenerator;
+    public CategoryURLGenerator getDefaultItemURLGenerator() {
+        return this.defaultItemURLGenerator;
     }
 
     /**
-     * Sets the base item URL generator and sends a
+     * Sets the default item URL generator and sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param generator  the item URL generator ({@code null} permitted).
      *
-     * @see #getBaseItemURLGenerator()
+     * @see #getDefaultItemURLGenerator()
      */
     @Override
-    public void setBaseItemURLGenerator(CategoryURLGenerator generator) {
-        this.baseItemURLGenerator = generator;
-        fireChangeEvent();
+    public void setDefaultItemURLGenerator(CategoryURLGenerator generator) {
+        setDefaultItemURLGenerator(generator, true);
+    }
+    
+    /**
+     * Sets the default item URL generator and sends a
+     * {@link RendererChangeEvent} to all registered listeners.
+     *
+     * @param generator  the item URL generator ({@code null} permitted).
+     * @param notify  notify listeners?
+     *
+     * @see #getDefaultItemURLGenerator()
+     */
+    @Override
+    public void setDefaultItemURLGenerator(CategoryURLGenerator generator, boolean notify) {
+        this.defaultItemURLGenerator = generator;
+        if (notify) {
+            fireChangeEvent();
+        }
     }
 
     /**
@@ -676,11 +760,11 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
                     visibleSeriesKeys.add(dataset.getRowKey(s));
                 }
             }
-            return DatasetUtilities.findRangeBounds(dataset,
+            return DatasetUtils.findRangeBounds(dataset,
                     visibleSeriesKeys, includeInterval);
         }
         else {
-            return DatasetUtilities.findRangeBounds(dataset, includeInterval);
+            return DatasetUtils.findRangeBounds(dataset, includeInterval);
         }
     }
 
@@ -745,12 +829,9 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @param g2  the graphics device.
      * @param plot  the plot.
-     * @param dataArea  the area for plotting data (not yet adjusted for any
-     *                  3D effect).
+     * @param dataArea  the area for plotting data.
      * @param value  the Java2D value at which the grid line should be drawn.
      *
-     * @see #drawRangeGridline(Graphics2D, CategoryPlot, ValueAxis,
-     *     Rectangle2D, double)
      */
     @Override
     public void drawDomainGridline(Graphics2D g2, CategoryPlot plot,
@@ -779,57 +860,11 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
             stroke = CategoryPlot.DEFAULT_GRIDLINE_STROKE;
         }
         g2.setStroke(stroke);
-
+        Object saved = g2.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
+        g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, 
+                RenderingHints.VALUE_STROKE_NORMALIZE);
         g2.draw(line);
-    }
-
-    /**
-     * Draws a grid line against the range axis.
-     *
-     * @param g2  the graphics device.
-     * @param plot  the plot.
-     * @param axis  the value axis.
-     * @param dataArea  the area for plotting data (not yet adjusted for any
-     *                  3D effect).
-     * @param value  the value at which the grid line should be drawn.
-     *
-     * @see #drawDomainGridline(Graphics2D, CategoryPlot, Rectangle2D, double)
-     */
-    @Override
-    public void drawRangeGridline(Graphics2D g2, CategoryPlot plot,
-            ValueAxis axis, Rectangle2D dataArea, double value) {
-
-        Range range = axis.getRange();
-        if (!range.contains(value)) {
-            return;
-        }
-
-        PlotOrientation orientation = plot.getOrientation();
-        double v = axis.valueToJava2D(value, dataArea, plot.getRangeAxisEdge());
-        Line2D line = null;
-        if (orientation == PlotOrientation.HORIZONTAL) {
-            line = new Line2D.Double(v, dataArea.getMinY(), v,
-                    dataArea.getMaxY());
-        }
-        else if (orientation == PlotOrientation.VERTICAL) {
-            line = new Line2D.Double(dataArea.getMinX(), v,
-                    dataArea.getMaxX(), v);
-        }
-
-        Paint paint = plot.getRangeGridlinePaint();
-        if (paint == null) {
-            paint = CategoryPlot.DEFAULT_GRIDLINE_PAINT;
-        }
-        g2.setPaint(paint);
-
-        Stroke stroke = plot.getRangeGridlineStroke();
-        if (stroke == null) {
-            stroke = CategoryPlot.DEFAULT_GRIDLINE_STROKE;
-        }
-        g2.setStroke(stroke);
-
-        g2.draw(line);
-
+        g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, saved);
     }
 
     /**
@@ -844,15 +879,12 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @param paint  the paint ({@code null} not permitted).
      * @param stroke  the stroke ({@code null} not permitted).
      *
-     * @see #drawRangeGridline
-     *
      * @since 1.0.13
      */
+    @Override
     public void drawRangeLine(Graphics2D g2, CategoryPlot plot, ValueAxis axis,
             Rectangle2D dataArea, double value, Paint paint, Stroke stroke) {
 
-        // TODO: In JFreeChart 1.2.0, put this method in the
-        // CategoryItemRenderer interface
         Range range = axis.getRange();
         if (!range.contains(value)) {
             return;
@@ -957,7 +989,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
             Point2D coordinates = calculateDomainMarkerTextAnchorPoint(
                     g2, orientation, dataArea, bounds, marker.getLabelOffset(),
                     marker.getLabelOffsetType(), anchor);
-            TextUtilities.drawAlignedString(label, g2,
+            TextUtils.drawAlignedString(label, g2,
                     (float) coordinates.getX(), (float) coordinates.getY(),
                     marker.getLabelTextAnchor());
         }
@@ -1133,7 +1165,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
                 g2.setPaint(marker.getLabelBackgroundColor());
                 g2.fill(r);
                 g2.setPaint(marker.getLabelPaint());
-                TextUtilities.drawAlignedString(label, g2,
+                TextUtils.drawAlignedString(label, g2,
                         (float) coords.getX(), (float) coords.getY(),
                         marker.getLabelTextAnchor());
             }
@@ -1168,7 +1200,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
             anchorRect = markerOffset.createAdjustedRectangle(markerArea,
                     labelOffsetType, LengthAdjustmentType.CONTRACT);
         }
-        return RectangleAnchor.coordinates(anchorRect, anchor);
+        return anchor.getAnchorPoint(anchorRect);
     }
 
     /**
@@ -1197,7 +1229,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
             anchorRect = markerOffset.createAdjustedRectangle(markerArea,
                     LengthAdjustmentType.CONTRACT, labelOffsetType);
         }
-        return RectangleAnchor.coordinates(anchorRect, anchor);
+        return anchor.getAnchorPoint(anchorRect);
 
     }
 
@@ -1276,51 +1308,39 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         }
         AbstractCategoryItemRenderer that = (AbstractCategoryItemRenderer) obj;
 
-        if (!ObjectUtilities.equal(this.itemLabelGenerator,
-                that.itemLabelGenerator)) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.itemLabelGeneratorMap,
+        if (!ObjectUtils.equal(this.itemLabelGeneratorMap,
                 that.itemLabelGeneratorMap)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseItemLabelGenerator,
-                that.baseItemLabelGenerator)) {
+        if (!ObjectUtils.equal(this.defaultItemLabelGenerator,
+                that.defaultItemLabelGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.toolTipGenerator,
-                that.toolTipGenerator)) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.toolTipGeneratorMap,
+        if (!ObjectUtils.equal(this.toolTipGeneratorMap,
                 that.toolTipGeneratorMap)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseToolTipGenerator,
-                that.baseToolTipGenerator)) {
+        if (!ObjectUtils.equal(this.defaultToolTipGenerator,
+                that.defaultToolTipGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.itemURLGenerator,
-                that.itemURLGenerator)) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.itemURLGeneratorMap,
+        if (!ObjectUtils.equal(this.itemURLGeneratorMap,
                 that.itemURLGeneratorMap)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseItemURLGenerator,
-                that.baseItemURLGenerator)) {
+        if (!ObjectUtils.equal(this.defaultItemURLGenerator,
+                that.defaultItemURLGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.legendItemLabelGenerator,
+        if (!ObjectUtils.equal(this.legendItemLabelGenerator,
                 that.legendItemLabelGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.legendItemToolTipGenerator,
+        if (!ObjectUtils.equal(this.legendItemToolTipGenerator,
                 that.legendItemToolTipGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.legendItemURLGenerator,
+        if (!ObjectUtils.equal(this.legendItemURLGenerator,
                 that.legendItemURLGenerator)) {
             return false;
         }
@@ -1376,7 +1396,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
             int datasetIndex,
             double transX, double transY, PlotOrientation orientation) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
 
         if (crosshairState != null) {
             if (this.plot.isRangeCrosshairLockedOnData()) {
@@ -1425,7 +1445,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
             }
             Point2D anchorPoint = calculateLabelAnchorPoint(
                     position.getItemLabelAnchor(), x, y, orientation);
-            TextUtilities.drawRotatedString(label, g2,
+            TextUtils.drawRotatedString(label, g2,
                     (float) anchorPoint.getX(), (float) anchorPoint.getY(),
                     position.getTextAnchor(),
                     position.getAngle(), position.getRotationAnchor());
@@ -1448,44 +1468,21 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         AbstractCategoryItemRenderer clone
             = (AbstractCategoryItemRenderer) super.clone();
 
-        if (this.itemLabelGenerator != null) {
-            if (this.itemLabelGenerator instanceof PublicCloneable) {
-                PublicCloneable pc = (PublicCloneable) this.itemLabelGenerator;
-                clone.itemLabelGenerator
-                        = (CategoryItemLabelGenerator) pc.clone();
-            }
-            else {
-                throw new CloneNotSupportedException(
-                        "ItemLabelGenerator not cloneable.");
-            }
-        }
-
         if (this.itemLabelGeneratorMap != null) {
             clone.itemLabelGeneratorMap = CloneUtils.cloneMapValues(
                     this.itemLabelGeneratorMap);
         }
 
-        if (this.baseItemLabelGenerator != null) {
-            if (this.baseItemLabelGenerator instanceof PublicCloneable) {
+        if (this.defaultItemLabelGenerator != null) {
+            if (this.defaultItemLabelGenerator instanceof PublicCloneable) {
                 PublicCloneable pc
-                        = (PublicCloneable) this.baseItemLabelGenerator;
-                clone.baseItemLabelGenerator
+                        = (PublicCloneable) this.defaultItemLabelGenerator;
+                clone.defaultItemLabelGenerator
                         = (CategoryItemLabelGenerator) pc.clone();
             }
             else {
                 throw new CloneNotSupportedException(
                         "ItemLabelGenerator not cloneable.");
-            }
-        }
-
-        if (this.toolTipGenerator != null) {
-            if (this.toolTipGenerator instanceof PublicCloneable) {
-                PublicCloneable pc = (PublicCloneable) this.toolTipGenerator;
-                clone.toolTipGenerator = (CategoryToolTipGenerator) pc.clone();
-            }
-            else {
-                throw new CloneNotSupportedException(
-                        "Tool tip generator not cloneable.");
             }
         }
 
@@ -1494,27 +1491,16 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
                     this.toolTipGeneratorMap);
         }
 
-        if (this.baseToolTipGenerator != null) {
-            if (this.baseToolTipGenerator instanceof PublicCloneable) {
+        if (this.defaultToolTipGenerator != null) {
+            if (this.defaultToolTipGenerator instanceof PublicCloneable) {
                 PublicCloneable pc
-                        = (PublicCloneable) this.baseToolTipGenerator;
-                clone.baseToolTipGenerator
+                        = (PublicCloneable) this.defaultToolTipGenerator;
+                clone.defaultToolTipGenerator
                         = (CategoryToolTipGenerator) pc.clone();
             }
             else {
                 throw new CloneNotSupportedException(
-                        "Base tool tip generator not cloneable.");
-            }
-        }
-
-        if (this.itemURLGenerator != null) {
-            if (this.itemURLGenerator instanceof PublicCloneable) {
-                PublicCloneable pc = (PublicCloneable) this.itemURLGenerator;
-                clone.itemURLGenerator = (CategoryURLGenerator) pc.clone();
-            }
-            else {
-                throw new CloneNotSupportedException(
-                        "Item URL generator not cloneable.");
+                        "Default tool tip generator not cloneable.");
             }
         }
 
@@ -1523,29 +1509,29 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
                     this.itemURLGeneratorMap);
         }
 
-        if (this.baseItemURLGenerator != null) {
-            if (this.baseItemURLGenerator instanceof PublicCloneable) {
+        if (this.defaultItemURLGenerator != null) {
+            if (this.defaultItemURLGenerator instanceof PublicCloneable) {
                 PublicCloneable pc
-                        = (PublicCloneable) this.baseItemURLGenerator;
-                clone.baseItemURLGenerator = (CategoryURLGenerator) pc.clone();
+                        = (PublicCloneable) this.defaultItemURLGenerator;
+                clone.defaultItemURLGenerator = (CategoryURLGenerator) pc.clone();
             }
             else {
                 throw new CloneNotSupportedException(
-                        "Base item URL generator not cloneable.");
+                        "Default item URL generator not cloneable.");
             }
         }
 
         if (this.legendItemLabelGenerator instanceof PublicCloneable) {
             clone.legendItemLabelGenerator = (CategorySeriesLabelGenerator)
-                    ObjectUtilities.clone(this.legendItemLabelGenerator);
+                    ObjectUtils.clone(this.legendItemLabelGenerator);
         }
         if (this.legendItemToolTipGenerator instanceof PublicCloneable) {
             clone.legendItemToolTipGenerator = (CategorySeriesLabelGenerator)
-                    ObjectUtilities.clone(this.legendItemToolTipGenerator);
+                    ObjectUtils.clone(this.legendItemToolTipGenerator);
         }
         if (this.legendItemURLGenerator instanceof PublicCloneable) {
             clone.legendItemURLGenerator = (CategorySeriesLabelGenerator)
-                    ObjectUtilities.clone(this.legendItemURLGenerator);
+                    ObjectUtils.clone(this.legendItemURLGenerator);
         }
         return clone;
     }
@@ -1646,7 +1632,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      */
     public void setLegendItemLabelGenerator(
             CategorySeriesLabelGenerator generator) {
-        ParamChecks.nullNotPermitted(generator, "generator");
+        Args.nullNotPermitted(generator, "generator");
         this.legendItemLabelGenerator = generator;
         fireChangeEvent();
     }
@@ -1712,7 +1698,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      */
     protected void addItemEntity(EntityCollection entities,
             CategoryDataset dataset, int row, int column, Shape hotspot) {
-        ParamChecks.nullNotPermitted(hotspot, "hotspot");
+        Args.nullNotPermitted(hotspot, "hotspot");
         if (!getItemCreateEntity(row, column)) {
             return;
         }
@@ -1777,100 +1763,6 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         CategoryItemEntity entity = new CategoryItemEntity(s, tip, url,
                 dataset, dataset.getRowKey(row), dataset.getColumnKey(column));
         entities.add(entity);
-    }
-
-    // === DEPRECATED CODE ===
-
-    /**
-     * The item label generator for ALL series.
-     *
-     * @deprecated This field is redundant and deprecated as of version 1.0.6.
-     */
-    private CategoryItemLabelGenerator itemLabelGenerator;
-
-    /**
-     * The tool tip generator for ALL series.
-     *
-     * @deprecated This field is redundant and deprecated as of version 1.0.6.
-     */
-    private CategoryToolTipGenerator toolTipGenerator;
-
-    /**
-     * The URL generator.
-     *
-     * @deprecated This field is redundant and deprecated as of version 1.0.6.
-     */
-    private CategoryURLGenerator itemURLGenerator;
-
-    /**
-     * Sets the item label generator for ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param generator  the generator ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemLabelGenerator(int,
-     *     CategoryItemLabelGenerator)} and
-     *     {@link #setBaseItemLabelGenerator(CategoryItemLabelGenerator)}.
-     */
-    @Override
-    public void setItemLabelGenerator(CategoryItemLabelGenerator generator) {
-        this.itemLabelGenerator = generator;
-        fireChangeEvent();
-    }
-
-    /**
-     * Returns the tool tip generator that will be used for ALL items in the
-     * dataset (the "layer 0" generator).
-     *
-     * @return A tool tip generator (possibly {@code null}).
-     *
-     * @see #setToolTipGenerator(CategoryToolTipGenerator)
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #getSeriesToolTipGenerator(int)}
-     *     and {@link #getBaseToolTipGenerator()}.
-     */
-    @Override
-    public CategoryToolTipGenerator getToolTipGenerator() {
-        return this.toolTipGenerator;
-    }
-
-    /**
-     * Sets the tool tip generator for ALL series and sends a
-     * {@link org.jfree.chart.event.RendererChangeEvent} to all registered
-     * listeners.
-     *
-     * @param generator  the generator ({@code null} permitted).
-     *
-     * @see #getToolTipGenerator()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesToolTipGenerator(int,
-     *     CategoryToolTipGenerator)} and
-     *     {@link #setBaseToolTipGenerator(CategoryToolTipGenerator)}.
-     */
-    @Override
-    public void setToolTipGenerator(CategoryToolTipGenerator generator) {
-        this.toolTipGenerator = generator;
-        fireChangeEvent();
-    }
-
-    /**
-     * Sets the item URL generator for ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param generator  the generator.
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemURLGenerator(int,
-     *     CategoryURLGenerator)} and
-     *     {@link #setBaseItemURLGenerator(CategoryURLGenerator)}.
-     */
-    @Override
-    public void setItemURLGenerator(CategoryURLGenerator generator) {
-        this.itemURLGenerator = generator;
-        fireChangeEvent();
     }
 
 }

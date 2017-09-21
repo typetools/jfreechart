@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ---------------
  * SymbolAxis.java
  * ---------------
- * (C) Copyright 2002-2016, by Anthony Boulestreau and Contributors.
+ * (C) Copyright 2002-2017, by Anthony Boulestreau and Contributors.
  *
  * Original Author:  Anthony Boulestreau;
  * Contributor(s):   David Gilbert (for Object Refinery Limited);
@@ -100,17 +100,16 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jfree.chart.event.AxisChangeEvent;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.ValueAxisPlot;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.text.TextUtils;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.TextAnchor;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.SerialUtils;
 import org.jfree.data.Range;
-import org.jfree.io.SerialUtilities;
-import org.jfree.text.TextUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.TextAnchor;
-import org.jfree.util.PaintUtilities;
 
 /**
  * A standard linear value axis that replaces integer values with symbols.
@@ -231,7 +230,7 @@ public class SymbolAxis extends NumberAxis implements Serializable {
      * @see #getGridBandPaint()
      */
     public void setGridBandPaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.gridBandPaint = paint;
         fireChangeEvent();
     }
@@ -265,7 +264,7 @@ public class SymbolAxis extends NumberAxis implements Serializable {
      * @since 1.0.7
      */
     public void setGridBandAlternatePaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.gridBandAlternatePaint = paint;
         fireChangeEvent();
     }
@@ -570,7 +569,7 @@ public class SymbolAxis extends NumberAxis implements Serializable {
                 }
 
                 // avoid to draw overlapping tick labels
-                Rectangle2D bounds = TextUtilities.getTextBounds(tickLabel, g2,
+                Rectangle2D bounds = TextUtils.getTextBounds(tickLabel, g2,
                         g2.getFontMetrics());
                 double tickLabelLength = isVerticalTickLabels()
                         ? bounds.getHeight() : bounds.getWidth();
@@ -664,7 +663,7 @@ public class SymbolAxis extends NumberAxis implements Serializable {
                 }
 
                 // avoid to draw overlapping tick labels
-                Rectangle2D bounds = TextUtilities.getTextBounds(tickLabel, g2,
+                Rectangle2D bounds = TextUtils.getTextBounds(tickLabel, g2,
                         g2.getFontMetrics());
                 double tickLabelLength = isVerticalTickLabels()
                     ? bounds.getWidth() : bounds.getHeight();
@@ -758,10 +757,10 @@ public class SymbolAxis extends NumberAxis implements Serializable {
         if (this.gridBandsVisible != that.gridBandsVisible) {
             return false;
         }
-        if (!PaintUtilities.equal(this.gridBandPaint, that.gridBandPaint)) {
+        if (!PaintUtils.equal(this.gridBandPaint, that.gridBandPaint)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.gridBandAlternatePaint,
+        if (!PaintUtils.equal(this.gridBandAlternatePaint,
                 that.gridBandAlternatePaint)) {
             return false;
         }
@@ -777,8 +776,8 @@ public class SymbolAxis extends NumberAxis implements Serializable {
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.gridBandPaint, stream);
-        SerialUtilities.writePaint(this.gridBandAlternatePaint, stream);
+        SerialUtils.writePaint(this.gridBandPaint, stream);
+        SerialUtils.writePaint(this.gridBandAlternatePaint, stream);
     }
 
     /**
@@ -792,8 +791,8 @@ public class SymbolAxis extends NumberAxis implements Serializable {
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.gridBandPaint = SerialUtilities.readPaint(stream);
-        this.gridBandAlternatePaint = SerialUtilities.readPaint(stream);
+        this.gridBandPaint = SerialUtils.readPaint(stream);
+        this.gridBandAlternatePaint = SerialUtils.readPaint(stream);
     }
 
 }

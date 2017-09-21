@@ -46,11 +46,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.jfree.chart.HashUtilities;
+import org.jfree.chart.HashUtils;
 import org.jfree.chart.title.Title;
-import org.jfree.chart.util.ParamChecks;
-import org.jfree.io.SerialUtilities;
-import org.jfree.util.ObjectUtilities;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.SerialUtils;
 
 /**
  * A class that captures information about a Title of a chart.
@@ -101,7 +101,7 @@ public class TitleEntity extends ChartEntity {
     public TitleEntity(Shape area, Title title, String toolTipText,
             String urlText) {
         super(area, toolTipText, urlText);
-        ParamChecks.nullNotPermitted(title, "title");
+        Args.nullNotPermitted(title, "title");
         this.title = title;
     }
 
@@ -147,10 +147,10 @@ public class TitleEntity extends ChartEntity {
         if (!getArea().equals(that.getArea())) {
             return false;
         }
-        if (!ObjectUtilities.equal(getToolTipText(), that.getToolTipText())) {
+        if (!ObjectUtils.equal(getToolTipText(), that.getToolTipText())) {
             return false;
         }
-        if (!ObjectUtilities.equal(getURLText(), that.getURLText())) {
+        if (!ObjectUtils.equal(getURLText(), that.getURLText())) {
             return false;
         }
         if (!(this.title.equals(that.title))) {
@@ -167,8 +167,8 @@ public class TitleEntity extends ChartEntity {
     @Override
     public int hashCode() {
         int result = 41;
-        result = HashUtilities.hashCode(result, getToolTipText());
-        result = HashUtilities.hashCode(result, getURLText());
+        result = HashUtils.hashCode(result, getToolTipText());
+        result = HashUtils.hashCode(result, getURLText());
         return result;
     }
 
@@ -194,7 +194,7 @@ public class TitleEntity extends ChartEntity {
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writeShape(getArea(), stream);
+        SerialUtils.writeShape(getArea(), stream);
      }
 
     /**
@@ -208,7 +208,7 @@ public class TitleEntity extends ChartEntity {
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        setArea(SerialUtilities.readShape(stream));
+        setArea(SerialUtils.readShape(stream));
     }
 
 }

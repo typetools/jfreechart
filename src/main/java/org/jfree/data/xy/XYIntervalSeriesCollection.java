@@ -48,11 +48,11 @@ package org.jfree.data.xy;
 
 import java.io.Serializable;
 import java.util.List;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
 
 import org.jfree.data.general.DatasetChangeEvent;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A collection of {@link XYIntervalSeries} objects.
@@ -81,7 +81,7 @@ public class XYIntervalSeriesCollection extends AbstractIntervalXYDataset
      * @param series  the series ({@code null} not permitted).
      */
     public void addSeries(XYIntervalSeries series) {
-        ParamChecks.nullNotPermitted(series, "series");
+        Args.nullNotPermitted(series, "series");
         this.data.add(series);
         series.addChangeListener(this);
         fireDatasetChanged();
@@ -330,7 +330,7 @@ public class XYIntervalSeriesCollection extends AbstractIntervalXYDataset
      * @since 1.0.10
      */
     public void removeSeries(XYIntervalSeries series) {
-        ParamChecks.nullNotPermitted(series, "series");
+        Args.nullNotPermitted(series, "series");
         if (this.data.contains(series)) {
             series.removeChangeListener(this);
             this.data.remove(series);
@@ -371,7 +371,7 @@ public class XYIntervalSeriesCollection extends AbstractIntervalXYDataset
             return false;
         }
         XYIntervalSeriesCollection that = (XYIntervalSeriesCollection) obj;
-        return ObjectUtilities.equal(this.data, that.data);
+        return ObjectUtils.equal(this.data, that.data);
     }
 
     /**

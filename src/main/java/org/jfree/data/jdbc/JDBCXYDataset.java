@@ -88,7 +88,6 @@ import org.jfree.data.general.Dataset;
 import org.jfree.data.xy.AbstractXYDataset;
 import org.jfree.data.xy.TableXYDataset;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.util.Log;
 
 /**
  * This class provides an {@link XYDataset} implementation over a database
@@ -267,12 +266,6 @@ public class JDBCXYDataset extends AbstractXYDataset
                             columnTypes[column] = type;
                             break;
                         default:
-                            Log.warn(
-                                "Unable to load column "
-                                + column + " (" + type + ","
-                                + metaData.getColumnClassName(column + 1)
-                                + ")"
-                            );
                             columnTypes[column] = Types.NULL;
                             break;
                     }
@@ -510,32 +503,6 @@ public class JDBCXYDataset extends AbstractXYDataset
             return "";
         }
 
-    }
-
-    /**
-     * Returns the number of items that should be displayed in the legend.
-     *
-     * @return The legendItemCount value
-     *
-     * @deprecated This method is not used in JFreeChart 1.0.x (it was left in
-     *     the API by mistake and is officially deprecated from version 1.0.3
-     *     onwards).
-     */
-    public int getLegendItemCount() {
-        return getSeriesCount();
-    }
-
-    /**
-     * Returns the legend item labels.
-     *
-     * @return The legend item labels.
-     *
-     * @deprecated This method is not used in JFreeChart 1.0.x (it was left in
-     *     the API by mistake and is officially deprecated from version 1.0.3
-     *     onwards).
-     */
-    public String[] getLegendItemLabels() {
-        return this.columnNames;
     }
 
     /**

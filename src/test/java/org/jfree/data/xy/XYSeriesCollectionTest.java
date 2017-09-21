@@ -57,10 +57,10 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.fail;
 
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.Range;
 import org.jfree.data.UnknownKeyException;
-import org.jfree.util.PublicCloneable;
 
 import org.junit.Test;
 
@@ -158,7 +158,7 @@ public class XYSeriesCollectionTest {
         XYSeriesCollection c1 = new XYSeriesCollection();
         c1.addSeries(s1);
         XYSeriesCollection c2 = (XYSeriesCollection) 
-                TestUtilities.serialised(c1);
+                TestUtils.serialised(c1);
         assertEquals(c1, c2);
     }
 

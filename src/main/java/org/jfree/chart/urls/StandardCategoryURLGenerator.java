@@ -58,10 +58,10 @@ package org.jfree.chart.urls;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
 
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.util.ObjectUtilities;
 
 /**
  * A URL generator that can be assigned to a
@@ -95,7 +95,7 @@ public class StandardCategoryURLGenerator implements CategoryURLGenerator,
      * @param prefix  the prefix to the URL ({@code null} not permitted).
      */
     public StandardCategoryURLGenerator(String prefix) {
-        ParamChecks.nullNotPermitted(prefix, "prefix");
+        Args.nullNotPermitted(prefix, "prefix");
         this.prefix = prefix;
     }
 
@@ -111,10 +111,10 @@ public class StandardCategoryURLGenerator implements CategoryURLGenerator,
     public StandardCategoryURLGenerator(String prefix, 
             String seriesParameterName, String categoryParameterName) {
 
-        ParamChecks.nullNotPermitted(prefix, "prefix");
-        ParamChecks.nullNotPermitted(seriesParameterName, 
+        Args.nullNotPermitted(prefix, "prefix");
+        Args.nullNotPermitted(seriesParameterName, 
                 "seriesParameterName");
-        ParamChecks.nullNotPermitted(categoryParameterName, 
+        Args.nullNotPermitted(categoryParameterName, 
                 "categoryParameterName");
         this.prefix = prefix;
         this.seriesParameterName = seriesParameterName;
@@ -182,15 +182,15 @@ public class StandardCategoryURLGenerator implements CategoryURLGenerator,
             return false;
         }
         StandardCategoryURLGenerator that = (StandardCategoryURLGenerator) obj;
-        if (!ObjectUtilities.equal(this.prefix, that.prefix)) {
+        if (!ObjectUtils.equal(this.prefix, that.prefix)) {
             return false;
         }
 
-        if (!ObjectUtilities.equal(this.seriesParameterName,
+        if (!ObjectUtils.equal(this.seriesParameterName,
                 that.seriesParameterName)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.categoryParameterName,
+        if (!ObjectUtils.equal(this.categoryParameterName,
                 that.categoryParameterName)) {
             return false;
         }

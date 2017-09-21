@@ -47,12 +47,12 @@ package org.jfree.data.gantt;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
 
 import org.jfree.data.time.SimpleTimePeriod;
 import org.jfree.data.time.TimePeriod;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A simple representation of a task.  The task has a description and a
@@ -83,7 +83,7 @@ public class Task implements Cloneable, PublicCloneable, Serializable {
      * @param duration  the task duration ({@code null} permitted).
      */
     public Task(String description, TimePeriod duration) {
-        ParamChecks.nullNotPermitted(description, "description");
+        Args.nullNotPermitted(description, "description");
         this.description = description;
         this.duration = duration;
         this.percentComplete = null;
@@ -117,7 +117,7 @@ public class Task implements Cloneable, PublicCloneable, Serializable {
      * @param description  the description ({@code null} not permitted).
      */
     public void setDescription(String description) {
-        ParamChecks.nullNotPermitted(description, "description");
+        Args.nullNotPermitted(description, "description");
         this.description = description;
     }
 
@@ -172,7 +172,7 @@ public class Task implements Cloneable, PublicCloneable, Serializable {
      * @param subtask  the subtask ({@code null} not permitted).
      */
     public void addSubtask(Task subtask) {
-        ParamChecks.nullNotPermitted(subtask, "subtask");
+        Args.nullNotPermitted(subtask, "subtask");
         this.subtasks.add(subtask);
     }
 
@@ -221,17 +221,17 @@ public class Task implements Cloneable, PublicCloneable, Serializable {
             return false;
         }
         Task that = (Task) object;
-        if (!ObjectUtilities.equal(this.description, that.description)) {
+        if (!ObjectUtils.equal(this.description, that.description)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.duration, that.duration)) {
+        if (!ObjectUtils.equal(this.duration, that.duration)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.percentComplete,
+        if (!ObjectUtils.equal(this.percentComplete,
                 that.percentComplete)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.subtasks, that.subtasks)) {
+        if (!ObjectUtils.equal(this.subtasks, that.subtasks)) {
             return false;
         }
         return true;

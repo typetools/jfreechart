@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -54,16 +54,16 @@ import java.awt.geom.Rectangle2D;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.urls.TimeSeriesURLGenerator;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.Range;
 import org.jfree.data.xy.TableXYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.util.PublicCloneable;
 import org.junit.Test;
 
 /**
@@ -82,19 +82,14 @@ public class XYLineAndShapeRendererTest {
         assertEquals(r1, r2);
         assertEquals(r2, r1);
 
-        r1.setLinesVisible(true);
-        assertFalse(r1.equals(r2));
-        r2.setLinesVisible(true);
-        assertTrue(r1.equals(r2));
-
         r1.setSeriesLinesVisible(3, true);
         assertFalse(r1.equals(r2));
         r2.setSeriesLinesVisible(3, true);
         assertTrue(r1.equals(r2));
 
-        r1.setBaseLinesVisible(false);
+        r1.setDefaultLinesVisible(false);
         assertFalse(r1.equals(r2));
-        r2.setBaseLinesVisible(false);
+        r2.setDefaultLinesVisible(false);
         assertTrue(r1.equals(r2));
 
         r1.setLegendLine(new Line2D.Double(1.0, 2.0, 3.0, 4.0));
@@ -102,24 +97,14 @@ public class XYLineAndShapeRendererTest {
         r2.setLegendLine(new Line2D.Double(1.0, 2.0, 3.0, 4.0));
         assertTrue(r1.equals(r2));
 
-        r1.setShapesVisible(true);
-        assertFalse(r1.equals(r2));
-        r2.setShapesVisible(true);
-        assertTrue(r1.equals(r2));
-
         r1.setSeriesShapesVisible(3, true);
         assertFalse(r1.equals(r2));
         r2.setSeriesShapesVisible(3, true);
         assertTrue(r1.equals(r2));
 
-        r1.setBaseShapesVisible(false);
+        r1.setDefaultShapesVisible(false);
         assertFalse(r1.equals(r2));
-        r2.setBaseShapesVisible(false);
-        assertTrue(r1.equals(r2));
-
-        r1.setShapesFilled(true);
-        assertFalse(r1.equals(r2));
-        r2.setShapesFilled(true);
+        r2.setDefaultShapesVisible(false);
         assertTrue(r1.equals(r2));
 
         r1.setSeriesShapesFilled(3, true);
@@ -127,9 +112,9 @@ public class XYLineAndShapeRendererTest {
         r2.setSeriesShapesFilled(3, true);
         assertTrue(r1.equals(r2));
 
-        r1.setBaseShapesFilled(false);
+        r1.setDefaultShapesFilled(false);
         assertFalse(r1.equals(r2));
-        r2.setBaseShapesFilled(false);
+        r2.setDefaultShapesFilled(false);
         assertTrue(r1.equals(r2));
 
         r1.setDrawOutlines(!r1.getDrawOutlines());
@@ -233,7 +218,7 @@ public class XYLineAndShapeRendererTest {
     public void testSerialization() {
         XYLineAndShapeRenderer r1 = new XYLineAndShapeRenderer();
         XYLineAndShapeRenderer r2 = (XYLineAndShapeRenderer) 
-                TestUtilities.serialised(r1);
+                TestUtils.serialised(r1);
         assertEquals(r1, r2);
     }
 

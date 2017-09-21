@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * -------------------------
  * ExtendedCategoryAxis.java
  * -------------------------
- * (C) Copyright 2003-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2003-2017, by Object Refinery Limited and Contributors.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   -;
@@ -56,13 +56,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jfree.chart.event.AxisChangeEvent;
-import org.jfree.chart.util.ParamChecks;
-import org.jfree.io.SerialUtilities;
-import org.jfree.text.TextBlock;
-import org.jfree.text.TextFragment;
-import org.jfree.text.TextLine;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.PaintUtilities;
+import org.jfree.chart.text.TextBlock;
+import org.jfree.chart.text.TextFragment;
+import org.jfree.chart.text.TextLine;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.SerialUtils;
 
 /**
  * An extended version of the {@link CategoryAxis} class that supports
@@ -91,7 +91,7 @@ public class ExtendedCategoryAxis extends CategoryAxis {
         super(label);
         this.sublabels = new HashMap();
         this.sublabelFont = new Font("SansSerif", Font.PLAIN, 10);
-        this.sublabelPaint = Color.black;
+        this.sublabelPaint = Color.BLACK;
     }
 
     /**
@@ -114,7 +114,7 @@ public class ExtendedCategoryAxis extends CategoryAxis {
      * @see #getSubLabelFont()
      */
     public void setSubLabelFont(Font font) {
-        ParamChecks.nullNotPermitted(font, "font");
+        Args.nullNotPermitted(font, "font");
         this.sublabelFont = font;
         notifyListeners(new AxisChangeEvent(this));
     }
@@ -139,7 +139,7 @@ public class ExtendedCategoryAxis extends CategoryAxis {
      * @see #getSubLabelPaint()
      */
     public void setSubLabelPaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.sublabelPaint = paint;
         notifyListeners(new AxisChangeEvent(this));
     }
@@ -207,7 +207,7 @@ public class ExtendedCategoryAxis extends CategoryAxis {
         if (!this.sublabelFont.equals(that.sublabelFont)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.sublabelPaint, that.sublabelPaint)) {
+        if (!PaintUtils.equal(this.sublabelPaint, that.sublabelPaint)) {
             return false;
         }
         if (!this.sublabels.equals(that.sublabels)) {
@@ -239,7 +239,7 @@ public class ExtendedCategoryAxis extends CategoryAxis {
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.sublabelPaint, stream);
+        SerialUtils.writePaint(this.sublabelPaint, stream);
     }
 
     /**
@@ -253,7 +253,7 @@ public class ExtendedCategoryAxis extends CategoryAxis {
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.sublabelPaint = SerialUtilities.readPaint(stream);
+        this.sublabelPaint = SerialUtils.readPaint(stream);
     }
 
 }

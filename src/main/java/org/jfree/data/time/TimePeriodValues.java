@@ -51,12 +51,12 @@ package org.jfree.data.time;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
 
 import org.jfree.data.general.Series;
 import org.jfree.data.general.SeriesChangeEvent;
 import org.jfree.data.general.SeriesException;
-import org.jfree.util.ObjectUtilities;
 
 /**
  * A structure containing zero, one or many {@link TimePeriodValue} instances.  
@@ -240,7 +240,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * @param item  the item ({@code null} not permitted).
      */
     public void add(TimePeriodValue item) {
-        ParamChecks.nullNotPermitted(item, "item");
+        Args.nullNotPermitted(item, "item");
         this.data.add(item);
         updateBounds(item.getPeriod(), this.data.size() - 1);
         fireSeriesChanged();
@@ -421,11 +421,11 @@ public class TimePeriodValues extends Series implements Serializable {
             return false;
         }
         TimePeriodValues that = (TimePeriodValues) obj;
-        if (!ObjectUtilities.equal(this.getDomainDescription(), 
+        if (!ObjectUtils.equal(this.getDomainDescription(), 
                 that.getDomainDescription())) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.getRangeDescription(), 
+        if (!ObjectUtils.equal(this.getRangeDescription(), 
                 that.getRangeDescription())) {
             return false;
         }

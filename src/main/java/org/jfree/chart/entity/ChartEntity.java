@@ -81,13 +81,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import org.jfree.chart.HashUtilities;
+import org.jfree.chart.HashUtils;
 import org.jfree.chart.imagemap.ToolTipTagFragmentGenerator;
 import org.jfree.chart.imagemap.URLTagFragmentGenerator;
-import org.jfree.chart.util.ParamChecks;
-import org.jfree.io.SerialUtilities;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
 
 /**
  * A class that captures information about some component of a chart (a bar,
@@ -137,7 +137,7 @@ public class ChartEntity implements Cloneable, PublicCloneable, Serializable {
      *                 permitted).
      */
     public ChartEntity(Shape area, String toolTipText, String urlText) {
-        ParamChecks.nullNotPermitted(area, "area");
+        Args.nullNotPermitted(area, "area");
         this.area = area;
         this.toolTipText = toolTipText;
         this.urlText = urlText;
@@ -162,7 +162,7 @@ public class ChartEntity implements Cloneable, PublicCloneable, Serializable {
      * @param area  the area ({@code null} not permitted).
      */
     public void setArea(Shape area) {
-        ParamChecks.nullNotPermitted(area, "area");
+        Args.nullNotPermitted(area, "area");
         this.area = area;
     }
 
@@ -245,7 +245,7 @@ public class ChartEntity implements Cloneable, PublicCloneable, Serializable {
      * @return Upper left and lower right corner of a rectangle.
      */
     private String getRectCoords(Rectangle2D rectangle) {
-        ParamChecks.nullNotPermitted(rectangle, "rectangle");
+        Args.nullNotPermitted(rectangle, "rectangle");
         int x1 = (int) rectangle.getX();
         int y1 = (int) rectangle.getY();
         int x2 = x1 + (int) rectangle.getWidth();
@@ -270,7 +270,7 @@ public class ChartEntity implements Cloneable, PublicCloneable, Serializable {
      * @return The coordinates for a given shape as string.
      */
     private String getPolyCoords(Shape shape) {
-        ParamChecks.nullNotPermitted(shape, "shape");
+        Args.nullNotPermitted(shape, "shape");
         StringBuilder result = new StringBuilder();
         boolean first = true;
         float[] coords = new float[6];
@@ -372,10 +372,10 @@ public class ChartEntity implements Cloneable, PublicCloneable, Serializable {
         if (!this.area.equals(that.area)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.toolTipText, that.toolTipText)) {
+        if (!ObjectUtils.equal(this.toolTipText, that.toolTipText)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.urlText, that.urlText)) {
+        if (!ObjectUtils.equal(this.urlText, that.urlText)) {
             return false;
         }
         return true;
@@ -389,8 +389,8 @@ public class ChartEntity implements Cloneable, PublicCloneable, Serializable {
     @Override
     public int hashCode() {
         int result = 37;
-        result = HashUtilities.hashCode(result, this.toolTipText);
-        result = HashUtilities.hashCode(result, this.urlText);
+        result = HashUtils.hashCode(result, this.toolTipText);
+        result = HashUtils.hashCode(result, this.urlText);
         return result;
     }
 
@@ -416,7 +416,7 @@ public class ChartEntity implements Cloneable, PublicCloneable, Serializable {
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writeShape(this.area, stream);
+        SerialUtils.writeShape(this.area, stream);
      }
 
     /**
@@ -430,7 +430,7 @@ public class ChartEntity implements Cloneable, PublicCloneable, Serializable {
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.area = SerialUtilities.readShape(stream);
+        this.area = SerialUtils.readShape(stream);
     }
 
 }

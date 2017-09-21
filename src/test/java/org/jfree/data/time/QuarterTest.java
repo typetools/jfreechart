@@ -56,7 +56,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -117,14 +117,15 @@ public class QuarterTest {
     public void testDateConstructor1() {
 
         TimeZone zone = TimeZone.getTimeZone("GMT");
-        Quarter q1 = new Quarter(new Date(1017619199999L), zone);
-        Quarter q2 = new Quarter(new Date(1017619200000L), zone);
+        Calendar cal = Calendar.getInstance(zone);
+        Quarter q1 = new Quarter(new Date(1017619199999L), zone, Locale.getDefault());
+        Quarter q2 = new Quarter(new Date(1017619200000L), zone, Locale.getDefault());
 
         assertEquals(1, q1.getQuarter());
-        assertEquals(1017619199999L, q1.getLastMillisecond(zone));
+        assertEquals(1017619199999L, q1.getLastMillisecond(cal));
 
         assertEquals(2, q2.getQuarter());
-        assertEquals(1017619200000L, q2.getFirstMillisecond(zone));
+        assertEquals(1017619200000L, q2.getFirstMillisecond(cal));
 
     }
 
@@ -136,14 +137,15 @@ public class QuarterTest {
     public void testDateConstructor2() {
 
         TimeZone zone = TimeZone.getTimeZone("Europe/Istanbul");
-        Quarter q1 = new Quarter(new Date(1017608399999L), zone);
-        Quarter q2 = new Quarter(new Date(1017608400000L), zone);
+        Calendar cal = Calendar.getInstance(zone);
+        Quarter q1 = new Quarter(new Date(1017608399999L), zone, Locale.getDefault());
+        Quarter q2 = new Quarter(new Date(1017608400000L), zone, Locale.getDefault());
 
         assertEquals(1, q1.getQuarter());
-        assertEquals(1017608399999L, q1.getLastMillisecond(zone));
+        assertEquals(1017608399999L, q1.getLastMillisecond(cal));
 
         assertEquals(2, q2.getQuarter());
-        assertEquals(1017608400000L, q2.getFirstMillisecond(zone));
+        assertEquals(1017608400000L, q2.getFirstMillisecond(cal));
 
     }
 
@@ -233,7 +235,7 @@ public class QuarterTest {
     @Test
     public void testSerialization() {
         Quarter q1 = new Quarter(4, 1999);
-        Quarter q2 = (Quarter) TestUtilities.serialised(q1);
+        Quarter q2 = (Quarter) TestUtils.serialised(q1);
         assertEquals(q1, q2);
     }
 
@@ -307,12 +309,13 @@ public class QuarterTest {
     public void testGetFirstMillisecondWithTimeZone() {
         Quarter q = new Quarter(2, 1950);
         TimeZone zone = TimeZone.getTimeZone("America/Los_Angeles");
-        assertEquals(-623347200000L, q.getFirstMillisecond(zone));
+        Calendar cal = Calendar.getInstance(zone);
+        assertEquals(-623347200000L, q.getFirstMillisecond(cal));
 
         // try null calendar
         boolean pass = false;
         try {
-            q.getFirstMillisecond((TimeZone) null);
+            q.getFirstMillisecond((Calendar) null);
         }
         catch (NullPointerException e) {
             pass = true;
@@ -363,12 +366,13 @@ public class QuarterTest {
     public void testGetLastMillisecondWithTimeZone() {
         Quarter q = new Quarter(2, 1950);
         TimeZone zone = TimeZone.getTimeZone("America/Los_Angeles");
-        assertEquals(-615488400001L, q.getLastMillisecond(zone));
+        Calendar cal = Calendar.getInstance(zone);
+        assertEquals(-615488400001L, q.getLastMillisecond(cal));
 
         // try null calendar
         boolean pass = false;
         try {
-            q.getLastMillisecond((TimeZone) null);
+            q.getLastMillisecond((Calendar) null);
         }
         catch (NullPointerException e) {
             pass = true;

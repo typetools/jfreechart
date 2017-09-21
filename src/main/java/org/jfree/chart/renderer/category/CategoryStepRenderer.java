@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -67,8 +67,8 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.renderer.xy.XYStepRenderer;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A "step" renderer similar to {@link XYStepRenderer} but
@@ -133,7 +133,7 @@ public class CategoryStepRenderer extends AbstractCategoryItemRenderer
      */
     public CategoryStepRenderer(boolean stagger) {
         this.stagger = stagger;
-        setBaseLegendShape(new Rectangle2D.Double(-4.0, -3.0, 8.0, 6.0));
+        setDefaultLegendShape(new Rectangle2D.Double(-4.0, -3.0, 8.0, 6.0));
     }
 
     /**

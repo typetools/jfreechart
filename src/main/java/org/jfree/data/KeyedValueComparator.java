@@ -45,9 +45,8 @@ package org.jfree.data;
 
 import java.io.Serializable;
 import java.util.Comparator;
-import org.jfree.chart.util.ParamChecks;
-
-import org.jfree.util.SortOrder;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.SortOrder;
 
 /**
  * A utility class that can compare and order two {@link KeyedValue} instances
@@ -70,8 +69,8 @@ public class KeyedValueComparator implements Comparator, Serializable {
      */
     public KeyedValueComparator(KeyedValueComparatorType type,
                                 SortOrder order) {
-        ParamChecks.nullNotPermitted(type, "type");
-        ParamChecks.nullNotPermitted(order, "order");
+        Args.nullNotPermitted(type, "type");
+        Args.nullNotPermitted(order, "order");
         this.type = type;
         this.order = order;
     }

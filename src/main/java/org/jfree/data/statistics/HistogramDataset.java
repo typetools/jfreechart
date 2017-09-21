@@ -67,13 +67,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
 
 import org.jfree.data.general.DatasetChangeEvent;
 import org.jfree.data.xy.AbstractIntervalXYDataset;
 import org.jfree.data.xy.IntervalXYDataset;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A dataset that can be used for creating histograms.
@@ -118,7 +118,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      * @param type  the type ({@code null} not permitted).
      */
     public void setType(HistogramType type) {
-        ParamChecks.nullNotPermitted(type, "type");
+        Args.nullNotPermitted(type, "type");
         this.type = type;
         fireDatasetChanged();
     }
@@ -153,8 +153,8 @@ public class HistogramDataset extends AbstractIntervalXYDataset
     public void addSeries(Comparable key, double[] values, int bins,
             double minimum, double maximum) {
 
-        ParamChecks.nullNotPermitted(key, "key");
-        ParamChecks.nullNotPermitted(values, "values");
+        Args.nullNotPermitted(key, "key");
+        Args.nullNotPermitted(values, "values");
         if (bins < 1) {
             throw new IllegalArgumentException(
                     "The 'bins' value must be at least 1.");
@@ -484,10 +484,10 @@ public class HistogramDataset extends AbstractIntervalXYDataset
             return false;
         }
         HistogramDataset that = (HistogramDataset) obj;
-        if (!ObjectUtilities.equal(this.type, that.type)) {
+        if (!ObjectUtils.equal(this.type, that.type)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.list, that.list)) {
+        if (!ObjectUtils.equal(this.list, that.list)) {
             return false;
         }
         return true;

@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * -------------------
  * DialBackground.java
  * -------------------
- * (C) Copyright 2006-2016, by Object Refinery Limited.
+ * (C) Copyright 2006-2017, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   -;
@@ -52,13 +52,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import org.jfree.chart.HashUtilities;
-import org.jfree.chart.util.ParamChecks;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.GradientPaintTransformer;
-import org.jfree.ui.StandardGradientPaintTransformer;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.PublicCloneable;
+import org.jfree.chart.HashUtils;
+import org.jfree.chart.ui.GradientPaintTransformer;
+import org.jfree.chart.ui.StandardGradientPaintTransformer;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
 
 /**
  * A regular dial layer that can be used to draw the background for a dial.
@@ -88,7 +88,7 @@ public class DialBackground extends AbstractDialLayer implements DialLayer,
      * default background paint is {@code Color.WHITE}.
      */
     public DialBackground() {
-        this(Color.white);
+        this(Color.WHITE);
     }
 
     /**
@@ -100,7 +100,7 @@ public class DialBackground extends AbstractDialLayer implements DialLayer,
      *     {@code null}.
      */
     public DialBackground(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.paint = paint;
         this.gradientPaintTransformer = new StandardGradientPaintTransformer();
     }
@@ -125,7 +125,7 @@ public class DialBackground extends AbstractDialLayer implements DialLayer,
      * @see #getPaint()
      */
     public void setPaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.paint = paint;
         notifyListeners(new DialLayerChangeEvent(this));
     }
@@ -152,7 +152,7 @@ public class DialBackground extends AbstractDialLayer implements DialLayer,
      * @see #getGradientPaintTransformer()
      */
     public void setGradientPaintTransformer(GradientPaintTransformer t) {
-        ParamChecks.nullNotPermitted(t, "t");
+        Args.nullNotPermitted(t, "t");
         this.gradientPaintTransformer = t;
         notifyListeners(new DialLayerChangeEvent(this));
     }
@@ -207,7 +207,7 @@ public class DialBackground extends AbstractDialLayer implements DialLayer,
             return false;
         }
         DialBackground that = (DialBackground) obj;
-        if (!PaintUtilities.equal(this.paint, that.paint)) {
+        if (!PaintUtils.equal(this.paint, that.paint)) {
             return false;
         }
         if (!this.gradientPaintTransformer.equals(
@@ -225,7 +225,7 @@ public class DialBackground extends AbstractDialLayer implements DialLayer,
     @Override
     public int hashCode() {
         int result = 193;
-        result = 37 * result + HashUtilities.hashCodeForPaint(this.paint);
+        result = 37 * result + HashUtils.hashCodeForPaint(this.paint);
         result = 37 * result + this.gradientPaintTransformer.hashCode();
         return result;
     }
@@ -252,7 +252,7 @@ public class DialBackground extends AbstractDialLayer implements DialLayer,
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.paint, stream);
+        SerialUtils.writePaint(this.paint, stream);
     }
 
     /**
@@ -266,7 +266,7 @@ public class DialBackground extends AbstractDialLayer implements DialLayer,
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.paint = SerialUtilities.readPaint(stream);
+        this.paint = SerialUtils.readPaint(stream);
     }
 
 }

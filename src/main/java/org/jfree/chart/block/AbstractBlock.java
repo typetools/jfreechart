@@ -55,15 +55,15 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.ui.Size2D;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
+import org.jfree.chart.util.ShapeUtils;
 
 import org.jfree.data.Range;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.Size2D;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
-import org.jfree.util.ShapeUtilities;
 
 /**
  * A convenience class for creating new classes that implement
@@ -206,7 +206,7 @@ public class AbstractBlock implements Cloneable, Serializable {
      * @see #getMargin()
      */
     public void setMargin(RectangleInsets margin) {
-        ParamChecks.nullNotPermitted(margin, "margin");
+        Args.nullNotPermitted(margin, "margin");
         this.margin = margin;
     }
 
@@ -223,36 +223,6 @@ public class AbstractBlock implements Cloneable, Serializable {
     public void setMargin(double top, double left, double bottom, 
             double right) {
         setMargin(new RectangleInsets(top, left, bottom, right));
-    }
-
-    /**
-     * Returns the border.
-     *
-     * @return The border (never {@code null}).
-     *
-     * @deprecated Use {@link #getFrame()} instead.
-     */
-    public BlockBorder getBorder() {
-        if (this.frame instanceof BlockBorder) {
-            return (BlockBorder) this.frame;
-        }
-        else {
-            return null;
-        }
-    }
-
-    /**
-     * Sets the border for the block (use {@link BlockBorder#NONE} for
-     * no border).
-     *
-     * @param border  the border ({@code null} not permitted).
-     *
-     * @see #getBorder()
-     *
-     * @deprecated Use {@link #setFrame(BlockFrame)} instead.
-     */
-    public void setBorder(BlockBorder border) {
-        setFrame(border);
     }
 
     /**
@@ -289,7 +259,7 @@ public class AbstractBlock implements Cloneable, Serializable {
      * @see #getFrame()
      */
     public void setFrame(BlockFrame frame) {
-        ParamChecks.nullNotPermitted(frame, "frame");
+        Args.nullNotPermitted(frame, "frame");
         this.frame = frame;
     }
 
@@ -313,7 +283,7 @@ public class AbstractBlock implements Cloneable, Serializable {
      * @see #getPadding()
      */
     public void setPadding(RectangleInsets padding) {
-        ParamChecks.nullNotPermitted(padding, "padding");
+        Args.nullNotPermitted(padding, "padding");
         this.padding = padding;
     }
 
@@ -399,7 +369,7 @@ public class AbstractBlock implements Cloneable, Serializable {
      * @see #getBounds()
      */
     public void setBounds(Rectangle2D bounds) {
-        ParamChecks.nullNotPermitted(bounds, "bounds");
+        Args.nullNotPermitted(bounds, "bounds");
         this.bounds = bounds;
     }
 
@@ -448,7 +418,7 @@ public class AbstractBlock implements Cloneable, Serializable {
      * @return The content constraint.
      */
     protected RectangleConstraint toContentConstraint(RectangleConstraint c) {
-        ParamChecks.nullNotPermitted(c, "c");
+        Args.nullNotPermitted(c, "c");
         if (c.equals(RectangleConstraint.NONE)) {
             return c;
         }
@@ -592,7 +562,7 @@ public class AbstractBlock implements Cloneable, Serializable {
             return false;
         }
         AbstractBlock that = (AbstractBlock) obj;
-        if (!ObjectUtilities.equal(this.id, that.id)) {
+        if (!ObjectUtils.equal(this.id, that.id)) {
             return false;
         }
         if (!this.frame.equals(that.frame)) {
@@ -627,7 +597,7 @@ public class AbstractBlock implements Cloneable, Serializable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         AbstractBlock clone = (AbstractBlock) super.clone();
-        clone.bounds = (Rectangle2D) ShapeUtilities.clone(this.bounds);
+        clone.bounds = (Rectangle2D) ShapeUtils.clone(this.bounds);
         if (this.frame instanceof PublicCloneable) {
             PublicCloneable pc = (PublicCloneable) this.frame;
             clone.frame = (BlockFrame) pc.clone();
@@ -644,7 +614,7 @@ public class AbstractBlock implements Cloneable, Serializable {
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writeShape(this.bounds, stream);
+        SerialUtils.writeShape(this.bounds, stream);
     }
 
     /**
@@ -658,7 +628,7 @@ public class AbstractBlock implements Cloneable, Serializable {
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.bounds = (Rectangle2D) SerialUtilities.readShape(stream);
+        this.bounds = (Rectangle2D) SerialUtils.readShape(stream);
     }
 
 }

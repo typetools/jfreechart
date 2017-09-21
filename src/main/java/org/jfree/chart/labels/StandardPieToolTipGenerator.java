@@ -60,9 +60,9 @@ package org.jfree.chart.labels;
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.Locale;
+import org.jfree.chart.util.PublicCloneable;
 
 import org.jfree.data.general.PieDataset;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A standard item label generator for plots that use data from a
@@ -82,13 +82,6 @@ public class StandardPieToolTipGenerator extends AbstractPieItemLabelGenerator
 
     /** The default tooltip format. */
     public static final String DEFAULT_TOOLTIP_FORMAT = "{0}: ({1}, {2})";
-
-    /**
-     * The default section label format.
-     *
-     * @deprecated As of 1.0.7, use {@link #DEFAULT_TOOLTIP_FORMAT} instead.
-     */
-    public static final String DEFAULT_SECTION_LABEL_FORMAT = "{0} = {1}";
 
     /**
      * Creates an item label generator using default number formatters.

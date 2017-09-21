@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * -------------------
  * XYStepRenderer.java
  * -------------------
- * (C) Copyright 2002-2016, by Roger Studner and Contributors.
+ * (C) Copyright 2002-2017, by Roger Studner and Contributors.
  *
  * Original Author:  Roger Studner;
  * Contributor(s):   David Gilbert (for Object Refinery Limited);
@@ -67,6 +67,7 @@
  * 24-Sep-2008 : Fixed bug 2113627 by utilising second pass to draw item
  *               labels (DG);
  * 29-Feb-2016 : Improved performance by only drawing visible lines (MN);
+ * 18-Feb-2017 : Updates for crosshairs (bug #36) (DG);
  *
  */
 
@@ -79,7 +80,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
-import org.jfree.chart.HashUtilities;
+import org.jfree.chart.HashUtils;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.event.RendererChangeEvent;
@@ -88,11 +89,11 @@ import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.chart.urls.XYURLGenerator;
-import org.jfree.chart.util.LineUtilities;
+import org.jfree.chart.util.LineUtils;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.PublicCloneable;
 
 /**
  * Line/Step item renderer for an {@link XYPlot}.  This class draws lines
@@ -136,9 +137,9 @@ public class XYStepRenderer extends XYLineAndShapeRenderer
     public XYStepRenderer(XYToolTipGenerator toolTipGenerator,
                           XYURLGenerator urlGenerator) {
         super();
-        setBaseToolTipGenerator(toolTipGenerator);
+        setDefaultToolTipGenerator(toolTipGenerator);
         setURLGenerator(urlGenerator);
-        setBaseShapesVisible(false);
+        setDefaultShapesVisible(false);
     }
 
     /**
@@ -272,16 +273,20 @@ public class XYStepRenderer extends XYLineAndShapeRenderer
             }
 
             // submit this data item as a candidate for the crosshair point
-            int domainAxisIndex = plot.getDomainAxisIndex(domainAxis);
-            int rangeAxisIndex = plot.getRangeAxisIndex(rangeAxis);
-            updateCrosshairValues(crosshairState, x1, y1, domainAxisIndex,
-                    rangeAxisIndex, transX1, transY1, orientation);
+            int datasetIndex = plot.indexOf(dataset);
+            updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
+                    transX1, transY1, orientation);
 
             // collect entity and tool tip information...
             EntityCollection entities = state.getEntityCollection();
             if (entities != null) {
-                addEntity(entities, null, dataset, series, item, transX1,
-                        transY1);
+                if (orientation == PlotOrientation.HORIZONTAL) {
+                    addEntity(entities, null, dataset, series, item, transY1,
+                            transX1);
+                } else {
+                    addEntity(entities, null, dataset, series, item, transX1,
+                            transY1);
+                }
             }
 
         }
@@ -319,7 +324,7 @@ public class XYStepRenderer extends XYLineAndShapeRenderer
             return;
         }
         line.setLine(x0, y0, x1, y1);
-        boolean visible = LineUtilities.clipLine(line, dataArea);
+        boolean visible = LineUtils.clipLine(line, dataArea);
         if (visible) {
             g2.draw(line);
         }
@@ -354,7 +359,7 @@ public class XYStepRenderer extends XYLineAndShapeRenderer
      */
     @Override
     public int hashCode() {
-        return HashUtilities.hashCode(super.hashCode(), this.stepPoint);
+        return HashUtils.hashCode(super.hashCode(), this.stepPoint);
     }
 
     /**

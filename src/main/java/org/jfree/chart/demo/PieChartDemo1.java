@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -57,13 +57,13 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.chart.ui.ApplicationFrame;
+import org.jfree.chart.ui.HorizontalAlignment;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.ui.UIUtils;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
-import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.HorizontalAlignment;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.RefineryUtilities;
 
 /**
  * A simple demonstration application showing how to create a pie chart using
@@ -139,13 +139,17 @@ public class PieChartDemo1 extends ApplicationFrame {
         plot.setOutlineVisible(false);
 
         // use gradients and white borders for the section colours
-        plot.setSectionPaint("Others", createGradientPaint(new Color(200, 200, 255), Color.BLUE));
-        plot.setSectionPaint("Samsung", createGradientPaint(new Color(255, 200, 200), Color.RED));
-        plot.setSectionPaint("Apple", createGradientPaint(new Color(200, 255, 200), Color.GREEN));
-        plot.setSectionPaint("Nokia", createGradientPaint(new Color(200, 255, 200), Color.YELLOW));
-        plot.setBaseSectionOutlinePaint(Color.WHITE);
+        plot.setSectionPaint("Others", 
+                createGradientPaint(new Color(200, 200, 255), Color.BLUE));
+        plot.setSectionPaint("Samsung", 
+                createGradientPaint(new Color(255, 200, 200), Color.RED));
+        plot.setSectionPaint("Apple", 
+                createGradientPaint(new Color(200, 255, 200), Color.GREEN));
+        plot.setSectionPaint("Nokia", 
+                createGradientPaint(new Color(200, 255, 200), Color.YELLOW));
+        plot.setDefaultSectionOutlinePaint(Color.WHITE);
         plot.setSectionOutlinesVisible(true);
-        plot.setBaseSectionOutlineStroke(new BasicStroke(2.0f));
+        plot.setDefaultSectionOutlineStroke(new BasicStroke(2.0f));
 
         // customise the section label appearance
         plot.setLabelFont(new Font("Courier New", Font.BOLD, 20));
@@ -213,7 +217,7 @@ public class PieChartDemo1 extends ApplicationFrame {
 
         PieChartDemo1 demo = new PieChartDemo1("JFreeChart: Pie Chart Demo 1");
         demo.pack();
-        RefineryUtilities.centerFrameOnScreen(demo);
+        UIUtils.centerFrameOnScreen(demo);
         demo.setVisible(true);
     }
 

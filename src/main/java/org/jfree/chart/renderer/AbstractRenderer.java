@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -121,7 +121,7 @@ import java.util.Map;
 import javax.swing.event.EventListenerList;
 
 import org.jfree.chart.ChartHints;
-import org.jfree.chart.HashUtilities;
+import org.jfree.chart.HashUtils;
 import org.jfree.chart.event.RendererChangeEvent;
 import org.jfree.chart.event.RendererChangeListener;
 import org.jfree.chart.labels.ItemLabelAnchor;
@@ -129,18 +129,17 @@ import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.plot.DrawingSupplier;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.title.LegendTitle;
-import org.jfree.chart.util.CloneUtils;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.TextAnchor;
+import org.jfree.chart.util.BooleanList;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.PaintList;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.SerialUtils;
+import org.jfree.chart.util.ShapeList;
+import org.jfree.chart.util.ShapeUtils;
+import org.jfree.chart.util.StrokeList;
 import org.jfree.data.ItemKey;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.TextAnchor;
-import org.jfree.util.BooleanList;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PaintList;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.ShapeList;
-import org.jfree.util.ShapeUtilities;
-import org.jfree.util.StrokeList;
 
 /**
  * Base class providing common services for renderers.  Most methods that update
@@ -154,13 +153,13 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     private static final long serialVersionUID = -828267569428206075L;
 
     /** Zero represented as a {@code double}. */
-    public static final Double ZERO = new Double(0.0);
+    public static final Double ZERO = 0.0;
 
     /** The default paint. */
-    public static final Paint DEFAULT_PAINT = Color.blue;
+    public static final Paint DEFAULT_PAINT = Color.BLUE;
 
     /** The default outline paint. */
-    public static final Paint DEFAULT_OUTLINE_PAINT = Color.gray;
+    public static final Paint DEFAULT_OUTLINE_PAINT = Color.GRAY;
 
     /** The default stroke. */
     public static final Stroke DEFAULT_STROKE = new BasicStroke(1.0f);
@@ -177,13 +176,13 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
             = new Font("SansSerif", Font.PLAIN, 10);
 
     /** The default value label paint. */
-    public static final Paint DEFAULT_VALUE_LABEL_PAINT = Color.black;
+    public static final Paint DEFAULT_VALUE_LABEL_PAINT = Color.BLACK;
 
     /** A list of flags that controls whether or not each series is visible. */
     private BooleanList seriesVisibleList;
 
-    /** The default visibility for each series. */
-    private boolean baseSeriesVisible;
+    /** The default visibility for all series. */
+    private boolean defaultSeriesVisible;
 
     /**
      * A list of flags that controls whether or not each series is visible in
@@ -192,7 +191,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     private BooleanList seriesVisibleInLegendList;
 
     /** The default visibility for each series in the legend. */
-    private boolean baseSeriesVisibleInLegend;
+    private boolean defaultSeriesVisibleInLegend;
 
     /** The paint list. */
     private PaintList paintList;
@@ -205,8 +204,8 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      */
     private boolean autoPopulateSeriesPaint;
 
-    /** The base paint. */
-    private transient Paint basePaint;
+    /** The default paint, used when there is no paint assigned for a series. */
+    private transient Paint defaultPaint;
 
     /** The fill paint list. */
     private PaintList fillPaintList;
@@ -220,7 +219,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     private boolean autoPopulateSeriesFillPaint;
 
     /** The base fill paint. */
-    private transient Paint baseFillPaint;
+    private transient Paint defaultFillPaint;
 
     /** The outline paint list. */
     private PaintList outlinePaintList;
@@ -234,7 +233,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     private boolean autoPopulateSeriesOutlinePaint;
 
     /** The base outline paint. */
-    private transient Paint baseOutlinePaint;
+    private transient Paint defaultOutlinePaint;
 
     /** The stroke list. */
     private StrokeList strokeList;
@@ -248,13 +247,13 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     private boolean autoPopulateSeriesStroke;
 
     /** The base stroke. */
-    private transient Stroke baseStroke;
+    private transient Stroke defaultStroke;
 
     /** The outline stroke list. */
     private StrokeList outlineStrokeList;
 
     /** The base outline stroke. */
-    private transient Stroke baseOutlineStroke;
+    private transient Stroke defaultOutlineStroke;
 
     /**
      * A flag that controls whether or not the outlineStrokeList is
@@ -276,37 +275,37 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     private boolean autoPopulateSeriesShape;
 
     /** The base shape. */
-    private transient Shape baseShape;
+    private transient Shape defaultShape;
 
     /** Visibility of the item labels PER series. */
     private BooleanList itemLabelsVisibleList;
 
     /** The base item labels visible. */
-    private Boolean baseItemLabelsVisible;
+    private boolean defaultItemLabelsVisible;
 
     /** The item label font list (one font per series). */
     private Map<Integer, Font> itemLabelFontMap;
 
     /** The base item label font. */
-    private Font baseItemLabelFont;
+    private Font defaultItemLabelFont;
 
     /** The item label paint list (one paint per series). */
     private PaintList itemLabelPaintList;
 
     /** The base item label paint. */
-    private transient Paint baseItemLabelPaint;
+    private transient Paint defaultItemLabelPaint;
 
     /** The positive item label position (per series). */
     private Map<Integer, ItemLabelPosition> positiveItemLabelPositionMap;
 
     /** The fallback positive item label position. */
-    private ItemLabelPosition basePositiveItemLabelPosition;
+    private ItemLabelPosition defaultPositiveItemLabelPosition;
 
     /** The negative item label position (per series). */
     private Map<Integer, ItemLabelPosition> negativeItemLabelPositionMap;
 
     /** The fallback negative item label position. */
-    private ItemLabelPosition baseNegativeItemLabelPosition;
+    private ItemLabelPosition defaultNegativeItemLabelPosition;
 
     /** The item label anchor offset. */
     private double itemLabelAnchorOffset = 2.0;
@@ -321,7 +320,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * The default flag that controls whether or not entities are generated.
      * This flag is used when both the above flags return null.
      */
-    private boolean baseCreateEntities;
+    private boolean defaultCreateEntities;
 
     /**
      * The per-series legend shape settings.
@@ -336,7 +335,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    private transient Shape baseLegendShape;
+    private transient Shape defaultLegendShape;
 
     /**
      * A special flag that, if true, will cause the getLegendItem() method
@@ -358,7 +357,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    private Font baseLegendTextFont;
+    private Font defaultLegendTextFont;
 
     /**
      * The per series legend text paint settings.
@@ -374,7 +373,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    private transient Paint baseLegendTextPaint;
+    private transient Paint defaultLegendTextPaint;
 
     /**
      * A flag that controls whether or not the renderer will include the
@@ -397,84 +396,70 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * Default constructor.
      */
     public AbstractRenderer() {
-        this.seriesVisible = null;
         this.seriesVisibleList = new BooleanList();
-        this.baseSeriesVisible = true;
+        this.defaultSeriesVisible = true;
 
-        this.seriesVisibleInLegend = null;
         this.seriesVisibleInLegendList = new BooleanList();
-        this.baseSeriesVisibleInLegend = true;
+        this.defaultSeriesVisibleInLegend = true;
 
-        this.paint = null;
         this.paintList = new PaintList();
-        this.basePaint = DEFAULT_PAINT;
+        this.defaultPaint = DEFAULT_PAINT;
         this.autoPopulateSeriesPaint = true;
 
-        this.fillPaint = null;
         this.fillPaintList = new PaintList();
-        this.baseFillPaint = Color.white;
+        this.defaultFillPaint = Color.WHITE;
         this.autoPopulateSeriesFillPaint = false;
 
-        this.outlinePaint = null;
         this.outlinePaintList = new PaintList();
-        this.baseOutlinePaint = DEFAULT_OUTLINE_PAINT;
+        this.defaultOutlinePaint = DEFAULT_OUTLINE_PAINT;
         this.autoPopulateSeriesOutlinePaint = false;
 
-        this.stroke = null;
         this.strokeList = new StrokeList();
-        this.baseStroke = DEFAULT_STROKE;
+        this.defaultStroke = DEFAULT_STROKE;
         this.autoPopulateSeriesStroke = true;
 
-        this.outlineStroke = null;
         this.outlineStrokeList = new StrokeList();
-        this.baseOutlineStroke = DEFAULT_OUTLINE_STROKE;
+        this.defaultOutlineStroke = DEFAULT_OUTLINE_STROKE;
         this.autoPopulateSeriesOutlineStroke = false;
 
-        this.shape = null;
         this.shapeList = new ShapeList();
-        this.baseShape = DEFAULT_SHAPE;
+        this.defaultShape = DEFAULT_SHAPE;
         this.autoPopulateSeriesShape = true;
 
-        this.itemLabelsVisible = null;
         this.itemLabelsVisibleList = new BooleanList();
-        this.baseItemLabelsVisible = Boolean.FALSE;
+        this.defaultItemLabelsVisible = false;
 
-        this.itemLabelFont = null;
         this.itemLabelFontMap = new HashMap<Integer, Font>();
-        this.baseItemLabelFont = new Font("SansSerif", Font.PLAIN, 10);
+        this.defaultItemLabelFont = new Font("SansSerif", Font.PLAIN, 10);
 
-        this.itemLabelPaint = null;
         this.itemLabelPaintList = new PaintList();
-        this.baseItemLabelPaint = Color.black;
+        this.defaultItemLabelPaint = Color.BLACK;
 
-        this.positiveItemLabelPosition = null;
         this.positiveItemLabelPositionMap 
                 = new HashMap<Integer, ItemLabelPosition>();
-        this.basePositiveItemLabelPosition = new ItemLabelPosition(
+        this.defaultPositiveItemLabelPosition = new ItemLabelPosition(
                 ItemLabelAnchor.OUTSIDE12, TextAnchor.BOTTOM_CENTER);
 
-        this.negativeItemLabelPosition = null;
         this.negativeItemLabelPositionMap 
                 = new HashMap<Integer, ItemLabelPosition>();
-        this.baseNegativeItemLabelPosition = new ItemLabelPosition(
+        this.defaultNegativeItemLabelPosition = new ItemLabelPosition(
                 ItemLabelAnchor.OUTSIDE6, TextAnchor.TOP_CENTER);
 
-        this.createEntities = null;
         this.createEntitiesList = new BooleanList();
-        this.baseCreateEntities = true;
+        this.defaultCreateEntities = true;
 
         this.defaultEntityRadius = 3;
 
         this.legendShapeList = new ShapeList();
-        this.baseLegendShape = null;
+        this.defaultLegendShape = null;
 
         this.treatLegendShapeAsLine = false;
 
         this.legendTextFontMap = new HashMap<Integer, Font>();
-        this.baseLegendTextFont = null;
+        this.defaultLegendTextFont = null;
 
         this.legendTextPaint = new PaintList();
-        this.baseLegendTextPaint = null;
+        this.defaultLegendTextPaint = null;
 
         this.listenerList = new EventListenerList();
     }
@@ -498,7 +483,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @since 1.0.20
      */
     protected void beginElementGroup(Graphics2D g2, ItemKey key) {
-        ParamChecks.nullNotPermitted(key, "key");
+        Args.nullNotPermitted(key, "key");
         Map m = new HashMap(1);
         m.put("ref", key.toJSONString());
         g2.setRenderingHint(ChartHints.KEY_BEGIN_ELEMENT, m);        
@@ -542,15 +527,10 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @return A boolean.
      */
     public boolean isSeriesVisible(int series) {
-        boolean result = this.baseSeriesVisible;
-        if (this.seriesVisible != null) {
-            result = this.seriesVisible.booleanValue();
-        }
-        else {
-            Boolean b = this.seriesVisibleList.getBoolean(series);
-            if (b != null) {
-                result = b.booleanValue();
-            }
+        boolean result = this.defaultSeriesVisible;
+        Boolean b = this.seriesVisibleList.getBoolean(series);
+        if (b != null) {
+            result = b;
         }
         return result;
     }
@@ -605,40 +585,40 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the base visibility for all series.
+     * Returns the default visibility for all series.
      *
-     * @return The base visibility.
+     * @return The default visibility.
      *
-     * @see #setBaseSeriesVisible(boolean)
+     * @see #setDefaultSeriesVisible(boolean)
      */
-    public boolean getBaseSeriesVisible() {
-        return this.baseSeriesVisible;
+    public boolean getDefaultSeriesVisible() {
+        return this.defaultSeriesVisible;
     }
 
     /**
-     * Sets the base visibility and sends a {@link RendererChangeEvent}
-     * to all registered listeners.
+     * Sets the default series visibility and sends a 
+     * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param visible  the flag.
      *
-     * @see #getBaseSeriesVisible()
+     * @see #getDefaultSeriesVisible()
      */
-    public void setBaseSeriesVisible(boolean visible) {
+    public void setDefaultSeriesVisible(boolean visible) {
         // defer argument checking...
-        setBaseSeriesVisible(visible, true);
+        setDefaultSeriesVisible(visible, true);
     }
 
     /**
-     * Sets the base visibility and, if requested, sends
+     * Sets the default series visibility and, if requested, sends
      * a {@link RendererChangeEvent} to all registered listeners.
      *
      * @param visible  the visibility.
      * @param notify  notify listeners?
      *
-     * @see #getBaseSeriesVisible()
+     * @see #getDefaultSeriesVisible()
      */
-    public void setBaseSeriesVisible(boolean visible, boolean notify) {
-        this.baseSeriesVisible = visible;
+    public void setDefaultSeriesVisible(boolean visible, boolean notify) {
+        this.defaultSeriesVisible = visible;
         if (notify) {
             // we create an event with a special flag set...the purpose of
             // this is to communicate to the plot (the default receiver of
@@ -660,15 +640,10 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @return A boolean.
      */
     public boolean isSeriesVisibleInLegend(int series) {
-        boolean result = this.baseSeriesVisibleInLegend;
-        if (this.seriesVisibleInLegend != null) {
-            result = this.seriesVisibleInLegend.booleanValue();
-        }
-        else {
-            Boolean b = this.seriesVisibleInLegendList.getBoolean(series);
-            if (b != null) {
-                result = b.booleanValue();
-            }
+        boolean result = this.defaultSeriesVisibleInLegend;
+        Boolean b = this.seriesVisibleInLegendList.getBoolean(series);
+        if (b != null) {
+            result = b;
         }
         return result;
     }
@@ -676,7 +651,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     /**
      * Returns the flag that controls whether a series is visible in the
      * legend.  This method returns only the "per series" settings - to
-     * incorporate the override and base settings as well, you need to use the
+     * incorporate the default settings as well, you need to use the
      * {@link #isSeriesVisibleInLegend(int)} method.
      *
      * @param series  the series index (zero-based).
@@ -722,40 +697,41 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the base visibility in the legend for all series.
+     * Returns the default visibility in the legend for all series.
      *
-     * @return The base visibility.
+     * @return The default visibility.
      *
-     * @see #setBaseSeriesVisibleInLegend(boolean)
+     * @see #setDefaultSeriesVisibleInLegend(boolean)
      */
-    public boolean getBaseSeriesVisibleInLegend() {
-        return this.baseSeriesVisibleInLegend;
+    public boolean getDefaultSeriesVisibleInLegend() {
+        return this.defaultSeriesVisibleInLegend;
     }
 
     /**
-     * Sets the base visibility in the legend and sends a
+     * Sets the default visibility in the legend and sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param visible  the flag.
      *
-     * @see #getBaseSeriesVisibleInLegend()
+     * @see #getDefaultSeriesVisibleInLegend()
      */
-    public void setBaseSeriesVisibleInLegend(boolean visible) {
+    public void setDefaultSeriesVisibleInLegend(boolean visible) {
         // defer argument checking...
-        setBaseSeriesVisibleInLegend(visible, true);
+        setDefaultSeriesVisibleInLegend(visible, true);
     }
 
     /**
-     * Sets the base visibility in the legend and, if requested, sends
+     * Sets the default visibility in the legend and, if requested, sends
      * a {@link RendererChangeEvent} to all registered listeners.
      *
      * @param visible  the visibility.
      * @param notify  notify listeners?
      *
-     * @see #getBaseSeriesVisibleInLegend()
+     * @see #getDefaultSeriesVisibleInLegend()
      */
-    public void setBaseSeriesVisibleInLegend(boolean visible, boolean notify) {
-        this.baseSeriesVisibleInLegend = visible;
+    public void setDefaultSeriesVisibleInLegend(boolean visible, 
+            boolean notify) {
+        this.defaultSeriesVisibleInLegend = visible;
         if (notify) {
             fireChangeEvent();
         }
@@ -764,7 +740,8 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     // PAINT
 
     /**
-     * Returns the paint used to color data items as they are drawn.
+     * Returns the paint used to fill data items as they are drawn.
+     * (this is typically the same for an entire series).
      * <p>
      * The default implementation passes control to the
      * {@code lookupSeriesPaint()} method. You can override this method
@@ -780,7 +757,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the paint used to color an item drawn by the renderer.
+     * Returns the paint used to fill an item drawn by the renderer.
      *
      * @param series  the series index (zero-based).
      *
@@ -790,12 +767,6 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      */
     public Paint lookupSeriesPaint(int series) {
 
-        // return the override, if there is one...
-        if (this.paint != null) {
-            return this.paint;
-        }
-
-        // otherwise look up the paint list
         Paint seriesPaint = getSeriesPaint(series);
         if (seriesPaint == null && this.autoPopulateSeriesPaint) {
             DrawingSupplier supplier = getDrawingSupplier();
@@ -805,14 +776,14 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
             }
         }
         if (seriesPaint == null) {
-            seriesPaint = this.basePaint;
+            seriesPaint = this.defaultPaint;
         }
         return seriesPaint;
 
     }
 
     /**
-     * Returns the paint used to color an item drawn by the renderer.
+     * Returns the paint used to fill an item drawn by the renderer.
      *
      * @param series  the series index (zero-based).
      *
@@ -870,40 +841,40 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the base paint.
+     * Returns the default paint.
      *
-     * @return The base paint (never {@code null}).
+     * @return The default paint (never {@code null}).
      *
-     * @see #setBasePaint(Paint)
+     * @see #setDefaultPaint(Paint)
      */
-    public Paint getBasePaint() {
-        return this.basePaint;
+    public Paint getDefaultPaint() {
+        return this.defaultPaint;
     }
 
     /**
-     * Sets the base paint and sends a {@link RendererChangeEvent} to all
+     * Sets the default paint and sends a {@link RendererChangeEvent} to all
      * registered listeners.
      *
      * @param paint  the paint ({@code null} not permitted).
      *
-     * @see #getBasePaint()
+     * @see #getDefaultPaint()
      */
-    public void setBasePaint(Paint paint) {
+    public void setDefaultPaint(Paint paint) {
         // defer argument checking...
-        setBasePaint(paint, true);
+        setDefaultPaint(paint, true);
     }
 
     /**
-     * Sets the base paint and, if requested, sends a
+     * Sets the default paint and, if requested, sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param paint  the paint ({@code null} not permitted).
      * @param notify  notify listeners?
      *
-     * @see #getBasePaint()
+     * @see #getDefaultPaint()
      */
-    public void setBasePaint(Paint paint, boolean notify) {
-        this.basePaint = paint;
+    public void setDefaultPaint(Paint paint, boolean notify) {
+        this.defaultPaint = paint;
         if (notify) {
             fireChangeEvent();
         }
@@ -965,12 +936,6 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      */
     public Paint lookupSeriesFillPaint(int series) {
 
-        // return the override, if there is one...
-        if (this.fillPaint != null) {
-            return this.fillPaint;
-        }
-
-        // otherwise look up the paint table
         Paint seriesFillPaint = getSeriesFillPaint(series);
         if (seriesFillPaint == null && this.autoPopulateSeriesFillPaint) {
             DrawingSupplier supplier = getDrawingSupplier();
@@ -980,7 +945,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
             }
         }
         if (seriesFillPaint == null) {
-            seriesFillPaint = this.baseFillPaint;
+            seriesFillPaint = this.defaultFillPaint;
         }
         return seriesFillPaint;
 
@@ -1030,41 +995,41 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the base (or default) fill paint.
+     * Returns the default fill paint.
      *
      * @return The paint (never {@code null}).
      *
-     * @see #setBaseFillPaint(Paint)
+     * @see #setDefaultFillPaint(Paint)
      */
-    public Paint getBaseFillPaint() {
-        return this.baseFillPaint;
+    public Paint getDefaultFillPaint() {
+        return this.defaultFillPaint;
     }
 
     /**
-     * Sets the base fill paint and sends a {@link RendererChangeEvent} to
+     * Sets the default fill paint and sends a {@link RendererChangeEvent} to
      * all registered listeners.
      *
      * @param paint  the paint ({@code null} not permitted).
      *
-     * @see #getBaseFillPaint()
+     * @see #getDefaultFillPaint()
      */
-    public void setBaseFillPaint(Paint paint) {
+    public void setDefaultFillPaint(Paint paint) {
         // defer argument checking...
-        setBaseFillPaint(paint, true);
+        setDefaultFillPaint(paint, true);
     }
 
     /**
-     * Sets the base fill paint and, if requested, sends a
+     * Sets the default fill paint and, if requested, sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param paint  the paint ({@code null} not permitted).
      * @param notify  notify listeners?
      *
-     * @see #getBaseFillPaint()
+     * @see #getDefaultFillPaint()
      */
-    public void setBaseFillPaint(Paint paint, boolean notify) {
-        ParamChecks.nullNotPermitted(paint, "paint");
-        this.baseFillPaint = paint;
+    public void setDefaultFillPaint(Paint paint, boolean notify) {
+        Args.nullNotPermitted(paint, "paint");
+        this.defaultFillPaint = paint;
         if (notify) {
             fireChangeEvent();
         }
@@ -1104,6 +1069,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
 
     /**
      * Returns the paint used to outline data items as they are drawn.
+     * (this is typically the same for an entire series).
      * <p>
      * The default implementation passes control to the
      * {@link #lookupSeriesOutlinePaint} method.  You can override this method
@@ -1129,12 +1095,6 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      */
     public Paint lookupSeriesOutlinePaint(int series) {
 
-        // return the override, if there is one...
-        if (this.outlinePaint != null) {
-            return this.outlinePaint;
-        }
-
-        // otherwise look up the paint table
         Paint seriesOutlinePaint = getSeriesOutlinePaint(series);
         if (seriesOutlinePaint == null && this.autoPopulateSeriesOutlinePaint) {
             DrawingSupplier supplier = getDrawingSupplier();
@@ -1144,7 +1104,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
             }
         }
         if (seriesOutlinePaint == null) {
-            seriesOutlinePaint = this.baseOutlinePaint;
+            seriesOutlinePaint = this.defaultOutlinePaint;
         }
         return seriesOutlinePaint;
 
@@ -1194,41 +1154,41 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the base (or default) outline paint.
+     * Returns the default outline paint.
      *
      * @return The paint (never {@code null}).
      *
-     * @see #setBaseOutlinePaint(Paint)
+     * @see #setDefaultOutlinePaint(Paint)
      */
-    public Paint getBaseOutlinePaint() {
-        return this.baseOutlinePaint;
+    public Paint getDefaultOutlinePaint() {
+        return this.defaultOutlinePaint;
     }
 
     /**
-     * Sets the base outline paint and sends a {@link RendererChangeEvent} to
+     * Sets the default outline paint and sends a {@link RendererChangeEvent} to
      * all registered listeners.
      *
      * @param paint  the paint ({@code null} not permitted).
      *
-     * @see #getBaseOutlinePaint()
+     * @see #getDefaultOutlinePaint()
      */
-    public void setBaseOutlinePaint(Paint paint) {
+    public void setDefaultOutlinePaint(Paint paint) {
         // defer argument checking...
-        setBaseOutlinePaint(paint, true);
+        setDefaultOutlinePaint(paint, true);
     }
 
     /**
-     * Sets the base outline paint and, if requested, sends a
+     * Sets the default outline paint and, if requested, sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param paint  the paint ({@code null} not permitted).
      * @param notify  notify listeners?
      *
-     * @see #getBaseOutlinePaint()
+     * @see #getDefaultOutlinePaint()
      */
-    public void setBaseOutlinePaint(Paint paint, boolean notify) {
-        ParamChecks.nullNotPermitted(paint, "paint");
-        this.baseOutlinePaint = paint;
+    public void setDefaultOutlinePaint(Paint paint, boolean notify) {
+        Args.nullNotPermitted(paint, "paint");
+        this.defaultOutlinePaint = paint;
         if (notify) {
             fireChangeEvent();
         }
@@ -1292,12 +1252,6 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      */
     public Stroke lookupSeriesStroke(int series) {
 
-        // return the override, if there is one...
-        if (this.stroke != null) {
-            return this.stroke;
-        }
-
-        // otherwise look up the paint table
         Stroke result = getSeriesStroke(series);
         if (result == null && this.autoPopulateSeriesStroke) {
             DrawingSupplier supplier = getDrawingSupplier();
@@ -1307,7 +1261,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
             }
         }
         if (result == null) {
-            result = this.baseStroke;
+            result = this.defaultStroke;
         }
         return result;
 
@@ -1372,27 +1326,27 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the base (or default) stroke.
+     * Returns the default stroke.
      *
-     * @return The base stroke (never {@code null}).
+     * @return The default stroke (never {@code null}).
      *
-     * @see #setBaseStroke(Stroke)
+     * @see #setDefaultStroke(Stroke)
      */
-    public Stroke getBaseStroke() {
-        return this.baseStroke;
+    public Stroke getDefaultStroke() {
+        return this.defaultStroke;
     }
 
     /**
-     * Sets the base stroke and sends a {@link RendererChangeEvent} to all
+     * Sets the default stroke and sends a {@link RendererChangeEvent} to all
      * registered listeners.
      *
      * @param stroke  the stroke ({@code null} not permitted).
      *
-     * @see #getBaseStroke()
+     * @see #getDefaultStroke()
      */
-    public void setBaseStroke(Stroke stroke) {
+    public void setDefaultStroke(Stroke stroke) {
         // defer argument checking...
-        setBaseStroke(stroke, true);
+        setDefaultStroke(stroke, true);
     }
 
     /**
@@ -1402,11 +1356,11 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @param stroke  the stroke ({@code null} not permitted).
      * @param notify  notify listeners?
      *
-     * @see #getBaseStroke()
+     * @see #getDefaultStroke()
      */
-    public void setBaseStroke(Stroke stroke, boolean notify) {
-        ParamChecks.nullNotPermitted(stroke, "stroke");
-        this.baseStroke = stroke;
+    public void setDefaultStroke(Stroke stroke, boolean notify) {
+        Args.nullNotPermitted(stroke, "stroke");
+        this.defaultStroke = stroke;
         if (notify) {
             fireChangeEvent();
         }
@@ -1468,12 +1422,6 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      */
     public Stroke lookupSeriesOutlineStroke(int series) {
 
-        // return the override, if there is one...
-        if (this.outlineStroke != null) {
-            return this.outlineStroke;
-        }
-
-        // otherwise look up the stroke table
         Stroke result = getSeriesOutlineStroke(series);
         if (result == null && this.autoPopulateSeriesOutlineStroke) {
             DrawingSupplier supplier = getDrawingSupplier();
@@ -1483,7 +1431,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
             }
         }
         if (result == null) {
-            result = this.baseOutlineStroke;
+            result = this.defaultOutlineStroke;
         }
         return result;
 
@@ -1534,41 +1482,41 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the base (or default) outline stroke.
+     * Returns the default outline stroke.
      *
      * @return The stroke (never {@code null}).
      *
-     * @see #setBaseOutlineStroke(Stroke)
+     * @see #setDefaultOutlineStroke(Stroke)
      */
-    public Stroke getBaseOutlineStroke() {
-        return this.baseOutlineStroke;
+    public Stroke getDefaultOutlineStroke() {
+        return this.defaultOutlineStroke;
     }
 
     /**
-     * Sets the base outline stroke and sends a {@link RendererChangeEvent} to
-     * all registered listeners.
+     * Sets the default outline stroke and sends a {@link RendererChangeEvent} 
+     * to all registered listeners.
      *
      * @param stroke  the stroke ({@code null} not permitted).
      *
-     * @see #getBaseOutlineStroke()
+     * @see #getDefaultOutlineStroke()
      */
-    public void setBaseOutlineStroke(Stroke stroke) {
-        setBaseOutlineStroke(stroke, true);
+    public void setDefaultOutlineStroke(Stroke stroke) {
+        setDefaultOutlineStroke(stroke, true);
     }
 
     /**
-     * Sets the base outline stroke and, if requested, sends a
+     * Sets the default outline stroke and, if requested, sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param stroke  the stroke ({@code null} not permitted).
      * @param notify  a flag that controls whether or not listeners are
      *                notified.
      *
-     * @see #getBaseOutlineStroke()
+     * @see #getDefaultOutlineStroke()
      */
-    public void setBaseOutlineStroke(Stroke stroke, boolean notify) {
-        ParamChecks.nullNotPermitted(stroke, "stroke");
-        this.baseOutlineStroke = stroke;
+    public void setDefaultOutlineStroke(Stroke stroke, boolean notify) {
+        Args.nullNotPermitted(stroke, "stroke");
+        this.defaultOutlineStroke = stroke;
         if (notify) {
             fireChangeEvent();
         }
@@ -1633,12 +1581,6 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      */
     public Shape lookupSeriesShape(int series) {
 
-        // return the override, if there is one...
-        if (this.shape != null) {
-            return this.shape;
-        }
-
-        // otherwise look up the shape list
         Shape result = getSeriesShape(series);
         if (result == null && this.autoPopulateSeriesShape) {
             DrawingSupplier supplier = getDrawingSupplier();
@@ -1648,7 +1590,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
             }
         }
         if (result == null) {
-            result = this.baseShape;
+            result = this.defaultShape;
         }
         return result;
 
@@ -1698,41 +1640,41 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the base (or default) shape.
+     * Returns the default shape.
      *
      * @return The shape (never {@code null}).
      *
-     * @see #setBaseShape(Shape)
+     * @see #setDefaultShape(Shape)
      */
-    public Shape getBaseShape() {
-        return this.baseShape;
+    public Shape getDefaultShape() {
+        return this.defaultShape;
     }
 
     /**
-     * Sets the base shape and sends a {@link RendererChangeEvent} to all
+     * Sets the default shape and sends a {@link RendererChangeEvent} to all
      * registered listeners.
      *
      * @param shape  the shape ({@code null} not permitted).
      *
-     * @see #getBaseShape()
+     * @see #getDefaultShape()
      */
-    public void setBaseShape(Shape shape) {
+    public void setDefaultShape(Shape shape) {
         // defer argument checking...
-        setBaseShape(shape, true);
+        setDefaultShape(shape, true);
     }
 
     /**
-     * Sets the base shape and, if requested, sends a
+     * Sets the default shape and, if requested, sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param shape  the shape ({@code null} not permitted).
      * @param notify  notify listeners?
      *
-     * @see #getBaseShape()
+     * @see #getDefaultShape()
      */
-    public void setBaseShape(Shape shape, boolean notify) {
-        ParamChecks.nullNotPermitted(shape, "shape");
-        this.baseShape = shape;
+    public void setDefaultShape(Shape shape, boolean notify) {
+        Args.nullNotPermitted(shape, "shape");
+        this.defaultShape = shape;
         if (notify) {
             fireChangeEvent();
         }
@@ -1772,8 +1714,8 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * Returns {@code true} if an item label is visible, and
      * {@code false} otherwise.
      *
-     * @param row  the row index (zero-based).
-     * @param column  the column index (zero-based).
+     * @param row  the row (or series) index (zero-based).
+     * @param column  the column (or category) index (zero-based).
      *
      * @return A boolean.
      */
@@ -1790,22 +1732,11 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @return A boolean.
      */
     public boolean isSeriesItemLabelsVisible(int series) {
-
-        // return the override, if there is one...
-        if (this.itemLabelsVisible != null) {
-            return this.itemLabelsVisible.booleanValue();
-        }
-
-        // otherwise look up the boolean table
         Boolean b = this.itemLabelsVisibleList.getBoolean(series);
         if (b == null) {
-            b = this.baseItemLabelsVisible;
+            return this.defaultItemLabelsVisible;
         }
-        if (b == null) {
-            b = Boolean.FALSE;
-        }
-        return b.booleanValue();
-
+        return b;
     }
 
     /**
@@ -1853,13 +1784,10 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return A flag (possibly {@code null}).
      *
-     * @see #setBaseItemLabelsVisible(boolean)
+     * @see #setDefaultItemLabelsVisible(boolean)
      */
-    public Boolean getBaseItemLabelsVisible() {
-        // this should have been defined as a boolean primitive, because
-        // allowing null values is a nuisance...but it is part of the final
-        // API now, so we'll have to support it.
-        return this.baseItemLabelsVisible;
+    public boolean getDefaultItemLabelsVisible() {
+        return this.defaultItemLabelsVisible;
     }
 
     /**
@@ -1868,21 +1796,10 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @param visible  the flag.
      *
-     * @see #getBaseItemLabelsVisible()
+     * @see #getDefaultItemLabelsVisible()
      */
-    public void setBaseItemLabelsVisible(boolean visible) {
-        setBaseItemLabelsVisible(Boolean.valueOf(visible));
-    }
-
-    /**
-     * Sets the base setting for item label visibility and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param visible  the flag ({@code null} is permitted, and viewed
-     *     as equivalent to {@code Boolean.FALSE}).
-     */
-    public void setBaseItemLabelsVisible(Boolean visible) {
-        setBaseItemLabelsVisible(visible, true);
+    public void setDefaultItemLabelsVisible(boolean visible) {
+        setDefaultItemLabelsVisible(visible, true);
     }
 
     /**
@@ -1894,10 +1811,10 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @param notify  a flag that controls whether or not listeners are
      *                notified.
      *
-     * @see #getBaseItemLabelsVisible()
+     * @see #getDefaultItemLabelsVisible() 
      */
-    public void setBaseItemLabelsVisible(Boolean visible, boolean notify) {
-        this.baseItemLabelsVisible = visible;
+    public void setDefaultItemLabelsVisible(boolean visible, boolean notify) {
+        this.defaultItemLabelsVisible = visible;
         if (notify) {
             fireChangeEvent();
         }
@@ -1908,18 +1825,15 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     /**
      * Returns the font for an item label.
      *
-     * @param row  the row index (zero-based).
-     * @param column  the column index (zero-based).
+     * @param row  the row (or series) index (zero-based).
+     * @param column  the column (or category) index (zero-based).
      *
      * @return The font (never {@code null}).
      */
     public Font getItemLabelFont(int row, int column) {
-        Font result = this.itemLabelFont;
+        Font result = getSeriesItemLabelFont(row);
         if (result == null) {
-            result = getSeriesItemLabelFont(row);
-            if (result == null) {
-                result = this.baseItemLabelFont;
-            }
+            result = this.defaultItemLabelFont;
         }
         return result;
     }
@@ -1969,28 +1883,28 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the base item label font (this is used when no other font
+     * Returns the default item label font (this is used when no other font
      * setting is available).
      *
      * @return The font (never {@code null}).
      *
-     * @see #setBaseItemLabelFont(Font)
+     * @see #setDefaultItemLabelFont(Font)
      */
-    public Font getBaseItemLabelFont() {
-        return this.baseItemLabelFont;
+    public Font getDefaultItemLabelFont() {
+        return this.defaultItemLabelFont;
     }
 
     /**
-     * Sets the base item label font and sends a {@link RendererChangeEvent} to
-     * all registered listeners.
+     * Sets the default item label font and sends a {@link RendererChangeEvent} 
+     * to all registered listeners.
      *
      * @param font  the font ({@code null} not permitted).
      *
-     * @see #getBaseItemLabelFont()
+     * @see #getDefaultItemLabelFont()
      */
-    public void setBaseItemLabelFont(Font font) {
-        ParamChecks.nullNotPermitted(font, "font");
-        setBaseItemLabelFont(font, true);
+    public void setDefaultItemLabelFont(Font font) {
+        Args.nullNotPermitted(font, "font");
+        setDefaultItemLabelFont(font, true);
     }
 
     /**
@@ -2001,10 +1915,10 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @param notify  a flag that controls whether or not listeners are
      *                notified.
      *
-     * @see #getBaseItemLabelFont()
+     * @see #getDefaultItemLabelFont()
      */
-    public void setBaseItemLabelFont(Font font, boolean notify) {
-        this.baseItemLabelFont = font;
+    public void setDefaultItemLabelFont(Font font, boolean notify) {
+        this.defaultItemLabelFont = font;
         if (notify) {
             fireChangeEvent();
         }
@@ -2021,12 +1935,9 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @return The paint (never {@code null}).
      */
     public Paint getItemLabelPaint(int row, int column) {
-        Paint result = this.itemLabelPaint;
+        Paint result = getSeriesItemLabelPaint(row);
         if (result == null) {
-            result = getSeriesItemLabelPaint(row);
-            if (result == null) {
-                result = this.baseItemLabelPaint;
-            }
+            result = this.defaultItemLabelPaint;
         }
         return result;
     }
@@ -2077,42 +1988,42 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the base item label paint.
+     * Returns the default item label paint.
      *
      * @return The paint (never {@code null}).
      *
-     * @see #setBaseItemLabelPaint(Paint)
+     * @see #setDefaultItemLabelPaint(Paint)
      */
-    public Paint getBaseItemLabelPaint() {
-        return this.baseItemLabelPaint;
+    public Paint getDefaultItemLabelPaint() {
+        return this.defaultItemLabelPaint;
     }
 
     /**
-     * Sets the base item label paint and sends a {@link RendererChangeEvent}
+     * Sets the default item label paint and sends a {@link RendererChangeEvent}
      * to all registered listeners.
      *
      * @param paint  the paint ({@code null} not permitted).
      *
-     * @see #getBaseItemLabelPaint()
+     * @see #getDefaultItemLabelPaint()
      */
-    public void setBaseItemLabelPaint(Paint paint) {
+    public void setDefaultItemLabelPaint(Paint paint) {
         // defer argument checking...
-        setBaseItemLabelPaint(paint, true);
+        setDefaultItemLabelPaint(paint, true);
     }
 
     /**
-     * Sets the base item label paint and, if requested, sends a
+     * Sets the default item label paint and, if requested, sends a
      * {@link RendererChangeEvent} to all registered listeners..
      *
      * @param paint  the paint ({@code null} not permitted).
      * @param notify  a flag that controls whether or not listeners are
      *                notified.
      *
-     * @see #getBaseItemLabelPaint()
+     * @see #getDefaultItemLabelPaint()
      */
-    public void setBaseItemLabelPaint(Paint paint, boolean notify) {
-        ParamChecks.nullNotPermitted(paint, "paint");
-        this.baseItemLabelPaint = paint;
+    public void setDefaultItemLabelPaint(Paint paint, boolean notify) {
+        Args.nullNotPermitted(paint, "paint");
+        this.defaultItemLabelPaint = paint;
         if (notify) {
             fireChangeEvent();
         }
@@ -2123,8 +2034,8 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     /**
      * Returns the item label position for positive values.
      *
-     * @param row  the row index (zero-based).
-     * @param column  the column index (zero-based).
+     * @param row  the row (or series) index (zero-based).
+     * @param column  the column (or category) index (zero-based).
      *
      * @return The item label position (never {@code null}).
      *
@@ -2144,15 +2055,11 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @see #setSeriesPositiveItemLabelPosition(int, ItemLabelPosition)
      */
     public ItemLabelPosition getSeriesPositiveItemLabelPosition(int series) {
-        // return the override, if there is one...
-        if (this.positiveItemLabelPosition != null) {
-            return this.positiveItemLabelPosition;
-        }
         // otherwise look up the position table
         ItemLabelPosition position = (ItemLabelPosition)
             this.positiveItemLabelPositionMap.get(series);
         if (position == null) {
-            position = this.basePositiveItemLabelPosition;
+            position = this.defaultPositiveItemLabelPosition;
         }
         return position;
     }
@@ -2191,41 +2098,42 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the base positive item label position.
+     * Returns the default positive item label position.
      *
      * @return The position (never {@code null}).
      *
-     * @see #setBasePositiveItemLabelPosition(ItemLabelPosition)
+     * @see #setDefaultPositiveItemLabelPosition(ItemLabelPosition)
      */
-    public ItemLabelPosition getBasePositiveItemLabelPosition() {
-        return this.basePositiveItemLabelPosition;
+    public ItemLabelPosition getDefaultPositiveItemLabelPosition() {
+        return this.defaultPositiveItemLabelPosition;
     }
 
     /**
-     * Sets the base positive item label position.
+     * Sets the default positive item label position.
      *
      * @param position  the position ({@code null} not permitted).
      *
-     * @see #getBasePositiveItemLabelPosition()
+     * @see #getDefaultPositiveItemLabelPosition()
      */
-    public void setBasePositiveItemLabelPosition(ItemLabelPosition position) {
+    public void setDefaultPositiveItemLabelPosition(
+            ItemLabelPosition position) {
         // defer argument checking...
-        setBasePositiveItemLabelPosition(position, true);
+        setDefaultPositiveItemLabelPosition(position, true);
     }
 
     /**
-     * Sets the base positive item label position and, if requested, sends a
+     * Sets the default positive item label position and, if requested, sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param position  the position ({@code null} not permitted).
      * @param notify  notify registered listeners?
      *
-     * @see #getBasePositiveItemLabelPosition()
+     * @see #getDefaultPositiveItemLabelPosition()
      */
-    public void setBasePositiveItemLabelPosition(ItemLabelPosition position,
+    public void setDefaultPositiveItemLabelPosition(ItemLabelPosition position,
             boolean notify) {
-        ParamChecks.nullNotPermitted(position, "position");
-        this.basePositiveItemLabelPosition = position;
+        Args.nullNotPermitted(position, "position");
+        this.defaultPositiveItemLabelPosition = position;
         if (notify) {
             fireChangeEvent();
         }
@@ -2238,8 +2146,8 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * overridden to provide customisation of the item label position for
      * individual data items.
      *
-     * @param row  the row index (zero-based).
-     * @param column  the column (zero-based).
+     * @param row  the row (or series) index (zero-based).
+     * @param column  the column (or category) index (zero-based).
      *
      * @return The item label position (never {@code null}).
      *
@@ -2259,15 +2167,11 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @see #setSeriesNegativeItemLabelPosition(int, ItemLabelPosition)
      */
     public ItemLabelPosition getSeriesNegativeItemLabelPosition(int series) {
-        // return the override, if there is one...
-        if (this.negativeItemLabelPosition != null) {
-            return this.negativeItemLabelPosition;
-        }
         // otherwise look up the position list
         ItemLabelPosition position 
                 = this.negativeItemLabelPositionMap.get(series);
         if (position == null) {
-            position = this.baseNegativeItemLabelPosition;
+            position = this.defaultNegativeItemLabelPosition;
         }
         return position;
     }
@@ -2310,37 +2214,38 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The position (never {@code null}).
      *
-     * @see #setBaseNegativeItemLabelPosition(ItemLabelPosition)
+     * @see #setDefaultNegativeItemLabelPosition(ItemLabelPosition)
      */
-    public ItemLabelPosition getBaseNegativeItemLabelPosition() {
-        return this.baseNegativeItemLabelPosition;
+    public ItemLabelPosition getDefaultNegativeItemLabelPosition() {
+        return this.defaultNegativeItemLabelPosition;
     }
 
     /**
-     * Sets the base item label position for negative values and sends a
+     * Sets the default item label position for negative values and sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param position  the position ({@code null} not permitted).
      *
-     * @see #getBaseNegativeItemLabelPosition()
+     * @see #getDefaultNegativeItemLabelPosition()
      */
-    public void setBaseNegativeItemLabelPosition(ItemLabelPosition position) {
-        setBaseNegativeItemLabelPosition(position, true);
+    public void setDefaultNegativeItemLabelPosition(
+            ItemLabelPosition position) {
+        setDefaultNegativeItemLabelPosition(position, true);
     }
 
     /**
-     * Sets the base negative item label position and, if requested, sends a
+     * Sets the default negative item label position and, if requested, sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param position  the position ({@code null} not permitted).
      * @param notify  notify registered listeners?
      *
-     * @see #getBaseNegativeItemLabelPosition()
+     * @see #getDefaultNegativeItemLabelPosition()
      */
-    public void setBaseNegativeItemLabelPosition(ItemLabelPosition position,
+    public void setDefaultNegativeItemLabelPosition(ItemLabelPosition position,
             boolean notify) {
-        ParamChecks.nullNotPermitted(position, "position");
-        this.baseNegativeItemLabelPosition = position;
+        Args.nullNotPermitted(position, "position");
+        this.defaultNegativeItemLabelPosition = position;
         if (notify) {
             fireChangeEvent();
         }
@@ -2379,18 +2284,12 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @return A boolean.
      */
     public boolean getItemCreateEntity(int series, int item) {
-        if (this.createEntities != null) {
-            return this.createEntities.booleanValue();
+        Boolean b = getSeriesCreateEntities(series);
+        if (b != null) {
+            return b;
         }
-        else {
-            Boolean b = getSeriesCreateEntities(series);
-            if (b != null) {
-                return b.booleanValue();
-            }
-            else {
-                return this.baseCreateEntities;
-            }
-        }
+        // otherwise...
+        return this.defaultCreateEntities;
     }
 
     /**
@@ -2440,42 +2339,42 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the base visibility for all series.
+     * Returns the default flag for creating entities.
      *
-     * @return The base visibility.
+     * @return The default flag for creating entities.
      *
-     * @see #setBaseCreateEntities(boolean)
+     * @see #setDefaultCreateEntities(boolean)
      */
-    public boolean getBaseCreateEntities() {
-        return this.baseCreateEntities;
+    public boolean getDefaultCreateEntities() {
+        return this.defaultCreateEntities;
     }
 
     /**
-     * Sets the base flag that controls whether entities are created
+     * Sets the default flag that controls whether entities are created
      * for a series, and sends a {@link RendererChangeEvent}
      * to all registered listeners.
      *
      * @param create  the flag.
      *
-     * @see #getBaseCreateEntities()
+     * @see #getDefaultCreateEntities()
      */
-    public void setBaseCreateEntities(boolean create) {
+    public void setDefaultCreateEntities(boolean create) {
         // defer argument checking...
-        setBaseCreateEntities(create, true);
+        setDefaultCreateEntities(create, true);
     }
 
     /**
-     * Sets the base flag that controls whether entities are created and,
+     * Sets the default flag that controls whether entities are created and,
      * if requested, sends a {@link RendererChangeEvent} to all registered
      * listeners.
      *
      * @param create  the visibility.
      * @param notify  notify listeners?
      *
-     * @see #getBaseCreateEntities()
+     * @see #getDefaultCreateEntities()
      */
-    public void setBaseCreateEntities(boolean create, boolean notify) {
-        this.baseCreateEntities = create;
+    public void setDefaultCreateEntities(boolean create, boolean notify) {
+        this.defaultCreateEntities = create;
         if (notify) {
             fireChangeEvent();
         }
@@ -2517,7 +2416,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     public Shape lookupLegendShape(int series) {
         Shape result = getLegendShape(series);
         if (result == null) {
-            result = this.baseLegendShape;
+            result = this.defaultLegendShape;
         }
         if (result == null) {
             result = lookupSeriesShape(series);
@@ -2562,8 +2461,8 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    public Shape getBaseLegendShape() {
-        return this.baseLegendShape;
+    public Shape getDefaultLegendShape() {
+        return this.defaultLegendShape;
     }
 
     /**
@@ -2574,8 +2473,8 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    public void setBaseLegendShape(Shape shape) {
-        this.baseLegendShape = shape;
+    public void setDefaultLegendShape(Shape shape) {
+        this.defaultLegendShape = shape;
         fireChangeEvent();
     }
 
@@ -2618,7 +2517,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     public Font lookupLegendTextFont(int series) {
         Font result = getLegendTextFont(series);
         if (result == null) {
-            result = this.baseLegendTextFont;
+            result = this.defaultLegendTextFont;
         }
         return result;
     }
@@ -2660,8 +2559,8 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    public Font getBaseLegendTextFont() {
-        return this.baseLegendTextFont;
+    public Font getDefaultLegendTextFont() {
+        return this.defaultLegendTextFont;
     }
 
     /**
@@ -2672,8 +2571,9 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    public void setBaseLegendTextFont(Font font) {
-        this.baseLegendTextFont = font;
+    public void setDefaultLegendTextFont(Font font) {
+        Args.nullNotPermitted(font, "font");
+        this.defaultLegendTextFont = font;
         fireChangeEvent();
     }
 
@@ -2689,7 +2589,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     public Paint lookupLegendTextPaint(int series) {
         Paint result = getLegendTextPaint(series);
         if (result == null) {
-            result = this.baseLegendTextPaint;
+            result = this.defaultLegendTextPaint;
         }
         return result;
     }
@@ -2731,8 +2631,8 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    public Paint getBaseLegendTextPaint() {
-        return this.baseLegendTextPaint;
+    public Paint getDefaultLegendTextPaint() {
+        return this.defaultLegendTextPaint;
     }
 
     /**
@@ -2743,8 +2643,8 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    public void setBaseLegendTextPaint(Paint paint) {
-        this.baseLegendTextPaint = paint;
+    public void setDefaultLegendTextPaint(Paint paint) {
+        this.defaultLegendTextPaint = paint;
         fireChangeEvent();
     }
 
@@ -2907,7 +2807,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @see #removeChangeListener(RendererChangeListener)
      */
     public void addChangeListener(RendererChangeListener listener) {
-        ParamChecks.nullNotPermitted(listener, "listener");
+        Args.nullNotPermitted(listener, "listener");
         this.listenerList.add(RendererChangeListener.class, listener);
     }
 
@@ -2920,7 +2820,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @see #addChangeListener(RendererChangeListener)
      */
     public void removeChangeListener(RendererChangeListener listener) {
-        ParamChecks.nullNotPermitted(listener, "listener");
+        Args.nullNotPermitted(listener, "listener");
         this.listenerList.remove(RendererChangeListener.class, listener);
     }
 
@@ -2997,181 +2897,136 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
         if (this.defaultEntityRadius != that.defaultEntityRadius) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.seriesVisible, that.seriesVisible)) {
-            return false;
-        }
         if (!this.seriesVisibleList.equals(that.seriesVisibleList)) {
             return false;
         }
-        if (this.baseSeriesVisible != that.baseSeriesVisible) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.seriesVisibleInLegend,
-                that.seriesVisibleInLegend)) {
+        if (this.defaultSeriesVisible != that.defaultSeriesVisible) {
             return false;
         }
         if (!this.seriesVisibleInLegendList.equals(
                 that.seriesVisibleInLegendList)) {
             return false;
         }
-        if (this.baseSeriesVisibleInLegend != that.baseSeriesVisibleInLegend) {
+        if (this.defaultSeriesVisibleInLegend
+                != that.defaultSeriesVisibleInLegend) {
             return false;
         }
-        if (!PaintUtilities.equal(this.paint, that.paint)) {
+        if (!ObjectUtils.equal(this.paintList, that.paintList)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.paintList, that.paintList)) {
+        if (!PaintUtils.equal(this.defaultPaint, that.defaultPaint)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.basePaint, that.basePaint)) {
+        if (!ObjectUtils.equal(this.fillPaintList, that.fillPaintList)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.fillPaint, that.fillPaint)) {
+        if (!PaintUtils.equal(this.defaultFillPaint,
+                that.defaultFillPaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.fillPaintList, that.fillPaintList)) {
-            return false;
-        }
-        if (!PaintUtilities.equal(this.baseFillPaint, that.baseFillPaint)) {
-            return false;
-        }
-        if (!PaintUtilities.equal(this.outlinePaint, that.outlinePaint)) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.outlinePaintList,
+        if (!ObjectUtils.equal(this.outlinePaintList,
                 that.outlinePaintList)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.baseOutlinePaint,
-                that.baseOutlinePaint)) {
+        if (!PaintUtils.equal(this.defaultOutlinePaint,
+                that.defaultOutlinePaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.stroke, that.stroke)) {
+        if (!ObjectUtils.equal(this.strokeList, that.strokeList)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.strokeList, that.strokeList)) {
+        if (!ObjectUtils.equal(this.defaultStroke, that.defaultStroke)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseStroke, that.baseStroke)) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.outlineStroke, that.outlineStroke)) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.outlineStrokeList,
+        if (!ObjectUtils.equal(this.outlineStrokeList,
                 that.outlineStrokeList)) {
             return false;
         }
-        if (!ObjectUtilities.equal(
-            this.baseOutlineStroke, that.baseOutlineStroke)
-        ) {
+        if (!ObjectUtils.equal(this.defaultOutlineStroke,
+                that.defaultOutlineStroke)) {
             return false;
         }
-        if (!ShapeUtilities.equal(this.shape, that.shape)) {
+        if (!ObjectUtils.equal(this.shapeList, that.shapeList)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.shapeList, that.shapeList)) {
+        if (!ShapeUtils.equal(this.defaultShape, that.defaultShape)) {
             return false;
         }
-        if (!ShapeUtilities.equal(this.baseShape, that.baseShape)) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.itemLabelsVisible,
-                that.itemLabelsVisible)) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.itemLabelsVisibleList,
+        if (!ObjectUtils.equal(this.itemLabelsVisibleList,
                 that.itemLabelsVisibleList)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseItemLabelsVisible,
-                that.baseItemLabelsVisible)) {
+        if (!ObjectUtils.equal(this.defaultItemLabelsVisible,
+                that.defaultItemLabelsVisible)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.itemLabelFont, that.itemLabelFont)) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.itemLabelFontMap,
+        if (!ObjectUtils.equal(this.itemLabelFontMap,
                 that.itemLabelFontMap)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseItemLabelFont,
-                that.baseItemLabelFont)) {
+        if (!ObjectUtils.equal(this.defaultItemLabelFont,
+                that.defaultItemLabelFont)) {
             return false;
         }
 
-        if (!PaintUtilities.equal(this.itemLabelPaint, that.itemLabelPaint)) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.itemLabelPaintList,
+        if (!ObjectUtils.equal(this.itemLabelPaintList,
                 that.itemLabelPaintList)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.baseItemLabelPaint,
-                that.baseItemLabelPaint)) {
+        if (!PaintUtils.equal(this.defaultItemLabelPaint,
+                that.defaultItemLabelPaint)) {
             return false;
         }
 
-        if (!ObjectUtilities.equal(this.positiveItemLabelPosition,
-                that.positiveItemLabelPosition)) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.positiveItemLabelPositionMap,
+        if (!ObjectUtils.equal(this.positiveItemLabelPositionMap,
                 that.positiveItemLabelPositionMap)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.basePositiveItemLabelPosition,
-                that.basePositiveItemLabelPosition)) {
+        if (!ObjectUtils.equal(this.defaultPositiveItemLabelPosition,
+                that.defaultPositiveItemLabelPosition)) {
             return false;
         }
 
-        if (!ObjectUtilities.equal(this.negativeItemLabelPosition,
-                that.negativeItemLabelPosition)) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.negativeItemLabelPositionMap,
+        if (!ObjectUtils.equal(this.negativeItemLabelPositionMap,
                 that.negativeItemLabelPositionMap)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseNegativeItemLabelPosition,
-                that.baseNegativeItemLabelPosition)) {
+        if (!ObjectUtils.equal(this.defaultNegativeItemLabelPosition,
+                that.defaultNegativeItemLabelPosition)) {
             return false;
         }
         if (this.itemLabelAnchorOffset != that.itemLabelAnchorOffset) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.createEntities, that.createEntities)) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.createEntitiesList,
+        if (!ObjectUtils.equal(this.createEntitiesList,
                 that.createEntitiesList)) {
             return false;
         }
-        if (this.baseCreateEntities != that.baseCreateEntities) {
+        if (this.defaultCreateEntities != that.defaultCreateEntities) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.legendShapeList,
+        if (!ObjectUtils.equal(this.legendShapeList,
                 that.legendShapeList)) {
             return false;
         }
-        if (!ShapeUtilities.equal(this.baseLegendShape,
-                that.baseLegendShape)) {
+        if (!ShapeUtils.equal(this.defaultLegendShape,
+                that.defaultLegendShape)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.legendTextFontMap, 
+        if (!ObjectUtils.equal(this.legendTextFontMap, 
                 that.legendTextFontMap)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseLegendTextFont,
-                that.baseLegendTextFont)) {
+        if (!ObjectUtils.equal(this.defaultLegendTextFont,
+                that.defaultLegendTextFont)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.legendTextPaint,
+        if (!ObjectUtils.equal(this.legendTextPaint,
                 that.legendTextPaint)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.baseLegendTextPaint,
-                that.baseLegendTextPaint)) {
+        if (!PaintUtils.equal(this.defaultLegendTextPaint,
+                that.defaultLegendTextPaint)) {
             return false;
         }
         return true;
@@ -3185,24 +3040,24 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     @Override
     public int hashCode() {
         int result = 193;
-        result = HashUtilities.hashCode(result, this.seriesVisibleList);
-        result = HashUtilities.hashCode(result, this.baseSeriesVisible);
-        result = HashUtilities.hashCode(result, this.seriesVisibleInLegendList);
-        result = HashUtilities.hashCode(result, this.baseSeriesVisibleInLegend);
-        result = HashUtilities.hashCode(result, this.paintList);
-        result = HashUtilities.hashCode(result, this.basePaint);
-        result = HashUtilities.hashCode(result, this.fillPaintList);
-        result = HashUtilities.hashCode(result, this.baseFillPaint);
-        result = HashUtilities.hashCode(result, this.outlinePaintList);
-        result = HashUtilities.hashCode(result, this.baseOutlinePaint);
-        result = HashUtilities.hashCode(result, this.strokeList);
-        result = HashUtilities.hashCode(result, this.baseStroke);
-        result = HashUtilities.hashCode(result, this.outlineStrokeList);
-        result = HashUtilities.hashCode(result, this.baseOutlineStroke);
+        result = HashUtils.hashCode(result, this.seriesVisibleList);
+        result = HashUtils.hashCode(result, this.defaultSeriesVisible);
+        result = HashUtils.hashCode(result, this.seriesVisibleInLegendList);
+        result = HashUtils.hashCode(result, this.defaultSeriesVisibleInLegend);
+        result = HashUtils.hashCode(result, this.paintList);
+        result = HashUtils.hashCode(result, this.defaultPaint);
+        result = HashUtils.hashCode(result, this.fillPaintList);
+        result = HashUtils.hashCode(result, this.defaultFillPaint);
+        result = HashUtils.hashCode(result, this.outlinePaintList);
+        result = HashUtils.hashCode(result, this.defaultOutlinePaint);
+        result = HashUtils.hashCode(result, this.strokeList);
+        result = HashUtils.hashCode(result, this.defaultStroke);
+        result = HashUtils.hashCode(result, this.outlineStrokeList);
+        result = HashUtils.hashCode(result, this.defaultOutlineStroke);
         // shapeList
         // baseShape
-        result = HashUtilities.hashCode(result, this.itemLabelsVisibleList);
-        result = HashUtilities.hashCode(result, this.baseItemLabelsVisible);
+        result = HashUtils.hashCode(result, this.itemLabelsVisibleList);
+        result = HashUtils.hashCode(result, this.defaultItemLabelsVisible);
         // itemLabelFontList
         // baseItemLabelFont
         // itemLabelPaintList
@@ -3267,14 +3122,11 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
         }
         // 'baseOutlineStroke' : immutable, no need to clone reference
 
-        if (this.shape != null) {
-            clone.shape = ShapeUtilities.clone(this.shape);
-        }
         if (this.shapeList != null) {
             clone.shapeList = (ShapeList) this.shapeList.clone();
         }
-        if (this.baseShape != null) {
-            clone.baseShape = ShapeUtilities.clone(this.baseShape);
+        if (this.defaultShape != null) {
+            clone.defaultShape = ShapeUtils.clone(this.defaultShape);
         }
 
         // 'itemLabelsVisible' : immutable, no need to clone reference
@@ -3298,21 +3150,17 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
         }
         // 'baseItemLabelPaint' : immutable, no need to clone reference
 
-        // 'postiveItemLabelAnchor' : immutable, no need to clone reference
         if (this.positiveItemLabelPositionMap != null) {
             clone.positiveItemLabelPositionMap 
                     = new HashMap<Integer, ItemLabelPosition>(
                     this.positiveItemLabelPositionMap);
         }
-        // 'baseItemLabelAnchor' : immutable, no need to clone reference
 
-        // 'negativeItemLabelAnchor' : immutable, no need to clone reference
         if (this.negativeItemLabelPositionMap != null) {
             clone.negativeItemLabelPositionMap 
                     = new HashMap<Integer, ItemLabelPosition>(
                     this.negativeItemLabelPositionMap);
         }
-        // 'baseNegativeItemLabelAnchor' : immutable, no need to clone reference
 
         if (this.createEntitiesList != null) {
             clone.createEntitiesList
@@ -3343,25 +3191,16 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @throws IOException  if there is an I/O error.
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
-
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.paint, stream);
-        SerialUtilities.writePaint(this.basePaint, stream);
-        SerialUtilities.writePaint(this.fillPaint, stream);
-        SerialUtilities.writePaint(this.baseFillPaint, stream);
-        SerialUtilities.writePaint(this.outlinePaint, stream);
-        SerialUtilities.writePaint(this.baseOutlinePaint, stream);
-        SerialUtilities.writeStroke(this.stroke, stream);
-        SerialUtilities.writeStroke(this.baseStroke, stream);
-        SerialUtilities.writeStroke(this.outlineStroke, stream);
-        SerialUtilities.writeStroke(this.baseOutlineStroke, stream);
-        SerialUtilities.writeShape(this.shape, stream);
-        SerialUtilities.writeShape(this.baseShape, stream);
-        SerialUtilities.writePaint(this.itemLabelPaint, stream);
-        SerialUtilities.writePaint(this.baseItemLabelPaint, stream);
-        SerialUtilities.writeShape(this.baseLegendShape, stream);
-        SerialUtilities.writePaint(this.baseLegendTextPaint, stream);
-
+        SerialUtils.writePaint(this.defaultPaint, stream);
+        SerialUtils.writePaint(this.defaultFillPaint, stream);
+        SerialUtils.writePaint(this.defaultOutlinePaint, stream);
+        SerialUtils.writeStroke(this.defaultStroke, stream);
+        SerialUtils.writeStroke(this.defaultOutlineStroke, stream);
+        SerialUtils.writeShape(this.defaultShape, stream);
+        SerialUtils.writePaint(this.defaultItemLabelPaint, stream);
+        SerialUtils.writeShape(this.defaultLegendShape, stream);
+        SerialUtils.writePaint(this.defaultLegendTextPaint, stream);
     }
 
     /**
@@ -3374,780 +3213,20 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      */
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
-
         stream.defaultReadObject();
-        this.paint = SerialUtilities.readPaint(stream);
-        this.basePaint = SerialUtilities.readPaint(stream);
-        this.fillPaint = SerialUtilities.readPaint(stream);
-        this.baseFillPaint = SerialUtilities.readPaint(stream);
-        this.outlinePaint = SerialUtilities.readPaint(stream);
-        this.baseOutlinePaint = SerialUtilities.readPaint(stream);
-        this.stroke = SerialUtilities.readStroke(stream);
-        this.baseStroke = SerialUtilities.readStroke(stream);
-        this.outlineStroke = SerialUtilities.readStroke(stream);
-        this.baseOutlineStroke = SerialUtilities.readStroke(stream);
-        this.shape = SerialUtilities.readShape(stream);
-        this.baseShape = SerialUtilities.readShape(stream);
-        this.itemLabelPaint = SerialUtilities.readPaint(stream);
-        this.baseItemLabelPaint = SerialUtilities.readPaint(stream);
-        this.baseLegendShape = SerialUtilities.readShape(stream);
-        this.baseLegendTextPaint = SerialUtilities.readPaint(stream);
+        this.defaultPaint = SerialUtils.readPaint(stream);
+        this.defaultFillPaint = SerialUtils.readPaint(stream);
+        this.defaultOutlinePaint = SerialUtils.readPaint(stream);
+        this.defaultStroke = SerialUtils.readStroke(stream);
+        this.defaultOutlineStroke = SerialUtils.readStroke(stream);
+        this.defaultShape = SerialUtils.readShape(stream);
+        this.defaultItemLabelPaint = SerialUtils.readPaint(stream);
+        this.defaultLegendShape = SerialUtils.readShape(stream);
+        this.defaultLegendTextPaint = SerialUtils.readPaint(stream);
 
         // listeners are not restored automatically, but storage must be
         // provided...
         this.listenerList = new EventListenerList();
-
-    }
-
-    // === DEPRECATED CODE ===
-
-    /**
-     * A flag that controls the visibility of ALL series.
-     *
-     * @deprecated This field is redundant, you can rely on seriesVisibleList
-     *     and baseSeriesVisible.  Deprecated from version 1.0.6 onwards.
-     */
-    private Boolean seriesVisible;
-
-    /**
-     * A flag that controls the visibility of ALL series in the legend.
-     *
-     * @deprecated This field is redundant, you can rely on
-     *     seriesVisibleInLegendList and baseSeriesVisibleInLegend.
-     *     Deprecated from version 1.0.6 onwards.
-     */
-    private Boolean seriesVisibleInLegend;
-
-    /**
-     * The paint for ALL series (optional).
-     *
-     * @deprecated This field is redundant, you can rely on paintList and
-     *     basePaint.  Deprecated from version 1.0.6 onwards.
-     */
-    private transient Paint paint;
-
-    /**
-     * The fill paint for ALL series (optional).
-     *
-     * @deprecated This field is redundant, you can rely on fillPaintList and
-     *     baseFillPaint.  Deprecated from version 1.0.6 onwards.
-     */
-    private transient Paint fillPaint;
-
-    /**
-     * The outline paint for ALL series (optional).
-     *
-     * @deprecated This field is redundant, you can rely on outlinePaintList
-     *         and baseOutlinePaint.  Deprecated from version 1.0.6 onwards.
-     */
-    private transient Paint outlinePaint;
-
-    /**
-     * The stroke for ALL series (optional).
-     *
-     * @deprecated This field is redundant, you can rely on strokeList and
-     *     baseStroke.  Deprecated from version 1.0.6 onwards.
-     */
-    private transient Stroke stroke;
-
-    /**
-     * The outline stroke for ALL series (optional).
-     *
-     * @deprecated This field is redundant, you can rely on strokeList and
-     *     baseStroke.  Deprecated from version 1.0.6 onwards.
-     */
-    private transient Stroke outlineStroke;
-
-    /**
-     * The shape for ALL series (optional).
-     *
-     * @deprecated This field is redundant, you can rely on shapeList and
-     *     baseShape.  Deprecated from version 1.0.6 onwards.
-     */
-    private transient Shape shape;
-
-    /**
-     * Visibility of the item labels for ALL series (optional).
-     *
-     * @deprecated This field is redundant, you can rely on
-     *     itemLabelsVisibleList and baseItemLabelsVisible.  Deprecated from
-     *     version 1.0.6 onwards.
-     */
-    private Boolean itemLabelsVisible;
-
-    /**
-     * The item label font for ALL series (optional).
-     *
-     * @deprecated This field is redundant, you can rely on itemLabelFontList
-     *     and baseItemLabelFont.  Deprecated from version 1.0.6 onwards.
-     */
-    private Font itemLabelFont;
-
-    /**
-     * The item label paint for ALL series.
-     *
-     * @deprecated This field is redundant, you can rely on itemLabelPaintList
-     *     and baseItemLabelPaint.  Deprecated from version 1.0.6 onwards.
-     */
-    private transient Paint itemLabelPaint;
-
-    /**
-     * The positive item label position for ALL series (optional).
-     *
-     * @deprecated This field is redundant, you can rely on the
-     *     positiveItemLabelPositionList and basePositiveItemLabelPosition
-     *     fields.  Deprecated from version 1.0.6 onwards.
-     */
-    private ItemLabelPosition positiveItemLabelPosition;
-
-    /**
-     * The negative item label position for ALL series (optional).
-     *
-     * @deprecated This field is redundant, you can rely on the
-     *     negativeItemLabelPositionList and baseNegativeItemLabelPosition
-     *     fields.  Deprecated from version 1.0.6 onwards.
-     */
-    private ItemLabelPosition negativeItemLabelPosition;
-
-    /**
-     * A flag that controls whether or not entities are generated for
-     * ALL series (optional).
-     *
-     * @deprecated This field is redundant, you can rely on the
-     *     createEntitiesList and baseCreateEntities fields.  Deprecated from
-     *     version 1.0.6 onwards.
-     */
-    private Boolean createEntities;
-
-    /**
-     * Returns the flag that controls the visibility of ALL series.  This flag
-     * overrides the per series and default settings - you must set it to
-     * {@code null} if you want the other settings to apply.
-     *
-     * @return The flag (possibly {@code null}).
-     *
-     * @see #setSeriesVisible(Boolean)
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #getSeriesVisible(int)} and
-     *     {@link #getBaseSeriesVisible()}.
-     */
-    public Boolean getSeriesVisible() {
-        return this.seriesVisible;
-    }
-
-    /**
-     * Sets the flag that controls the visibility of ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.  This flag
-     * overrides the per series and default settings - you must set it to
-     * {@code null} if you want the other settings to apply.
-     *
-     * @param visible  the flag ({@code null} permitted).
-     *
-     * @see #getSeriesVisible()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesVisible(int, Boolean)}
-     *     and {@link #setBaseSeriesVisible(boolean)}.
-     */
-    public void setSeriesVisible(Boolean visible) {
-         setSeriesVisible(visible, true);
-    }
-
-    /**
-     * Sets the flag that controls the visibility of ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.  This flag
-     * overrides the per series and default settings - you must set it to
-     * {@code null} if you want the other settings to apply.
-     *
-     * @param visible  the flag ({@code null} permitted).
-     * @param notify  notify listeners?
-     *
-     * @see #getSeriesVisible()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesVisible(int, Boolean)}
-     *     and {@link #setBaseSeriesVisible(boolean)}.
-     */
-    public void setSeriesVisible(Boolean visible, boolean notify) {
-        this.seriesVisible = visible;
-        if (notify) {
-            // we create an event with a special flag set...the purpose of
-            // this is to communicate to the plot (the default receiver of
-            // the event) that series visibility has changed so the axis
-            // ranges might need updating...
-            RendererChangeEvent e = new RendererChangeEvent(this, true);
-            notifyListeners(e);
-        }
-    }
-
-    /**
-     * Returns the flag that controls the visibility of ALL series in the
-     * legend.  This flag overrides the per series and default settings - you
-     * must set it to {@code null} if you want the other settings to
-     * apply.
-     *
-     * @return The flag (possibly {@code null}).
-     *
-     * @see #setSeriesVisibleInLegend(Boolean)
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #getSeriesVisibleInLegend(int)}
-     *     and {@link #getBaseSeriesVisibleInLegend()}.
-     */
-    public Boolean getSeriesVisibleInLegend() {
-        return this.seriesVisibleInLegend;
-    }
-
-    /**
-     * Sets the flag that controls the visibility of ALL series in the legend
-     * and sends a {@link RendererChangeEvent} to all registered listeners.
-     * This flag overrides the per series and default settings - you must set
-     * it to {@code null} if you want the other settings to apply.
-     *
-     * @param visible  the flag ({@code null} permitted).
-     *
-     * @see #getSeriesVisibleInLegend()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesVisibleInLegend(int,
-     *     Boolean)} and {@link #setBaseSeriesVisibleInLegend(boolean)}.
-     */
-    public void setSeriesVisibleInLegend(Boolean visible) {
-         setSeriesVisibleInLegend(visible, true);
-    }
-
-    /**
-     * Sets the flag that controls the visibility of ALL series in the legend
-     * and sends a {@link RendererChangeEvent} to all registered listeners.
-     * This flag overrides the per series and default settings - you must set
-     * it to {@code null} if you want the other settings to apply.
-     *
-     * @param visible  the flag ({@code null} permitted).
-     * @param notify  notify listeners?
-     *
-     * @see #getSeriesVisibleInLegend()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesVisibleInLegend(int,
-     *     Boolean, boolean)} and {@link #setBaseSeriesVisibleInLegend(boolean,
-     *     boolean)}.
-     */
-    public void setSeriesVisibleInLegend(Boolean visible, boolean notify) {
-        this.seriesVisibleInLegend = visible;
-        if (notify) {
-            fireChangeEvent();
-        }
-    }
-
-    /**
-     * Sets the paint to be used for ALL series, and sends a
-     * {@link RendererChangeEvent} to all registered listeners.  If this is
-     * {@code null}, the renderer will use the paint for the series.
-     *
-     * @param paint  the paint ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesPaint(int, Paint)} and
-     *     {@link #setBasePaint(Paint)}.
-     */
-    public void setPaint(Paint paint) {
-        setPaint(paint, true);
-    }
-
-    /**
-     * Sets the paint to be used for all series and, if requested, sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param paint  the paint ({@code null} permitted).
-     * @param notify  notify listeners?
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesPaint(int, Paint,
-     *     boolean)} and {@link #setBasePaint(Paint, boolean)}.
-     */
-    public void setPaint(Paint paint, boolean notify) {
-        this.paint = paint;
-        if (notify) {
-            fireChangeEvent();
-        }
-    }
-
-    /**
-     * Sets the fill paint for ALL series (optional).
-     *
-     * @param paint  the paint ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesFillPaint(int, Paint)}
-     *     and {@link #setBaseFillPaint(Paint)}.
-     */
-    public void setFillPaint(Paint paint) {
-        setFillPaint(paint, true);
-    }
-
-    /**
-     * Sets the fill paint for ALL series and, if requested, sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param paint  the paint ({@code null} permitted).
-     * @param notify  notify listeners?
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesFillPaint(int, Paint,
-     *     boolean)} and {@link #setBaseFillPaint(Paint, boolean)}.
-     */
-    public void setFillPaint(Paint paint, boolean notify) {
-        this.fillPaint = paint;
-        if (notify) {
-            fireChangeEvent();
-        }
-    }
-
-    /**
-     * Sets the outline paint for ALL series (optional) and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param paint  the paint ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesOutlinePaint(int,
-     *     Paint)} and {@link #setBaseOutlinePaint(Paint)}.
-     */
-    public void setOutlinePaint(Paint paint) {
-        setOutlinePaint(paint, true);
-    }
-
-    /**
-     * Sets the outline paint for ALL series and, if requested, sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param paint  the paint ({@code null} permitted).
-     * @param notify  notify listeners?
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesOutlinePaint(int,
-     *     Paint, boolean)} and {@link #setBaseOutlinePaint(Paint, boolean)}.
-     */
-    public void setOutlinePaint(Paint paint, boolean notify) {
-        this.outlinePaint = paint;
-        if (notify) {
-            fireChangeEvent();
-        }
-    }
-
-    /**
-     * Sets the stroke for ALL series and sends a {@link RendererChangeEvent}
-     * to all registered listeners.
-     *
-     * @param stroke  the stroke ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesStroke(int, Stroke)}
-     *     and {@link #setBaseStroke(Stroke)}.
-     */
-    public void setStroke(Stroke stroke) {
-        setStroke(stroke, true);
-    }
-
-    /**
-     * Sets the stroke for ALL series and, if requested, sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param stroke  the stroke ({@code null} permitted).
-     * @param notify  notify listeners?
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesStroke(int, Stroke,
-     *     boolean)} and {@link #setBaseStroke(Stroke, boolean)}.
-     */
-    public void setStroke(Stroke stroke, boolean notify) {
-        this.stroke = stroke;
-        if (notify) {
-            fireChangeEvent();
-        }
-    }
-
-    /**
-     * Sets the outline stroke for ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param stroke  the stroke ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesOutlineStroke(int,
-     *     Stroke)} and {@link #setBaseOutlineStroke(Stroke)}.
-     */
-    public void setOutlineStroke(Stroke stroke) {
-        setOutlineStroke(stroke, true);
-    }
-
-    /**
-     * Sets the outline stroke for ALL series and, if requested, sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param stroke  the stroke ({@code null} permitted).
-     * @param notify  notify listeners?
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesOutlineStroke(int,
-     *     Stroke, boolean)} and {@link #setBaseOutlineStroke(Stroke, boolean)}.
-     */
-    public void setOutlineStroke(Stroke stroke, boolean notify) {
-        this.outlineStroke = stroke;
-        if (notify) {
-            fireChangeEvent();
-        }
-    }
-
-    /**
-     * Sets the shape for ALL series (optional) and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param shape  the shape ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesShape(int, Shape)}
-     *     and {@link #setBaseShape(Shape)}.
-     */
-    public void setShape(Shape shape) {
-        setShape(shape, true);
-    }
-
-    /**
-     * Sets the shape for ALL series and, if requested, sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param shape  the shape ({@code null} permitted).
-     * @param notify  notify listeners?
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesShape(int, Shape,
-     *     boolean)} and {@link #setBaseShape(Shape, boolean)}.
-     */
-    public void setShape(Shape shape, boolean notify) {
-        this.shape = shape;
-        if (notify) {
-            fireChangeEvent();
-        }
-    }
-
-    /**
-     * Sets the visibility of the item labels for ALL series.
-     *
-     * @param visible  the flag.
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemLabelsVisible(int,
-     *     Boolean)} and {@link #setBaseItemLabelsVisible(boolean)}.
-     */
-    public void setItemLabelsVisible(boolean visible) {
-        setItemLabelsVisible(Boolean.valueOf(visible));
-        // The following alternative is only supported in JDK 1.4 - we support
-        // JDK 1.3.1 onwards
-        // setItemLabelsVisible(Boolean.valueOf(visible));
-    }
-
-    /**
-     * Sets the visibility of the item labels for ALL series (optional).
-     *
-     * @param visible  the flag ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemLabelsVisible(int,
-     *     Boolean)} and {@link #setBaseItemLabelsVisible(boolean)}.
-     */
-    public void setItemLabelsVisible(Boolean visible) {
-        setItemLabelsVisible(visible, true);
-    }
-
-    /**
-     * Sets the visibility of item labels for ALL series and, if requested,
-     * sends a {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param visible  a flag that controls whether or not the item labels are
-     *                 visible ({@code null} permitted).
-     * @param notify  a flag that controls whether or not listeners are
-     *                notified.
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemLabelsVisible(int,
-     *     Boolean, boolean)} and {@link #setBaseItemLabelsVisible(Boolean,
-     *     boolean)}.
-     */
-    public void setItemLabelsVisible(Boolean visible, boolean notify) {
-        this.itemLabelsVisible = visible;
-        if (notify) {
-            fireChangeEvent();
-        }
-    }
-
-    /**
-     * Returns the font used for all item labels.  This may be
-     * {@code null}, in which case the per series font settings will apply.
-     *
-     * @return The font (possibly {@code null}).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #getSeriesItemLabelFont(int)} and
-     *     {@link #getBaseItemLabelFont()}.
-     */
-    public Font getItemLabelFont() {
-        return this.itemLabelFont;
-    }
-
-    /**
-     * Sets the item label font for ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.  You can set
-     * this to {@code null} if you prefer to set the font on a per series
-     * basis.
-     *
-     * @param font  the font ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemLabelFont(int,
-     *     Font)} and {@link #setBaseItemLabelFont(Font)}.
-     */
-    public void setItemLabelFont(Font font) {
-        setItemLabelFont(font, true);
-    }
-
-    /**
-     * Sets the item label font for ALL series and, if requested, sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param font  the font ({@code null} permitted).
-     * @param notify  a flag that controls whether or not listeners are
-     *                notified.
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemLabelFont(int,
-     *     Font, boolean)} and {@link #setBaseItemLabelFont(Font, boolean)}.
-     */
-    public void setItemLabelFont(Font font, boolean notify) {
-        this.itemLabelFont = font;
-        if (notify) {
-            fireChangeEvent();
-        }
-    }
-
-    /**
-     * Returns the paint used for all item labels.  This may be
-     * {@code null}, in which case the per series paint settings will
-     * apply.
-     *
-     * @return The paint (possibly {@code null}).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #getSeriesItemLabelPaint(int)}
-     *     and {@link #getBaseItemLabelPaint()}.
-     */
-    public Paint getItemLabelPaint() {
-        return this.itemLabelPaint;
-    }
-
-    /**
-     * Sets the item label paint for ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param paint  the paint ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemLabelPaint(int,
-     *     Paint)} and {@link #setBaseItemLabelPaint(Paint)}.
-     */
-    public void setItemLabelPaint(Paint paint) {
-        setItemLabelPaint(paint, true);
-    }
-
-    /**
-     * Sets the item label paint for ALL series and, if requested, sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param paint  the paint.
-     * @param notify  a flag that controls whether or not listeners are
-     *                notified.
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemLabelPaint(int,
-     *     Paint, boolean)} and {@link #setBaseItemLabelPaint(Paint, boolean)}.
-     */
-    public void setItemLabelPaint(Paint paint, boolean notify) {
-        this.itemLabelPaint = paint;
-        if (notify) {
-            fireChangeEvent();
-        }
-    }
-
-    /**
-     * Returns the item label position for positive values in ALL series.
-     *
-     * @return The item label position (possibly {@code null}).
-     *
-     * @see #setPositiveItemLabelPosition(ItemLabelPosition)
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on
-     *     {@link #getSeriesPositiveItemLabelPosition(int)}
-     *     and {@link #getBasePositiveItemLabelPosition()}.
-     */
-    public ItemLabelPosition getPositiveItemLabelPosition() {
-        return this.positiveItemLabelPosition;
-    }
-
-    /**
-     * Sets the item label position for positive values in ALL series, and
-     * sends a {@link RendererChangeEvent} to all registered listeners.  You
-     * need to set this to {@code null} to expose the settings for
-     * individual series.
-     *
-     * @param position  the position ({@code null} permitted).
-     *
-     * @see #getPositiveItemLabelPosition()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on
-     *     {@link #setSeriesPositiveItemLabelPosition(int, ItemLabelPosition)}
-     *     and {@link #setBasePositiveItemLabelPosition(ItemLabelPosition)}.
-     */
-    public void setPositiveItemLabelPosition(ItemLabelPosition position) {
-        setPositiveItemLabelPosition(position, true);
-    }
-
-    /**
-     * Sets the positive item label position for ALL series and (if requested)
-     * sends a {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param position  the position ({@code null} permitted).
-     * @param notify  notify registered listeners?
-     *
-     * @see #getPositiveItemLabelPosition()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on
-     *     {@link #setSeriesPositiveItemLabelPosition(int, ItemLabelPosition,
-     *     boolean)} and {@link #setBasePositiveItemLabelPosition(
-     *     ItemLabelPosition, boolean)}.
-     */
-    public void setPositiveItemLabelPosition(ItemLabelPosition position,
-                                             boolean notify) {
-        this.positiveItemLabelPosition = position;
-        if (notify) {
-            fireChangeEvent();
-        }
-    }
-
-    /**
-     * Returns the item label position for negative values in ALL series.
-     *
-     * @return The item label position (possibly {@code null}).
-     *
-     * @see #setNegativeItemLabelPosition(ItemLabelPosition)
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on
-     *     {@link #getSeriesNegativeItemLabelPosition(int)}
-     *     and {@link #getBaseNegativeItemLabelPosition()}.
-     */
-    public ItemLabelPosition getNegativeItemLabelPosition() {
-        return this.negativeItemLabelPosition;
-    }
-
-    /**
-     * Sets the item label position for negative values in ALL series, and
-     * sends a {@link RendererChangeEvent} to all registered listeners.  You
-     * need to set this to {@code null} to expose the settings for
-     * individual series.
-     *
-     * @param position  the position ({@code null} permitted).
-     *
-     * @see #getNegativeItemLabelPosition()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on
-     *     {@link #setSeriesNegativeItemLabelPosition(int, ItemLabelPosition)}
-     *     and {@link #setBaseNegativeItemLabelPosition(ItemLabelPosition)}.
-     */
-    public void setNegativeItemLabelPosition(ItemLabelPosition position) {
-        setNegativeItemLabelPosition(position, true);
-    }
-
-    /**
-     * Sets the item label position for negative values in ALL series and (if
-     * requested) sends a {@link RendererChangeEvent} to all registered
-     * listeners.
-     *
-     * @param position  the position ({@code null} permitted).
-     * @param notify  notify registered listeners?
-     *
-     * @see #getNegativeItemLabelPosition()
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on
-     *     {@link #setSeriesNegativeItemLabelPosition(int, ItemLabelPosition,
-     *     boolean)} and {@link #setBaseNegativeItemLabelPosition(
-     *     ItemLabelPosition, boolean)}.
-     */
-    public void setNegativeItemLabelPosition(ItemLabelPosition position,
-                                             boolean notify) {
-        this.negativeItemLabelPosition = position;
-        if (notify) {
-            fireChangeEvent();
-        }
-    }
-
-    /**
-     * Returns the flag that controls whether or not chart entities are created
-     * for the items in ALL series.  This flag overrides the per series and
-     * default settings - you must set it to {@code null} if you want the
-     * other settings to apply.
-     *
-     * @return The flag (possibly {@code null}).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #getSeriesCreateEntities(int)}
-     *     and {@link #getBaseCreateEntities()}.
-     */
-    public Boolean getCreateEntities() {
-        return this.createEntities;
-    }
-
-    /**
-     * Sets the flag that controls whether or not chart entities are created
-     * for the items in ALL series, and sends a {@link RendererChangeEvent} to
-     * all registered listeners.  This flag overrides the per series and
-     * default settings - you must set it to {@code null} if you want the
-     * other settings to apply.
-     *
-     * @param create  the flag ({@code null} permitted).
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesCreateEntities(int,
-     *     Boolean)} and {@link #setBaseCreateEntities(boolean)}.
-     */
-    public void setCreateEntities(Boolean create) {
-         setCreateEntities(create, true);
-    }
-
-    /**
-     * Sets the flag that controls whether or not chart entities are created
-     * for the items in ALL series, and sends a {@link RendererChangeEvent} to
-     * all registered listeners.  This flag overrides the per series and
-     * default settings - you must set it to {@code null} if you want the
-     * other settings to apply.
-     *
-     * @param create  the flag ({@code null} permitted).
-     * @param notify  notify listeners?
-     *
-     * @deprecated This method should no longer be used (as of version 1.0.6).
-     *     It is sufficient to rely on {@link #setSeriesItemLabelFont(int,
-     *     Font, boolean)} and {@link #setBaseItemLabelFont(Font, boolean)}.
-     */
-    public void setCreateEntities(Boolean create, boolean notify) {
-        this.createEntities = create;
-        if (notify) {
-            fireChangeEvent();
-        }
     }
 
 }

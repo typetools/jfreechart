@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -127,23 +127,10 @@ public class Year extends RegularTimePeriod implements Serializable {
      *
      * @param time  the time ({@code null} not permitted).
      *
-     * @see #Year(Date, TimeZone)
+     * @see #Year(Date, TimeZone, Locale)
      */
     public Year(Date time) {
-        this(time, TimeZone.getDefault());
-    }
-
-    /**
-     * Constructs a year, based on a particular instant in time and a time zone.
-     *
-     * @param time  the time ({@code null} not permitted).
-     * @param zone  the time zone.
-     *
-     * @deprecated Since 1.0.12, use {@link #Year(Date, TimeZone, Locale)}
-     *     instead.
-     */
-    public Year(Date time, TimeZone zone) {
-        this(time, zone, Locale.getDefault());
+        this(time, TimeZone.getDefault(), Locale.getDefault());
     }
 
     /**

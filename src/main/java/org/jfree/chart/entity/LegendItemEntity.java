@@ -46,9 +46,9 @@ package org.jfree.chart.entity;
 
 import java.awt.Shape;
 import java.io.Serializable;
+import org.jfree.chart.util.ObjectUtils;
 
 import org.jfree.data.general.Dataset;
-import org.jfree.util.ObjectUtilities;
 
 /**
  * An entity that represents an item within a legend.
@@ -137,33 +137,6 @@ public class LegendItemEntity extends ChartEntity
     }
 
     /**
-     * Returns the series index.
-     *
-     * @return The series index.
-     *
-     * @see #setSeriesIndex(int)
-     *
-     * @deprecated As of 1.0.6, use the {@link #getSeriesKey()} method.
-     */
-    public int getSeriesIndex() {
-        return this.seriesIndex;
-    }
-
-    /**
-     * Sets the series index.
-     *
-     * @param index  the series index.
-     *
-     * @see #getSeriesIndex()
-     *
-     * @deprecated As of 1.0.6, use the {@link #setSeriesKey(Comparable)}
-     *         method.
-     */
-    public void setSeriesIndex(int index) {
-        this.seriesIndex = index;
-    }
-
-    /**
      * Tests this object for equality with an arbitrary object.
      *
      * @param obj  the object ({@code null} permitted).
@@ -179,13 +152,13 @@ public class LegendItemEntity extends ChartEntity
             return false;
         }
         LegendItemEntity that = (LegendItemEntity) obj;
-        if (!ObjectUtilities.equal(this.seriesKey, that.seriesKey)) {
+        if (!ObjectUtils.equal(this.seriesKey, that.seriesKey)) {
             return false;
         }
         if (this.seriesIndex != that.seriesIndex) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.dataset, that.dataset)) {
+        if (!ObjectUtils.equal(this.dataset, that.dataset)) {
             return false;
         }
         return super.equals(obj);

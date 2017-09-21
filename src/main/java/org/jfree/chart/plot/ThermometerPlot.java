@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -28,7 +28,7 @@
  * ThermometerPlot.java
  * --------------------
  *
- * (C) Copyright 2000-2016, by Bryan Scott and Contributors.
+ * (C) Copyright 2000-2017, by Bryan Scott and Contributors.
  *
  * Original Author:  Bryan Scott (based on MeterPlot by Hari).
  * Contributor(s):   David Gilbert (for Object Refinery Limited).
@@ -119,18 +119,18 @@ import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.event.PlotChangeEvent;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
 import org.jfree.chart.util.ResourceBundleWrapper;
+import org.jfree.chart.util.SerialUtils;
+import org.jfree.chart.util.UnitType;
 import org.jfree.data.Range;
 import org.jfree.data.general.DatasetChangeEvent;
 import org.jfree.data.general.DefaultValueDataset;
 import org.jfree.data.general.ValueDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.UnitType;
 
 /**
  * A plot that displays a single value (from a {@link ValueDataset}) in a
@@ -188,48 +188,6 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
 
     /** A constant for the 'critical' range. */
     public static final int CRITICAL = 2;
-
-    /**
-     * The bulb radius.
-     *
-     * @deprecated As of 1.0.7, use {@link #getBulbRadius()}.
-     */
-    protected static final int BULB_RADIUS = 40;
-
-    /**
-     * The bulb diameter.
-     *
-     * @deprecated As of 1.0.7, use {@link #getBulbDiameter()}.
-     */
-    protected static final int BULB_DIAMETER = BULB_RADIUS * 2;
-
-    /**
-     * The column radius.
-     *
-     * @deprecated As of 1.0.7, use {@link #getColumnRadius()}.
-     */
-    protected static final int COLUMN_RADIUS = 20;
-
-    /**
-     * The column diameter.
-     *
-     * @deprecated As of 1.0.7, use {@link #getColumnDiameter()}.
-     */
-    protected static final int COLUMN_DIAMETER = COLUMN_RADIUS * 2;
-
-    /**
-     * The gap radius.
-     *
-     * @deprecated As of 1.0.7, use {@link #getGap()}.
-     */
-    protected static final int GAP_RADIUS = 5;
-
-    /**
-     * The gap diameter.
-     *
-     * @deprecated As of 1.0.7, use {@link #getGap()} times two.
-     */
-    protected static final int GAP_DIAMETER = GAP_RADIUS * 2;
 
     /** The axis gap. */
     protected static final int AXIS_GAP = 10;
@@ -319,7 +277,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
     private transient Stroke thermometerStroke = new BasicStroke(1.0f);
 
     /** Paint for drawing the thermometer */
-    private transient Paint thermometerPaint = Color.black;
+    private transient Paint thermometerPaint = Color.BLACK;
 
     /** The display units */
     private int units = UNITS_CELCIUS;
@@ -334,13 +292,13 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
     private Font valueFont = new Font("SansSerif", Font.BOLD, 16);
 
     /** Colour that the value is written in */
-    private transient Paint valuePaint = Color.white;
+    private transient Paint valuePaint = Color.WHITE;
 
     /** Number format for the value */
     private NumberFormat valueFormat = new DecimalFormat();
 
     /** The default paint for the mercury in the thermometer. */
-    private transient Paint mercuryPaint = Color.lightGray;
+    private transient Paint mercuryPaint = Color.LIGHT_GRAY;
 
     /** A flag that controls whether value lines are drawn. */
     private boolean showValueLines = false;
@@ -368,8 +326,8 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
     private boolean useSubrangePaint = true;
 
     /** Paint for each range */
-    private transient Paint[] subrangePaint = {Color.green, Color.orange,
-            Color.red};
+    private transient Paint[] subrangePaint = {Color.GREEN, Color.ORANGE,
+            Color.RED};
 
     /** A flag that controls whether the sub-range indicators are visible. */
     private boolean subrangeIndicatorsVisible = true;
@@ -477,7 +435,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
      * @see #getRangeAxis()
      */
     public void setRangeAxis(ValueAxis axis) {
-        ParamChecks.nullNotPermitted(axis, "axis");
+        Args.nullNotPermitted(axis, "axis");
         // plot is registered as a listener with the existing axis...
         this.rangeAxis.removeChangeListener(this);
 
@@ -568,7 +526,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
      * @see #getPadding()
      */
     public void setPadding(RectangleInsets padding) {
-        ParamChecks.nullNotPermitted(padding, "padding");
+        Args.nullNotPermitted(padding, "padding");
         this.padding = padding;
         fireChangeEvent();
     }
@@ -665,28 +623,6 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
     }
 
     /**
-     * Sets the unit type.
-     *
-     * @param u  the unit type ({@code null} ignored).
-     *
-     * @deprecated Use setUnits(int) instead.  Deprecated as of version 1.0.6,
-     *     because this method is a little obscure and redundant anyway.
-     */
-    public void setUnits(String u) {
-        if (u == null) {
-            return;
-        }
-
-        u = u.toUpperCase().trim();
-        for (int i = 0; i < UNITS.length; ++i) {
-            if (u.equals(UNITS[i].toUpperCase().trim())) {
-                setUnits(i);
-                i = UNITS.length;
-            }
-        }
-    }
-
-    /**
      * Returns a code indicating the location at which the value label is
      * displayed.
      *
@@ -767,7 +703,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
      * @see #getValueFont()
      */
     public void setValueFont(Font f) {
-        ParamChecks.nullNotPermitted(f, "f");
+        Args.nullNotPermitted(f, "f");
         if (!this.valueFont.equals(f)) {
             this.valueFont = f;
             fireChangeEvent();
@@ -794,7 +730,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
      * @see #getValuePaint()
      */
     public void setValuePaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         if (!this.valuePaint.equals(paint)) {
             this.valuePaint = paint;
             fireChangeEvent();
@@ -810,7 +746,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
      * @param formatter  the new formatter ({@code null} not permitted).
      */
     public void setValueFormat(NumberFormat formatter) {
-        ParamChecks.nullNotPermitted(formatter, "formatter");
+        Args.nullNotPermitted(formatter, "formatter");
         this.valueFormat = formatter;
         fireChangeEvent();
     }
@@ -835,37 +771,8 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
      * @see #getMercuryPaint()
      */
     public void setMercuryPaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.mercuryPaint = paint;
-        fireChangeEvent();
-    }
-
-    /**
-     * Returns the flag that controls whether not value lines are displayed.
-     *
-     * @return The flag.
-     *
-     * @see #setShowValueLines(boolean)
-     *
-     * @deprecated This flag doesn't do anything useful/visible.  Deprecated
-     *     as of version 1.0.6.
-     */
-    public boolean getShowValueLines() {
-        return this.showValueLines;
-    }
-
-    /**
-     * Sets the display as to whether to show value lines in the output.
-     *
-     * @param b Whether to show value lines in the thermometer
-     *
-     * @see #getShowValueLines()
-     *
-     * @deprecated This flag doesn't do anything useful/visible.  Deprecated
-     *     as of version 1.0.6.
-     */
-    public void setShowValueLines(boolean b) {
-        this.showValueLines = b;
         fireChangeEvent();
     }
 
@@ -1389,34 +1296,6 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
     }
 
     /**
-     * Returns the minimum value in either the domain or the range, whichever
-     * is displayed against the vertical axis for the particular type of plot
-     * implementing this interface.
-     *
-     * @return The minimum value in either the domain or the range.
-     *
-     * @deprecated This method is not used.  Officially deprecated in version
-     *         1.0.6.
-     */
-    public Number getMinimumVerticalDataValue() {
-        return new Double(this.lowerBound);
-    }
-
-    /**
-     * Returns the maximum value in either the domain or the range, whichever
-     * is displayed against the vertical axis for the particular type of plot
-     * implementing this interface.
-     *
-     * @return The maximum value in either the domain or the range
-     *
-     * @deprecated This method is not used.  Officially deprecated in version
-     *         1.0.6.
-     */
-    public Number getMaximumVerticalDataValue() {
-        return new Double(this.upperBound);
-    }
-
-    /**
      * Returns the data range.
      *
      * @param axis  the axis.
@@ -1531,7 +1410,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
         if (!super.equals(obj)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.rangeAxis, that.rangeAxis)) {
+        if (!ObjectUtils.equal(this.rangeAxis, that.rangeAxis)) {
             return false;
         }
         if (this.axisLocation != that.axisLocation) {
@@ -1543,14 +1422,14 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
         if (this.upperBound != that.upperBound) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.padding, that.padding)) {
+        if (!ObjectUtils.equal(this.padding, that.padding)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.thermometerStroke,
+        if (!ObjectUtils.equal(this.thermometerStroke,
                 that.thermometerStroke)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.thermometerPaint,
+        if (!PaintUtils.equal(this.thermometerPaint,
                 that.thermometerPaint)) {
             return false;
         }
@@ -1560,16 +1439,16 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
         if (this.valueLocation != that.valueLocation) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.valueFont, that.valueFont)) {
+        if (!ObjectUtils.equal(this.valueFont, that.valueFont)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.valuePaint, that.valuePaint)) {
+        if (!PaintUtils.equal(this.valuePaint, that.valuePaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.valueFormat, that.valueFormat)) {
+        if (!ObjectUtils.equal(this.valueFormat, that.valueFormat)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.mercuryPaint, that.mercuryPaint)) {
+        if (!PaintUtils.equal(this.mercuryPaint, that.mercuryPaint)) {
             return false;
         }
         if (this.showValueLines != that.showValueLines) {
@@ -1597,7 +1476,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
             return false;
         }
         for (int i = 0; i < this.subrangePaint.length; i++) {
-            if (!PaintUtilities.equal(this.subrangePaint[i],
+            if (!PaintUtils.equal(this.subrangePaint[i],
                     that.subrangePaint[i])) {
                 return false;
             }
@@ -1646,7 +1525,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
         if (clone.dataset != null) {
             clone.dataset.addChangeListener(clone);
         }
-        clone.rangeAxis = (ValueAxis) ObjectUtilities.clone(this.rangeAxis);
+        clone.rangeAxis = (ValueAxis) ObjectUtils.clone(this.rangeAxis);
         if (clone.rangeAxis != null) {
             clone.rangeAxis.setPlot(clone);
             clone.rangeAxis.addChangeListener(clone);
@@ -1667,14 +1546,14 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writeStroke(this.thermometerStroke, stream);
-        SerialUtilities.writePaint(this.thermometerPaint, stream);
-        SerialUtilities.writePaint(this.valuePaint, stream);
-        SerialUtilities.writePaint(this.mercuryPaint, stream);
-        SerialUtilities.writeStroke(this.subrangeIndicatorStroke, stream);
-        SerialUtilities.writeStroke(this.rangeIndicatorStroke, stream);
+        SerialUtils.writeStroke(this.thermometerStroke, stream);
+        SerialUtils.writePaint(this.thermometerPaint, stream);
+        SerialUtils.writePaint(this.valuePaint, stream);
+        SerialUtils.writePaint(this.mercuryPaint, stream);
+        SerialUtils.writeStroke(this.subrangeIndicatorStroke, stream);
+        SerialUtils.writeStroke(this.rangeIndicatorStroke, stream);
         for (int i = 0; i < 3; i++) {
-            SerialUtilities.writePaint(this.subrangePaint[i], stream);
+            SerialUtils.writePaint(this.subrangePaint[i], stream);
         }
     }
 
@@ -1689,15 +1568,15 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
     private void readObject(ObjectInputStream stream) throws IOException,
             ClassNotFoundException {
         stream.defaultReadObject();
-        this.thermometerStroke = SerialUtilities.readStroke(stream);
-        this.thermometerPaint = SerialUtilities.readPaint(stream);
-        this.valuePaint = SerialUtilities.readPaint(stream);
-        this.mercuryPaint = SerialUtilities.readPaint(stream);
-        this.subrangeIndicatorStroke = SerialUtilities.readStroke(stream);
-        this.rangeIndicatorStroke = SerialUtilities.readStroke(stream);
+        this.thermometerStroke = SerialUtils.readStroke(stream);
+        this.thermometerPaint = SerialUtils.readPaint(stream);
+        this.valuePaint = SerialUtils.readPaint(stream);
+        this.mercuryPaint = SerialUtils.readPaint(stream);
+        this.subrangeIndicatorStroke = SerialUtils.readStroke(stream);
+        this.rangeIndicatorStroke = SerialUtils.readStroke(stream);
         this.subrangePaint = new Paint[3];
         for (int i = 0; i < 3; i++) {
-            this.subrangePaint[i] = SerialUtilities.readPaint(stream);
+            this.subrangePaint[i] = SerialUtils.readPaint(stream);
         }
         if (this.rangeAxis != null) {
             this.rangeAxis.addChangeListener(this);

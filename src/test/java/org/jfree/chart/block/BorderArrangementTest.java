@@ -47,11 +47,11 @@ import static org.junit.Assert.assertTrue;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.Size2D;
 
 import org.jfree.data.Range;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.Size2D;
 import org.junit.Test;
 
 /**
@@ -112,7 +112,7 @@ public class BorderArrangementTest {
     @Test
     public void testSerialization() {
         BorderArrangement b1 = new BorderArrangement();
-        BorderArrangement b2 = (BorderArrangement) TestUtilities.serialised(b1);
+        BorderArrangement b2 = (BorderArrangement) TestUtils.serialised(b1);
         assertEquals(b1, b2);
     }
 

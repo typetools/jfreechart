@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -82,30 +82,18 @@ public class AbstractCategoryItemRendererTest {
 
         // the plot field is NOT tested
 
-        // toolTipGenerator
-        r1.setToolTipGenerator(new StandardCategoryToolTipGenerator());
-        assertFalse(r1.equals(r2));
-        r2.setToolTipGenerator(new StandardCategoryToolTipGenerator());
-        assertTrue(r1.equals(r2));
-
         // toolTipGeneratorList
         r1.setSeriesToolTipGenerator(1, new StandardCategoryToolTipGenerator());
         assertFalse(r1.equals(r2));
         r2.setSeriesToolTipGenerator(1, new StandardCategoryToolTipGenerator());
         assertTrue(r1.equals(r2));
 
-        // baseToolTipGenerator
-        r1.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator("{2}",
+        // defaultToolTipGenerator
+        r1.setDefaultToolTipGenerator(new StandardCategoryToolTipGenerator("{2}",
                 NumberFormat.getInstance()));
         assertFalse(r1.equals(r2));
-        r2.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator("{2}",
+        r2.setDefaultToolTipGenerator(new StandardCategoryToolTipGenerator("{2}",
                 NumberFormat.getInstance()));
-        assertTrue(r1.equals(r2));
-
-        // itemLabelGenerator
-        r1.setItemLabelGenerator(new StandardCategoryItemLabelGenerator());
-        assertFalse(r1.equals(r2));
-        r2.setItemLabelGenerator(new StandardCategoryItemLabelGenerator());
         assertTrue(r1.equals(r2));
 
         // itemLabelGeneratorList
@@ -116,18 +104,12 @@ public class AbstractCategoryItemRendererTest {
                 new StandardCategoryItemLabelGenerator());
         assertTrue(r1.equals(r2));
 
-        // baseItemLabelGenerator
-        r1.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator(
+        // defaultItemLabelGenerator
+        r1.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator(
                 "{2}", NumberFormat.getInstance()));
         assertFalse(r1.equals(r2));
-        r2.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator(
+        r2.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator(
                 "{2}", NumberFormat.getInstance()));
-        assertTrue(r1.equals(r2));
-
-        // urlGenerator
-        r1.setItemURLGenerator(new StandardCategoryURLGenerator());
-        assertFalse(r1.equals(r2));
-        r2.setItemURLGenerator(new StandardCategoryURLGenerator());
         assertTrue(r1.equals(r2));
 
         // urlGeneratorList
@@ -136,11 +118,11 @@ public class AbstractCategoryItemRendererTest {
         r2.setSeriesItemURLGenerator(1, new StandardCategoryURLGenerator());
         assertTrue(r1.equals(r2));
 
-        // baseItemURLGenerator
-        r1.setBaseItemURLGenerator(new StandardCategoryURLGenerator(
+        // defaultItemURLGenerator
+        r1.setDefaultItemURLGenerator(new StandardCategoryURLGenerator(
                 "abc.html"));
         assertFalse(r1.equals(r2));
-        r2.setBaseItemURLGenerator(new StandardCategoryURLGenerator(
+        r2.setDefaultItemURLGenerator(new StandardCategoryURLGenerator(
                 "abc.html"));
         assertTrue(r1.equals(r2));
 
@@ -208,7 +190,6 @@ public class AbstractCategoryItemRendererTest {
     @Test
     public void testCloning1() throws CloneNotSupportedException {
         AbstractCategoryItemRenderer r1 = new BarRenderer();
-        r1.setItemLabelGenerator(new StandardCategoryItemLabelGenerator());
         AbstractCategoryItemRenderer r2 = (BarRenderer) r1.clone();
         assertTrue(r1 != r2);
         assertTrue(r1.getClass() == r2.getClass());
@@ -224,7 +205,7 @@ public class AbstractCategoryItemRendererTest {
         assertTrue(r1.equals(r2));
 
         r1 = new BarRenderer();
-        r1.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+        r1.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
         r2 = (BarRenderer) r1.clone();
         assertTrue(r1 != r2);
         assertTrue(r1.getClass() == r2.getClass());
@@ -237,7 +218,7 @@ public class AbstractCategoryItemRendererTest {
     @Test
     public void testCloning2() throws CloneNotSupportedException {
         BarRenderer r1 = new BarRenderer();
-        r1.setBaseItemLabelGenerator(new IntervalCategoryItemLabelGenerator());
+        r1.setDefaultItemLabelGenerator(new IntervalCategoryItemLabelGenerator());
         BarRenderer r2 = (BarRenderer) r1.clone();
 
         assertTrue(r1 != r2);
@@ -253,7 +234,7 @@ public class AbstractCategoryItemRendererTest {
         assertTrue(r1.equals(r2));
 
         r1 = new BarRenderer();
-        r1.setBaseItemLabelGenerator(new IntervalCategoryItemLabelGenerator());
+        r1.setDefaultItemLabelGenerator(new IntervalCategoryItemLabelGenerator());
         r2 = (BarRenderer) r1.clone();
 
         assertTrue(r1 != r2);

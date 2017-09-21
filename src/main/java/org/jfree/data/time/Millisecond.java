@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -146,23 +146,10 @@ public class Millisecond extends RegularTimePeriod implements Serializable {
      *
      * @param time  the time.
      *
-     * @see #Millisecond(Date, TimeZone)
+     * @see #Millisecond(Date, TimeZone, Locale)
      */
     public Millisecond(Date time) {
         this(time, TimeZone.getDefault(), Locale.getDefault());
-    }
-
-    /**
-     * Creates a millisecond.
-     *
-     * @param time  the instant in time.
-     * @param zone  the time zone.
-     *
-     * @deprecated As of 1.0.13, use the constructor that specifies the locale
-     *     also.
-     */
-    public Millisecond(Date time, TimeZone zone) {
-        this(time, zone, Locale.getDefault());
     }
 
     /**

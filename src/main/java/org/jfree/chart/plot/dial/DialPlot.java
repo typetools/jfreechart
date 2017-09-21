@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * -------------
  * DialPlot.java
  * -------------
- * (C) Copyright 2006-2016, by Object Refinery Limited.
+ * (C) Copyright 2006-2017, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   -;
@@ -61,11 +61,11 @@ import org.jfree.chart.event.PlotChangeEvent;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.PlotState;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectList;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
 import org.jfree.data.general.DatasetChangeEvent;
 import org.jfree.data.general.ValueDataset;
-import org.jfree.util.ObjectList;
-import org.jfree.util.ObjectUtilities;
 
 /**
  * A dial plot composed of user-definable layers.
@@ -247,7 +247,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      * @see #getDialFrame()
      */
     public void setDialFrame(DialFrame frame) {
-        ParamChecks.nullNotPermitted(frame, "frame");
+        Args.nullNotPermitted(frame, "frame");
         this.dialFrame.removeChangeListener(this);
         this.dialFrame = frame;
         frame.addChangeListener(this);
@@ -331,7 +331,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      * @param layer  the layer ({@code null} not permitted).
      */
     public void addLayer(DialLayer layer) {
-        ParamChecks.nullNotPermitted(layer, "layer");
+        Args.nullNotPermitted(layer, "layer");
         this.layers.add(layer);
         layer.addChangeListener(this);
         fireChangeEvent();
@@ -345,7 +345,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      * @return The layer index.
      */
     public int getLayerIndex(DialLayer layer) {
-        ParamChecks.nullNotPermitted(layer, "layer");
+        Args.nullNotPermitted(layer, "layer");
         return this.layers.indexOf(layer);
     }
 
@@ -382,7 +382,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      * @param pointer  the pointer ({@code null} not permitted).
      */
     public void addPointer(DialPointer pointer) {
-        ParamChecks.nullNotPermitted(pointer, "pointer");
+        Args.nullNotPermitted(pointer, "pointer");
         this.pointers.add(pointer);
         pointer.addChangeListener(this);
         fireChangeEvent();
@@ -396,7 +396,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      * @return The pointer index.
      */
     public int getPointerIndex(DialPointer pointer) {
-        ParamChecks.nullNotPermitted(pointer, "pointer");
+        Args.nullNotPermitted(pointer, "pointer");
         return this.pointers.indexOf(pointer);
     }
 
@@ -644,7 +644,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      * @param scale  the scale ({@code null} not permitted).
      */
     public void addScale(int index, DialScale scale) {
-        ParamChecks.nullNotPermitted(scale, "scale");
+        Args.nullNotPermitted(scale, "scale");
         DialScale existing = (DialScale) this.scales.get(index);
         if (existing != null) {
             removeLayer(existing);
@@ -708,7 +708,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      */
     public static Rectangle2D rectangleByRadius(Rectangle2D rect,
             double radiusW, double radiusH) {
-        ParamChecks.nullNotPermitted(rect, "rect");
+        Args.nullNotPermitted(rect, "rect");
         double x = rect.getCenterX();
         double y = rect.getCenterY();
         double w = rect.getWidth() * radiusW;
@@ -745,10 +745,10 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
             return false;
         }
         DialPlot that = (DialPlot) obj;
-        if (!ObjectUtilities.equal(this.background, that.background)) {
+        if (!ObjectUtils.equal(this.background, that.background)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.cap, that.cap)) {
+        if (!ObjectUtils.equal(this.cap, that.cap)) {
             return false;
         }
         if (!this.dialFrame.equals(that.dialFrame)) {
@@ -783,8 +783,8 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
     @Override
     public int hashCode() {
         int result = 193;
-        result = 37 * result + ObjectUtilities.hashCode(this.background);
-        result = 37 * result + ObjectUtilities.hashCode(this.cap);
+        result = 37 * result + ObjectUtils.hashCode(this.background);
+        result = 37 * result + ObjectUtils.hashCode(this.cap);
         result = 37 * result + this.dialFrame.hashCode();
         long temp = Double.doubleToLongBits(this.viewX);
         result = 37 * result + (int) (temp ^ (temp >>> 32));

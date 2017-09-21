@@ -66,9 +66,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import org.jfree.chart.axis.Axis;
-import org.jfree.chart.axis.ColorBar;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.ContourPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PolarPlot;
@@ -77,13 +75,12 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.ui.LCBLayout;
+import org.jfree.chart.ui.PaintSample;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.ui.StrokeChooserPanel;
+import org.jfree.chart.ui.StrokeSample;
 import org.jfree.chart.util.ResourceBundleWrapper;
-import org.jfree.layout.LCBLayout;
-import org.jfree.ui.PaintSample;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.StrokeChooserPanel;
-import org.jfree.ui.StrokeSample;
-import org.jfree.util.BooleanUtilities;
 
 /**
  * A panel for editing the properties of a {@link Plot}.
@@ -113,12 +110,6 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
      * A panel used to display/edit the properties of the range axis (if any).
      */
     private DefaultAxisEditor rangeAxisPropertyPanel;
-
-    /**
-     * A panel used to display/edit the properties of the colorbar axis (if
-     * any).
-     */
-    private DefaultColorBarEditor colorBarAxisPropertyPanel;
 
     /** An array of stroke samples to choose from. */
     private StrokeSample[] availableStrokeSamples;
@@ -194,19 +185,16 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
             CategoryItemRenderer renderer = ((CategoryPlot) plot).getRenderer();
             if (renderer instanceof LineAndShapeRenderer) {
                 LineAndShapeRenderer r = (LineAndShapeRenderer) renderer;
-                this.drawLines = BooleanUtilities.valueOf(
-                        r.getBaseLinesVisible());
-                this.drawShapes = BooleanUtilities.valueOf(
-                        r.getBaseShapesVisible());
+                this.drawLines = Boolean.valueOf(r.getDefaultLinesVisible());
+                this.drawShapes = Boolean.valueOf(r.getDefaultShapesVisible());
             }
         }
         else if (plot instanceof XYPlot) {
             XYItemRenderer renderer = ((XYPlot) plot).getRenderer();
             if (renderer instanceof StandardXYItemRenderer) {
                 StandardXYItemRenderer r = (StandardXYItemRenderer) renderer;
-                this.drawLines = BooleanUtilities.valueOf(r.getPlotLines());
-                this.drawShapes = BooleanUtilities.valueOf(
-                        r.getBaseShapesVisible());
+                this.drawLines = Boolean.valueOf(r.getPlotLines());
+                this.drawShapes = Boolean.valueOf(r.getBaseShapesVisible());
             }
         }
 
@@ -361,22 +349,6 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
                     this.rangeAxisPropertyPanel);
         }
 
-//dmo: added this panel for colorbar control. (start dmo additions)
-        ColorBar colorBar = null;
-        if (plot instanceof ContourPlot) {
-            colorBar = ((ContourPlot) plot).getColorBar();
-        }
-
-        this.colorBarAxisPropertyPanel = DefaultColorBarEditor.getInstance(
-                colorBar);
-        if (this.colorBarAxisPropertyPanel != null) {
-            this.colorBarAxisPropertyPanel.setBorder(
-                    BorderFactory.createEmptyBorder(2, 2, 2, 2));
-            tabs.add(localizationResources.getString("Color_Bar"),
-                    this.colorBarAxisPropertyPanel);
-        }
-//dmo: (end dmo additions)
-
         return tabs;
     }
 
@@ -475,7 +447,7 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
     private void attemptBackgroundPaintSelection() {
         Color c;
         c = JColorChooser.showDialog(this, localizationResources.getString(
-                "Background_Color"), Color.blue);
+                "Background_Color"), Color.BLUE);
         if (c != null) {
             this.backgroundPaintSample.setPaint(c);
         }
@@ -503,7 +475,7 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
     private void attemptOutlinePaintSelection() {
         Color c;
         c = JColorChooser.showDialog(this, localizationResources.getString(
-                "Outline_Color"), Color.blue);
+                "Outline_Color"), Color.BLUE);
         if (c != null) {
             this.outlinePaintSample.setPaint(c);
         }
@@ -548,8 +520,7 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
      * <tt>StandardXYItemRenderer</tt>s.
      */
     private void attemptDrawLinesSelection() {
-        this.drawLines = BooleanUtilities.valueOf(
-                this.drawLinesCheckBox.isSelected());
+        this.drawLines = Boolean.valueOf(this.drawLinesCheckBox.isSelected());
     }
 
     /**
@@ -557,8 +528,7 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
      * by <tt>LineAndShapeRenderer</tt>s and <tt>StandardXYItemRenderer</tt>s.
      */
     private void attemptDrawShapesSelection() {
-        this.drawShapes = BooleanUtilities.valueOf(
-                this.drawShapesCheckBox.isSelected());
+        this.drawShapes = Boolean.valueOf(this.drawShapesCheckBox.isSelected());
     }
 
     /**
@@ -625,7 +595,7 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
                 CategoryPlot p = (CategoryPlot) plot;
                 CategoryItemRenderer r = p.getRenderer();
                 if (r instanceof LineAndShapeRenderer) {
-                    ((LineAndShapeRenderer) r).setLinesVisible(
+                    ((LineAndShapeRenderer) r).setDefaultLinesVisible(
                             this.drawLines.booleanValue());
                 }
             }
@@ -644,7 +614,7 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
                 CategoryPlot p = (CategoryPlot) plot;
                 CategoryItemRenderer r = p.getRenderer();
                 if (r instanceof LineAndShapeRenderer) {
-                    ((LineAndShapeRenderer) r).setShapesVisible(
+                    ((LineAndShapeRenderer) r).setDefaultShapesVisible(
                             this.drawShapes.booleanValue());
                 }
             }
@@ -653,23 +623,10 @@ class DefaultPlotEditor extends JPanel implements ActionListener {
                 XYItemRenderer r = p.getRenderer();
                 if (r instanceof StandardXYItemRenderer) {
                     ((StandardXYItemRenderer) r).setBaseShapesVisible(
-                        this.drawShapes.booleanValue());
+                        this.drawShapes);
                 }
             }
         }
-
-//dmo: added this panel for colorbar control. (start dmo additions)
-        if (this.colorBarAxisPropertyPanel != null) {
-            ColorBar colorBar = null;
-            if (plot instanceof  ContourPlot) {
-                ContourPlot p = (ContourPlot) plot;
-                colorBar = p.getColorBar();
-            }
-            if (colorBar != null) {
-                this.colorBarAxisPropertyPanel.setAxisProperties(colorBar);
-            }
-        }
-//dmo: (end dmo additions)
 
     }
 

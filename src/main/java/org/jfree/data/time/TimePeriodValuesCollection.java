@@ -53,13 +53,13 @@ package org.jfree.data.time;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
 
 import org.jfree.data.DomainInfo;
 import org.jfree.data.Range;
 import org.jfree.data.xy.AbstractIntervalXYDataset;
 import org.jfree.data.xy.IntervalXYDataset;
-import org.jfree.util.ObjectUtilities;
 
 /**
  * A collection of {@link TimePeriodValues} objects.
@@ -85,13 +85,6 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
     private TimePeriodAnchor xPosition;
 
     /**
-     * A flag that indicates that the domain is 'points in time'.  If this
-     * flag is true, only the x-value is used to determine the range of values
-     * in the domain, the start and end x-values are ignored.
-     */
-    private boolean domainIsPointsInTime;
-
-    /**
      * Constructs an empty dataset.
      */
     public TimePeriodValuesCollection() {
@@ -107,7 +100,6 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
     public TimePeriodValuesCollection(TimePeriodValues series) {
         this.data = new java.util.ArrayList();
         this.xPosition = TimePeriodAnchor.MIDDLE;
-        this.domainIsPointsInTime = false;
         if (series != null) {
             this.data.add(series);
             series.addChangeListener(this);
@@ -133,7 +125,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      * @see #getXPosition()
      */
     public void setXPosition(TimePeriodAnchor position) {
-        ParamChecks.nullNotPermitted(position, "position");
+        Args.nullNotPermitted(position, "position");
         this.xPosition = position;
     }
 
@@ -182,7 +174,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      * @param series  the time series.
      */
     public void addSeries(TimePeriodValues series) {
-        ParamChecks.nullNotPermitted(series, "series");
+        Args.nullNotPermitted(series, "series");
         this.data.add(series);
         series.addChangeListener(this);
         fireDatasetChanged();
@@ -194,7 +186,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      * @param series  the series to remove ({@code null} not permitted).
      */
     public void removeSeries(TimePeriodValues series) {
-        ParamChecks.nullNotPermitted(series, "series");
+        Args.nullNotPermitted(series, "series");
         this.data.remove(series);
         series.removeChangeListener(this);
         fireDatasetChanged();
@@ -385,7 +377,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      */
     @Override
     public Range getDomainBounds(boolean includeInterval) {
-        boolean interval = includeInterval || this.domainIsPointsInTime;
+        boolean interval = includeInterval;
         Range result = null;
         Range temp = null;
         Iterator iterator = this.data.iterator();
@@ -448,47 +440,13 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
             return false;
         }
         TimePeriodValuesCollection that = (TimePeriodValuesCollection) obj;
-        if (this.domainIsPointsInTime != that.domainIsPointsInTime) {
-            return false;
-        }
         if (this.xPosition != that.xPosition) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.data, that.data)) {
+        if (!ObjectUtils.equal(this.data, that.data)) {
             return false;
         }
         return true;
-    }
-
-    // --- DEPRECATED METHODS -------------------------------------------------
-
-    /**
-     * Returns a flag that controls whether the domain is treated as 'points
-     * in time'.  This flag is used when determining the max and min values for
-     * the domain.  If true, then only the x-values are considered for the max
-     * and min values.  If false, then the start and end x-values will also be
-     * taken into consideration
-     *
-     * @return The flag.
-     *
-     * @deprecated This flag is no longer used by JFreeChart (as of version
-     *     1.0.3).
-     */
-    public boolean getDomainIsPointsInTime() {
-        return this.domainIsPointsInTime;
-    }
-
-    /**
-     * Sets a flag that controls whether the domain is treated as 'points in
-     * time', or time periods.
-     *
-     * @param flag  the new value of the flag.
-     *
-     * @deprecated This flag is no longer used by JFreeChart (as of version
-     *     1.0.3).
-     */
-    public void setDomainIsPointsInTime(boolean flag) {
-        this.domainIsPointsInTime = flag;
     }
 
 }

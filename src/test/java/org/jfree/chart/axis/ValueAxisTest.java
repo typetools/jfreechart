@@ -59,11 +59,11 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.ui.RectangleInsets;
 import org.jfree.data.Range;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.RectangleInsets;
 import org.junit.Test;
 
 /**
@@ -122,9 +122,9 @@ public class ValueAxisTest {
         //private Shape rightArrow;
 
         // axisLinePaint
-        a1.setAxisLinePaint(Color.blue);
+        a1.setAxisLinePaint(Color.BLUE);
         assertFalse(a1.equals(a2));
-        a2.setAxisLinePaint(Color.blue);
+        a2.setAxisLinePaint(Color.BLUE);
         assertTrue(a1.equals(a2));
 
         // axisLineStroke

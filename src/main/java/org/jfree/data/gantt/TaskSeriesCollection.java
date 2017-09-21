@@ -54,13 +54,13 @@ package org.jfree.data.gantt;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
 
 import org.jfree.data.general.AbstractSeriesDataset;
 import org.jfree.data.general.SeriesChangeEvent;
 import org.jfree.data.time.TimePeriod;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A collection of {@link TaskSeries} objects.  This class provides one
@@ -211,7 +211,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      */
     @Override
     public int getColumnIndex(Comparable columnKey) {
-        ParamChecks.nullNotPermitted(columnKey, "columnKey");
+        Args.nullNotPermitted(columnKey, "columnKey");
         return this.keys.indexOf(columnKey);
     }
 
@@ -257,7 +257,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @param series  the series ({@code null} not permitted).
      */
     public void add(TaskSeries series) {
-        ParamChecks.nullNotPermitted(series, "series");
+        Args.nullNotPermitted(series, "series");
         this.data.add(series);
         series.addChangeListener(this);
 
@@ -282,7 +282,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @param series  the series.
      */
     public void remove(TaskSeries series) {
-        ParamChecks.nullNotPermitted(series, "series");
+        Args.nullNotPermitted(series, "series");
         if (this.data.contains(series)) {
             series.removeChangeListener(this);
             this.data.remove(series);
@@ -680,7 +680,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
             return false;
         }
         TaskSeriesCollection that = (TaskSeriesCollection) obj;
-        if (!ObjectUtilities.equal(this.data, that.data)) {
+        if (!ObjectUtils.equal(this.data, that.data)) {
             return false;
         }
         return true;
@@ -697,7 +697,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
     @Override
     public Object clone() throws CloneNotSupportedException {
         TaskSeriesCollection clone = (TaskSeriesCollection) super.clone();
-        clone.data = (List) ObjectUtilities.deepClone(this.data);
+        clone.data = (List) ObjectUtils.deepClone(this.data);
         clone.keys = new java.util.ArrayList(this.keys);
         return clone;
     }

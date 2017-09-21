@@ -62,12 +62,12 @@ import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
+import org.jfree.chart.util.ShapeUtils;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.PublicCloneable;
-import org.jfree.util.ShapeUtilities;
 
 /**
  * A renderer that draws line charts.  The renderer doesn't necessarily plot
@@ -88,39 +88,8 @@ public class SamplingXYLineRenderer extends AbstractXYItemRenderer
      */
     public SamplingXYLineRenderer() {
         this.legendLine = new Line2D.Double(-7.0, 0.0, 7.0, 0.0);
-        setBaseLegendShape(this.legendLine);
+        setDefaultLegendShape(this.legendLine);
         setTreatLegendShapeAsLine(true);
-    }
-
-    /**
-     * Returns the shape used to represent a line in the legend.
-     *
-     * @return The legend line (never {@code null}).
-     *
-     * @see #setLegendLine(Shape)
-     *
-     * @deprecated As of version 1.0.14, this method is deprecated.  You
-     * should use the {@link #getBaseLegendShape()} method instead.
-     */
-    public Shape getLegendLine() {
-        return this.legendLine;
-    }
-
-    /**
-     * Sets the shape used as a line in each legend item and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param line  the line ({@code null} not permitted).
-     *
-     * @see #getLegendLine()
-     *
-     * @deprecated As of version 1.0.14, this method is deprecated.  You should
-     * use the {@link #setBaseLegendShape(java.awt.Shape)} method instead.
-     */
-    public void setLegendLine(Shape line) {
-        ParamChecks.nullNotPermitted(line, "line");
-        this.legendLine = line;
-        fireChangeEvent();
     }
 
     /**
@@ -349,7 +318,7 @@ public class SamplingXYLineRenderer extends AbstractXYItemRenderer
     public Object clone() throws CloneNotSupportedException {
         SamplingXYLineRenderer clone = (SamplingXYLineRenderer) super.clone();
         if (this.legendLine != null) {
-            clone.legendLine = ShapeUtilities.clone(this.legendLine);
+            clone.legendLine = ShapeUtils.clone(this.legendLine);
         }
         return clone;
     }
@@ -373,7 +342,7 @@ public class SamplingXYLineRenderer extends AbstractXYItemRenderer
             return false;
         }
         SamplingXYLineRenderer that = (SamplingXYLineRenderer) obj;
-        if (!ShapeUtilities.equal(this.legendLine, that.legendLine)) {
+        if (!ShapeUtils.equal(this.legendLine, that.legendLine)) {
             return false;
         }
         return true;
@@ -390,7 +359,7 @@ public class SamplingXYLineRenderer extends AbstractXYItemRenderer
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.legendLine = SerialUtilities.readShape(stream);
+        this.legendLine = SerialUtils.readShape(stream);
     }
 
     /**
@@ -402,7 +371,7 @@ public class SamplingXYLineRenderer extends AbstractXYItemRenderer
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writeShape(this.legendLine, stream);
+        SerialUtils.writeShape(this.legendLine, stream);
     }
 
 }

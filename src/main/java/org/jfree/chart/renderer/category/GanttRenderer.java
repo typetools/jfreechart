@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ------------------
  * GanttRenderer.java
  * ------------------
- * (C) Copyright 2003-2016, by Object Refinery Limited.
+ * (C) Copyright 2003-2017, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   -;
@@ -72,12 +72,12 @@ import org.jfree.chart.event.RendererChangeEvent;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.SerialUtils;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.gantt.GanttCategoryDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.PaintUtilities;
 
 /**
  * A renderer for simple Gantt charts.  The example shown
@@ -118,7 +118,7 @@ public class GanttRenderer extends IntervalBarRenderer
         super();
         setIncludeBaseInRange(false);
         this.completePaint = Color.green;
-        this.incompletePaint = Color.red;
+        this.incompletePaint = Color.RED;
         this.startPercent = 0.35;
         this.endPercent = 0.65;
     }
@@ -143,7 +143,7 @@ public class GanttRenderer extends IntervalBarRenderer
      * @see #getCompletePaint()
      */
     public void setCompletePaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.completePaint = paint;
         fireChangeEvent();
     }
@@ -168,7 +168,7 @@ public class GanttRenderer extends IntervalBarRenderer
      * @see #getIncompletePaint()
      */
     public void setIncompletePaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.incompletePaint = paint;
         fireChangeEvent();
     }
@@ -588,10 +588,10 @@ public class GanttRenderer extends IntervalBarRenderer
             return false;
         }
         GanttRenderer that = (GanttRenderer) obj;
-        if (!PaintUtilities.equal(this.completePaint, that.completePaint)) {
+        if (!PaintUtils.equal(this.completePaint, that.completePaint)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.incompletePaint, that.incompletePaint)) {
+        if (!PaintUtils.equal(this.incompletePaint, that.incompletePaint)) {
             return false;
         }
         if (this.startPercent != that.startPercent) {
@@ -612,8 +612,8 @@ public class GanttRenderer extends IntervalBarRenderer
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.completePaint, stream);
-        SerialUtilities.writePaint(this.incompletePaint, stream);
+        SerialUtils.writePaint(this.completePaint, stream);
+        SerialUtils.writePaint(this.incompletePaint, stream);
     }
 
     /**
@@ -627,8 +627,8 @@ public class GanttRenderer extends IntervalBarRenderer
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.completePaint = SerialUtilities.readPaint(stream);
-        this.incompletePaint = SerialUtilities.readPaint(stream);
+        this.completePaint = SerialUtils.readPaint(stream);
+        this.incompletePaint = SerialUtils.readPaint(stream);
     }
 
 }

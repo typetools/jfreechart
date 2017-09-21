@@ -58,9 +58,9 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
+import org.jfree.chart.date.MonthConstants;
 
-import org.jfree.date.MonthConstants;
 import org.junit.Test;
 
 /**
@@ -100,15 +100,16 @@ public class MinuteTest {
     @Test
     public void testDateConstructor1() {
         TimeZone zone = TimeZone.getTimeZone("GMT");
+        Calendar cal = Calendar.getInstance(zone);
         Locale locale = Locale.getDefault(); // locale should not matter here
         Minute m1 = new Minute(new Date(1016729699999L), zone, locale);
         Minute m2 = new Minute(new Date(1016729700000L), zone, locale);
 
         assertEquals(54, m1.getMinute());
-        assertEquals(1016729699999L, m1.getLastMillisecond(zone));
+        assertEquals(1016729699999L, m1.getLastMillisecond(cal));
 
         assertEquals(55, m2.getMinute());
-        assertEquals(1016729700000L, m2.getFirstMillisecond(zone));
+        assertEquals(1016729700000L, m2.getFirstMillisecond(cal));
     }
 
     /**
@@ -119,15 +120,16 @@ public class MinuteTest {
     @Test
     public void testDateConstructor2() {
         TimeZone zone = TimeZone.getTimeZone("Asia/Singapore");
+        Calendar cal = Calendar.getInstance(zone);
         Locale locale = Locale.getDefault(); // locale should not matter here
         Minute m1 = new Minute(new Date(1016700899999L), zone, locale);
         Minute m2 = new Minute(new Date(1016700900000L), zone, locale);
 
         assertEquals(54, m1.getMinute());
-        assertEquals(1016700899999L, m1.getLastMillisecond(zone));
+        assertEquals(1016700899999L, m1.getLastMillisecond(cal));
 
         assertEquals(55, m2.getMinute());
-        assertEquals(1016700900000L, m2.getFirstMillisecond(zone));
+        assertEquals(1016700900000L, m2.getFirstMillisecond(cal));
     }
 
     /**
@@ -136,7 +138,7 @@ public class MinuteTest {
     @Test
     public void testSerialization() {
         Minute m1 = new Minute();
-        Minute m2 = (Minute) TestUtilities.serialised(m1);
+        Minute m2 = (Minute) TestUtils.serialised(m1);
         assertEquals(m1, m2);
     }
 
@@ -185,12 +187,13 @@ public class MinuteTest {
     public void testGetFirstMillisecondWithTimeZone() {
         Minute m = new Minute(59, 15, 1, 4, 1950);
         TimeZone zone = TimeZone.getTimeZone("America/Los_Angeles");
-        assertEquals(-623289660000L, m.getFirstMillisecond(zone));
+        Calendar cal = Calendar.getInstance(zone);
+        assertEquals(-623289660000L, m.getFirstMillisecond(cal));
 
         // try null calendar
         boolean pass = false;
         try {
-            m.getFirstMillisecond((TimeZone) null);
+            m.getFirstMillisecond((Calendar) null);
         }
         catch (NullPointerException e) {
             pass = true;
@@ -241,12 +244,13 @@ public class MinuteTest {
     public void testGetLastMillisecondWithTimeZone() {
         Minute m = new Minute(1, 2, 7, 7, 1950);
         TimeZone zone = TimeZone.getTimeZone("America/Los_Angeles");
-        assertEquals(-614962680001L, m.getLastMillisecond(zone));
+        Calendar cal = Calendar.getInstance(zone);
+        assertEquals(-614962680001L, m.getLastMillisecond(cal));
 
         // try null calendar
         boolean pass = false;
         try {
-            m.getLastMillisecond((TimeZone) null);
+            m.getLastMillisecond((Calendar) null);
         }
         catch (NullPointerException e) {
             pass = true;

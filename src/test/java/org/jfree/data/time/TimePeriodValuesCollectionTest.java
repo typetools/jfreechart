@@ -50,7 +50,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 
 import org.jfree.data.Range;
 import org.junit.Test;
@@ -92,11 +92,6 @@ public class TimePeriodValuesCollectionTest {
         TimePeriodValuesCollection c2 = new TimePeriodValuesCollection();
         assertTrue(c1.equals(c2));
         
-        c1.setDomainIsPointsInTime(!c1.getDomainIsPointsInTime());
-        assertFalse(c1.equals(c2));
-        c2.setDomainIsPointsInTime(c1.getDomainIsPointsInTime());
-        assertTrue(c1.equals(c2));
-        
         c1.setXPosition(TimePeriodAnchor.END);
         assertFalse(c1.equals(c2));
         c2.setXPosition(TimePeriodAnchor.END);
@@ -118,7 +113,7 @@ public class TimePeriodValuesCollectionTest {
     public void testSerialization() {
         TimePeriodValuesCollection c1 = new TimePeriodValuesCollection();
         TimePeriodValuesCollection c2 = (TimePeriodValuesCollection) 
-                TestUtilities.serialised(c1);
+                TestUtils.serialised(c1);
         assertEquals(c1, c2);
     }
 
@@ -160,7 +155,6 @@ public class TimePeriodValuesCollectionTest {
     public void testGetDomainBoundsWithoutInterval() {
         // check empty dataset
         TimePeriodValuesCollection dataset = new TimePeriodValuesCollection();
-        dataset.setDomainIsPointsInTime(false);
         Range r = dataset.getDomainBounds(false);
         assertNull(r);
         

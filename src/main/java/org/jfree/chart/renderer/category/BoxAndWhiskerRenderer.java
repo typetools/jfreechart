@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * --------------------------
  * BoxAndWhiskerRenderer.java
  * --------------------------
- * (C) Copyright 2003-2016, by David Browning and Contributors.
+ * (C) Copyright 2003-2017, by David Browning and Contributors.
  *
  * Original Author:  David Browning (for the Australian Institute of Marine
  *                   Science);
@@ -120,14 +120,14 @@ import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.renderer.Outlier;
 import org.jfree.chart.renderer.OutlierList;
 import org.jfree.chart.renderer.OutlierListCollection;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.statistics.BoxAndWhiskerCategoryDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A box-and-whisker renderer.  This renderer requires a
@@ -194,7 +194,7 @@ public class BoxAndWhiskerRenderer extends AbstractCategoryItemRenderer
      * Default constructor.
      */
     public BoxAndWhiskerRenderer() {
-        this.artifactPaint = Color.black;
+        this.artifactPaint = Color.BLACK;
         this.fillBox = true;
         this.itemMargin = 0.20;
         this.maximumBarWidth = 1.0;
@@ -202,7 +202,7 @@ public class BoxAndWhiskerRenderer extends AbstractCategoryItemRenderer
         this.meanVisible = true;
         this.useOutlinePaintForWhiskers = false;
         this.whiskerWidth = 1.0;
-        setBaseLegendShape(new Rectangle2D.Double(-4.0, -4.0, 8.0, 8.0));
+        setDefaultLegendShape(new Rectangle2D.Double(-4.0, -4.0, 8.0, 8.0));
     }
 
     /**
@@ -226,7 +226,7 @@ public class BoxAndWhiskerRenderer extends AbstractCategoryItemRenderer
      * @see #getArtifactPaint()
      */
     public void setArtifactPaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.artifactPaint = paint;
         fireChangeEvent();
     }
@@ -1083,7 +1083,7 @@ public class BoxAndWhiskerRenderer extends AbstractCategoryItemRenderer
         if (this.whiskerWidth != that.whiskerWidth) {
             return false;
         }
-        if (!PaintUtilities.equal(this.artifactPaint, that.artifactPaint)) {
+        if (!PaintUtils.equal(this.artifactPaint, that.artifactPaint)) {
             return false;
         }
         return super.equals(obj);
@@ -1098,7 +1098,7 @@ public class BoxAndWhiskerRenderer extends AbstractCategoryItemRenderer
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.artifactPaint, stream);
+        SerialUtils.writePaint(this.artifactPaint, stream);
     }
 
     /**
@@ -1112,7 +1112,7 @@ public class BoxAndWhiskerRenderer extends AbstractCategoryItemRenderer
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.artifactPaint = SerialUtilities.readPaint(stream);
+        this.artifactPaint = SerialUtils.readPaint(stream);
     }
 
 }

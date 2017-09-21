@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * -----------------------------
  * DefaultPolarItemRenderer.java
  * -----------------------------
- * (C) Copyright 2004-2016, by Solution Engineering, Inc. and
+ * (C) Copyright 2004-2017, by Solution Engineering, Inc. and
  *     Contributors.
  *
  * Original Author:  Daniel Bridenbecker, Solution Engineering, Inc.;
@@ -94,17 +94,16 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.PolarPlot;
 import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
+import org.jfree.chart.text.TextUtils;
 import org.jfree.chart.urls.XYURLGenerator;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.BooleanList;
+import org.jfree.chart.util.ObjectList;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
+import org.jfree.chart.util.ShapeUtils;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.text.TextUtilities;
-import org.jfree.util.BooleanList;
-import org.jfree.util.BooleanUtilities;
-import org.jfree.util.ObjectList;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
-import org.jfree.util.ShapeUtilities;
 
 /**
  * A renderer that can be used with the {@link PolarPlot} class.
@@ -288,7 +287,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      * @since 1.0.14
      */
     public void setFillComposite(Composite composite) {
-        ParamChecks.nullNotPermitted(composite, "composite");
+        Args.nullNotPermitted(composite, "composite");
         this.fillComposite = composite;
         fireChangeEvent();
     }
@@ -384,7 +383,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      * @param filled  the flag.
      */
     public void setSeriesFilled(int series, boolean filled) {
-        this.seriesFilled.setBoolean(series, BooleanUtilities.valueOf(filled));
+        this.seriesFilled.setBoolean(series, Boolean.valueOf(filled));
     }
 
     /**
@@ -436,7 +435,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      * @see #getLegendLine()
      */
     public void setLegendLine(Shape line) {
-        ParamChecks.nullNotPermitted(line, "line");
+        Args.nullNotPermitted(line, "line");
         this.legendLine = line;
         fireChangeEvent();
     }
@@ -562,7 +561,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
                 }
                 final int x = Math.round(coords[0]);
                 final int y = Math.round(coords[1]);
-                final Shape shape = ShapeUtilities.createTranslatedShape(
+                final Shape shape = ShapeUtils.createTranslatedShape(
                         getItemShape(seriesIndex, i++), x,  y);
 
                 Paint paint;
@@ -582,8 +581,8 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
 
                 // add an entity for the item, but only if it falls within the
                 // data area...
-                if (entities != null &&
-                        AbstractXYItemRenderer.isPointInRect(dataArea, x, y)) {
+                if (entities != null && ShapeUtils.isPointInRect(dataArea, x, 
+                        y)) {
                     addEntity(entities, shape, dataset, seriesIndex, i-1, x, y);
                 }
             }
@@ -628,7 +627,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
                 int x = p.x;
                 int y = p.y;
                 g2.setPaint(plot.getAngleLabelPaint());
-                TextUtilities.drawAlignedString(tick.getText(), g2, x, y,
+                TextUtils.drawAlignedString(tick.getText(), g2, x, y,
                         tick.getTextAnchor());
             }
         }
@@ -647,7 +646,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
     public void drawRadialGridLines(Graphics2D g2, PolarPlot plot, 
             ValueAxis radialAxis, List ticks, Rectangle2D dataArea) {
 
-        ParamChecks.nullNotPermitted(radialAxis, "radialAxis");
+        Args.nullNotPermitted(radialAxis, "radialAxis");
         g2.setFont(radialAxis.getTickLabelFont());
         g2.setPaint(plot.getRadiusGridlinePaint());
         g2.setStroke(plot.getRadiusGridlineStroke());
@@ -910,13 +909,13 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
         if (this.drawOutlineWhenFilled != that.drawOutlineWhenFilled) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.fillComposite, that.fillComposite)) {
+        if (!ObjectUtils.equal(this.fillComposite, that.fillComposite)) {
             return false;
         }
         if (this.useFillPaint != that.useFillPaint) {
             return false;
         }
-        if (!ShapeUtilities.equal(this.legendLine, that.legendLine)) {
+        if (!ShapeUtils.equal(this.legendLine, that.legendLine)) {
             return false;
         }
         if (this.shapesVisible != that.shapesVisible) {
@@ -928,18 +927,18 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
         if (!this.toolTipGeneratorList.equals(that.toolTipGeneratorList)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseToolTipGenerator,
+        if (!ObjectUtils.equal(this.baseToolTipGenerator,
                 that.baseToolTipGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.urlGenerator, that.urlGenerator)) {
+        if (!ObjectUtils.equal(this.urlGenerator, that.urlGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.legendItemToolTipGenerator,
+        if (!ObjectUtils.equal(this.legendItemToolTipGenerator,
                 that.legendItemToolTipGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.legendItemURLGenerator,
+        if (!ObjectUtils.equal(this.legendItemURLGenerator,
                 that.legendItemURLGenerator)) {
             return false;
         }
@@ -958,26 +957,26 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
         DefaultPolarItemRenderer clone
                 = (DefaultPolarItemRenderer) super.clone();
         if (this.legendLine != null) {
-            clone.legendLine = ShapeUtilities.clone(this.legendLine);
+            clone.legendLine = ShapeUtils.clone(this.legendLine);
         }
         clone.seriesFilled = (BooleanList) this.seriesFilled.clone();
         clone.toolTipGeneratorList
                 = (ObjectList) this.toolTipGeneratorList.clone();
         if (clone.baseToolTipGenerator instanceof PublicCloneable) {
             clone.baseToolTipGenerator = (XYToolTipGenerator)
-                    ObjectUtilities.clone(this.baseToolTipGenerator);
+                    ObjectUtils.clone(this.baseToolTipGenerator);
         }
         if (clone.urlGenerator instanceof PublicCloneable) {
             clone.urlGenerator = (XYURLGenerator)
-                    ObjectUtilities.clone(this.urlGenerator);
+                    ObjectUtils.clone(this.urlGenerator);
         }
         if (clone.legendItemToolTipGenerator instanceof PublicCloneable) {
             clone.legendItemToolTipGenerator = (XYSeriesLabelGenerator)
-                    ObjectUtilities.clone(this.legendItemToolTipGenerator);
+                    ObjectUtils.clone(this.legendItemToolTipGenerator);
         }
         if (clone.legendItemURLGenerator instanceof PublicCloneable) {
             clone.legendItemURLGenerator = (XYSeriesLabelGenerator)
-                    ObjectUtilities.clone(this.legendItemURLGenerator);
+                    ObjectUtils.clone(this.legendItemURLGenerator);
         }
         return clone;
     }
@@ -993,8 +992,8 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.legendLine = SerialUtilities.readShape(stream);
-        this.fillComposite = SerialUtilities.readComposite(stream);
+        this.legendLine = SerialUtils.readShape(stream);
+        this.fillComposite = SerialUtils.readComposite(stream);
     }
 
     /**
@@ -1006,7 +1005,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writeShape(this.legendLine, stream);
-        SerialUtilities.writeComposite(this.fillComposite, stream);
+        SerialUtils.writeShape(this.legendLine, stream);
+        SerialUtils.writeComposite(this.fillComposite, stream);
     }
 }

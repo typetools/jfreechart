@@ -61,7 +61,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -156,7 +156,7 @@ public class WeekTest {
     @Test
     public void testSerialization() {
         Week w1 = new Week(24, 1999);
-        Week w2 = (Week) TestUtilities.serialised(w1);
+        Week w2 = (Week) TestUtils.serialised(w1);
         assertEquals(w1, w2);
     }
 
@@ -267,7 +267,7 @@ public class WeekTest {
         Locale.setDefault(Locale.UK);
         try {
             Week w = new Week(new Date(1136109830000l),
-                    TimeZone.getTimeZone("GMT"));
+                    TimeZone.getTimeZone("GMT"), Locale.UK);
             assertEquals(2005, w.getYearValue());
             assertEquals(52, w.getWeek());
         }
@@ -287,7 +287,7 @@ public class WeekTest {
             TimeZone zone = TimeZone.getTimeZone("GMT");
             GregorianCalendar gc = new GregorianCalendar(zone);
             gc.set(2005, Calendar.JANUARY, 1, 12, 0, 0);
-            Week w = new Week(gc.getTime(), zone);
+            Week w = new Week(gc.getTime(), zone, Locale.UK);
             assertEquals(53, w.getWeek());
             assertEquals(new Year(2004), w.getYear());
         }
@@ -321,7 +321,8 @@ public class WeekTest {
         Locale.setDefault(Locale.US);
         try {
             TimeZone zone = TimeZone.getTimeZone("America/Los_Angeles");
-            assertEquals(-603302400000L, w.getFirstMillisecond(zone));
+            Calendar cal = Calendar.getInstance(zone);
+            assertEquals(-603302400000L, w.getFirstMillisecond(cal));
         }
         finally {
             Locale.setDefault(saved);
@@ -330,7 +331,7 @@ public class WeekTest {
         // try null calendar
         boolean pass = false;
         try {
-            w.getFirstMillisecond((TimeZone) null);
+            w.getFirstMillisecond((Calendar) null);
         }
         catch (NullPointerException e) {
             pass = true;
@@ -384,7 +385,8 @@ public class WeekTest {
         Locale.setDefault(Locale.US);
         try {
             TimeZone zone = TimeZone.getTimeZone("America/Los_Angeles");
-            assertEquals(-629913600001L, w.getLastMillisecond(zone));
+            Calendar cal = Calendar.getInstance(zone);
+            assertEquals(-629913600001L, w.getLastMillisecond(cal));
         }
         finally {
             Locale.setDefault(saved);
@@ -393,7 +395,7 @@ public class WeekTest {
         // try null zone
         boolean pass = false;
         try {
-            w.getLastMillisecond((TimeZone) null);
+            w.getLastMillisecond((Calendar) null);
         }
         catch (NullPointerException e) {
             pass = true;
@@ -493,7 +495,7 @@ public class WeekTest {
         cal.set(2007, Calendar.AUGUST, 26, 1, 0, 0);
         cal.set(Calendar.MILLISECOND, 0);
         Date t = cal.getTime();
-        Week w = new Week(t, TimeZone.getTimeZone("Europe/Copenhagen"));
+        Week w = new Week(t, TimeZone.getTimeZone("Europe/Copenhagen"), Locale.getDefault());
         assertEquals(34, w.getWeek());
 
         Locale.setDefault(Locale.US);
@@ -505,7 +507,7 @@ public class WeekTest {
         cal.set(Calendar.MILLISECOND, 0);
 
         t = cal.getTime();
-        w = new Week(t, TimeZone.getTimeZone("Europe/Copenhagen"));
+        w = new Week(t, TimeZone.getTimeZone("Europe/Copenhagen"), Locale.getDefault());
         assertEquals(35, w.getWeek());
         w = new Week(t, TimeZone.getTimeZone("Europe/Copenhagen"),
                 new Locale("da", "DK"));

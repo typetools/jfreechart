@@ -52,9 +52,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import org.jfree.chart.util.ParamChecks;
-
-import org.jfree.util.PublicCloneable;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
 
 /**
  * A default implementation of the {@link WindDataset} interface.
@@ -127,7 +126,7 @@ public class DefaultWindDataset extends AbstractXYDataset
      * @throws NullPointerException if {@code data} is {@code null}.
      */
     public DefaultWindDataset(List seriesKeys, Object[][][] data) {
-        ParamChecks.nullNotPermitted(seriesKeys, "seriesKeys");
+        Args.nullNotPermitted(seriesKeys, "seriesKeys");
         if (seriesKeys.size() != data.length) {
             throw new IllegalArgumentException("The number of series keys does "
                     + "not match the number of series in the data array.");

@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -50,7 +50,7 @@ import static org.junit.Assert.assertFalse;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.IntervalXYItemLabelGenerator;
@@ -58,11 +58,11 @@ import org.jfree.chart.labels.StandardXYItemLabelGenerator;
 import org.jfree.chart.labels.StandardXYSeriesLabelGenerator;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.ui.Layer;
 import org.jfree.chart.urls.StandardXYURLGenerator;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.xy.YIntervalSeries;
 import org.jfree.data.xy.YIntervalSeriesCollection;
-import org.jfree.ui.Layer;
-import org.jfree.util.PublicCloneable;
 import org.junit.Test;
 
 /**
@@ -80,24 +80,14 @@ public class YIntervalRendererTest {
         assertEquals(r1, r2);
 
         // the following fields are inherited from the AbstractXYItemRenderer
-        r1.setItemLabelGenerator(new StandardXYItemLabelGenerator());
-        assertFalse(r1.equals(r2));
-        r2.setItemLabelGenerator(new StandardXYItemLabelGenerator());
-        assertTrue(r1.equals(r2));
-
         r1.setSeriesItemLabelGenerator(0, new StandardXYItemLabelGenerator());
         assertFalse(r1.equals(r2));
         r2.setSeriesItemLabelGenerator(0, new StandardXYItemLabelGenerator());
         assertTrue(r1.equals(r2));
 
-        r1.setBaseItemLabelGenerator(new StandardXYItemLabelGenerator());
+        r1.setDefaultItemLabelGenerator(new StandardXYItemLabelGenerator());
         assertFalse(r1.equals(r2));
-        r2.setBaseItemLabelGenerator(new StandardXYItemLabelGenerator());
-        assertTrue(r1.equals(r2));
-
-        r1.setToolTipGenerator(new StandardXYToolTipGenerator());
-        assertFalse(r1.equals(r2));
-        r2.setToolTipGenerator(new StandardXYToolTipGenerator());
+        r2.setDefaultItemLabelGenerator(new StandardXYItemLabelGenerator());
         assertTrue(r1.equals(r2));
 
         r1.setSeriesToolTipGenerator(0, new StandardXYToolTipGenerator());
@@ -105,9 +95,9 @@ public class YIntervalRendererTest {
         r2.setSeriesToolTipGenerator(0, new StandardXYToolTipGenerator());
         assertTrue(r1.equals(r2));
 
-        r1.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+        r1.setDefaultToolTipGenerator(new StandardXYToolTipGenerator());
         assertFalse(r1.equals(r2));
-        r2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+        r2.setDefaultToolTipGenerator(new StandardXYToolTipGenerator());
         assertTrue(r1.equals(r2));
 
         r1.setURLGenerator(new StandardXYURLGenerator());
@@ -220,7 +210,7 @@ public class YIntervalRendererTest {
     @Test
     public void testSerialization() {
         YIntervalRenderer r1 = new YIntervalRenderer();
-        YIntervalRenderer r2 = (YIntervalRenderer) TestUtilities.serialised(r1);
+        YIntervalRenderer r2 = (YIntervalRenderer) TestUtils.serialised(r1);
         assertEquals(r1, r2);
     }
 

@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ---------------------------
  * StandardXYItemRenderer.java
  * ---------------------------
- * (C) Copyright 2001-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2001-2017, by Object Refinery Limited and Contributors.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Mark Watson (www.markwatson.com);
@@ -105,6 +105,7 @@
  * 02-Jun-2008 : Fixed tooltips for data items at lower edges of data area (DG);
  * 17-Jun-2008 : Apply legend shape, font and paint attributes (DG);
  * 03-Jul-2013 : Use ParamChecks (DG);
+ * 18-Feb-2017 : Updates for crosshairs (bug #36) (DG);
  *
  */
 
@@ -134,17 +135,15 @@ import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.ui.RectangleEdge;
 import org.jfree.chart.urls.XYURLGenerator;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.BooleanList;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
+import org.jfree.chart.util.ShapeUtils;
+import org.jfree.chart.util.UnitType;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.BooleanList;
-import org.jfree.util.BooleanUtilities;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
-import org.jfree.util.ShapeUtilities;
-import org.jfree.util.UnitType;
 
 /**
  * Standard item renderer for an {@link XYPlot}.  This class can draw (a)
@@ -195,13 +194,6 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
 
     /** Threshold for deciding when to discontinue a line. */
     private double gapThreshold = 1.0;
-
-    /**
-     * A flag that controls whether or not shapes are filled for ALL series.
-     *
-     * @deprecated As of 1.0.8, this override should not be used.
-     */
-    private Boolean shapesFilled;
 
     /**
      * A table of flags that control (per series) whether or not shapes are
@@ -266,12 +258,11 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      *                          permitted).
      * @param urlGenerator  the URL generator.
      */
-    public StandardXYItemRenderer(int type,
-                                  XYToolTipGenerator toolTipGenerator,
-                                  XYURLGenerator urlGenerator) {
+    public StandardXYItemRenderer(int type, XYToolTipGenerator toolTipGenerator,
+           XYURLGenerator urlGenerator) {
 
         super();
-        setBaseToolTipGenerator(toolTipGenerator);
+        setDefaultToolTipGenerator(toolTipGenerator);
         setURLGenerator(urlGenerator);
         if ((type & SHAPES) != 0) {
             this.baseShapesVisible = true;
@@ -286,7 +277,6 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
             this.plotDiscontinuous = true;
         }
 
-        this.shapesFilled = null;
         this.seriesShapesFilled = new BooleanList();
         this.baseShapesFilled = true;
         this.legendLine = new Line2D.Double(-7.0, 0.0, 7.0, 0.0);
@@ -337,10 +327,6 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      * @see #getSeriesShapesFilled(int)
      */
     public boolean getItemShapeFilled(int series, int item) {
-        // return the overall setting, if there is one...
-        if (this.shapesFilled != null) {
-            return this.shapesFilled.booleanValue();
-        }
 
         // otherwise look up the paint table
         Boolean flag = this.seriesShapesFilled.getBoolean(series);
@@ -350,60 +336,6 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
         else {
             return this.baseShapesFilled;
         }
-    }
-
-    /**
-     * Returns the override flag that controls whether or not shapes are filled
-     * for ALL series.
-     *
-     * @return The flag (possibly {@code null}).
-     *
-     * @since 1.0.5
-     *
-     * @deprecated As of 1.0.8, you should avoid using this method and rely
-     *             on just the per-series ({@link #getSeriesShapesFilled(int)})
-     *             and base-level ({@link #getBaseShapesFilled()}) settings.
-     */
-    public Boolean getShapesFilled() {
-        return this.shapesFilled;
-    }
-
-    /**
-     * Sets the override flag that controls whether or not shapes are filled
-     * for ALL series and sends a {@link RendererChangeEvent} to all registered
-     * listeners.
-     *
-     * @param filled  the flag.
-     *
-     * @see #setShapesFilled(Boolean)
-     *
-     * @deprecated As of 1.0.8, you should avoid using this method and rely
-     *             on just the per-series ({@link #setSeriesShapesFilled(int,
-     *             Boolean)}) and base-level ({@link #setBaseShapesVisible(
-     *             boolean)}) settings.
-     */
-    public void setShapesFilled(boolean filled) {
-        // here we use BooleanUtilities to remain compatible with JDKs < 1.4
-        setShapesFilled(BooleanUtilities.valueOf(filled));
-    }
-
-    /**
-     * Sets the override flag that controls whether or not shapes are filled
-     * for ALL series and sends a {@link RendererChangeEvent} to all registered
-     * listeners.
-     *
-     * @param filled  the flag ({@code null} permitted).
-     *
-     * @see #setShapesFilled(boolean)
-     *
-     * @deprecated As of 1.0.8, you should avoid using this method and rely
-     *             on just the per-series ({@link #setSeriesShapesFilled(int,
-     *             Boolean)}) and base-level ({@link #setBaseShapesVisible(
-     *             boolean)}) settings.
-     */
-    public void setShapesFilled(Boolean filled) {
-        this.shapesFilled = filled;
-        fireChangeEvent();
     }
 
     /**
@@ -502,7 +434,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      * @see #getGapThresholdType()
      */
     public void setGapThresholdType(UnitType thresholdType) {
-        ParamChecks.nullNotPermitted(thresholdType, "thresholdType");
+        Args.nullNotPermitted(thresholdType, "thresholdType");
         this.gapThresholdType = thresholdType;
         fireChangeEvent();
     }
@@ -628,7 +560,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      * @see #getLegendLine()
      */
     public void setLegendLine(Shape line) {
-        ParamChecks.nullNotPermitted(line, "line");
+        Args.nullNotPermitted(line, "line");
         this.legendLine = line;
         fireChangeEvent();
     }
@@ -933,11 +865,11 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
 
             Shape shape = getItemShape(series, item);
             if (orientation == PlotOrientation.HORIZONTAL) {
-                shape = ShapeUtilities.createTranslatedShape(shape, transY1,
+                shape = ShapeUtils.createTranslatedShape(shape, transY1,
                         transX1);
             }
             else if (orientation == PlotOrientation.VERTICAL) {
-                shape = ShapeUtilities.createTranslatedShape(shape, transX1,
+                shape = ShapeUtils.createTranslatedShape(shape, transX1,
                         transY1);
             }
             if (shape.intersects(dataArea)) {
@@ -979,13 +911,12 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
                     (y1 < 0.0));
         }
 
-        int domainAxisIndex = plot.getDomainAxisIndex(domainAxis);
-        int rangeAxisIndex = plot.getRangeAxisIndex(rangeAxis);
-        updateCrosshairValues(crosshairState, x1, y1, domainAxisIndex,
-                rangeAxisIndex, transX1, transY1, orientation);
+        int datasetIndex = plot.indexOf(dataset);
+        updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
+                transX1, transY1, orientation);
 
         // add an entity for the item...
-        if (entities != null && isPointInRect(dataArea, xx, yy)) {
+        if (entities != null && ShapeUtils.isPointInRect(dataArea, xx, yy)) {
             addEntity(entities, entityArea, dataset, series, item, xx, yy);
         }
 
@@ -1026,9 +957,6 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
         if (this.gapThreshold != that.gapThreshold) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.shapesFilled, that.shapesFilled)) {
-            return false;
-        }
         if (!this.seriesShapesFilled.equals(that.seriesShapesFilled)) {
             return false;
         }
@@ -1038,7 +966,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
         if (this.drawSeriesLineAsPath != that.drawSeriesLineAsPath) {
             return false;
         }
-        if (!ShapeUtilities.equal(this.legendLine, that.legendLine)) {
+        if (!ShapeUtils.equal(this.legendLine, that.legendLine)) {
             return false;
         }
         return super.equals(obj);
@@ -1057,7 +985,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
         StandardXYItemRenderer clone = (StandardXYItemRenderer) super.clone();
         clone.seriesShapesFilled
                 = (BooleanList) this.seriesShapesFilled.clone();
-        clone.legendLine = ShapeUtilities.clone(this.legendLine);
+        clone.legendLine = ShapeUtils.clone(this.legendLine);
         return clone;
     }
 
@@ -1124,7 +1052,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.legendLine = SerialUtilities.readShape(stream);
+        this.legendLine = SerialUtils.readShape(stream);
     }
 
     /**
@@ -1136,7 +1064,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writeShape(this.legendLine, stream);
+        SerialUtils.writeShape(this.legendLine, stream);
     }
 
 }

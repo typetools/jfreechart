@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2015, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * --------------------
  * XYShapeRenderer.java
  * --------------------
- * (C) Copyright 2008-2015 by Andreas Haumer, xS+S and Contributors.
+ * (C) Copyright 2008-2017 by Andreas Haumer, xS+S and Contributors.
  *
  * Original Author:  Martin Hoeller (x Software + Systeme  xS+S - Andreas
  *                       Haumer);
@@ -41,6 +41,7 @@
  * 19-Oct-2011 : Fixed NPE in findRangeBounds() (bug 3026341) (DG);
  * 03-Jul-2013 : Use ParamChecks (DG);
  * 09-Sep-2015 : Add update for crosshair (DG);
+ * 18-Feb-2017 : Updates for crosshairs (bug #36) (DG);
  *
  */
 
@@ -69,14 +70,14 @@ import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.LookupPaintScale;
 import org.jfree.chart.renderer.PaintScale;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
+import org.jfree.chart.util.ShapeUtils;
 import org.jfree.data.Range;
-import org.jfree.data.general.DatasetUtilities;
+import org.jfree.data.general.DatasetUtils;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.util.PublicCloneable;
-import org.jfree.util.ShapeUtilities;
 
 /**
  * A renderer that draws shapes at (x, y) coordinates and, if the dataset
@@ -142,7 +143,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
         this.guideLinesVisible = false;
         this.guideLinePaint = Color.darkGray;
         this.guideLineStroke = new BasicStroke();
-        setBaseShape(new Ellipse2D.Double(-5.0, -5.0, 10.0, 10.0));
+        setDefaultShape(new Ellipse2D.Double(-5.0, -5.0, 10.0, 10.0));
         setAutoPopulateSeriesShape(false);
     }
 
@@ -166,7 +167,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
      * @see #getPaintScale()
      */
     public void setPaintScale(PaintScale scale) {
-        ParamChecks.nullNotPermitted(scale, "scale");
+        Args.nullNotPermitted(scale, "scale");
         this.paintScale = scale;
         notifyListeners(new RendererChangeEvent(this));
     }
@@ -304,7 +305,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
      * @see #getGuideLinePaint()
      */
     public void setGuideLinePaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.guideLinePaint = paint;
         fireChangeEvent();
     }
@@ -329,7 +330,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
      * @see #getGuideLineStroke()
      */
     public void setGuideLineStroke(Stroke stroke) {
-        ParamChecks.nullNotPermitted(stroke, "stroke");
+        Args.nullNotPermitted(stroke, "stroke");
         this.guideLineStroke = stroke;
         fireChangeEvent();
     }
@@ -348,7 +349,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
         if (dataset == null) {
             return null;
         }
-        Range r = DatasetUtilities.findDomainBounds(dataset, false);
+        Range r = DatasetUtils.findDomainBounds(dataset, false);
         if (r == null) {
             return null;
         }
@@ -371,7 +372,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
         if (dataset == null) {
             return null;
         }
-        Range r = DatasetUtilities.findRangeBounds(dataset, false);
+        Range r = DatasetUtils.findRangeBounds(dataset, false);
         if (r == null) {
             return null;
         }
@@ -390,7 +391,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
      */
     public Range findZBounds(XYZDataset dataset) {
         if (dataset != null) {
-            return DatasetUtilities.findZBounds(dataset);
+            return DatasetUtils.findZBounds(dataset);
         } else {
             return null;
         }
@@ -466,10 +467,10 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
         } else if (pass == 1) {
             Shape shape = getItemShape(series, item);
             if (orientation == PlotOrientation.HORIZONTAL) {
-                shape = ShapeUtilities.createTranslatedShape(shape, transY,
+                shape = ShapeUtils.createTranslatedShape(shape, transY,
                         transX);
             } else if (orientation == PlotOrientation.VERTICAL) {
-                shape = ShapeUtilities.createTranslatedShape(shape, transX,
+                shape = ShapeUtils.createTranslatedShape(shape, transX,
                         transY);
             }
             hotspot = shape;
@@ -481,8 +482,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
                 if (this.drawOutlines) {
                     if (getUseOutlinePaint()) {
                         g2.setPaint(getItemOutlinePaint(series, item));
-                    }
-                    else {
+                    } else {
                         g2.setPaint(getItemPaint(series, item));
                     }
                     g2.setStroke(getItemOutlineStroke(series, item));
@@ -490,15 +490,13 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
                 }
             }
             
-            int domainAxisIndex = plot.getDomainAxisIndex(domainAxis);
-            int rangeAxisIndex = plot.getRangeAxisIndex(rangeAxis);
-            updateCrosshairValues(crosshairState, x, y, domainAxisIndex,
-                    rangeAxisIndex, transX, transY, orientation);
+            int datasetIndex = plot.indexOf(dataset);
+            updateCrosshairValues(crosshairState, x, y, datasetIndex,
+                    transX, transY, orientation);
 
             // add an entity for the item...
             if (entities != null) {
-                addEntity(entities, hotspot, dataset, series, item, transX,
-                        transY);
+                addEntity(entities, hotspot, dataset, series, item, 0.0, 0.0);
             }
         }
     }
@@ -604,8 +602,8 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.guideLinePaint = SerialUtilities.readPaint(stream);
-        this.guideLineStroke = SerialUtilities.readStroke(stream);
+        this.guideLinePaint = SerialUtils.readPaint(stream);
+        this.guideLineStroke = SerialUtils.readStroke(stream);
     }
 
     /**
@@ -617,8 +615,8 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.guideLinePaint, stream);
-        SerialUtilities.writeStroke(this.guideLineStroke, stream);
+        SerialUtils.writePaint(this.guideLinePaint, stream);
+        SerialUtils.writeStroke(this.guideLineStroke, stream);
     }
 
 }

@@ -1,8 +1,9 @@
 JFreeChart
 ==========
 
-Version 1.5.0 (and 1.0.20), not yet released.
+Version 1.5.0, not yet released.
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.jfree/jfreechart/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.jfree/jfreechart)
 
 Overview
 --------
@@ -16,22 +17,19 @@ The home page for the project is:
 
 http://www.jfree.org/jfreechart
 
-JFreeChart requires JDK 1.6.0 or later (JDK 1.8.0_40 or later for JavaFX 
-support) and is licensed under the terms of the GNU Lesser General Public 
-License (LGPL) version 2.1 or later.
+JFreeChart requires JDK 1.6.0 or later.  If JavaFX support is required, you
+need to also include the JFreeChart-FX extensions.  The library is licensed 
+under the terms of the GNU Lesser General Public License (LGPL) version 2.1 or 
+later.
 
 
 Building JFreeChart
 -------------------
-You can build JFreeChart using either Ant or Maven.  The build requires JDK 1.6.0 or later. 
-If you require JavaFX support, then JDK 1.8.0_40 or later is required.
+You can build JFreeChart using either Ant or Maven.  The build requires 
+JDK 1.6.0 or later.
 
 #### Ant
 Using Ant you can build JFreeChart using the following command (issued from the root directory of the project):
-
-    ant -f ant/build-fx.xml
-
-This will include JavaFX support.  To build without JavaFX:
 
     ant -f ant/build.xml
 
@@ -42,10 +40,22 @@ Using Maven you can build JFreeChart using the following command (issued from th
 
     mvn clean install
 
-This will include the JavaFX support.  To build without JavaFX, you should copy the content of the file `maven/pom-1.6.xml` into the `pom.xml` file in the root directory and then type the same command as above.
 
 History
 -------
+
+##### Version 1.5.0 (not yet release)
+- all JavaFX classes moved to a separate project;
+- added cleaner method to create histograms in `ChartFactory`;
+- JFreeSVG updated to version 3.2;
+- OrsonPDF updated to version 1.7;
+- JCommon removed as a dependency, and required classes incorporated directly;
+- pull request #4 improvements to `XYStepRenderer`;
+- bug #36 fix for crosshairs with multiple datasets / axes;
+- bug #25 fix for `DateAxis.previousStandardDate()` method;
+- bug #19 fix for default time zone in `SegmentedDateAxis`;
+- SourceForge #1147 improve performance of `CategoryPlot` mapping datasets to axes;
+- moved SWT code out into separate projects;
 
 ##### Version 1.0.19 (31-Jul-2014)
 - fixed clipping issues for combined plots in JavaFX;
@@ -206,56 +216,55 @@ Also fixed:
 
 This release contains:
 
-- updates to the ChartPanel class to support copying charts to the clipboard, 
+- updates to the `ChartPanel` class to support copying charts to the clipboard, 
   panning and mouse-wheel zooming, and an overlay mechanism that supports
   crosshairs;
 - enhancements to the auto-range calculation for axes, providing the ability
   to use subranges only and also to skip hidden series;
-- updates for many of the CategoryItemRenderer implementations to ensure that
-  they respect the 'seriesVisible' flags;
-- an improvement to the TimeSeries class so that it is no longer necessary to
+- updates for many of the `CategoryItemRenderer` implementations to ensure that
+  they respect the `seriesVisible` flags;
+- an improvement to the `TimeSeries` class so that it is no longer necessary to
   specify the time period type in the constructor;
-- a new SamplingXYLineRenderer for improving the performance of time series
+- a new `SamplingXYLineRenderer` for improving the performance of time series
   charts with large datasets;
-- the XYSeries/XYSeriesCollection classes now cache the minimum and maximum
+- the `XYSeries/XYSeriesCollection` classes now cache the minimum and maximum
   data values to improve the performance of charts with large datasets;
 - entities are now created for the chart, data area and axes, allowing mouse
   clicks to be detected for these regions;
-- added a bar alignment factor to the XYBarRenderer class;
-- a new 'errorIndicatorStroke' field for the StatisticalLineAndShapeRenderer 
-  and XYErrorRenderer classes;
-- added a new HeatMapDataset interface, DefaultHeatMapDataset implementation,
-  and a HeatMapUtilities class to make it easier to create heat map charts;
-- there is a new flag to allow an XYDataImageAnnotation to be included in the
+- added a bar alignment factor to the `XYBarRenderer` class;
+- a new `errorIndicatorStroke` field for the `StatisticalLineAndShapeRenderer` and `XYErrorRenderer` classes;
+- added a new `HeatMapDataset` interface, `DefaultHeatMapDataset` implementation,
+  and a `HeatMapUtilities` class to make it easier to create heat map charts;
+- there is a new flag to allow an `XYDataImageAnnotation` to be included in the
   automatic range calculation for the axes;
-- additional attributes in the XYTextAnnotation class;
-- added a sampleFunction2DToSeries() method to the DatasetUtilities class;
-- some changes to the ChartPanel class that help to work around a regression in
+- additional attributes in the `XYTextAnnotation` class;
+- added a `sampleFunction2DToSeries()` method to the `DatasetUtilities` class;
+- some changes to the `ChartPanel` class that help to work around a regression in
   JRE 1.6.0_10 relating to drawing in XOR mode.  Regarding this final point:
-     * the default value for the useBuffer flag has changed to true, which means
+     * the default value for the `useBuffer` flag has changed to true, which means
        that all charts will, by default, be rendered into an off-screen image
-       before being displayed in the ChartPanel;
-     * the zoom rectangle is drawn using XOR mode *only* when the useBuffer
+       before being displayed in the `ChartPanel`;
+     * the zoom rectangle is drawn using XOR mode *only* when the `useBuffer`
        flag has been set to false.
   For most usage, this should improve performance (but at the cost of using more
-  memory for each ChartPanel used in your application);
+  memory for each `ChartPanel` used in your application);
 
 ###### Bug Fixes
 
 - 2690293 : Problem with Javascript escape characters;
-- 2617557 : StandardDialScale ignored tickLabelPaint;
-- 2612649 : Stroke selection in plot property editor;
-- 2583891 : SWTGraphics2D.fillPolygon() not implemented;
-- 2564636 : Month constructor ignores Locale;
-- 2502355 : ChartPanel sending multiple events;
-- 2490803 : PeriodAxis.setRange() method doesn't take into account that the axis
+- 2617557 : `StandardDialScale` ignored `tickLabelPaint`;
+- 2612649 : `Stroke` selection in plot property editor;
+- 2583891 : `SWTGraphics2D.fillPolygon()` not implemented;
+- 2564636 : `Month` constructor ignores Locale;
+- 2502355 : `ChartPanel` sending multiple events;
+- 2490803 : `PeriodAxis.setRange()` method doesn't take into account that the axis
           displays whole periods;
 
-In addition, a bug in the SlidingCategoryDataset class has been fixed, the
-correct outline paint is now used by GradientXYBarPainter, a new method
-has been added to the ImageMapUtilities class to escape special characters
+In addition, a bug in the `SlidingCategoryDataset` class has been fixed, the
+correct outline paint is now used by `GradientXYBarPainter`, a new method
+has been added to the `ImageMapUtilities` class to escape special characters
 in Javascript strings to avoid problems with the OverLIB and DynamicDrive
-tooltips, and there are some important fixes in the LogAxis class.
+tooltips, and there are some important fixes in the `LogAxis` class.
 
 This release passes 2110 JUnit tests (0 failures) on JRE 1.6.0_12.
 
@@ -265,86 +274,86 @@ This release passes 2110 JUnit tests (0 failures) on JRE 1.6.0_12.
 This release adds 
 - support for minor tick marks;
 - mapping datasets to more than one axis;
-- an important fix for the XYSeries class (relating to the addOrUpdate() method);
+- an important fix for the `XYSeries` class (relating to the `addOrUpdate()` method);
 - plus numerous other bug fixes.
 
 This release passes 1996 JUnit test (0 failures) on JRE 1.6.0_10.
 
 ###### API Adjustments
-- CategoryPlot : added mapDatasetToDomainAxes() and mapDatasetToRangeAxes() methods;
-- Month : added a new constructor Month(Date, TimeZone, Locale) and deprecated Month(Date, TimeZone);
-- Quarter : added a new constructor Quarter(Date, TimeZone, Locale) and deprecated Quarter(Date, TimeZone);
-- XYPlot : added mapDatasetToDomainAxes() and mapDatasetToRangeAxes() methods;
-- Year : added a new constructor Year(Date, TimeZone, Locale) and deprecated Year(Date, TimeZone);
+- `CategoryPlot` : added `mapDatasetToDomainAxes()` and `mapDatasetToRangeAxes()` methods;
+- `Month` : added a new constructor `Month(Date, TimeZone, Locale)` and deprecated `Month(Date, TimeZone)`;
+- `Quarter` : added a new constructor `Quarter(Date, TimeZone, Locale)` and deprecated `Quarter(Date, TimeZone)`;
+- `XYPlot` : added `mapDatasetToDomainAxes()` and `mapDatasetToRangeAxes()` methods;
+- `Year` : added a new constructor `Year(Date, TimeZone, Locale)` and deprecated `Year(Date, TimeZone)`;
 
 ###### Bug Fixes
-- 2471906 : XYAreaRenderer with dashed outline - performance problem;
-- 2452078 : StackedAreaChart has gaps;
-- 2275695 : NullPointerException for SubCategoryAxis on plot with null dataset;
-- 2221495 : XYLineAnnotation with dashed stroke;
-- 2216511 : SWTBarChartDemo1 throws RuntimeException;
-- 2201869 : DateAxis tick label position error;
-- 2121818 : Label link lines for very thin RingPlot;
-- 2113627 : XYStepRenderer item labels;
-- 1955483 : XYSeries.addOrUpdate() problem.
+- 2471906 : `XYAreaRenderer` with dashed outline - performance problem;
+- 2452078 : `StackedAreaChart` has gaps;
+- 2275695 : `NullPointerException` for `SubCategoryAxis` on plot with null dataset;
+- 2221495 : `XYLineAnnotation` with dashed stroke;
+- 2216511 : `SWTBarChartDemo1` throws `RuntimeException`;
+- 2201869 : `DateAxis` tick label position error;
+- 2121818 : Label link lines for very thin `RingPlot`;
+- 2113627 : `XYStepRenderer` item labels;
+- 1955483 : `XYSeries.addOrUpdate()` problem.
 
-Also fixed StackedXYBarRenderer which was ignoring the shadowsVisible attribute.
+Also fixed `StackedXYBarRenderer` which was ignoring the `shadowsVisible` attribute.
 
 
 ##### Version 1.0.11 (18-Sep-2008)
 
 This release features:
 - a new chart theming mechanism to allow charts to be restyled conveniently;
-- a new BarPainter mechanism to enhance the appearance of bar charts;
-- a new XYShapeRenderer class;
-- a scaling facility for the XYDrawableAnnotation for drawing images within specific data coordinates;
-- some new classes (XYTaskDataset, XYDataImageAnnotation and XYTitleAnnotation);
-- a modification to the Year class to support an extended range; 
+- a new `BarPainter` mechanism to enhance the appearance of bar charts;
+- a new `XYShapeRenderer` class;
+- a scaling facility for the `XYDrawableAnnotation` for drawing images within specific data coordinates;
+- some new classes (`XYTaskDataset`, `XYDataImageAnnotation` and `XYTitleAnnotation`);
+- a modification to the `Year` class to support an extended range; 
 - various bug fixes and API improvements.  
 
-There is an important bug fix for the StackedBarRenderer3D class (see bug 2031407).
+There is an important bug fix for the `StackedBarRenderer3D` class (see bug 2031407).
 
 This release passes 1,961 JUnit tests (0 failures) on JRE 1.6.0_07.
 
 ###### API Adjustments
-- AbstractRenderer - added clearSeriesPaints() and clearSeriesStrokes() methods;
-- BarRenderer - added shadowPaint attribute;
-- CategoryAxis - added getCategoryMiddle() method;
-- CategoryPlot - added getRendererCount() method;
-- ChartFactory - added get/setChartTheme() methods;
-- ChartPanel - increased default maximum drawing width and height;
-- ChartTheme - new interface;
-- ChartUtilities - added applyCurrentTheme() method;
-- CompositeTitle - added backgroundPaint attribute;
-- GradientBarPainter - new class;
-- LegendTitle - added getWrapper() method;
-- OHLCSeriesCollection - added xPosition attribute;
-- PaintScaleLegend - new subdivisions field;
-- PiePlot - added autoPopulate flags, and methods to clear section attributes;
-- Plot - added setDrawingSupplier() method;
-- RegularTimePeriod - the DEFAULT_TIME_ZONE field has been deprecated in this release;
-- RelativeDateFormat - added methods to control formatting of hours and minutes - see patch 2033092;
-- StandardChartTheme - new class;
-- XYItemRendererState - new methods;
-- XYPlot - added getRendererCount() method;
-- XYShapeRenderer - new class;
-- XYTaskDataset - new class.
+- `AbstractRenderer` - added `clearSeriesPaints()` and `clearSeriesStrokes()` methods;
+- `BarRenderer` - added `shadowPaint` attribute;
+- `CategoryAxis` - added `getCategoryMiddle()` method;
+- `CategoryPlot` - added `getRendererCount()` method;
+- `ChartFactory` - added `get/setChartTheme()` methods;
+- `ChartPanel` - increased default maximum drawing width and height;
+- `ChartTheme` - new interface;
+- `ChartUtilities` - added `applyCurrentTheme()` method;
+- `CompositeTitle` - added `backgroundPaint` attribute;
+- `GradientBarPainter` - new class;
+- `LegendTitle` - added `getWrapper()` method;
+- `OHLCSeriesCollection` - added `xPosition` attribute;
+- `PaintScaleLegend` - new subdivisions field;
+- `PiePlot` - added `autoPopulate` flags, and methods to clear section attributes;
+- `Plot` - added `setDrawingSupplier()` method;
+- `RegularTimePeriod` - the `DEFAULT_TIME_ZONE` field has been deprecated in this release;
+- `RelativeDateFormat` - added methods to control formatting of hours and minutes - see patch 2033092;
+- `StandardChartTheme` - new class;
+- `XYItemRendererState` - new methods;
+- `XYPlot` - added `getRendererCount()` method;
+- `XYShapeRenderer` - new class;
+- `XYTaskDataset` - new class.
 
 ###### Patches
-- 1997549 : Status calls to XYItemRendererState [Ulrich Voigt];
-- 2006826 : CompositeTitle drawing fix;
-- 2033092 : Additional formatters for RelativeDateFormat [Cole Markham];
+- 1997549 : Status calls to `XYItemRendererState` [Ulrich Voigt];
+- 2006826 : `CompositeTitle` drawing fix;
+- 2033092 : Additional formatters for `RelativeDateFormat` [Cole Markham];
 
 ###### Bug Fixes
-- 1994355 : ChartComposite listener type;
-- 2031407 : Incorrect rendering in StackedBarRenderer3D;
-- 2033721 : WaferMapRenderer;
-- 2051168 : No key in LegendItemEntity for pie charts;
+- 1994355 : `ChartComposite` listener type;
+- 2031407 : Incorrect rendering in `StackedBarRenderer3D`;
+- 2033721 : `WaferMapRenderer`;
+- 2051168 : No key in `LegendItemEntity` for pie charts;
 
-Also fixed drawing of alternate grid bands in `SymbolAxis`, the totalWeight 
-calculation in the CombinedXXXPlot classes, a NullPointerException in the
-XYPlot class when drawing quadrants, outline visibility in the 
-CategoryPlot class, and auto-range calculations with XYBarRenderer.
+Also fixed drawing of alternate grid bands in `SymbolAxis`, the `totalWeight` 
+calculation in the `CombinedXXXPlot` classes, a `NullPointerException` in the
+`XYPlot` class when drawing quadrants, outline visibility in the 
+`CategoryPlot` class, and auto-range calculations with `XYBarRenderer`.
 
 ##### Version 1.0.10 (8-Jun-2008)
 
@@ -852,47 +861,38 @@ adjustments (there should be no breakage of applications coded to the 1.0.0 API)
 - various other bug fixes;
 
 ##### Version 0.9.17 (26-Mar-2004)
-         - pie chart enhancements for labelling, shading and multiple pie
-           charts (2D or 3D) on a single plot;
-         - new PolarPlot class added;
-         - XYSeries can now be sorted or unsorted;
-         - createBufferedImage() method can now scale charts;
-         - domain and range markers now support intervals;
-         - item labels are now supported by some XYItemRenderers;
-         - tooltip and item label generators now use MessageFormat class;
-         - added new XYBarDataset class;
-         - added transparency support to PNG export;
-         - numerous other small enhancements and bug fixes;
+- pie chart enhancements for labelling, shading and multiple pie charts (2D or 3D) on a single plot;
+- new `PolarPlot` class added;
+- `XYSeries` can now be sorted or unsorted;
+- `createBufferedImage()` method can now scale charts;
+- domain and range markers now support intervals;
+- item labels are now supported by some `XYItemRenderers`;
+- tooltip and item label generators now use `MessageFormat` class;
+- added new `XYBarDataset` class;
+- added transparency support to PNG export;
+- numerous other small enhancements and bug fixes;
 
 ##### Version 0.9.16 (09-Jan-2004)
-         - this release contains bug fixes and some minor feature
-           enhancements (title and category label wrapping, legend shape
-           scaling, enhanced performance for the DefaultTableXYDataset class);
-         - added Spanish localisation files;
+- this release contains bug fixes and some minor feature enhancements (title and category label wrapping, legend shape scaling, enhanced performance for the `DefaultTableXYDataset` class);
+- added Spanish localisation files;
 
 ##### Version 0.9.15 (28-Nov-2003)
-         - the focus of this release is bug fixes - quite a number of issues
-           have been resolved, please check the bug database for details;
-         - added a new Wafer Map chart type;
-         - added a cyclic axis;
-         - added localisation files for _ru;
+- the focus of this release is bug fixes - quite a number of issues have been resolved, please check the bug database for details;
+- added a new Wafer Map chart type;
+- added a cyclic axis;
+- added localisation files for _ru;
 
 ##### Version 0.9.14 (17-Nov-2003)
-         - implemented zooming for the FastScatterPlot class;
-         - added item label support for stacked bar charts, and new fall back
-           options for item labels that don't fit within bars;
-         - modified the CategoryAxis class to allow additional options for the
-           alignment and rotation of category labels;
-         - addition of the AxisState class, used in the drawing of axes to
-           eliminate a bug when multiple threads draw the same axis
-           simultaneously;
-         - provided additional attributes in the DateTickUnit class to improve
-           labelling on a segmented DateAxis;
-         - added support for GradientPaint in bar charts;
-         - updated the PNGEncoder;
-         - fixes for tick label positioning on axes;
-         - various Javadoc updates;
-         - numerous bug fixes;
+- implemented zooming for the `FastScatterPlot` class;
+- added item label support for stacked bar charts, and new fall back options for item labels that don't fit within bars;
+- modified the `CategoryAxis` class to allow additional options for the alignment and rotation of category labels;
+- addition of the `AxisState` class, used in the drawing of axes to eliminate a bug when multiple threads draw the same axis simultaneously;
+- provided additional attributes in the `DateTickUnit` class to improve labelling on a segmented `DateAxis`;
+- added support for `GradientPaint` in bar charts;
+- updated the `PNGEncoder`;
+- fixes for tick label positioning on axes;
+- various Javadoc updates;
+- numerous bug fixes;
 
 ##### Version 0.9.13 (26-Sep-2003)
          - various enhancements to the stacked area XY charts;
@@ -1339,6 +1339,7 @@ JFreeChart wouldn't be half the library that it is today without the contributio
 - Tin Luu
 - Craig MacFarlane
 - Achilleus Mantzios
+- John Matthews
 - Thomas Meier
 - Jim Moore
 - Jonathan Nash

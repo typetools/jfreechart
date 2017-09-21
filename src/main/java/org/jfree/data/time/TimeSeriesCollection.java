@@ -98,7 +98,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
 
 import org.jfree.data.DomainInfo;
 import org.jfree.data.DomainOrder;
@@ -110,7 +111,6 @@ import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYDomainInfo;
 import org.jfree.data.xy.XYRangeInfo;
-import org.jfree.util.ObjectUtilities;
 
 /**
  * A collection of time series objects.  This class implements the
@@ -137,15 +137,6 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * be the start, middle or end of the time period.
      */
     private TimePeriodAnchor xPosition;
-
-    /**
-     * A flag that indicates that the domain is 'points in time'.  If this
-     * flag is true, only the x-value is used to determine the range of values
-     * in the domain, the start and end x-values are ignored.
-     *
-     * @deprecated No longer used (as of 1.0.1).
-     */
-    private boolean domainIsPointsInTime;
 
     /**
      * Constructs an empty dataset, tied to the default timezone.
@@ -196,38 +187,6 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
             series.addChangeListener(this);
         }
         this.xPosition = TimePeriodAnchor.START;
-        this.domainIsPointsInTime = true;
-
-    }
-
-    /**
-     * Returns a flag that controls whether the domain is treated as 'points in
-     * time'.  This flag is used when determining the max and min values for
-     * the domain.  If {@code true}, then only the x-values are considered
-     * for the max and min values.  If {@code false}, then the start and
-     * end x-values will also be taken into consideration.
-     *
-     * @return The flag.
-     *
-     * @deprecated This flag is no longer used (as of 1.0.1).
-     */
-    public boolean getDomainIsPointsInTime() {
-        return this.domainIsPointsInTime;
-    }
-
-    /**
-     * Sets a flag that controls whether the domain is treated as 'points in
-     * time', or time periods.
-     *
-     * @param flag  the flag.
-     *
-     * @deprecated This flag is no longer used, as of 1.0.1.  The
-     *             {@code includeInterval} flag in methods such as
-     *             {@link #getDomainBounds(boolean)} makes this unnecessary.
-     */
-    public void setDomainIsPointsInTime(boolean flag) {
-        this.domainIsPointsInTime = flag;
-        notifyListeners(new DatasetChangeEvent(this, this));
     }
 
     /**
@@ -259,7 +218,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @param anchor  the anchor position ({@code null} not permitted).
      */
     public void setXPosition(TimePeriodAnchor anchor) {
-        ParamChecks.nullNotPermitted(anchor, "anchor");
+        Args.nullNotPermitted(anchor, "anchor");
         this.xPosition = anchor;
         notifyListeners(new DatasetChangeEvent(this, this));
     }
@@ -294,7 +253,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @since 1.0.6
      */
     public int indexOf(TimeSeries series) {
-        ParamChecks.nullNotPermitted(series, "series");
+        Args.nullNotPermitted(series, "series");
         return this.data.indexOf(series);
     }
 
@@ -359,7 +318,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @since 1.0.17
      */
     public int getSeriesIndex(Comparable key) {
-        ParamChecks.nullNotPermitted(key, "key");
+        Args.nullNotPermitted(key, "key");
         int seriesCount = getSeriesCount();
         for (int i = 0; i < seriesCount; i++) {
             TimeSeries series = (TimeSeries) this.data.get(i);
@@ -377,7 +336,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @param series  the series ({@code null} not permitted).
      */
     public void addSeries(TimeSeries series) {
-        ParamChecks.nullNotPermitted(series, "series");
+        Args.nullNotPermitted(series, "series");
         this.data.add(series);
         series.addChangeListener(this);
         series.addVetoableChangeListener(this);
@@ -391,7 +350,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @param series  the series ({@code null} not permitted).
      */
     public void removeSeries(TimeSeries series) {
-        ParamChecks.nullNotPermitted(series, "series");
+        Args.nullNotPermitted(series, "series");
         this.data.remove(series);
         series.removeChangeListener(this);
         series.removeVetoableChangeListener(this);
@@ -794,10 +753,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
         if (this.xPosition != that.xPosition) {
             return false;
         }
-        if (this.domainIsPointsInTime != that.domainIsPointsInTime) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.data, that.data)) {
+        if (!ObjectUtils.equal(this.data, that.data)) {
             return false;
         }
         return true;
@@ -816,7 +772,6 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
                 ? this.workingCalendar.hashCode() : 0);
         result = 29 * result + (this.xPosition != null
                 ? this.xPosition.hashCode() : 0);
-        result = 29 * result + (this.domainIsPointsInTime ? 1 : 0);
         return result;
     }
 
@@ -831,7 +786,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
     @Override
     public Object clone() throws CloneNotSupportedException {
         TimeSeriesCollection clone = (TimeSeriesCollection) super.clone();
-        clone.data = (List) ObjectUtilities.deepClone(this.data);
+        clone.data = (List) ObjectUtils.deepClone(this.data);
         clone.workingCalendar = (Calendar) this.workingCalendar.clone();
         return clone;
     }

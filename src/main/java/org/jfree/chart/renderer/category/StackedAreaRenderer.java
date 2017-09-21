@@ -80,12 +80,12 @@ import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.event.RendererChangeEvent;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.data.DataUtilities;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.data.DataUtils;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.general.DatasetUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.PublicCloneable;
+import org.jfree.data.general.DatasetUtils;
 
 /**
  * A renderer that draws stacked area charts for a {@link CategoryPlot}.
@@ -179,7 +179,7 @@ public class StackedAreaRenderer extends AreaRenderer
             return new Range(0.0, 1.0);
         }
         else {
-            return DatasetUtilities.findStackedRangeBounds(dataset);
+            return DatasetUtils.findStackedRangeBounds(dataset);
         }
     }
 
@@ -216,7 +216,7 @@ public class StackedAreaRenderer extends AreaRenderer
         if (n != null) {
             y1 = n.doubleValue();
             if (this.renderAsPercentages) {
-                double total = DataUtilities.calculateColumnTotal(dataset,
+                double total = DataUtils.calculateColumnTotal(dataset,
                         column, state.getVisibleSeriesArray());
                 y1 = y1 / total;
             }
@@ -239,7 +239,7 @@ public class StackedAreaRenderer extends AreaRenderer
         if (n != null) {
             y0 = n.doubleValue();
             if (this.renderAsPercentages) {
-                double total = DataUtilities.calculateColumnTotal(dataset,
+                double total = DataUtils.calculateColumnTotal(dataset,
                         Math.max(column - 1, 0), state.getVisibleSeriesArray());
                 y0 = y0 / total;
             }
@@ -257,7 +257,7 @@ public class StackedAreaRenderer extends AreaRenderer
         if (n != null) {
             y2 = n.doubleValue();
             if (this.renderAsPercentages) {
-                double total = DataUtilities.calculateColumnTotal(dataset,
+                double total = DataUtils.calculateColumnTotal(dataset,
                         Math.min(column + 1, itemCount - 1),
                         state.getVisibleSeriesArray());
                 y2 = y2 / total;
@@ -417,7 +417,7 @@ public class StackedAreaRenderer extends AreaRenderer
         double[] result = new double[2];
         double total = 0.0;
         if (this.renderAsPercentages) {
-            total = DataUtilities.calculateColumnTotal(dataset, index, 
+            total = DataUtils.calculateColumnTotal(dataset, index, 
                     validRows);
         }
         for (int i = 0; i < series; i++) {
@@ -506,43 +506,6 @@ public class StackedAreaRenderer extends AreaRenderer
             return false;
         }
         return super.equals(obj);
-    }
-
-    /**
-     * Calculates the stacked value of the all series up to, but not including
-     * {@code series} for the specified category, {@code category}.
-     * It returns 0.0 if {@code series} is the first series, i.e. 0.
-     *
-     * @param dataset  the dataset ({@code null} not permitted).
-     * @param series  the series.
-     * @param category  the category.
-     *
-     * @return double returns a cumulative value for all series' values up to
-     *         but excluding {@code series} for Object {@code category}.
-     *
-     * @deprecated As of 1.0.13, as the method is never used internally.
-     */
-    protected double getPreviousHeight(CategoryDataset dataset,
-            int series, int category) {
-
-        double result = 0.0;
-        Number n;
-        double total = 0.0;
-        if (this.renderAsPercentages) {
-            total = DataUtilities.calculateColumnTotal(dataset, category);
-        }
-        for (int i = 0; i < series; i++) {
-            n = dataset.getValue(i, category);
-            if (n != null) {
-                double v = n.doubleValue();
-                if (this.renderAsPercentages) {
-                    v = v / total;
-                }
-                result += v;
-            }
-        }
-        return result;
-
     }
 
 }

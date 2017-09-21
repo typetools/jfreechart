@@ -47,11 +47,11 @@ package org.jfree.data.xy;
 
 import java.io.Serializable;
 import java.util.List;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
 
 import org.jfree.data.general.DatasetChangeEvent;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A collection of {@link VectorSeries} objects.
@@ -78,7 +78,7 @@ public class VectorSeriesCollection extends AbstractXYDataset
      * @param series  the series ({@code null} not permitted).
      */
     public void addSeries(VectorSeries series) {
-        ParamChecks.nullNotPermitted(series, "series");
+        Args.nullNotPermitted(series, "series");
         this.data.add(series);
         series.addChangeListener(this);
         fireDatasetChanged();
@@ -94,7 +94,7 @@ public class VectorSeriesCollection extends AbstractXYDataset
      *         removed.
      */
     public boolean removeSeries(VectorSeries series) {
-        ParamChecks.nullNotPermitted(series, "series");
+        Args.nullNotPermitted(series, "series");
         boolean removed = this.data.remove(series);
         if (removed) {
             series.removeChangeListener(this);
@@ -175,7 +175,7 @@ public class VectorSeriesCollection extends AbstractXYDataset
      * @return The series index.
      */
     public int indexOf(VectorSeries series) {
-        ParamChecks.nullNotPermitted(series, "series");
+        Args.nullNotPermitted(series, "series");
         return this.data.indexOf(series);
     }
 
@@ -316,7 +316,7 @@ public class VectorSeriesCollection extends AbstractXYDataset
             return false;
         }
         VectorSeriesCollection that = (VectorSeriesCollection) obj;
-        return ObjectUtilities.equal(this.data, that.data);
+        return ObjectUtils.equal(this.data, that.data);
     }
 
     /**
@@ -330,7 +330,7 @@ public class VectorSeriesCollection extends AbstractXYDataset
     public Object clone() throws CloneNotSupportedException {
         VectorSeriesCollection clone
                 = (VectorSeriesCollection) super.clone();
-        clone.data = (List) ObjectUtilities.deepClone(this.data);
+        clone.data = (List) ObjectUtils.deepClone(this.data);
         return clone;
     }
 

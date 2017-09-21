@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ---------------------------
  * AbstractXYItemRenderer.java
  * ---------------------------
- * (C) Copyright 2002-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2002-2017, by Object Refinery Limited and Contributors.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Richard Atkinson;
@@ -123,7 +123,8 @@
  * 07-Apr-2014 : Don't use ObjectList anymore (DG);
  * 29-Jul-2014 : Add rendering hint to normalise domain and range lines (DG);
  * 24-Aug-2014 : Add beginElementGroup() method, part of JFreeSVG support (DG);
- *
+ * 18-Feb-2017 : Fix for crosshairs with multiple datasets / axes - see 
+ *               bug #36 (DG);
  */
 
 package org.jfree.chart.renderer.xy;
@@ -175,22 +176,21 @@ import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.AbstractRenderer;
+import org.jfree.chart.text.TextUtils;
+import org.jfree.chart.ui.GradientPaintTransformer;
+import org.jfree.chart.ui.Layer;
+import org.jfree.chart.ui.LengthAdjustmentType;
+import org.jfree.chart.ui.RectangleAnchor;
+import org.jfree.chart.ui.RectangleInsets;
 import org.jfree.chart.urls.XYURLGenerator;
 import org.jfree.chart.util.CloneUtils;
-import org.jfree.chart.util.ParamChecks;
-import org.jfree.chart.util.TextUtils;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.Range;
-import org.jfree.data.general.DatasetUtilities;
+import org.jfree.data.general.DatasetUtils;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYItemKey;
-import org.jfree.text.TextUtilities;
-import org.jfree.ui.GradientPaintTransformer;
-import org.jfree.ui.Layer;
-import org.jfree.ui.LengthAdjustmentType;
-import org.jfree.ui.RectangleAnchor;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A base class that can be used to create new {@link XYItemRenderer}
@@ -209,14 +209,14 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
     /** A list of item label generators (one per series). */
     private Map<Integer, XYItemLabelGenerator> itemLabelGeneratorMap;
 
-    /** The base item label generator. */
-    private XYItemLabelGenerator baseItemLabelGenerator;
+    /** The default item label generator. */
+    private XYItemLabelGenerator defaultItemLabelGenerator;
 
     /** A list of tool tip generators (one per series). */
     private Map<Integer, XYToolTipGenerator> toolTipGeneratorMap;
 
-    /** The base tool tip generator. */
-    private XYToolTipGenerator baseToolTipGenerator;
+    /** The default tool tip generator. */
+    private XYToolTipGenerator defaultToolTipGenerator;
 
     /** The URL text generator. */
     private XYURLGenerator urlGenerator;
@@ -248,10 +248,8 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      */
     protected AbstractXYItemRenderer() {
         super();
-        this.itemLabelGenerator = null;
         this.itemLabelGeneratorMap 
                 = new HashMap<Integer, XYItemLabelGenerator>();
-        this.toolTipGenerator = null;
         this.toolTipGeneratorMap = new HashMap<Integer, XYToolTipGenerator>();
         this.urlGenerator = null;
         this.backgroundAnnotations = new java.util.ArrayList();
@@ -347,16 +345,12 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      */
     @Override
     public XYItemLabelGenerator getItemLabelGenerator(int series, int item) {
-        // return the generator for ALL series, if there is one...
-        if (this.itemLabelGenerator != null) {
-            return this.itemLabelGenerator;
-        }
 
         // otherwise look up the generator table
         XYItemLabelGenerator generator
             = (XYItemLabelGenerator) this.itemLabelGeneratorMap.get(series);
         if (generator == null) {
-            generator = this.baseItemLabelGenerator;
+            generator = this.defaultItemLabelGenerator;
         }
         return generator;
     }
@@ -388,24 +382,24 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
     }
 
     /**
-     * Returns the base item label generator.
+     * Returns the default item label generator.
      *
      * @return The generator (possibly {@code null}).
      */
     @Override
-    public XYItemLabelGenerator getBaseItemLabelGenerator() {
-        return this.baseItemLabelGenerator;
+    public XYItemLabelGenerator getDefaultItemLabelGenerator() {
+        return this.defaultItemLabelGenerator;
     }
 
     /**
-     * Sets the base item label generator and sends a
+     * Sets the default item label generator and sends a
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param generator  the generator ({@code null} permitted).
      */
     @Override
-    public void setBaseItemLabelGenerator(XYItemLabelGenerator generator) {
-        this.baseItemLabelGenerator = generator;
+    public void setDefaultItemLabelGenerator(XYItemLabelGenerator generator) {
+        this.defaultItemLabelGenerator = generator;
         fireChangeEvent();
     }
 
@@ -423,16 +417,12 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      */
     @Override
     public XYToolTipGenerator getToolTipGenerator(int series, int item) {
-        // return the generator for ALL series, if there is one...
-        if (this.toolTipGenerator != null) {
-            return this.toolTipGenerator;
-        }
 
         // otherwise look up the generator table
         XYToolTipGenerator generator
                 = (XYToolTipGenerator) this.toolTipGeneratorMap.get(series);
         if (generator == null) {
-            generator = this.baseToolTipGenerator;
+            generator = this.defaultToolTipGenerator;
         }
         return generator;
     }
@@ -464,28 +454,28 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
     }
 
     /**
-     * Returns the base tool tip generator.
+     * Returns the default tool tip generator.
      *
      * @return The generator (possibly {@code null}).
      *
-     * @see #setBaseToolTipGenerator(XYToolTipGenerator)
+     * @see #setDefaultToolTipGenerator(XYToolTipGenerator)
      */
     @Override
-    public XYToolTipGenerator getBaseToolTipGenerator() {
-        return this.baseToolTipGenerator;
+    public XYToolTipGenerator getDefaultToolTipGenerator() {
+        return this.defaultToolTipGenerator;
     }
 
     /**
-     * Sets the base tool tip generator and sends a {@link RendererChangeEvent}
+     * Sets the default tool tip generator and sends a {@link RendererChangeEvent}
      * to all registered listeners.
      *
      * @param generator  the generator ({@code null} permitted).
      *
-     * @see #getBaseToolTipGenerator()
+     * @see #getDefaultToolTipGenerator()
      */
     @Override
-    public void setBaseToolTipGenerator(XYToolTipGenerator generator) {
-        this.baseToolTipGenerator = generator;
+    public void setDefaultToolTipGenerator(XYToolTipGenerator generator) {
+        this.defaultToolTipGenerator = generator;
         fireChangeEvent();
     }
 
@@ -535,7 +525,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      */
     @Override
     public void addAnnotation(XYAnnotation annotation, Layer layer) {
-        ParamChecks.nullNotPermitted(annotation, "annotation");
+        Args.nullNotPermitted(annotation, "annotation");
         if (layer.equals(Layer.FOREGROUND)) {
             this.foregroundAnnotations.add(annotation);
             annotation.addChangeListener(this);
@@ -642,7 +632,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      */
     @Override
     public void setLegendItemLabelGenerator(XYSeriesLabelGenerator generator) {
-        ParamChecks.nullNotPermitted(generator, "generator");
+        Args.nullNotPermitted(generator, "generator");
         this.legendItemLabelGenerator = generator;
         fireChangeEvent();
     }
@@ -737,10 +727,10 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
                     visibleSeriesKeys.add(dataset.getSeriesKey(s));
                 }
             }
-            return DatasetUtilities.findDomainBounds(dataset,
+            return DatasetUtils.findDomainBounds(dataset,
                     visibleSeriesKeys, includeInterval);
         }
-        return DatasetUtilities.findDomainBounds(dataset, includeInterval);
+        return DatasetUtils.findDomainBounds(dataset, includeInterval);
     }
 
     /**
@@ -802,10 +792,10 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
                 xRange = new Range(Double.NEGATIVE_INFINITY,
                         Double.POSITIVE_INFINITY);
             }
-            return DatasetUtilities.findRangeBounds(dataset,
+            return DatasetUtils.findRangeBounds(dataset,
                     visibleSeriesKeys, xRange, includeInterval);
         }
-        return DatasetUtilities.findRangeBounds(dataset, includeInterval);
+        return DatasetUtils.findRangeBounds(dataset, includeInterval);
     }
 
     /**
@@ -970,49 +960,6 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
             g2.fill(band);
         }
 
-    }
-
-    /**
-     * Draws a grid line against the range axis.
-     *
-     * @param g2  the graphics device.
-     * @param plot  the plot.
-     * @param axis  the value axis.
-     * @param dataArea  the area for plotting data (not yet adjusted for any
-     *                  3D effect).
-     * @param value  the value at which the grid line should be drawn.
-     */
-    @Override
-    public void drawDomainGridLine(Graphics2D g2, XYPlot plot, ValueAxis axis,
-            Rectangle2D dataArea, double value) {
-
-        Range range = axis.getRange();
-        if (!range.contains(value)) {
-            return;
-        }
-
-        PlotOrientation orientation = plot.getOrientation();
-        double v = axis.valueToJava2D(value, dataArea,
-                plot.getDomainAxisEdge());
-        Line2D line = null;
-        if (orientation == PlotOrientation.HORIZONTAL) {
-            line = new Line2D.Double(dataArea.getMinX(), v,
-                    dataArea.getMaxX(), v);
-        }
-        else if (orientation == PlotOrientation.VERTICAL) {
-            line = new Line2D.Double(v, dataArea.getMinY(), v,
-                    dataArea.getMaxY());
-        }
-
-        Paint paint = plot.getDomainGridlinePaint();
-        Stroke stroke = plot.getDomainGridlineStroke();
-        g2.setPaint(paint != null ? paint : Plot.DEFAULT_OUTLINE_PAINT);
-        g2.setStroke(stroke != null ? stroke : Plot.DEFAULT_OUTLINE_STROKE);
-        Object saved = g2.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
-        g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, 
-                RenderingHints.VALUE_STROKE_NORMALIZE);
-        g2.draw(line);
-        g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, saved);
     }
 
     /**
@@ -1260,7 +1207,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
                 g2.setPaint(marker.getLabelBackgroundColor());
                 g2.fill(r);
                 g2.setPaint(marker.getLabelPaint());
-                TextUtilities.drawAlignedString(label, g2,
+                TextUtils.drawAlignedString(label, g2,
                         (float) coords.getX(), (float) coords.getY(),
                         marker.getLabelTextAnchor());
             }
@@ -1295,7 +1242,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
             anchorRect = markerOffset.createAdjustedRectangle(markerArea,
                     labelOffsetType, LengthAdjustmentType.CONTRACT);
         }
-        return RectangleAnchor.coordinates(anchorRect, anchor);
+        return anchor.getAnchorPoint(anchorRect);
 
     }
 
@@ -1357,7 +1304,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
                 g2.setPaint(marker.getLabelBackgroundColor());
                 g2.fill(r);
                 g2.setPaint(marker.getLabelPaint());
-                TextUtilities.drawAlignedString(label, g2,
+                TextUtils.drawAlignedString(label, g2,
                         (float) coords.getX(), (float) coords.getY(),
                         marker.getLabelTextAnchor());
             }
@@ -1460,7 +1407,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
                 g2.setPaint(marker.getLabelBackgroundColor());
                 g2.fill(r);
                 g2.setPaint(marker.getLabelPaint());
-                TextUtilities.drawAlignedString(label, g2,
+                TextUtils.drawAlignedString(label, g2,
                         (float) coords.getX(), (float) coords.getY(),
                         marker.getLabelTextAnchor());
             }
@@ -1495,7 +1442,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
             anchorRect = markerOffset.createAdjustedRectangle(markerArea,
                     LengthAdjustmentType.CONTRACT, labelOffsetForRange);
         }
-        return RectangleAnchor.coordinates(anchorRect, anchor);
+        return anchor.getAnchorPoint(anchorRect);
 
     }
 
@@ -1512,48 +1459,38 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
         AbstractXYItemRenderer clone = (AbstractXYItemRenderer) super.clone();
         // 'plot' : just retain reference, not a deep copy
 
-        if (this.itemLabelGenerator != null
-                && this.itemLabelGenerator instanceof PublicCloneable) {
-            PublicCloneable pc = (PublicCloneable) this.itemLabelGenerator;
-            clone.itemLabelGenerator = (XYItemLabelGenerator) pc.clone();
-        }
         clone.itemLabelGeneratorMap = CloneUtils.cloneMapValues(
                 this.itemLabelGeneratorMap);
-        if (this.baseItemLabelGenerator != null
-                && this.baseItemLabelGenerator instanceof PublicCloneable) {
-            PublicCloneable pc = (PublicCloneable) this.baseItemLabelGenerator;
-            clone.baseItemLabelGenerator = (XYItemLabelGenerator) pc.clone();
+        if (this.defaultItemLabelGenerator != null
+                && this.defaultItemLabelGenerator instanceof PublicCloneable) {
+            PublicCloneable pc = (PublicCloneable) this.defaultItemLabelGenerator;
+            clone.defaultItemLabelGenerator = (XYItemLabelGenerator) pc.clone();
         }
 
-        if (this.toolTipGenerator != null
-                && this.toolTipGenerator instanceof PublicCloneable) {
-            PublicCloneable pc = (PublicCloneable) this.toolTipGenerator;
-            clone.toolTipGenerator = (XYToolTipGenerator) pc.clone();
-        }
         clone.toolTipGeneratorMap = CloneUtils.cloneMapValues(
                 this.toolTipGeneratorMap);
-        if (this.baseToolTipGenerator != null
-                && this.baseToolTipGenerator instanceof PublicCloneable) {
-            PublicCloneable pc = (PublicCloneable) this.baseToolTipGenerator;
-            clone.baseToolTipGenerator = (XYToolTipGenerator) pc.clone();
+        if (this.defaultToolTipGenerator != null
+                && this.defaultToolTipGenerator instanceof PublicCloneable) {
+            PublicCloneable pc = (PublicCloneable) this.defaultToolTipGenerator;
+            clone.defaultToolTipGenerator = (XYToolTipGenerator) pc.clone();
         }
 
         if (this.legendItemLabelGenerator instanceof PublicCloneable) {
             clone.legendItemLabelGenerator = (XYSeriesLabelGenerator)
-                    ObjectUtilities.clone(this.legendItemLabelGenerator);
+                    ObjectUtils.clone(this.legendItemLabelGenerator);
         }
         if (this.legendItemToolTipGenerator instanceof PublicCloneable) {
             clone.legendItemToolTipGenerator = (XYSeriesLabelGenerator)
-                    ObjectUtilities.clone(this.legendItemToolTipGenerator);
+                    ObjectUtils.clone(this.legendItemToolTipGenerator);
         }
         if (this.legendItemURLGenerator instanceof PublicCloneable) {
             clone.legendItemURLGenerator = (XYSeriesLabelGenerator)
-                    ObjectUtilities.clone(this.legendItemURLGenerator);
+                    ObjectUtils.clone(this.legendItemURLGenerator);
         }
 
-        clone.foregroundAnnotations = (List) ObjectUtilities.deepClone(
+        clone.foregroundAnnotations = (List) ObjectUtils.deepClone(
                 this.foregroundAnnotations);
-        clone.backgroundAnnotations = (List) ObjectUtilities.deepClone(
+        clone.backgroundAnnotations = (List) ObjectUtils.deepClone(
                 this.backgroundAnnotations);
 
         return clone;
@@ -1575,29 +1512,21 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
             return false;
         }
         AbstractXYItemRenderer that = (AbstractXYItemRenderer) obj;
-        if (!ObjectUtilities.equal(this.itemLabelGenerator,
-                that.itemLabelGenerator)) {
-            return false;
-        }
         if (!this.itemLabelGeneratorMap.equals(that.itemLabelGeneratorMap)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseItemLabelGenerator,
-                that.baseItemLabelGenerator)) {
-            return false;
-        }
-        if (!ObjectUtilities.equal(this.toolTipGenerator,
-                that.toolTipGenerator)) {
+        if (!ObjectUtils.equal(this.defaultItemLabelGenerator,
+                that.defaultItemLabelGenerator)) {
             return false;
         }
         if (!this.toolTipGeneratorMap.equals(that.toolTipGeneratorMap)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseToolTipGenerator,
-                that.baseToolTipGenerator)) {
+        if (!ObjectUtils.equal(this.defaultToolTipGenerator,
+                that.defaultToolTipGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.urlGenerator, that.urlGenerator)) {
+        if (!ObjectUtils.equal(this.urlGenerator, that.urlGenerator)) {
             return false;
         }
         if (!this.foregroundAnnotations.equals(that.foregroundAnnotations)) {
@@ -1606,15 +1535,15 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
         if (!this.backgroundAnnotations.equals(that.backgroundAnnotations)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.legendItemLabelGenerator,
+        if (!ObjectUtils.equal(this.legendItemLabelGenerator,
                 that.legendItemLabelGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.legendItemToolTipGenerator,
+        if (!ObjectUtils.equal(this.legendItemToolTipGenerator,
                 that.legendItemToolTipGenerator)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.legendItemURLGenerator,
+        if (!ObjectUtils.equal(this.legendItemURLGenerator,
                 that.legendItemURLGenerator)) {
             return false;
         }
@@ -1645,37 +1574,36 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      *                        but the method does nothing in that case).
      * @param x  the x-value (in data space).
      * @param y  the y-value (in data space).
-     * @param domainAxisIndex  the index of the domain axis for the point.
-     * @param rangeAxisIndex  the index of the range axis for the point.
+     * @param datasetIndex  the index of the dataset for the point.
      * @param transX  the x-value translated to Java2D space.
      * @param transY  the y-value translated to Java2D space.
      * @param orientation  the plot orientation ({@code null} not
      *                     permitted).
      *
-     * @since 1.0.4
+     * @since 1.0.20
      */
     protected void updateCrosshairValues(CrosshairState crosshairState,
-            double x, double y, int domainAxisIndex, int rangeAxisIndex,
+            double x, double y, int datasetIndex,
             double transX, double transY, PlotOrientation orientation) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         if (crosshairState != null) {
             // do we need to update the crosshair values?
             if (this.plot.isDomainCrosshairLockedOnData()) {
                 if (this.plot.isRangeCrosshairLockedOnData()) {
                     // both axes
-                    crosshairState.updateCrosshairPoint(x, y, domainAxisIndex,
-                            rangeAxisIndex, transX, transY, orientation);
+                    crosshairState.updateCrosshairPoint(x, y, datasetIndex,
+                            transX, transY, orientation);
                 }
                 else {
                     // just the domain axis...
-                    crosshairState.updateCrosshairX(x, domainAxisIndex);
+                    crosshairState.updateCrosshairX(x, transX, datasetIndex);
                 }
             }
             else {
                 if (this.plot.isRangeCrosshairLockedOnData()) {
                     // just the range axis...
-                    crosshairState.updateCrosshairY(y, rangeAxisIndex);
+                    crosshairState.updateCrosshairY(y, transY, datasetIndex);
                 }
             }
         }
@@ -1719,7 +1647,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
             // work out the label anchor point...
             Point2D anchorPoint = calculateLabelAnchorPoint(
                     position.getItemLabelAnchor(), x, y, orientation);
-            TextUtilities.drawRotatedString(label, g2,
+            TextUtils.drawRotatedString(label, g2,
                     (float) anchorPoint.getX(), (float) anchorPoint.getY(),
                     position.getTextAnchor(), position.getAngle(),
                     position.getRotationAnchor());
@@ -1763,35 +1691,36 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
     }
 
     /**
-     * Adds an entity to the collection.
+     * Adds an entity to the collection.  Note the the {@code entityX} and
+     * {@code entityY} coordinates are in Java2D space, should already be 
+     * adjusted for the plot orientation, and will only be used if 
+     * {@code hotspot} is {@code null}.
      *
      * @param entities  the entity collection being populated.
-     * @param area  the entity area (if {@code null} a default will be
+     * @param hotspot  the entity area (if {@code null} a default will be
      *              used).
      * @param dataset  the dataset.
      * @param series  the series.
      * @param item  the item.
-     * @param entityX  the entity's center x-coordinate in user space (only
-     *                 used if {@code area} is {@code null}).
-     * @param entityY  the entity's center y-coordinate in user space (only
-     *                 used if {@code area} is {@code null}).
+     * @param entityX  the entity x-coordinate (in Java2D space, only used if 
+     *         {@code hotspot} is {@code null}).
+     * @param entityY  the entity y-coordinate (in Java2D space, only used if 
+     *         {@code hotspot} is {@code null}).
      */
-    protected void addEntity(EntityCollection entities, Shape area,
-                             XYDataset dataset, int series, int item,
-                             double entityX, double entityY) {
+    protected void addEntity(EntityCollection entities, Shape hotspot,
+            XYDataset dataset, int series, int item, double entityX, 
+            double entityY) {
+        
         if (!getItemCreateEntity(series, item)) {
             return;
         }
-        Shape hotspot = area;
+
+        // if not hotspot is provided, we create a default based on the 
+        // provided data coordinates (which are already in Java2D space)
         if (hotspot == null) {
             double r = getDefaultEntityRadius();
             double w = r * 2;
-            if (getPlot().getOrientation() == PlotOrientation.VERTICAL) {
-                hotspot = new Ellipse2D.Double(entityX - r, entityY - r, w, w);
-            }
-            else {
-                hotspot = new Ellipse2D.Double(entityY - r, entityX - r, w, w);
-            }
+            hotspot = new Ellipse2D.Double(entityX - r, entityY - r, w, w);
         }
         String tip = null;
         XYToolTipGenerator generator = getToolTipGenerator(series, item);
@@ -1805,25 +1734,6 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
         XYItemEntity entity = new XYItemEntity(hotspot, dataset, series, item,
                 tip, url);
         entities.add(entity);
-    }
-
-    /**
-     * Returns {@code true} if the specified point (x, y) falls within or
-     * on the boundary of the specified rectangle.
-     *
-     * @param rect  the rectangle ({@code null} not permitted).
-     * @param x  the x-coordinate.
-     * @param y  the y-coordinate.
-     *
-     * @return A boolean.
-     *
-     * @since 1.0.10
-     */
-    public static boolean isPointInRect(Rectangle2D rect, double x, double y) {
-        // TODO: For JFreeChart 1.2.0, this method should go in the
-        //       ShapeUtilities class
-        return (x >= rect.getMinX() && x <= rect.getMaxX()
-                && y >= rect.getMinY() && y <= rect.getMaxY());
     }
 
     /**
@@ -1855,119 +1765,5 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
     protected static void lineTo(GeneralPath hotspot, double x, double y) {
         hotspot.lineTo((float) x, (float) y);
     }
-
-    // === DEPRECATED CODE ===
-
-    /**
-     * The item label generator for ALL series.
-     *
-     * @deprecated This field is redundant, use itemLabelGeneratorList and
-     *     baseItemLabelGenerator instead.  Deprecated as of version 1.0.6.
-     */
-    private XYItemLabelGenerator itemLabelGenerator;
-
-    /**
-     * The tool tip generator for ALL series.
-     *
-     * @deprecated This field is redundant, use tooltipGeneratorList and
-     *     baseToolTipGenerator instead.  Deprecated as of version 1.0.6.
-     */
-    private XYToolTipGenerator toolTipGenerator;
-
-    /**
-     * Returns the item label generator override.
-     *
-     * @return The generator (possibly {@code null}).
-     *
-     * @since 1.0.5
-     *
-     * @see #setItemLabelGenerator(XYItemLabelGenerator)
-     *
-     * @deprecated As of version 1.0.6, this override setting should not be
-     *     used.  You can use the base setting instead
-     *     ({@link #getBaseItemLabelGenerator()}).
-     */
-    public XYItemLabelGenerator getItemLabelGenerator() {
-        return this.itemLabelGenerator;
-    }
-
-    /**
-     * Sets the item label generator for ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param generator  the generator ({@code null} permitted).
-     *
-     * @see #getItemLabelGenerator()
-     *
-     * @deprecated As of version 1.0.6, this override setting should not be
-     *     used.  You can use the base setting instead
-     *     ({@link #setBaseItemLabelGenerator(XYItemLabelGenerator)}).
-     */
-    @Override
-    public void setItemLabelGenerator(XYItemLabelGenerator generator) {
-        this.itemLabelGenerator = generator;
-        fireChangeEvent();
-    }
-
-    /**
-     * Returns the override tool tip generator.
-     *
-     * @return The tool tip generator (possible {@code null}).
-     *
-     * @since 1.0.5
-     *
-     * @see #setToolTipGenerator(XYToolTipGenerator)
-     *
-     * @deprecated As of version 1.0.6, this override setting should not be
-     *     used.  You can use the base setting instead
-     *     ({@link #getBaseToolTipGenerator()}).
-     */
-    public XYToolTipGenerator getToolTipGenerator() {
-        return this.toolTipGenerator;
-    }
-
-    /**
-     * Sets the tool tip generator for ALL series and sends a
-     * {@link RendererChangeEvent} to all registered listeners.
-     *
-     * @param generator  the generator ({@code null} permitted).
-     *
-     * @see #getToolTipGenerator()
-     *
-     * @deprecated As of version 1.0.6, this override setting should not be
-     *     used.  You can use the base setting instead
-     *     ({@link #setBaseToolTipGenerator(XYToolTipGenerator)}).
-     */
-    @Override
-    public void setToolTipGenerator(XYToolTipGenerator generator) {
-        this.toolTipGenerator = generator;
-        fireChangeEvent();
-    }
-
-    /**
-     * Considers the current (x, y) coordinate and updates the crosshair point
-     * if it meets the criteria (usually means the (x, y) coordinate is the
-     * closest to the anchor point so far).
-     *
-     * @param crosshairState  the crosshair state ({@code null} permitted,
-     *                        but the method does nothing in that case).
-     * @param x  the x-value (in data space).
-     * @param y  the y-value (in data space).
-     * @param transX  the x-value translated to Java2D space.
-     * @param transY  the y-value translated to Java2D space.
-     * @param orientation  the plot orientation ({@code null} not
-     *                     permitted).
-     *
-     * @deprecated Use {@link #updateCrosshairValues(CrosshairState, double,
-     *         double, int, int, double, double, PlotOrientation)} -- see bug
-     *         report 1086307.
-     */
-    protected void updateCrosshairValues(CrosshairState crosshairState,
-            double x, double y, double transX, double transY,
-            PlotOrientation orientation) {
-        updateCrosshairValues(crosshairState, x, y, 0, 0, transX, transY,
-                orientation);
-    }
-
-
+ 
 }

@@ -42,9 +42,8 @@
 package org.jfree.data;
 
 import java.io.Serializable;
-import org.jfree.chart.util.ParamChecks;
-
-import org.jfree.util.ObjectUtilities;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
 
 /**
  * Represents one (Comparable, Object) data item for use in a
@@ -71,7 +70,7 @@ public class ComparableObjectItem implements Cloneable, Comparable,
      * @param y  the y-value ({@code null} permitted).
      */
     public ComparableObjectItem(Comparable x, Object y) {
-        ParamChecks.nullNotPermitted(x, "x");
+        Args.nullNotPermitted(x, "x");
         this.x = x;
         this.obj = y;
     }
@@ -172,7 +171,7 @@ public class ComparableObjectItem implements Cloneable, Comparable,
         if (!this.x.equals(that.x)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.obj, that.obj)) {
+        if (!ObjectUtils.equal(this.obj, that.obj)) {
             return false;
         }
         return true;

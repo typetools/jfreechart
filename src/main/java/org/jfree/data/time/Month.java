@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -71,9 +71,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import org.jfree.date.MonthConstants;
-import org.jfree.date.SerialDate;
+import org.jfree.chart.date.MonthConstants;
+import org.jfree.chart.date.SerialDate;
 
 /**
  * Represents a single month.  This class is immutable, which is a requirement
@@ -139,25 +138,10 @@ public class Month extends RegularTimePeriod implements Serializable {
      *
      * @param time  the date/time ({@code null} not permitted).
      *
-     * @see #Month(Date, TimeZone)
+     * @see #Month(Date, TimeZone, Locale)
      */
     public Month(Date time) {
-        this(time, TimeZone.getDefault());
-    }
-
-    /**
-     * Constructs a new {@code Month} instance, based on a date/time and
-     * a time zone.  The first and last millisecond values are initially
-     * pegged to the given time zone also.
-     *
-     * @param time  the date/time.
-     * @param zone  the time zone ({@code null} not permitted).
-     *
-     * @deprecated Since 1.0.12, use {@link #Month(Date, TimeZone, Locale)}
-     *     instead.
-     */
-    public Month(Date time, TimeZone zone) {
-        this(time, zone, Locale.getDefault());
+        this(time, TimeZone.getDefault(), Locale.getDefault());
     }
 
     /**

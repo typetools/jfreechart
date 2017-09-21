@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ------------------
  * XYBarRenderer.java
  * ------------------
- * (C) Copyright 2001-2016, by Object Refinery Limited.
+ * (C) Copyright 2001-2017, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Richard Atkinson;
@@ -100,6 +100,7 @@
  *               non-visible series (DG);
  * 03-Jul-2013 : Use ParamChecks (DG);
  * 24-Aug-2014 : Add begin/endElementGroup() (DG);
+ * 18-Feb-2017 : Updates for crosshairs (bug #36) (DG);
  *
  */
 
@@ -129,18 +130,18 @@ import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.text.TextUtils;
+import org.jfree.chart.ui.GradientPaintTransformer;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.StandardGradientPaintTransformer;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
+import org.jfree.chart.util.ShapeUtils;
 import org.jfree.data.Range;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.text.TextUtilities;
-import org.jfree.ui.GradientPaintTransformer;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.StandardGradientPaintTransformer;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
-import org.jfree.util.ShapeUtilities;
 
 /**
  * A renderer that draws bars on an {@link XYPlot} (requires an
@@ -183,7 +184,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
      * @since 1.0.11
      */
     public static void setDefaultBarPainter(XYBarPainter painter) {
-        ParamChecks.nullNotPermitted(painter, "painter");
+        Args.nullNotPermitted(painter, "painter");
         XYBarRenderer.defaultBarPainter = painter;
     }
 
@@ -505,7 +506,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
      * @see #getLegendBar()
      */
     public void setLegendBar(Shape bar) {
-        ParamChecks.nullNotPermitted(bar, "bar");
+        Args.nullNotPermitted(bar, "bar");
         this.legendBar = bar;
         fireChangeEvent();
     }
@@ -588,7 +589,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
      * @since 1.0.11
      */
     public void setBarPainter(XYBarPainter painter) {
-        ParamChecks.nullNotPermitted(painter, "painter");
+        Args.nullNotPermitted(painter, "painter");
         this.barPainter = painter;
         fireChangeEvent();
     }
@@ -938,10 +939,9 @@ public class XYBarRenderer extends AbstractXYItemRenderer
         double transX1 = domainAxis.valueToJava2D(x1, dataArea, location);
         double transY1 = rangeAxis.valueToJava2D(y1, dataArea,
                 plot.getRangeAxisEdge());
-        int domainAxisIndex = plot.getDomainAxisIndex(domainAxis);
-        int rangeAxisIndex = plot.getRangeAxisIndex(rangeAxis);
-        updateCrosshairValues(crosshairState, x1, y1, domainAxisIndex,
-                rangeAxisIndex, transX1, transY1, plot.getOrientation());
+        int datasetIndex = plot.indexOf(dataset);
+        updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
+                transX1, transY1, plot.getOrientation());
 
         EntityCollection entities = state.getEntityCollection();
         if (entities != null) {
@@ -996,7 +996,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
                 position.getItemLabelAnchor(), bar, plot.getOrientation());
 
         if (isInternalAnchor(position.getItemLabelAnchor())) {
-            Shape bounds = TextUtilities.calculateRotatedStringBounds(label,
+            Shape bounds = TextUtils.calculateRotatedStringBounds(label,
                     g2, (float) anchorPoint.getX(), (float) anchorPoint.getY(),
                     position.getTextAnchor(), position.getAngle(),
                     position.getRotationAnchor());
@@ -1020,7 +1020,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
         }
 
         if (position != null) {
-            TextUtilities.drawRotatedString(label, g2,
+            TextUtils.drawRotatedString(label, g2,
                     (float) anchorPoint.getX(), (float) anchorPoint.getY(),
                     position.getTextAnchor(), position.getAngle(),
                     position.getRotationAnchor());
@@ -1202,9 +1202,9 @@ public class XYBarRenderer extends AbstractXYItemRenderer
         XYBarRenderer result = (XYBarRenderer) super.clone();
         if (this.gradientPaintTransformer != null) {
             result.gradientPaintTransformer = (GradientPaintTransformer)
-                ObjectUtilities.clone(this.gradientPaintTransformer);
+                ObjectUtils.clone(this.gradientPaintTransformer);
         }
-        result.legendBar = ShapeUtilities.clone(this.legendBar);
+        result.legendBar = ShapeUtils.clone(this.legendBar);
         return result;
     }
 
@@ -1236,18 +1236,18 @@ public class XYBarRenderer extends AbstractXYItemRenderer
         if (this.useYInterval != that.useYInterval) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.gradientPaintTransformer,
+        if (!ObjectUtils.equal(this.gradientPaintTransformer,
                 that.gradientPaintTransformer)) {
             return false;
         }
-        if (!ShapeUtilities.equal(this.legendBar, that.legendBar)) {
+        if (!ShapeUtils.equal(this.legendBar, that.legendBar)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.positiveItemLabelPositionFallback,
+        if (!ObjectUtils.equal(this.positiveItemLabelPositionFallback,
                 that.positiveItemLabelPositionFallback)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.negativeItemLabelPositionFallback,
+        if (!ObjectUtils.equal(this.negativeItemLabelPositionFallback,
                 that.negativeItemLabelPositionFallback)) {
             return false;
         }
@@ -1280,7 +1280,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.legendBar = SerialUtilities.readShape(stream);
+        this.legendBar = SerialUtils.readShape(stream);
     }
 
     /**
@@ -1292,7 +1292,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writeShape(this.legendBar, stream);
+        SerialUtils.writeShape(this.legendBar, stream);
     }
 
 }

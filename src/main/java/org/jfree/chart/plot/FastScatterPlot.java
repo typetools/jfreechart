@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * --------------------
  * FastScatterPlot.java
  * --------------------
- * (C) Copyright 2002-2016, by Object Refinery Limited.
+ * (C) Copyright 2002-2017, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Arnaud Lelievre;
@@ -94,15 +94,15 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.axis.ValueTick;
 import org.jfree.chart.event.PlotChangeEvent;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.util.ArrayUtils;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
 import org.jfree.chart.util.ResourceBundleWrapper;
+import org.jfree.chart.util.SerialUtils;
 import org.jfree.data.Range;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.util.ArrayUtilities;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PaintUtilities;
 
 /**
  * A fast scatter plot.
@@ -199,8 +199,8 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
                            ValueAxis domainAxis, ValueAxis rangeAxis) {
 
         super();
-        ParamChecks.nullNotPermitted(domainAxis, "domainAxis");
-        ParamChecks.nullNotPermitted(rangeAxis, "rangeAxis");
+        Args.nullNotPermitted(domainAxis, "domainAxis");
+        Args.nullNotPermitted(rangeAxis, "rangeAxis");
 
         this.data = data;
         this.xDataRange = calculateXDataRange(data);
@@ -212,7 +212,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
         this.rangeAxis.setPlot(this);
         this.rangeAxis.addChangeListener(this);
 
-        this.paint = Color.red;
+        this.paint = Color.RED;
 
         this.domainGridlinesVisible = true;
         this.domainGridlinePaint = FastScatterPlot.DEFAULT_GRIDLINE_PAINT;
@@ -289,7 +289,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
      * @see #getDomainAxis()
      */
     public void setDomainAxis(ValueAxis axis) {
-        ParamChecks.nullNotPermitted(axis, "axis");
+        Args.nullNotPermitted(axis, "axis");
         this.domainAxis = axis;
         fireChangeEvent();
     }
@@ -316,7 +316,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
      * @see #getRangeAxis()
      */
     public void setRangeAxis(ValueAxis axis) {
-        ParamChecks.nullNotPermitted(axis, "axis");
+        Args.nullNotPermitted(axis, "axis");
         this.rangeAxis = axis;
         fireChangeEvent();
     }
@@ -342,7 +342,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
      * @see #getPaint()
      */
     public void setPaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.paint = paint;
         fireChangeEvent();
     }
@@ -397,7 +397,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
      * @see #getDomainGridlineStroke()
      */
     public void setDomainGridlineStroke(Stroke stroke) {
-        ParamChecks.nullNotPermitted(stroke, "stroke");
+        Args.nullNotPermitted(stroke, "stroke");
         this.domainGridlineStroke = stroke;
         fireChangeEvent();
     }
@@ -423,7 +423,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
      * @see #getDomainGridlinePaint()
      */
     public void setDomainGridlinePaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.domainGridlinePaint = paint;
         fireChangeEvent();
     }
@@ -477,7 +477,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
      * @see #getRangeGridlineStroke()
      */
     public void setRangeGridlineStroke(Stroke stroke) {
-        ParamChecks.nullNotPermitted(stroke, "stroke");
+        Args.nullNotPermitted(stroke, "stroke");
         this.rangeGridlineStroke = stroke;
         fireChangeEvent();
     }
@@ -503,7 +503,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
      * @see #getRangeGridlinePaint()
      */
     public void setRangeGridlinePaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.rangeGridlinePaint = paint;
         fireChangeEvent();
     }
@@ -1020,37 +1020,37 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
         if (this.rangePannable != that.rangePannable) {
             return false;
         }
-        if (!ArrayUtilities.equal(this.data, that.data)) {
+        if (!ArrayUtils.equal(this.data, that.data)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.domainAxis, that.domainAxis)) {
+        if (!ObjectUtils.equal(this.domainAxis, that.domainAxis)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.rangeAxis, that.rangeAxis)) {
+        if (!ObjectUtils.equal(this.rangeAxis, that.rangeAxis)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.paint, that.paint)) {
+        if (!PaintUtils.equal(this.paint, that.paint)) {
             return false;
         }
         if (this.domainGridlinesVisible != that.domainGridlinesVisible) {
             return false;
         }
-        if (!PaintUtilities.equal(this.domainGridlinePaint,
+        if (!PaintUtils.equal(this.domainGridlinePaint,
                 that.domainGridlinePaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.domainGridlineStroke,
+        if (!ObjectUtils.equal(this.domainGridlineStroke,
                 that.domainGridlineStroke)) {
             return false;
         }
         if (!this.rangeGridlinesVisible == that.rangeGridlinesVisible) {
             return false;
         }
-        if (!PaintUtilities.equal(this.rangeGridlinePaint,
+        if (!PaintUtils.equal(this.rangeGridlinePaint,
                 that.rangeGridlinePaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.rangeGridlineStroke,
+        if (!ObjectUtils.equal(this.rangeGridlineStroke,
                 that.rangeGridlineStroke)) {
             return false;
         }
@@ -1070,7 +1070,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
 
         FastScatterPlot clone = (FastScatterPlot) super.clone();
         if (this.data != null) {
-            clone.data = ArrayUtilities.clone(this.data);
+            clone.data = ArrayUtils.clone(this.data);
         }
         if (this.domainAxis != null) {
             clone.domainAxis = (ValueAxis) this.domainAxis.clone();
@@ -1095,11 +1095,11 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.paint, stream);
-        SerialUtilities.writeStroke(this.domainGridlineStroke, stream);
-        SerialUtilities.writePaint(this.domainGridlinePaint, stream);
-        SerialUtilities.writeStroke(this.rangeGridlineStroke, stream);
-        SerialUtilities.writePaint(this.rangeGridlinePaint, stream);
+        SerialUtils.writePaint(this.paint, stream);
+        SerialUtils.writeStroke(this.domainGridlineStroke, stream);
+        SerialUtils.writePaint(this.domainGridlinePaint, stream);
+        SerialUtils.writeStroke(this.rangeGridlineStroke, stream);
+        SerialUtils.writePaint(this.rangeGridlinePaint, stream);
     }
 
     /**
@@ -1114,12 +1114,12 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
 
-        this.paint = SerialUtilities.readPaint(stream);
-        this.domainGridlineStroke = SerialUtilities.readStroke(stream);
-        this.domainGridlinePaint = SerialUtilities.readPaint(stream);
+        this.paint = SerialUtils.readPaint(stream);
+        this.domainGridlineStroke = SerialUtils.readStroke(stream);
+        this.domainGridlinePaint = SerialUtils.readPaint(stream);
 
-        this.rangeGridlineStroke = SerialUtilities.readStroke(stream);
-        this.rangeGridlinePaint = SerialUtilities.readPaint(stream);
+        this.rangeGridlineStroke = SerialUtils.readStroke(stream);
+        this.rangeGridlinePaint = SerialUtils.readPaint(stream);
 
         if (this.domainAxis != null) {
             this.domainAxis.addChangeListener(this);

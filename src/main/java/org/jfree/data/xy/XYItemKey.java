@@ -41,9 +41,9 @@
 package org.jfree.data.xy;
 
 import java.io.Serializable;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
 import org.jfree.data.ItemKey;
-import org.jfree.util.ObjectUtilities;
 
 /**
  * An object that references one data item in an {@link XYZDataset}.  This is 
@@ -70,7 +70,7 @@ public class XYItemKey<S extends Comparable<S>> implements ItemKey,
      * @param itemIndex  the item index.
      */
     public XYItemKey(S seriesKey, int itemIndex) {
-        ParamChecks.nullNotPermitted(seriesKey, "seriesKey");
+        Args.nullNotPermitted(seriesKey, "seriesKey");
         this.seriesKey = seriesKey;
         this.itemIndex = itemIndex;
     }
@@ -121,7 +121,7 @@ public class XYItemKey<S extends Comparable<S>> implements ItemKey,
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 41 * hash + ObjectUtilities.hashCode(this.seriesKey);
+        hash = 41 * hash + ObjectUtils.hashCode(this.seriesKey);
         hash = 41 * hash + this.itemIndex;
         return hash;
     }

@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * -----------------
  * ChartFactory.java
  * -----------------
- * (C) Copyright 2001-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2001-2017, by Object Refinery Limited and Contributors.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Serge V. Grachov;
@@ -134,10 +134,8 @@ import java.util.List;
 import java.util.Locale;
 
 import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.CategoryAxis3D;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.NumberAxis3D;
 import org.jfree.chart.axis.Timeline;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.labels.BoxAndWhiskerToolTipGenerator;
@@ -167,16 +165,13 @@ import org.jfree.chart.renderer.DefaultPolarItemRenderer;
 import org.jfree.chart.renderer.WaferMapRenderer;
 import org.jfree.chart.renderer.category.AreaRenderer;
 import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.BoxAndWhiskerRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.GanttRenderer;
 import org.jfree.chart.renderer.category.GradientBarPainter;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
-import org.jfree.chart.renderer.category.LineRenderer3D;
 import org.jfree.chart.renderer.category.StackedAreaRenderer;
 import org.jfree.chart.renderer.category.StackedBarRenderer;
-import org.jfree.chart.renderer.category.StackedBarRenderer3D;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.renderer.category.WaterfallBarRenderer;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
@@ -194,13 +189,19 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.renderer.xy.XYStepAreaRenderer;
 import org.jfree.chart.renderer.xy.XYStepRenderer;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.chart.ui.Layer;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.ui.TextAnchor;
 import org.jfree.chart.urls.PieURLGenerator;
 import org.jfree.chart.urls.StandardCategoryURLGenerator;
 import org.jfree.chart.urls.StandardPieURLGenerator;
 import org.jfree.chart.urls.StandardXYURLGenerator;
 import org.jfree.chart.urls.StandardXYZURLGenerator;
 import org.jfree.chart.urls.XYURLGenerator;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.SortOrder;
+import org.jfree.chart.util.TableOrder;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.IntervalCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
@@ -214,12 +215,6 @@ import org.jfree.data.xy.TableXYDataset;
 import org.jfree.data.xy.WindDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
-import org.jfree.ui.Layer;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.TextAnchor;
-import org.jfree.util.SortOrder;
-import org.jfree.util.TableOrder;
 
 /**
  * A collection of utility methods for creating some standard charts with
@@ -236,7 +231,7 @@ public abstract class ChartFactory {
      * @return The chart theme.
      *
      * @see #setChartTheme(ChartTheme)
-     * @see ChartUtilities#applyCurrentTheme(JFreeChart)
+     * @see ChartUtils#applyCurrentTheme(JFreeChart)
      *
      * @since 1.0.11
      */
@@ -251,12 +246,12 @@ public abstract class ChartFactory {
      * @param theme  the theme ({@code null} not permitted).
      *
      * @see #getChartTheme()
-     * @see ChartUtilities#applyCurrentTheme(JFreeChart)
+     * @see ChartUtils#applyCurrentTheme(JFreeChart)
      *
      * @since 1.0.11
      */
     public static void setChartTheme(ChartTheme theme) {
-        ParamChecks.nullNotPermitted(theme, "theme");
+        Args.nullNotPermitted(theme, "theme");
         currentTheme = theme;
 
         // here we do a check to see if the user is installing the "Legacy"
@@ -422,10 +417,10 @@ public abstract class ChartFactory {
 
             if (oldValue == null) {
                 if (greenForIncrease) {
-                    plot.setSectionPaint(key, Color.green);
+                    plot.setSectionPaint(key, Color.GREEN);
                 }
                 else {
-                    plot.setSectionPaint(key, Color.red);
+                    plot.setSectionPaint(key, Color.RED);
                 }
                 if (showDifference) {
                     assert series != null; // suppresses compiler warning
@@ -543,10 +538,10 @@ public abstract class ChartFactory {
 
             if (oldValue == null) {
                 if (greenForIncrease) {
-                    plot.setSectionPaint(key, Color.green);
+                    plot.setSectionPaint(key, Color.GREEN);
                 }
                 else {
-                    plot.setSectionPaint(key, Color.red);
+                    plot.setSectionPaint(key, Color.RED);
                 }
                 if (showDifference) {
                     assert series != null; // suppresses compiler warning
@@ -679,7 +674,7 @@ public abstract class ChartFactory {
             CategoryDataset dataset, TableOrder order, boolean legend,
             boolean tooltips, boolean urls) {
 
-        ParamChecks.nullNotPermitted(order, "order");
+        Args.nullNotPermitted(order, "order");
         MultiplePiePlot plot = new MultiplePiePlot(dataset);
         plot.setDataExtractOrder(order);
         plot.setBackgroundPaint(null);
@@ -723,7 +718,7 @@ public abstract class ChartFactory {
     public static JFreeChart createPieChart3D(String title, PieDataset dataset,
             boolean legend, boolean tooltips, Locale locale) {
 
-        ParamChecks.nullNotPermitted(locale, "locale");
+        Args.nullNotPermitted(locale, "locale");
         PiePlot3D plot = new PiePlot3D(dataset);
         plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
         if (tooltips) {
@@ -803,7 +798,7 @@ public abstract class ChartFactory {
             CategoryDataset dataset, TableOrder order, boolean legend,
             boolean tooltips, boolean urls) {
 
-        ParamChecks.nullNotPermitted(order, "order");
+        Args.nullNotPermitted(order, "order");
         MultiplePiePlot plot = new MultiplePiePlot(dataset);
         plot.setDataExtractOrder(order);
         plot.setBackgroundPaint(null);
@@ -888,7 +883,7 @@ public abstract class ChartFactory {
             CategoryDataset dataset, PlotOrientation orientation,
             boolean legend, boolean tooltips, boolean urls) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         CategoryAxis categoryAxis = new CategoryAxis(categoryAxisLabel);
         ValueAxis valueAxis = new NumberAxis(valueAxisLabel);
 
@@ -896,24 +891,24 @@ public abstract class ChartFactory {
         if (orientation == PlotOrientation.HORIZONTAL) {
             ItemLabelPosition position1 = new ItemLabelPosition(
                     ItemLabelAnchor.OUTSIDE3, TextAnchor.CENTER_LEFT);
-            renderer.setBasePositiveItemLabelPosition(position1);
+            renderer.setDefaultPositiveItemLabelPosition(position1);
             ItemLabelPosition position2 = new ItemLabelPosition(
                     ItemLabelAnchor.OUTSIDE9, TextAnchor.CENTER_RIGHT);
-            renderer.setBaseNegativeItemLabelPosition(position2);
+            renderer.setDefaultNegativeItemLabelPosition(position2);
         } else if (orientation == PlotOrientation.VERTICAL) {
             ItemLabelPosition position1 = new ItemLabelPosition(
                     ItemLabelAnchor.OUTSIDE12, TextAnchor.BOTTOM_CENTER);
-            renderer.setBasePositiveItemLabelPosition(position1);
+            renderer.setDefaultPositiveItemLabelPosition(position1);
             ItemLabelPosition position2 = new ItemLabelPosition(
                     ItemLabelAnchor.OUTSIDE6, TextAnchor.TOP_CENTER);
-            renderer.setBaseNegativeItemLabelPosition(position2);
+            renderer.setDefaultNegativeItemLabelPosition(position2);
         }
         if (tooltips) {
-            renderer.setBaseToolTipGenerator(
+            renderer.setDefaultToolTipGenerator(
                     new StandardCategoryToolTipGenerator());
         }
         if (urls) {
-            renderer.setBaseItemURLGenerator(
+            renderer.setDefaultItemURLGenerator(
                     new StandardCategoryURLGenerator());
         }
 
@@ -978,189 +973,24 @@ public abstract class ChartFactory {
             CategoryDataset dataset, PlotOrientation orientation,
             boolean legend, boolean tooltips, boolean urls) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
 
         CategoryAxis categoryAxis = new CategoryAxis(domainAxisLabel);
         ValueAxis valueAxis = new NumberAxis(rangeAxisLabel);
 
         StackedBarRenderer renderer = new StackedBarRenderer();
         if (tooltips) {
-            renderer.setBaseToolTipGenerator(
+            renderer.setDefaultToolTipGenerator(
                     new StandardCategoryToolTipGenerator());
         }
         if (urls) {
-            renderer.setBaseItemURLGenerator(
+            renderer.setDefaultItemURLGenerator(
                     new StandardCategoryURLGenerator());
         }
 
         CategoryPlot plot = new CategoryPlot(dataset, categoryAxis, valueAxis,
                 renderer);
         plot.setOrientation(orientation);
-        JFreeChart chart = new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT,
-                plot, legend);
-        currentTheme.apply(chart);
-        return chart;
-
-    }
-
-    /**
-     * Creates a bar chart with a 3D effect. The chart object returned by this
-     * method uses a {@link CategoryPlot} instance as the plot, with a
-     * {@link CategoryAxis3D} for the domain axis, a {@link NumberAxis3D} as
-     * the range axis, and a {@link BarRenderer3D} as the renderer.
-     *
-     * @param title  the chart title ({@code null} permitted).
-     * @param categoryAxisLabel  the label for the category axis
-     *                           ({@code null} permitted).
-     * @param valueAxisLabel  the label for the value axis ({@code null}
-     *                        permitted).
-     * @param dataset  the dataset for the chart ({@code null} permitted).
-     *
-     * @return A bar chart with a 3D effect.
-     * 
-     * @since 1.0.16
-     */
-    public static JFreeChart createBarChart3D(String title,
-            String categoryAxisLabel, String valueAxisLabel,
-            CategoryDataset dataset) {
-        return createBarChart3D(title, categoryAxisLabel, valueAxisLabel,
-                dataset, PlotOrientation.VERTICAL, true, true, false);
-    }
-    
-    /**
-     * Creates a bar chart with a 3D effect. The chart object returned by this
-     * method uses a {@link CategoryPlot} instance as the plot, with a
-     * {@link CategoryAxis3D} for the domain axis, a {@link NumberAxis3D} as
-     * the range axis, and a {@link BarRenderer3D} as the renderer.
-     *
-     * @param title  the chart title ({@code null} permitted).
-     * @param categoryAxisLabel  the label for the category axis
-     *                           ({@code null} permitted).
-     * @param valueAxisLabel  the label for the value axis ({@code null}
-     *                        permitted).
-     * @param dataset  the dataset for the chart ({@code null} permitted).
-     * @param orientation  the plot orientation (horizontal or vertical)
-     *                     ({@code null} not permitted).
-     * @param legend  a flag specifying whether or not a legend is required.
-     * @param tooltips  configure chart to generate tool tips?
-     * @param urls  configure chart to generate URLs?
-     *
-     * @return A bar chart with a 3D effect.
-     */
-    public static JFreeChart createBarChart3D(String title,
-            String categoryAxisLabel, String valueAxisLabel,
-            CategoryDataset dataset, PlotOrientation orientation,
-            boolean legend, boolean tooltips, boolean urls) {
-
-        ParamChecks.nullNotPermitted(orientation, "orientation");
-        CategoryAxis categoryAxis = new CategoryAxis3D(categoryAxisLabel);
-        ValueAxis valueAxis = new NumberAxis3D(valueAxisLabel);
-
-        BarRenderer3D renderer = new BarRenderer3D();
-        if (tooltips) {
-            renderer.setBaseToolTipGenerator(
-                    new StandardCategoryToolTipGenerator());
-        }
-        if (urls) {
-            renderer.setBaseItemURLGenerator(
-                    new StandardCategoryURLGenerator());
-        }
-
-        CategoryPlot plot = new CategoryPlot(dataset, categoryAxis, valueAxis,
-                renderer);
-        plot.setOrientation(orientation);
-        if (orientation == PlotOrientation.HORIZONTAL) {
-            // change rendering order to ensure that bar overlapping is the
-            // right way around
-            plot.setRowRenderingOrder(SortOrder.DESCENDING);
-            plot.setColumnRenderingOrder(SortOrder.DESCENDING);
-        }
-        plot.setForegroundAlpha(0.75f);
-
-        JFreeChart chart = new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT,
-                plot, legend);
-        currentTheme.apply(chart);
-        return chart;
-
-    }
-
-    /**
-     * Creates a stacked bar chart with a 3D effect and default settings. The
-     * chart object returned by this method uses a {@link CategoryPlot}
-     * instance as the plot, with a {@link CategoryAxis3D} for the domain axis,
-     * a {@link NumberAxis3D} as the range axis, and a
-     * {@link StackedBarRenderer3D} as the renderer.
-     *
-     * @param title  the chart title ({@code null} permitted).
-     * @param categoryAxisLabel  the label for the category axis
-     *                           ({@code null} permitted).
-     * @param valueAxisLabel  the label for the value axis ({@code null}
-     *                        permitted).
-     * @param dataset  the dataset for the chart ({@code null} permitted).
-     *
-     * @return A stacked bar chart with a 3D effect.
-     * 
-     * @since 1.0.16
-     */
-    public static JFreeChart createStackedBarChart3D(String title,
-            String categoryAxisLabel, String valueAxisLabel,
-            CategoryDataset dataset) {
-        return createStackedBarChart3D(title, categoryAxisLabel, valueAxisLabel,
-                dataset, PlotOrientation.VERTICAL, true, true, false);
-    }
-    
-    /**
-     * Creates a stacked bar chart with a 3D effect and default settings. The
-     * chart object returned by this method uses a {@link CategoryPlot}
-     * instance as the plot, with a {@link CategoryAxis3D} for the domain axis,
-     * a {@link NumberAxis3D} as the range axis, and a
-     * {@link StackedBarRenderer3D} as the renderer.
-     *
-     * @param title  the chart title ({@code null} permitted).
-     * @param categoryAxisLabel  the label for the category axis
-     *                           ({@code null} permitted).
-     * @param valueAxisLabel  the label for the value axis ({@code null}
-     *                        permitted).
-     * @param dataset  the dataset for the chart ({@code null} permitted).
-     * @param orientation  the orientation (horizontal or vertical)
-     *                     ({@code null} not permitted).
-     * @param legend  a flag specifying whether or not a legend is required.
-     * @param tooltips  configure chart to generate tool tips?
-     * @param urls  configure chart to generate URLs?
-     *
-     * @return A stacked bar chart with a 3D effect.
-     */
-    public static JFreeChart createStackedBarChart3D(String title,
-            String categoryAxisLabel, String valueAxisLabel,
-            CategoryDataset dataset, PlotOrientation orientation,
-            boolean legend, boolean tooltips, boolean urls) {
-
-        ParamChecks.nullNotPermitted(orientation, "orientation");
-        CategoryAxis categoryAxis = new CategoryAxis3D(categoryAxisLabel);
-        ValueAxis valueAxis = new NumberAxis3D(valueAxisLabel);
-
-        // create the renderer...
-        CategoryItemRenderer renderer = new StackedBarRenderer3D();
-        if (tooltips) {
-            renderer.setBaseToolTipGenerator(
-                    new StandardCategoryToolTipGenerator());
-        }
-        if (urls) {
-            renderer.setBaseItemURLGenerator(
-                    new StandardCategoryURLGenerator());
-        }
-
-        // create the plot...
-        CategoryPlot plot = new CategoryPlot(dataset, categoryAxis, valueAxis,
-                renderer);
-        plot.setOrientation(orientation);
-        if (orientation == PlotOrientation.HORIZONTAL) {
-            // change rendering order to ensure that bar overlapping is the
-            // right way around
-            plot.setColumnRenderingOrder(SortOrder.DESCENDING);
-        }
-
-        // create the chart...
         JFreeChart chart = new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT,
                 plot, legend);
         currentTheme.apply(chart);
@@ -1217,7 +1047,7 @@ public abstract class ChartFactory {
             CategoryDataset dataset, PlotOrientation orientation,
             boolean legend, boolean tooltips, boolean urls) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         CategoryAxis categoryAxis = new CategoryAxis(categoryAxisLabel);
         categoryAxis.setCategoryMargin(0.0);
 
@@ -1225,11 +1055,11 @@ public abstract class ChartFactory {
 
         AreaRenderer renderer = new AreaRenderer();
         if (tooltips) {
-            renderer.setBaseToolTipGenerator(
+            renderer.setDefaultToolTipGenerator(
                     new StandardCategoryToolTipGenerator());
         }
         if (urls) {
-            renderer.setBaseItemURLGenerator(
+            renderer.setDefaultItemURLGenerator(
                     new StandardCategoryURLGenerator());
         }
 
@@ -1294,18 +1124,18 @@ public abstract class ChartFactory {
             CategoryDataset dataset, PlotOrientation orientation,
             boolean legend, boolean tooltips, boolean urls) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         CategoryAxis categoryAxis = new CategoryAxis(categoryAxisLabel);
         categoryAxis.setCategoryMargin(0.0);
         ValueAxis valueAxis = new NumberAxis(valueAxisLabel);
 
         StackedAreaRenderer renderer = new StackedAreaRenderer();
         if (tooltips) {
-            renderer.setBaseToolTipGenerator(
+            renderer.setDefaultToolTipGenerator(
                     new StandardCategoryToolTipGenerator());
         }
         if (urls) {
-            renderer.setBaseItemURLGenerator(
+            renderer.setDefaultItemURLGenerator(
                     new StandardCategoryURLGenerator());
         }
 
@@ -1368,17 +1198,17 @@ public abstract class ChartFactory {
             CategoryDataset dataset, PlotOrientation orientation,
             boolean legend, boolean tooltips, boolean urls) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         CategoryAxis categoryAxis = new CategoryAxis(categoryAxisLabel);
         ValueAxis valueAxis = new NumberAxis(valueAxisLabel);
 
         LineAndShapeRenderer renderer = new LineAndShapeRenderer(true, false);
         if (tooltips) {
-            renderer.setBaseToolTipGenerator(
+            renderer.setDefaultToolTipGenerator(
                     new StandardCategoryToolTipGenerator());
         }
         if (urls) {
-            renderer.setBaseItemURLGenerator(
+            renderer.setDefaultItemURLGenerator(
                     new StandardCategoryURLGenerator());
         }
         CategoryPlot plot = new CategoryPlot(dataset, categoryAxis, valueAxis,
@@ -1389,80 +1219,8 @@ public abstract class ChartFactory {
         currentTheme.apply(chart);
         return chart;
 
-    }
-
-    /**
-     * Creates a line chart with default settings. The chart object returned by
-     * this method uses a {@link CategoryPlot} instance as the plot, with a
-     * {@link CategoryAxis3D} for the domain axis, a {@link NumberAxis3D} as
-     * the range axis, and a {@link LineRenderer3D} as the renderer.
-     *
-     * @param title  the chart title ({@code null} permitted).
-     * @param categoryAxisLabel  the label for the category axis
-     *                           ({@code null} permitted).
-     * @param valueAxisLabel  the label for the value axis ({@code null}
-     *                        permitted).
-     * @param dataset  the dataset for the chart ({@code null} permitted).
-     *
-     * @return A line chart.
-     * 
-     * @since 1.0.16
-     */
-    public static JFreeChart createLineChart3D(String title,
-            String categoryAxisLabel, String valueAxisLabel,
-            CategoryDataset dataset) {
-        return createLineChart3D(title, categoryAxisLabel, valueAxisLabel,
-                dataset, PlotOrientation.VERTICAL, true, true, false);
-    }    
+    }  
         
-    /**
-     * Creates a line chart with default settings. The chart object returned by
-     * this method uses a {@link CategoryPlot} instance as the plot, with a
-     * {@link CategoryAxis3D} for the domain axis, a {@link NumberAxis3D} as
-     * the range axis, and a {@link LineRenderer3D} as the renderer.
-     *
-     * @param title  the chart title ({@code null} permitted).
-     * @param categoryAxisLabel  the label for the category axis
-     *                           ({@code null} permitted).
-     * @param valueAxisLabel  the label for the value axis ({@code null}
-     *                        permitted).
-     * @param dataset  the dataset for the chart ({@code null} permitted).
-     * @param orientation  the chart orientation (horizontal or vertical)
-     *                     ({@code null} not permitted).
-     * @param legend  a flag specifying whether or not a legend is required.
-     * @param tooltips  configure chart to generate tool tips?
-     * @param urls  configure chart to generate URLs?
-     *
-     * @return A line chart.
-     */
-    public static JFreeChart createLineChart3D(String title,
-            String categoryAxisLabel, String valueAxisLabel,
-            CategoryDataset dataset, PlotOrientation orientation,
-            boolean legend, boolean tooltips, boolean urls) {
-
-        ParamChecks.nullNotPermitted(orientation, "orientation");
-        CategoryAxis categoryAxis = new CategoryAxis3D(categoryAxisLabel);
-        ValueAxis valueAxis = new NumberAxis3D(valueAxisLabel);
-
-        LineRenderer3D renderer = new LineRenderer3D();
-        if (tooltips) {
-            renderer.setBaseToolTipGenerator(
-                    new StandardCategoryToolTipGenerator());
-        }
-        if (urls) {
-            renderer.setBaseItemURLGenerator(
-                    new StandardCategoryURLGenerator());
-        }
-        CategoryPlot plot = new CategoryPlot(dataset, categoryAxis, valueAxis,
-                renderer);
-        plot.setOrientation(orientation);
-        JFreeChart chart = new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT,
-                plot, legend);
-        currentTheme.apply(chart);
-        return chart;
-
-    }
-
     /**
      * Creates a Gantt chart using the supplied attributes plus default values
      * where required.  The chart object returned by this method uses a
@@ -1517,12 +1275,12 @@ public abstract class ChartFactory {
 
         CategoryItemRenderer renderer = new GanttRenderer();
         if (tooltips) {
-            renderer.setBaseToolTipGenerator(
+            renderer.setDefaultToolTipGenerator(
                     new IntervalCategoryToolTipGenerator(
                     "{3} - {4}", DateFormat.getDateInstance()));
         }
         if (urls) {
-            renderer.setBaseItemURLGenerator(
+            renderer.setDefaultItemURLGenerator(
                     new StandardCategoryURLGenerator());
         }
 
@@ -1561,7 +1319,7 @@ public abstract class ChartFactory {
             CategoryDataset dataset, PlotOrientation orientation,
             boolean legend, boolean tooltips, boolean urls) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         CategoryAxis categoryAxis = new CategoryAxis(categoryAxisLabel);
         categoryAxis.setCategoryMargin(0.0);
 
@@ -1572,23 +1330,23 @@ public abstract class ChartFactory {
             ItemLabelPosition position = new ItemLabelPosition(
                     ItemLabelAnchor.CENTER, TextAnchor.CENTER,
                     TextAnchor.CENTER, Math.PI / 2.0);
-            renderer.setBasePositiveItemLabelPosition(position);
-            renderer.setBaseNegativeItemLabelPosition(position);
+            renderer.setDefaultPositiveItemLabelPosition(position);
+            renderer.setDefaultNegativeItemLabelPosition(position);
          }
         else if (orientation == PlotOrientation.VERTICAL) {
             ItemLabelPosition position = new ItemLabelPosition(
                     ItemLabelAnchor.CENTER, TextAnchor.CENTER,
                     TextAnchor.CENTER, 0.0);
-            renderer.setBasePositiveItemLabelPosition(position);
-            renderer.setBaseNegativeItemLabelPosition(position);
+            renderer.setDefaultPositiveItemLabelPosition(position);
+            renderer.setDefaultNegativeItemLabelPosition(position);
         }
         if (tooltips) {
             StandardCategoryToolTipGenerator generator
                 = new StandardCategoryToolTipGenerator();
-            renderer.setBaseToolTipGenerator(generator);
+            renderer.setDefaultToolTipGenerator(generator);
         }
         if (urls) {
-            renderer.setBaseItemURLGenerator(
+            renderer.setDefaultItemURLGenerator(
                     new StandardCategoryURLGenerator());
         }
 
@@ -1596,7 +1354,7 @@ public abstract class ChartFactory {
                 renderer);
         plot.clearRangeMarkers();
         Marker baseline = new ValueMarker(0.0);
-        baseline.setPaint(Color.black);
+        baseline.setPaint(Color.BLACK);
         plot.addRangeMarker(baseline, Layer.FOREGROUND);
         plot.setOrientation(orientation);
         JFreeChart chart = new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT,
@@ -1683,7 +1441,7 @@ public abstract class ChartFactory {
             String yAxisLabel, XYDataset dataset, PlotOrientation orientation,
             boolean legend, boolean tooltips, boolean urls) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         NumberAxis xAxis = new NumberAxis(xAxisLabel);
         xAxis.setAutoRangeIncludesZero(false);
         NumberAxis yAxis = new NumberAxis(yAxisLabel);
@@ -1701,7 +1459,7 @@ public abstract class ChartFactory {
             urlGenerator = new StandardXYURLGenerator();
         }
         XYItemRenderer renderer = new XYLineAndShapeRenderer(false, true);
-        renderer.setBaseToolTipGenerator(toolTipGenerator);
+        renderer.setDefaultToolTipGenerator(toolTipGenerator);
         renderer.setURLGenerator(urlGenerator);
         plot.setRenderer(renderer);
         plot.setOrientation(orientation);
@@ -1763,7 +1521,7 @@ public abstract class ChartFactory {
             PlotOrientation orientation, boolean legend, boolean tooltips,
             boolean urls) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         ValueAxis domainAxis;
         if (dateAxis) {
             domainAxis = new DateAxis(xAxisLabel);
@@ -1784,7 +1542,7 @@ public abstract class ChartFactory {
             else {
                 tt = new StandardXYToolTipGenerator();
             }
-            renderer.setBaseToolTipGenerator(tt);
+            renderer.setDefaultToolTipGenerator(tt);
         }
         if (urls) {
             renderer.setURLGenerator(new StandardXYURLGenerator());
@@ -1847,7 +1605,7 @@ public abstract class ChartFactory {
             String yAxisLabel, XYDataset dataset, PlotOrientation orientation,
             boolean legend, boolean tooltips, boolean urls) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         NumberAxis xAxis = new NumberAxis(xAxisLabel);
         xAxis.setAutoRangeIncludesZero(false);
         NumberAxis yAxis = new NumberAxis(yAxisLabel);
@@ -1918,7 +1676,7 @@ public abstract class ChartFactory {
             PlotOrientation orientation, boolean legend, boolean tooltips,
             boolean urls) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         NumberAxis xAxis = new NumberAxis(xAxisLabel);
         xAxis.setAutoRangeIncludesZero(false);
         xAxis.setLowerMargin(0.0);
@@ -1985,7 +1743,7 @@ public abstract class ChartFactory {
             String yAxisLabel, XYDataset dataset, PlotOrientation orientation,
             boolean legend, boolean tooltips, boolean urls) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         NumberAxis xAxis = new NumberAxis(xAxisLabel);
         xAxis.setAutoRangeIncludesZero(false);
         NumberAxis yAxis = new NumberAxis(yAxisLabel);
@@ -1993,7 +1751,7 @@ public abstract class ChartFactory {
         XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer);
         plot.setOrientation(orientation);
         if (tooltips) {
-            renderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+            renderer.setDefaultToolTipGenerator(new StandardXYToolTipGenerator());
         }
         if (urls) {
             renderer.setURLGenerator(new StandardXYURLGenerator());
@@ -2043,7 +1801,7 @@ public abstract class ChartFactory {
             String yAxisLabel, XYDataset dataset, PlotOrientation orientation,
             boolean legend, boolean tooltips, boolean urls) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         DateAxis xAxis = new DateAxis(xAxisLabel);
         NumberAxis yAxis = new NumberAxis(yAxisLabel);
         yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
@@ -2110,7 +1868,7 @@ public abstract class ChartFactory {
             PlotOrientation orientation, boolean legend, boolean tooltips,
             boolean urls) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         NumberAxis xAxis = new NumberAxis(xAxisLabel);
         xAxis.setAutoRangeIncludesZero(false);
         NumberAxis yAxis = new NumberAxis(yAxisLabel);
@@ -2210,7 +1968,7 @@ public abstract class ChartFactory {
 
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(true,
                 false);
-        renderer.setBaseToolTipGenerator(toolTipGenerator);
+        renderer.setDefaultToolTipGenerator(toolTipGenerator);
         renderer.setURLGenerator(urlGenerator);
         plot.setRenderer(renderer);
 
@@ -2269,42 +2027,7 @@ public abstract class ChartFactory {
         ValueAxis timeAxis = new DateAxis(timeAxisLabel);
         NumberAxis valueAxis = new NumberAxis(valueAxisLabel);
         HighLowRenderer renderer = new HighLowRenderer();
-        renderer.setBaseToolTipGenerator(new HighLowItemLabelGenerator());
-        XYPlot plot = new XYPlot(dataset, timeAxis, valueAxis, renderer);
-        JFreeChart chart = new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT,
-                plot, legend);
-        currentTheme.apply(chart);
-        return chart;
-
-    }
-
-    /**
-     * Creates and returns a default instance of a high-low-open-close chart
-     * with a special timeline. This timeline can be a
-     * {@link org.jfree.chart.axis.SegmentedTimeline} such as the Monday
-     * through Friday timeline that will remove Saturdays and Sundays from
-     * the axis.
-     *
-     * @param title  the chart title ({@code null} permitted).
-     * @param timeAxisLabel  a label for the time axis ({@code null}
-     *                       permitted).
-     * @param valueAxisLabel  a label for the value axis ({@code null}
-     *                        permitted).
-     * @param dataset  the dataset for the chart ({@code null} permitted).
-     * @param timeline  the timeline.
-     * @param legend  a flag specifying whether or not a legend is required.
-     *
-     * @return A high-low-open-close chart.
-     */
-    public static JFreeChart createHighLowChart(String title,
-            String timeAxisLabel, String valueAxisLabel, OHLCDataset dataset,
-            Timeline timeline, boolean legend) {
-
-        DateAxis timeAxis = new DateAxis(timeAxisLabel);
-        timeAxis.setTimeline(timeline);
-        NumberAxis valueAxis = new NumberAxis(valueAxisLabel);
-        HighLowRenderer renderer = new HighLowRenderer();
-        renderer.setBaseToolTipGenerator(new HighLowItemLabelGenerator());
+        renderer.setDefaultToolTipGenerator(new HighLowItemLabelGenerator());
         XYPlot plot = new XYPlot(dataset, timeAxis, valueAxis, renderer);
         JFreeChart chart = new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT,
                 plot, legend);
@@ -2356,7 +2079,7 @@ public abstract class ChartFactory {
             String yAxisLabel, XYZDataset dataset, PlotOrientation orientation,
             boolean legend, boolean tooltips, boolean urls) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         NumberAxis xAxis = new NumberAxis(xAxisLabel);
         xAxis.setAutoRangeIncludesZero(false);
         NumberAxis yAxis = new NumberAxis(yAxisLabel);
@@ -2367,7 +2090,7 @@ public abstract class ChartFactory {
         XYItemRenderer renderer = new XYBubbleRenderer(
                 XYBubbleRenderer.SCALE_ON_RANGE_AXIS);
         if (tooltips) {
-            renderer.setBaseToolTipGenerator(new StandardXYZToolTipGenerator());
+            renderer.setDefaultToolTipGenerator(new StandardXYZToolTipGenerator());
         }
         if (urls) {
             renderer.setURLGenerator(new StandardXYZURLGenerator());
@@ -2423,14 +2146,14 @@ public abstract class ChartFactory {
             PlotOrientation orientation, boolean legend, boolean tooltips,
             boolean urls) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         NumberAxis xAxis = new NumberAxis(xAxisLabel);
         xAxis.setAutoRangeIncludesZero(false);
         ValueAxis yAxis = new NumberAxis(yAxisLabel);
 
         XYItemRenderer renderer = new XYBarRenderer();
         if (tooltips) {
-            renderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+            renderer.setDefaultToolTipGenerator(new StandardXYToolTipGenerator());
         }
         if (urls) {
             renderer.setURLGenerator(new StandardXYURLGenerator());
@@ -2472,7 +2195,7 @@ public abstract class ChartFactory {
         valueAxis.setAutoRangeIncludesZero(false);
 
         BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
-        renderer.setBaseToolTipGenerator(new BoxAndWhiskerToolTipGenerator());
+        renderer.setDefaultToolTipGenerator(new BoxAndWhiskerToolTipGenerator());
 
         CategoryPlot plot = new CategoryPlot(dataset, categoryAxis, valueAxis,
                 renderer);
@@ -2535,7 +2258,7 @@ public abstract class ChartFactory {
 
         WindItemRenderer renderer = new WindItemRenderer();
         if (tooltips) {
-            renderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+            renderer.setDefaultToolTipGenerator(new StandardXYToolTipGenerator());
         }
         if (urls) {
             renderer.setURLGenerator(new StandardXYURLGenerator());
@@ -2565,7 +2288,7 @@ public abstract class ChartFactory {
             WaferMapDataset dataset, PlotOrientation orientation,
             boolean legend, boolean tooltips, boolean urls) {
 
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         WaferMapPlot plot = new WaferMapPlot(dataset);
         WaferMapRenderer renderer = new WaferMapRenderer();
         plot.setRenderer(renderer);

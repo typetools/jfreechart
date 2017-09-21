@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ----------------------------
  * XYBoxAndWhiskerRenderer.java
  * ----------------------------
- * (C) Copyright 2003-2016, by David Browning and Contributors.
+ * (C) Copyright 2003-2017, by David Browning and Contributors.
  *
  * Original Author:  David Browning (for Australian Institute of Marine
  *                   Science);
@@ -107,14 +107,14 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.Outlier;
 import org.jfree.chart.renderer.OutlierList;
 import org.jfree.chart.renderer.OutlierListCollection;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
 import org.jfree.data.Range;
 import org.jfree.data.statistics.BoxAndWhiskerXYDataset;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A renderer that draws box-and-whisker items on an {@link XYPlot}.  This
@@ -146,7 +146,7 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
      * The paint used to draw various artifacts such as outliers, farout
      * symbol, average ellipse and median line.
      */
-    private transient Paint artifactPaint = Color.black;
+    private transient Paint artifactPaint = Color.BLACK;
 
     /**
      * Creates a new renderer for box and whisker charts.
@@ -166,9 +166,9 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
     public XYBoxAndWhiskerRenderer(double boxWidth) {
         super();
         this.boxWidth = boxWidth;
-        this.boxPaint = Color.green;
+        this.boxPaint = Color.GREEN;
         this.fillBox = true;
-        setBaseToolTipGenerator(new BoxAndWhiskerXYToolTipGenerator());
+        setDefaultToolTipGenerator(new BoxAndWhiskerXYToolTipGenerator());
     }
 
     /**
@@ -270,7 +270,7 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
      * @see #getArtifactPaint()
      */
     public void setArtifactPaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.artifactPaint = paint;
         fireChangeEvent();
     }
@@ -797,10 +797,10 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
         if (this.boxWidth != that.getBoxWidth()) {
             return false;
         }
-        if (!PaintUtilities.equal(this.boxPaint, that.boxPaint)) {
+        if (!PaintUtils.equal(this.boxPaint, that.boxPaint)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.artifactPaint, that.artifactPaint)) {
+        if (!PaintUtils.equal(this.artifactPaint, that.artifactPaint)) {
             return false;
         }
         if (this.fillBox != that.fillBox) {
@@ -819,8 +819,8 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.boxPaint, stream);
-        SerialUtilities.writePaint(this.artifactPaint, stream);
+        SerialUtils.writePaint(this.boxPaint, stream);
+        SerialUtils.writePaint(this.artifactPaint, stream);
     }
 
     /**
@@ -835,8 +835,8 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
         throws IOException, ClassNotFoundException {
 
         stream.defaultReadObject();
-        this.boxPaint = SerialUtilities.readPaint(stream);
-        this.artifactPaint = SerialUtilities.readPaint(stream);
+        this.boxPaint = SerialUtils.readPaint(stream);
+        this.artifactPaint = SerialUtils.readPaint(stream);
     }
 
     /**

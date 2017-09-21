@@ -62,10 +62,9 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import org.jfree.chart.util.ParamChecks;
-
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
 
 /**
  * A data structure that stores zero, one or many values, where each value
@@ -186,7 +185,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      */
     @Override
     public int getRowIndex(Comparable key) {
-        ParamChecks.nullNotPermitted(key, "key");
+        Args.nullNotPermitted(key, "key");
         if (this.sortRowKeys) {
             return Collections.binarySearch(this.rowKeys, key);
         }
@@ -235,7 +234,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      */
     @Override
     public int getColumnIndex(Comparable key) {
-        ParamChecks.nullNotPermitted(key, "key");
+        Args.nullNotPermitted(key, "key");
         return this.columnKeys.indexOf(key);
     }
 
@@ -266,8 +265,8 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      */
     @Override
     public Number getValue(Comparable rowKey, Comparable columnKey) {
-        ParamChecks.nullNotPermitted(rowKey, "rowKey");
-        ParamChecks.nullNotPermitted(columnKey, "columnKey");
+        Args.nullNotPermitted(rowKey, "rowKey");
+        Args.nullNotPermitted(columnKey, "columnKey");
 
         // check that the column key is defined in the 2D structure
         if (!(this.columnKeys.contains(columnKey))) {
@@ -429,7 +428,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      *         table.
      */
     public void removeRow(Comparable rowKey) {
-        ParamChecks.nullNotPermitted(rowKey, "rowKey");
+        Args.nullNotPermitted(rowKey, "rowKey");
         int index = getRowIndex(rowKey);
         if (index >= 0) {
             removeRow(index);
@@ -466,7 +465,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #removeRow(Comparable)
      */
     public void removeColumn(Comparable columnKey) {
-        ParamChecks.nullNotPermitted(columnKey, "columnKey");
+        Args.nullNotPermitted(columnKey, "columnKey");
         if (!this.columnKeys.contains(columnKey)) {
             throw new UnknownKeyException("Unknown key: " + columnKey);
         }
@@ -577,7 +576,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
         clone.rowKeys = new java.util.ArrayList(this.rowKeys);
 
         // but the row data requires a deep copy
-        clone.rows = (List) ObjectUtilities.deepClone(this.rows);
+        clone.rows = (List) ObjectUtils.deepClone(this.rows);
         return clone;
     }
 

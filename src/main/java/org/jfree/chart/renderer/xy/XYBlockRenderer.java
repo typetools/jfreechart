@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * --------------------
  * XYBlockRenderer.java
  * --------------------
- * (C) Copyright 2006-2016, by Object Refinery Limited.
+ * (C) Copyright 2006-2017, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   -;
@@ -41,6 +41,7 @@
  * 07-Apr-2008 : Added entity collection code (DG);
  * 22-Apr-2008 : Implemented PublicCloneable (DG);
  * 03-Jul-2013 : Use ParamChecks (DG);
+ * 20-Feb-2017 : Add update for crosshairs (DG);
  *
  */
 
@@ -61,13 +62,13 @@ import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.LookupPaintScale;
 import org.jfree.chart.renderer.PaintScale;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.RectangleAnchor;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.Range;
-import org.jfree.data.general.DatasetUtilities;
+import org.jfree.data.general.DatasetUtils;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
-import org.jfree.ui.RectangleAnchor;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A renderer that represents data from an {@link XYZDataset} by drawing a
@@ -197,7 +198,7 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
      * @see #getBlockAnchor()
      */
     public void setBlockAnchor(RectangleAnchor anchor) {
-        ParamChecks.nullNotPermitted(anchor, "anchor");
+        Args.nullNotPermitted(anchor, "anchor");
         if (this.blockAnchor.equals(anchor)) {
             return;  // no change
         }
@@ -228,7 +229,7 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
      * @since 1.0.4
      */
     public void setPaintScale(PaintScale scale) {
-        ParamChecks.nullNotPermitted(scale, "scale");
+        Args.nullNotPermitted(scale, "scale");
         this.paintScale = scale;
         fireChangeEvent();
     }
@@ -292,7 +293,7 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
         if (dataset == null) {
             return null;
         }
-        Range r = DatasetUtilities.findDomainBounds(dataset, false);
+        Range r = DatasetUtils.findDomainBounds(dataset, false);
         if (r == null) {
             return null;
         }
@@ -314,7 +315,7 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
     @Override
     public Range findRangeBounds(XYDataset dataset) {
         if (dataset != null) {
-            Range r = DatasetUtilities.findRangeBounds(dataset, false);
+            Range r = DatasetUtils.findRangeBounds(dataset, false);
             if (r == null) {
                 return null;
             }
@@ -356,6 +357,7 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
         if (dataset instanceof XYZDataset) {
             z = ((XYZDataset) dataset).getZValue(series, item);
         }
+
         Paint p = this.paintScale.getPaint(z);
         double xx0 = domainAxis.valueToJava2D(x + this.xOffset, dataArea,
                 plot.getDomainAxisEdge());
@@ -382,9 +384,23 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
         g2.setStroke(new BasicStroke(1.0f));
         g2.draw(block);
 
+        if (isItemLabelVisible(series, item)) {
+            drawItemLabel(g2, orientation, dataset, series, item, 
+                    block.getCenterX(), block.getCenterY(), y < 0.0);
+        }
+
+        int datasetIndex = plot.indexOf(dataset);
+        double transX = domainAxis.valueToJava2D(x, dataArea,
+                plot.getDomainAxisEdge());
+        double transY = rangeAxis.valueToJava2D(y, dataArea,
+                plot.getRangeAxisEdge());        
+        updateCrosshairValues(crosshairState, x, y, datasetIndex,
+                transX, transY, orientation);
+
         EntityCollection entities = state.getEntityCollection();
         if (entities != null) {
-            addEntity(entities, block, dataset, series, item, 0.0, 0.0);
+            addEntity(entities, block, dataset, series, item, 
+                    block.getCenterX(), block.getCenterY());
         }
 
     }

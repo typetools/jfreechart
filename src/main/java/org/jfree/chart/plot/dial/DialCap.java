@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ------------
  * DialCap.java
  * ------------
- * (C) Copyright 2006-2016, by Object Refinery Limited.
+ * (C) Copyright 2006-2017, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   -;
@@ -53,11 +53,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import org.jfree.chart.HashUtilities;
-import org.jfree.chart.util.ParamChecks;
-import org.jfree.io.SerialUtilities;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.PublicCloneable;
+import org.jfree.chart.HashUtils;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
 
 /**
  * A regular dial layer that can be used to draw a cap over the center of
@@ -102,8 +102,8 @@ public class DialCap extends AbstractDialLayer implements DialLayer, Cloneable,
      */
     public DialCap() {
         this.radius = 0.05;
-        this.fillPaint = Color.white;
-        this.outlinePaint = Color.black;
+        this.fillPaint = Color.WHITE;
+        this.outlinePaint = Color.BLACK;
         this.outlineStroke = new BasicStroke(2.0f);
     }
 
@@ -156,7 +156,7 @@ public class DialCap extends AbstractDialLayer implements DialLayer, Cloneable,
      * @see #getFillPaint()
      */
     public void setFillPaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.fillPaint = paint;
         notifyListeners(new DialLayerChangeEvent(this));
     }
@@ -181,7 +181,7 @@ public class DialCap extends AbstractDialLayer implements DialLayer, Cloneable,
      * @see #getOutlinePaint()
      */
     public void setOutlinePaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.outlinePaint = paint;
         notifyListeners(new DialLayerChangeEvent(this));
     }
@@ -206,7 +206,7 @@ public class DialCap extends AbstractDialLayer implements DialLayer, Cloneable,
      * @see #getOutlineStroke()
      */
     public void setOutlineStroke(Stroke stroke) {
-        ParamChecks.nullNotPermitted(stroke, "stroke");
+        Args.nullNotPermitted(stroke, "stroke");
         this.outlineStroke = stroke;
         notifyListeners(new DialLayerChangeEvent(this));
     }
@@ -268,10 +268,10 @@ public class DialCap extends AbstractDialLayer implements DialLayer, Cloneable,
         if (this.radius != that.radius) {
             return false;
         }
-        if (!PaintUtilities.equal(this.fillPaint, that.fillPaint)) {
+        if (!PaintUtils.equal(this.fillPaint, that.fillPaint)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.outlinePaint, that.outlinePaint)) {
+        if (!PaintUtils.equal(this.outlinePaint, that.outlinePaint)) {
             return false;
         }
         if (!this.outlineStroke.equals(that.outlineStroke)) {
@@ -288,8 +288,8 @@ public class DialCap extends AbstractDialLayer implements DialLayer, Cloneable,
     @Override
     public int hashCode() {
         int result = 193;
-        result = 37 * result + HashUtilities.hashCodeForPaint(this.fillPaint);
-        result = 37 * result + HashUtilities.hashCodeForPaint(
+        result = 37 * result + HashUtils.hashCodeForPaint(this.fillPaint);
+        result = 37 * result + HashUtils.hashCodeForPaint(
                 this.outlinePaint);
         result = 37 * result + this.outlineStroke.hashCode();
         return result;
@@ -317,9 +317,9 @@ public class DialCap extends AbstractDialLayer implements DialLayer, Cloneable,
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.fillPaint, stream);
-        SerialUtilities.writePaint(this.outlinePaint, stream);
-        SerialUtilities.writeStroke(this.outlineStroke, stream);
+        SerialUtils.writePaint(this.fillPaint, stream);
+        SerialUtils.writePaint(this.outlinePaint, stream);
+        SerialUtils.writeStroke(this.outlineStroke, stream);
     }
 
     /**
@@ -333,9 +333,9 @@ public class DialCap extends AbstractDialLayer implements DialLayer, Cloneable,
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.fillPaint = SerialUtilities.readPaint(stream);
-        this.outlinePaint = SerialUtilities.readPaint(stream);
-        this.outlineStroke = SerialUtilities.readStroke(stream);
+        this.fillPaint = SerialUtils.readPaint(stream);
+        this.outlinePaint = SerialUtils.readPaint(stream);
+        this.outlineStroke = SerialUtils.readStroke(stream);
     }
 
 }

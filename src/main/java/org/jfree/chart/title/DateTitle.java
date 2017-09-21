@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * --------------
  * DateTitle.java
  * --------------
- * (C) Copyright 2000-2016, by David Berry and Contributors.
+ * (C) Copyright 2000-2017, by David Berry and Contributors.
  *
  * Original Author:  David Berry;
  * Contributor(s):   David Gilbert (for Object Refinery Limited);
@@ -55,11 +55,6 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import org.jfree.ui.HorizontalAlignment;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.VerticalAlignment;
-
 /**
  * A chart title that displays the date.
  * <p>
@@ -72,6 +67,10 @@ import org.jfree.ui.VerticalAlignment;
  * the given locale. For example, a date would appear as "January 17, 2000" in
  * the US, but "17 January 2000" in most European locales.
  */
+import org.jfree.chart.ui.HorizontalAlignment;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.ui.VerticalAlignment;
 public class DateTitle extends TextTitle implements Serializable {
 
     /** For serialization. */
@@ -101,7 +100,7 @@ public class DateTitle extends TextTitle implements Serializable {
      */
     public DateTitle(int style) {
         this(style, Locale.getDefault(), new Font("Dialog", Font.PLAIN, 12),
-                Color.black);
+                Color.BLACK);
     }
 
     /**

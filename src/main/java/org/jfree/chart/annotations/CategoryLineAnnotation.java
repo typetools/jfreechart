@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ---------------------------
  * CategoryLineAnnotation.java
  * ---------------------------
- * (C) Copyright 2005-2016, by Object Refinery Limited.
+ * (C) Copyright 2005-2017, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Peter Kolb (patch 2809117);
@@ -56,7 +56,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import org.jfree.chart.HashUtilities;
+import org.jfree.chart.HashUtils;
 import org.jfree.chart.axis.CategoryAnchor;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
@@ -64,13 +64,13 @@ import org.jfree.chart.event.AnnotationChangeEvent;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A line annotation that can be placed on a {@link CategoryPlot}.
@@ -95,7 +95,7 @@ public class CategoryLineAnnotation extends AbstractAnnotation
     private double value2;
 
     /** The line color. */
-    private transient Paint paint = Color.black;
+    private transient Paint paint = Color.BLACK;
 
     /** The line stroke. */
     private transient Stroke stroke = new BasicStroke(1.0f);
@@ -115,10 +115,10 @@ public class CategoryLineAnnotation extends AbstractAnnotation
                                   Comparable category2, double value2,
                                   Paint paint, Stroke stroke) {
         super();
-        ParamChecks.nullNotPermitted(category1, "category1");
-        ParamChecks.nullNotPermitted(category2, "category2");
-        ParamChecks.nullNotPermitted(paint, "paint");
-        ParamChecks.nullNotPermitted(stroke, "stroke");
+        Args.nullNotPermitted(category1, "category1");
+        Args.nullNotPermitted(category2, "category2");
+        Args.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(stroke, "stroke");
         this.category1 = category1;
         this.value1 = value1;
         this.category2 = category2;
@@ -147,7 +147,7 @@ public class CategoryLineAnnotation extends AbstractAnnotation
      * @see #getCategory1()
      */
     public void setCategory1(Comparable category) {
-        ParamChecks.nullNotPermitted(category, "category");
+        Args.nullNotPermitted(category, "category");
         this.category1 = category;
         fireAnnotationChanged();
     }
@@ -196,7 +196,7 @@ public class CategoryLineAnnotation extends AbstractAnnotation
      * @see #getCategory2()
      */
     public void setCategory2(Comparable category) {
-        ParamChecks.nullNotPermitted(category, "category");
+        Args.nullNotPermitted(category, "category");
         this.category2 = category;
         fireAnnotationChanged();
     }
@@ -245,7 +245,7 @@ public class CategoryLineAnnotation extends AbstractAnnotation
      * @see #getPaint()
      */
     public void setPaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.paint = paint;
         fireAnnotationChanged();
     }
@@ -270,7 +270,7 @@ public class CategoryLineAnnotation extends AbstractAnnotation
      * @see #getStroke()
      */
     public void setStroke(Stroke stroke) {
-        ParamChecks.nullNotPermitted(stroke, "stroke");
+        Args.nullNotPermitted(stroke, "stroke");
         this.stroke = stroke;
         fireAnnotationChanged();
     }
@@ -356,10 +356,10 @@ public class CategoryLineAnnotation extends AbstractAnnotation
         if (this.value2 != that.getValue2()) {
             return false;
         }
-        if (!PaintUtilities.equal(this.paint, that.paint)) {
+        if (!PaintUtils.equal(this.paint, that.paint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.stroke, that.stroke)) {
+        if (!ObjectUtils.equal(this.stroke, that.stroke)) {
             return false;
         }
         return true;
@@ -379,7 +379,7 @@ public class CategoryLineAnnotation extends AbstractAnnotation
         result = 37 * result + this.category2.hashCode();
         temp = Double.doubleToLongBits(this.value2);
         result = 37 * result + (int) (temp ^ (temp >>> 32));
-        result = 37 * result + HashUtilities.hashCodeForPaint(this.paint);
+        result = 37 * result + HashUtils.hashCodeForPaint(this.paint);
         result = 37 * result + this.stroke.hashCode();
         return result;
     }
@@ -406,8 +406,8 @@ public class CategoryLineAnnotation extends AbstractAnnotation
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.paint, stream);
-        SerialUtilities.writeStroke(this.stroke, stream);
+        SerialUtils.writePaint(this.paint, stream);
+        SerialUtils.writeStroke(this.stroke, stream);
     }
 
     /**
@@ -421,8 +421,8 @@ public class CategoryLineAnnotation extends AbstractAnnotation
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.paint = SerialUtilities.readPaint(stream);
-        this.stroke = SerialUtilities.readStroke(stream);
+        this.paint = SerialUtils.readPaint(stream);
+        this.stroke = SerialUtils.readStroke(stream);
     }
 
 }

@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ---------
  * Plot.java
  * ---------
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Sylvain Vieujot;
@@ -173,21 +173,21 @@ import org.jfree.chart.event.MarkerChangeEvent;
 import org.jfree.chart.event.MarkerChangeListener;
 import org.jfree.chart.event.PlotChangeEvent;
 import org.jfree.chart.event.PlotChangeListener;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.text.G2TextMeasurer;
+import org.jfree.chart.text.TextBlock;
+import org.jfree.chart.text.TextBlockAnchor;
+import org.jfree.chart.text.TextUtils;
+import org.jfree.chart.ui.Align;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
 import org.jfree.data.general.DatasetChangeEvent;
 import org.jfree.data.general.DatasetChangeListener;
 import org.jfree.data.general.DatasetGroup;
-import org.jfree.io.SerialUtilities;
-import org.jfree.text.G2TextMeasurer;
-import org.jfree.text.TextBlock;
-import org.jfree.text.TextBlockAnchor;
-import org.jfree.text.TextUtilities;
-import org.jfree.ui.Align;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * The base class for all plots in JFreeChart.  The {@link JFreeChart} class
@@ -213,7 +213,7 @@ public abstract class Plot implements AxisChangeListener,
             BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
     /** The default outline color. */
-    public static final Paint DEFAULT_OUTLINE_PAINT = Color.gray;
+    public static final Paint DEFAULT_OUTLINE_PAINT = Color.GRAY;
 
     /** The default foreground alpha transparency. */
     public static final float DEFAULT_FOREGROUND_ALPHA = 1.0f;
@@ -222,7 +222,7 @@ public abstract class Plot implements AxisChangeListener,
     public static final float DEFAULT_BACKGROUND_ALPHA = 1.0f;
 
     /** The default background color. */
-    public static final Paint DEFAULT_BACKGROUND_PAINT = Color.white;
+    public static final Paint DEFAULT_BACKGROUND_PAINT = Color.WHITE;
 
     /** The minimum width at which the plot should be drawn. */
     public static final int MINIMUM_WIDTH_TO_DRAW = 10;
@@ -328,7 +328,7 @@ public abstract class Plot implements AxisChangeListener,
 
         this.noDataMessage = null;
         this.noDataMessageFont = new Font("SansSerif", Font.PLAIN, 12);
-        this.noDataMessagePaint = Color.black;
+        this.noDataMessagePaint = Color.BLACK;
 
         this.drawingSupplier = new DefaultDrawingSupplier();
 
@@ -451,7 +451,7 @@ public abstract class Plot implements AxisChangeListener,
      * @see #getNoDataMessageFont()
      */
     public void setNoDataMessageFont(Font font) {
-        ParamChecks.nullNotPermitted(font, "font");
+        Args.nullNotPermitted(font, "font");
         this.noDataMessageFont = font;
         fireChangeEvent();
     }
@@ -477,7 +477,7 @@ public abstract class Plot implements AxisChangeListener,
      * @see #getNoDataMessagePaint()
      */
     public void setNoDataMessagePaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.noDataMessagePaint = paint;
         fireChangeEvent();
     }
@@ -585,7 +585,7 @@ public abstract class Plot implements AxisChangeListener,
      * @see #setInsets(RectangleInsets)
      */
     public void setInsets(RectangleInsets insets, boolean notify) {
-        ParamChecks.nullNotPermitted(insets, "insets");
+        Args.nullNotPermitted(insets, "insets");
         if (!this.insets.equals(insets)) {
             this.insets = insets;
             if (notify) {
@@ -745,7 +745,7 @@ public abstract class Plot implements AxisChangeListener,
 
     /**
      * Returns the background image alignment. Alignment constants are defined
-     * in the {@code org.jfree.ui.Align} class in the JCommon class library.
+     * in the {@code Align} class.
      *
      * @return The alignment.
      *
@@ -758,8 +758,7 @@ public abstract class Plot implements AxisChangeListener,
     /**
      * Sets the alignment for the background image and sends a
      * {@link PlotChangeEvent} to all registered listeners.  Alignment options
-     * are defined by the {@link org.jfree.ui.Align} class in the JCommon
-     * class library.
+     * are defined by the {@link org.jfree.chart.ui.Align} class.
      *
      * @param alignment  the alignment.
      *
@@ -1097,7 +1096,7 @@ public abstract class Plot implements AxisChangeListener,
      */
     protected void fillBackground(Graphics2D g2, Rectangle2D area,
             PlotOrientation orientation) {
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(orientation, "orientation");
         if (this.backgroundPaint == null) {
             return;
         }
@@ -1192,7 +1191,7 @@ public abstract class Plot implements AxisChangeListener,
         if (message != null) {
             g2.setFont(this.noDataMessageFont);
             g2.setPaint(this.noDataMessagePaint);
-            TextBlock block = TextUtilities.createTextBlock(
+            TextBlock block = TextUtils.createTextBlock(
                     this.noDataMessage, this.noDataMessageFont,
                     this.noDataMessagePaint, 0.9f * (float) area.getWidth(),
                     new G2TextMeasurer(g2));
@@ -1365,34 +1364,34 @@ public abstract class Plot implements AxisChangeListener,
             return false;
         }
         Plot that = (Plot) obj;
-        if (!ObjectUtilities.equal(this.noDataMessage, that.noDataMessage)) {
+        if (!ObjectUtils.equal(this.noDataMessage, that.noDataMessage)) {
             return false;
         }
-        if (!ObjectUtilities.equal(
+        if (!ObjectUtils.equal(
             this.noDataMessageFont, that.noDataMessageFont
         )) {
             return false;
         }
-        if (!PaintUtilities.equal(this.noDataMessagePaint,
+        if (!PaintUtils.equal(this.noDataMessagePaint,
                 that.noDataMessagePaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.insets, that.insets)) {
+        if (!ObjectUtils.equal(this.insets, that.insets)) {
             return false;
         }
         if (this.outlineVisible != that.outlineVisible) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.outlineStroke, that.outlineStroke)) {
+        if (!ObjectUtils.equal(this.outlineStroke, that.outlineStroke)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.outlinePaint, that.outlinePaint)) {
+        if (!PaintUtils.equal(this.outlinePaint, that.outlinePaint)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.backgroundPaint, that.backgroundPaint)) {
+        if (!PaintUtils.equal(this.backgroundPaint, that.backgroundPaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.backgroundImage,
+        if (!ObjectUtils.equal(this.backgroundImage,
                 that.backgroundImage)) {
             return false;
         }
@@ -1433,10 +1432,10 @@ public abstract class Plot implements AxisChangeListener,
         // childs in combined plots instead
         if (this.datasetGroup != null) {
             clone.datasetGroup
-                = (DatasetGroup) ObjectUtilities.clone(this.datasetGroup);
+                = (DatasetGroup) ObjectUtils.clone(this.datasetGroup);
         }
         clone.drawingSupplier
-            = (DrawingSupplier) ObjectUtilities.clone(this.drawingSupplier);
+            = (DrawingSupplier) ObjectUtils.clone(this.drawingSupplier);
         clone.listenerList = new EventListenerList();
         return clone;
 
@@ -1451,11 +1450,11 @@ public abstract class Plot implements AxisChangeListener,
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.noDataMessagePaint, stream);
-        SerialUtilities.writeStroke(this.outlineStroke, stream);
-        SerialUtilities.writePaint(this.outlinePaint, stream);
+        SerialUtils.writePaint(this.noDataMessagePaint, stream);
+        SerialUtils.writeStroke(this.outlineStroke, stream);
+        SerialUtils.writePaint(this.outlinePaint, stream);
         // backgroundImage
-        SerialUtilities.writePaint(this.backgroundPaint, stream);
+        SerialUtils.writePaint(this.backgroundPaint, stream);
     }
 
     /**
@@ -1469,11 +1468,11 @@ public abstract class Plot implements AxisChangeListener,
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.noDataMessagePaint = SerialUtilities.readPaint(stream);
-        this.outlineStroke = SerialUtilities.readStroke(stream);
-        this.outlinePaint = SerialUtilities.readPaint(stream);
+        this.noDataMessagePaint = SerialUtils.readPaint(stream);
+        this.outlineStroke = SerialUtils.readStroke(stream);
+        this.outlinePaint = SerialUtils.readPaint(stream);
         // backgroundImage
-        this.backgroundPaint = SerialUtilities.readPaint(stream);
+        this.backgroundPaint = SerialUtils.readPaint(stream);
 
         this.listenerList = new EventListenerList();
 
@@ -1490,8 +1489,8 @@ public abstract class Plot implements AxisChangeListener,
     public static RectangleEdge resolveDomainAxisLocation(
             AxisLocation location, PlotOrientation orientation) {
 
-        ParamChecks.nullNotPermitted(location, "location");
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(location, "location");
+        Args.nullNotPermitted(orientation, "orientation");
 
         RectangleEdge result = null;
         if (location == AxisLocation.TOP_OR_RIGHT) {
@@ -1545,8 +1544,8 @@ public abstract class Plot implements AxisChangeListener,
     public static RectangleEdge resolveRangeAxisLocation(
             AxisLocation location, PlotOrientation orientation) {
 
-        ParamChecks.nullNotPermitted(location, "location");
-        ParamChecks.nullNotPermitted(orientation, "orientation");
+        Args.nullNotPermitted(location, "location");
+        Args.nullNotPermitted(orientation, "orientation");
 
         RectangleEdge result = null;
         if (location == AxisLocation.TOP_OR_RIGHT) {

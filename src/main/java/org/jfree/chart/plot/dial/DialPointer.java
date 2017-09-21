@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ----------------
  * DialPointer.java
  * ----------------
- * (C) Copyright 2006-2016, by Object Refinery Limited.
+ * (C) Copyright 2006-2017, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   -;
@@ -60,12 +60,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
-import org.jfree.chart.HashUtilities;
-import org.jfree.chart.util.ParamChecks;
-import org.jfree.io.SerialUtilities;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.PublicCloneable;
+import org.jfree.chart.HashUtils;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
 
 /**
  * A base class for the pointer in a {@link DialPlot}.
@@ -193,7 +192,7 @@ public abstract class DialPointer extends AbstractDialLayer
     @Override
     public int hashCode() {
         int result = 23;
-        result = HashUtilities.hashCode(result, this.radius);
+        result = HashUtils.hashCode(result, this.radius);
         return result;
     }
 
@@ -238,7 +237,7 @@ public abstract class DialPointer extends AbstractDialLayer
          */
         public Pin(int datasetIndex) {
             super(datasetIndex);
-            this.paint = Color.red;
+            this.paint = Color.RED;
             this.stroke = new BasicStroke(3.0f, BasicStroke.CAP_ROUND,
                     BasicStroke.JOIN_BEVEL);
         }
@@ -263,7 +262,7 @@ public abstract class DialPointer extends AbstractDialLayer
          * @see #getPaint()
          */
         public void setPaint(Paint paint) {
-            ParamChecks.nullNotPermitted(paint, "paint");
+            Args.nullNotPermitted(paint, "paint");
             this.paint = paint;
             notifyListeners(new DialLayerChangeEvent(this));
         }
@@ -288,7 +287,7 @@ public abstract class DialPointer extends AbstractDialLayer
          * @see #getStroke()
          */
         public void setStroke(Stroke stroke) {
-            ParamChecks.nullNotPermitted(stroke, "stroke");
+            Args.nullNotPermitted(stroke, "stroke");
             this.stroke = stroke;
             notifyListeners(new DialLayerChangeEvent(this));
         }
@@ -338,7 +337,7 @@ public abstract class DialPointer extends AbstractDialLayer
                 return false;
             }
             DialPointer.Pin that = (DialPointer.Pin) obj;
-            if (!PaintUtilities.equal(this.paint, that.paint)) {
+            if (!PaintUtils.equal(this.paint, that.paint)) {
                 return false;
             }
             if (!this.stroke.equals(that.stroke)) {
@@ -355,8 +354,8 @@ public abstract class DialPointer extends AbstractDialLayer
         @Override
         public int hashCode() {
             int result = super.hashCode();
-            result = HashUtilities.hashCode(result, this.paint);
-            result = HashUtilities.hashCode(result, this.stroke);
+            result = HashUtils.hashCode(result, this.paint);
+            result = HashUtils.hashCode(result, this.stroke);
             return result;
         }
 
@@ -369,8 +368,8 @@ public abstract class DialPointer extends AbstractDialLayer
          */
         private void writeObject(ObjectOutputStream stream) throws IOException {
             stream.defaultWriteObject();
-            SerialUtilities.writePaint(this.paint, stream);
-            SerialUtilities.writeStroke(this.stroke, stream);
+            SerialUtils.writePaint(this.paint, stream);
+            SerialUtils.writeStroke(this.stroke, stream);
         }
 
         /**
@@ -384,8 +383,8 @@ public abstract class DialPointer extends AbstractDialLayer
         private void readObject(ObjectInputStream stream)
                 throws IOException, ClassNotFoundException {
             stream.defaultReadObject();
-            this.paint = SerialUtilities.readPaint(stream);
-            this.stroke = SerialUtilities.readStroke(stream);
+            this.paint = SerialUtils.readPaint(stream);
+            this.stroke = SerialUtils.readStroke(stream);
         }
 
     }
@@ -432,8 +431,8 @@ public abstract class DialPointer extends AbstractDialLayer
         public Pointer(int datasetIndex) {
             super(datasetIndex);
             this.widthRadius = 0.05;
-            this.fillPaint = Color.gray;
-            this.outlinePaint = Color.black;
+            this.fillPaint = Color.GRAY;
+            this.outlinePaint = Color.BLACK;
         }
 
         /**
@@ -484,7 +483,7 @@ public abstract class DialPointer extends AbstractDialLayer
          * @since 1.0.8
          */
         public void setFillPaint(Paint paint) {
-            ParamChecks.nullNotPermitted(paint, "paint");
+            Args.nullNotPermitted(paint, "paint");
             this.fillPaint = paint;
             notifyListeners(new DialLayerChangeEvent(this));
         }
@@ -513,7 +512,7 @@ public abstract class DialPointer extends AbstractDialLayer
          * @since 1.0.8
          */
         public void setOutlinePaint(Paint paint) {
-            ParamChecks.nullNotPermitted(paint, "paint");
+            Args.nullNotPermitted(paint, "paint");
             this.outlinePaint = paint;
             notifyListeners(new DialLayerChangeEvent(this));
         }
@@ -530,7 +529,7 @@ public abstract class DialPointer extends AbstractDialLayer
         public void draw(Graphics2D g2, DialPlot plot, Rectangle2D frame,
                 Rectangle2D view) {
 
-            g2.setPaint(Color.blue);
+            g2.setPaint(Color.BLUE);
             g2.setStroke(new BasicStroke(1.0f));
             Rectangle2D lengthRect = DialPlot.rectangleByRadius(frame,
                     this.radius, this.radius);
@@ -600,10 +599,10 @@ public abstract class DialPointer extends AbstractDialLayer
             if (this.widthRadius != that.widthRadius) {
                 return false;
             }
-            if (!PaintUtilities.equal(this.fillPaint, that.fillPaint)) {
+            if (!PaintUtils.equal(this.fillPaint, that.fillPaint)) {
                 return false;
             }
-            if (!PaintUtilities.equal(this.outlinePaint, that.outlinePaint)) {
+            if (!PaintUtils.equal(this.outlinePaint, that.outlinePaint)) {
                 return false;
             }
             return super.equals(obj);
@@ -617,9 +616,9 @@ public abstract class DialPointer extends AbstractDialLayer
         @Override
         public int hashCode() {
             int result = super.hashCode();
-            result = HashUtilities.hashCode(result, this.widthRadius);
-            result = HashUtilities.hashCode(result, this.fillPaint);
-            result = HashUtilities.hashCode(result, this.outlinePaint);
+            result = HashUtils.hashCode(result, this.widthRadius);
+            result = HashUtils.hashCode(result, this.fillPaint);
+            result = HashUtils.hashCode(result, this.outlinePaint);
             return result;
         }
 
@@ -632,8 +631,8 @@ public abstract class DialPointer extends AbstractDialLayer
          */
         private void writeObject(ObjectOutputStream stream) throws IOException {
             stream.defaultWriteObject();
-            SerialUtilities.writePaint(this.fillPaint, stream);
-            SerialUtilities.writePaint(this.outlinePaint, stream);
+            SerialUtils.writePaint(this.fillPaint, stream);
+            SerialUtils.writePaint(this.outlinePaint, stream);
         }
 
         /**
@@ -647,8 +646,8 @@ public abstract class DialPointer extends AbstractDialLayer
         private void readObject(ObjectInputStream stream)
                 throws IOException, ClassNotFoundException {
             stream.defaultReadObject();
-            this.fillPaint = SerialUtilities.readPaint(stream);
-            this.outlinePaint = SerialUtilities.readPaint(stream);
+            this.fillPaint = SerialUtils.readPaint(stream);
+            this.outlinePaint = SerialUtils.readPaint(stream);
         }
 
     }

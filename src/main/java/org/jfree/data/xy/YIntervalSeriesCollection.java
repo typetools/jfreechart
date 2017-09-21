@@ -48,11 +48,11 @@ package org.jfree.data.xy;
 
 import java.io.Serializable;
 import java.util.List;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
 
 import org.jfree.data.general.DatasetChangeEvent;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A collection of {@link YIntervalSeries} objects.
@@ -81,7 +81,7 @@ public class YIntervalSeriesCollection extends AbstractIntervalXYDataset
      * @param series  the series ({@code null} not permitted).
      */
     public void addSeries(YIntervalSeries series) {
-        ParamChecks.nullNotPermitted(series, "series");
+        Args.nullNotPermitted(series, "series");
         this.data.add(series);
         series.addChangeListener(this);
         fireDatasetChanged();
@@ -303,7 +303,7 @@ public class YIntervalSeriesCollection extends AbstractIntervalXYDataset
      * @since 1.0.10
      */
     public void removeSeries(YIntervalSeries series) {
-        ParamChecks.nullNotPermitted(series, "series");
+        Args.nullNotPermitted(series, "series");
         if (this.data.contains(series)) {
             series.removeChangeListener(this);
             this.data.remove(series);
@@ -344,7 +344,7 @@ public class YIntervalSeriesCollection extends AbstractIntervalXYDataset
             return false;
         }
         YIntervalSeriesCollection that = (YIntervalSeriesCollection) obj;
-        return ObjectUtilities.equal(this.data, that.data);
+        return ObjectUtils.equal(this.data, that.data);
     }
 
     /**
@@ -358,7 +358,7 @@ public class YIntervalSeriesCollection extends AbstractIntervalXYDataset
     public Object clone() throws CloneNotSupportedException {
         YIntervalSeriesCollection clone
                 = (YIntervalSeriesCollection) super.clone();
-        clone.data = (List) ObjectUtilities.deepClone(this.data);
+        clone.data = (List) ObjectUtils.deepClone(this.data);
         return clone;
     }
 

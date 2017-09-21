@@ -54,10 +54,10 @@ package org.jfree.chart.urls;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import org.jfree.chart.util.ObjectUtils;
 
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.Args;
 import org.jfree.data.general.PieDataset;
-import org.jfree.util.ObjectUtilities;
 
 /**
  * A URL generator for pie charts.  Instances of this class are immutable.
@@ -113,8 +113,8 @@ public class StandardPieURLGenerator implements PieURLGenerator, Serializable {
      */
     public StandardPieURLGenerator(String prefix, String categoryParamName,
             String indexParamName) {
-        ParamChecks.nullNotPermitted(prefix, "prefix");
-        ParamChecks.nullNotPermitted(categoryParamName, "categoryParamName");
+        Args.nullNotPermitted(prefix, "prefix");
+        Args.nullNotPermitted(categoryParamName, "categoryParamName");
         this.prefix = prefix;
         this.categoryParamName = categoryParamName;
         this.indexParamName = indexParamName;
@@ -172,7 +172,7 @@ public class StandardPieURLGenerator implements PieURLGenerator, Serializable {
         if (!this.categoryParamName.equals(that.categoryParamName)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.indexParamName, that.indexParamName)) {
+        if (!ObjectUtils.equal(this.indexParamName, that.indexParamName)) {
             return false;
         }
         return true;

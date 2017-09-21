@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -65,13 +65,13 @@ import org.jfree.chart.event.TitleChangeEvent;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.PaintScale;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.Size2D;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
 import org.jfree.data.Range;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.Size2D;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A legend that shows a range of values and their associated colors, driven
@@ -132,7 +132,7 @@ public class PaintScaleLegend extends Title implements AxisChangeListener,
      * @param axis  the axis ({@code null} not permitted).
      */
     public PaintScaleLegend(PaintScale scale, ValueAxis axis) {
-        ParamChecks.nullNotPermitted(axis, "axis");
+        Args.nullNotPermitted(axis, "axis");
         this.scale = scale;
         this.axis = axis;
         this.axis.addChangeListener(this);
@@ -141,9 +141,9 @@ public class PaintScaleLegend extends Title implements AxisChangeListener,
         this.axis.setRange(scale.getLowerBound(), scale.getUpperBound());
         this.stripWidth = 15.0;
         this.stripOutlineVisible = true;
-        this.stripOutlinePaint = Color.gray;
+        this.stripOutlinePaint = Color.GRAY;
         this.stripOutlineStroke = new BasicStroke(0.5f);
-        this.backgroundPaint = Color.white;
+        this.backgroundPaint = Color.WHITE;
         this.subdivisions = 100;
     }
 
@@ -167,7 +167,7 @@ public class PaintScaleLegend extends Title implements AxisChangeListener,
      * @see #getScale()
      */
     public void setScale(PaintScale scale) {
-        ParamChecks.nullNotPermitted(scale, "scale");
+        Args.nullNotPermitted(scale, "scale");
         this.scale = scale;
         notifyListeners(new TitleChangeEvent(this));
     }
@@ -192,7 +192,7 @@ public class PaintScaleLegend extends Title implements AxisChangeListener,
      * @see #getAxis()
      */
     public void setAxis(ValueAxis axis) {
-        ParamChecks.nullNotPermitted(axis, "axis");
+        Args.nullNotPermitted(axis, "axis");
         this.axis.removeChangeListener(this);
         this.axis = axis;
         this.axis.addChangeListener(this);
@@ -219,7 +219,7 @@ public class PaintScaleLegend extends Title implements AxisChangeListener,
      * @see #getAxisLocation()
      */
     public void setAxisLocation(AxisLocation location) {
-        ParamChecks.nullNotPermitted(location, "location");
+        Args.nullNotPermitted(location, "location");
         this.axisLocation = location;
         notifyListeners(new TitleChangeEvent(this));
     }
@@ -316,7 +316,7 @@ public class PaintScaleLegend extends Title implements AxisChangeListener,
      * @see #getStripOutlinePaint()
      */
     public void setStripOutlinePaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.stripOutlinePaint = paint;
         notifyListeners(new TitleChangeEvent(this));
     }
@@ -341,7 +341,7 @@ public class PaintScaleLegend extends Title implements AxisChangeListener,
      * @see #getStripOutlineStroke()
      */
     public void setStripOutlineStroke(Stroke stroke) {
-        ParamChecks.nullNotPermitted(stroke, "stroke");
+        Args.nullNotPermitted(stroke, "stroke");
         this.stripOutlineStroke = stroke;
         notifyListeners(new TitleChangeEvent(this));
     }
@@ -681,14 +681,14 @@ public class PaintScaleLegend extends Title implements AxisChangeListener,
         if (this.stripOutlineVisible != that.stripOutlineVisible) {
             return false;
         }
-        if (!PaintUtilities.equal(this.stripOutlinePaint,
+        if (!PaintUtils.equal(this.stripOutlinePaint,
                 that.stripOutlinePaint)) {
             return false;
         }
         if (!this.stripOutlineStroke.equals(that.stripOutlineStroke)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.backgroundPaint, that.backgroundPaint)) {
+        if (!PaintUtils.equal(this.backgroundPaint, that.backgroundPaint)) {
             return false;
         }
         if (this.subdivisions != that.subdivisions) {
@@ -706,9 +706,9 @@ public class PaintScaleLegend extends Title implements AxisChangeListener,
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.backgroundPaint, stream);
-        SerialUtilities.writePaint(this.stripOutlinePaint, stream);
-        SerialUtilities.writeStroke(this.stripOutlineStroke, stream);
+        SerialUtils.writePaint(this.backgroundPaint, stream);
+        SerialUtils.writePaint(this.stripOutlinePaint, stream);
+        SerialUtils.writeStroke(this.stripOutlineStroke, stream);
     }
 
     /**
@@ -722,9 +722,9 @@ public class PaintScaleLegend extends Title implements AxisChangeListener,
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.backgroundPaint = SerialUtilities.readPaint(stream);
-        this.stripOutlinePaint = SerialUtilities.readPaint(stream);
-        this.stripOutlineStroke = SerialUtilities.readStroke(stream);
+        this.backgroundPaint = SerialUtils.readPaint(stream);
+        this.stripOutlinePaint = SerialUtils.readPaint(stream);
+        this.stripOutlineStroke = SerialUtils.readStroke(stream);
     }
 
 }

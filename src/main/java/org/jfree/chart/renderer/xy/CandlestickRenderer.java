@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ------------------------
  * CandlestickRenderer.java
  * ------------------------
- * (C) Copyright 2001-2016, by Object Refinery Limited.
+ * (C) Copyright 2001-2017, by Object Refinery Limited.
  *
  * Original Authors:  David Gilbert (for Object Refinery Limited);
  *                    Sylvain Vieujot;
@@ -110,15 +110,15 @@ import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
 import org.jfree.data.Range;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.OHLCDataset;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A renderer that draws candlesticks on an {@link XYPlot} (requires a
@@ -238,12 +238,12 @@ public class CandlestickRenderer extends AbstractXYItemRenderer
     public CandlestickRenderer(double candleWidth, boolean drawVolume,
                                XYToolTipGenerator toolTipGenerator) {
         super();
-        setBaseToolTipGenerator(toolTipGenerator);
+        setDefaultToolTipGenerator(toolTipGenerator);
         this.candleWidth = candleWidth;
         this.drawVolume = drawVolume;
         this.volumePaint = Color.gray;
         this.upPaint = Color.green;
-        this.downPaint = Color.red;
+        this.downPaint = Color.RED;
         this.useOutlinePaint = false;  // false preserves the old behaviour
                                        // prior to introducing this flag
     }
@@ -521,7 +521,7 @@ public class CandlestickRenderer extends AbstractXYItemRenderer
      * @since 1.0.7
      */
     public void setVolumePaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.volumePaint = paint;
         fireChangeEvent();
     }
@@ -886,10 +886,10 @@ public class CandlestickRenderer extends AbstractXYItemRenderer
         if (this.candleWidth != that.candleWidth) {
             return false;
         }
-        if (!PaintUtilities.equal(this.upPaint, that.upPaint)) {
+        if (!PaintUtils.equal(this.upPaint, that.upPaint)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.downPaint, that.downPaint)) {
+        if (!PaintUtils.equal(this.downPaint, that.downPaint)) {
             return false;
         }
         if (this.drawVolume != that.drawVolume) {
@@ -911,7 +911,7 @@ public class CandlestickRenderer extends AbstractXYItemRenderer
         if (this.useOutlinePaint != that.useOutlinePaint) {
             return false;
         }
-        if (!PaintUtilities.equal(this.volumePaint, that.volumePaint)) {
+        if (!PaintUtils.equal(this.volumePaint, that.volumePaint)) {
             return false;
         }
         return super.equals(obj);
@@ -938,9 +938,9 @@ public class CandlestickRenderer extends AbstractXYItemRenderer
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.upPaint, stream);
-        SerialUtilities.writePaint(this.downPaint, stream);
-        SerialUtilities.writePaint(this.volumePaint, stream);
+        SerialUtils.writePaint(this.upPaint, stream);
+        SerialUtils.writePaint(this.downPaint, stream);
+        SerialUtils.writePaint(this.volumePaint, stream);
     }
 
     /**
@@ -954,24 +954,9 @@ public class CandlestickRenderer extends AbstractXYItemRenderer
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.upPaint = SerialUtilities.readPaint(stream);
-        this.downPaint = SerialUtilities.readPaint(stream);
-        this.volumePaint = SerialUtilities.readPaint(stream);
-    }
-
-    // --- DEPRECATED CODE ----------------------------------------------------
-
-    /**
-     * Returns a flag indicating whether or not volume bars are drawn on the
-     * chart.
-     *
-     * @return {@code true} if volume bars are drawn on the chart.
-     *
-     * @deprecated As of 1.0.5, you should use the {@link #getDrawVolume()}
-     *         method.
-     */
-    public boolean drawVolume() {
-        return this.drawVolume;
+        this.upPaint = SerialUtils.readPaint(stream);
+        this.downPaint = SerialUtils.readPaint(stream);
+        this.volumePaint = SerialUtils.readPaint(stream);
     }
 
 }

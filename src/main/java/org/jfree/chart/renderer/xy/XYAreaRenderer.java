@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * -------------------
  * XYAreaRenderer.java
  * -------------------
- * (C) Copyright 2002-2016, by Hari and Contributors.
+ * (C) Copyright 2002-2017, by Hari and Contributors.
  *
  * Original Author:  Hari (ourhari@hotmail.com);
  * Contributor(s):   David Gilbert (for Object Refinery Limited);
@@ -82,6 +82,8 @@
  * 06-Oct-2011 : Avoid GeneralPath methods requiring Java 1.5 (MK);
  * 03-Jul-2013 : Use ParamChecks (DG);
  * 04-Aug-2014 : Restrict entity hotspot to plot area (patch #312) (UV);
+ * 18-Feb-2017 : Updates for crosshairs (bug #36) (DG);
+ *
  */
 
 package org.jfree.chart.renderer.xy;
@@ -100,7 +102,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.jfree.chart.HashUtilities;
+import org.jfree.chart.HashUtils;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.entity.EntityCollection;
@@ -111,14 +113,14 @@ import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.ui.GradientPaintTransformer;
+import org.jfree.chart.ui.StandardGradientPaintTransformer;
 import org.jfree.chart.urls.XYURLGenerator;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
+import org.jfree.chart.util.ShapeUtils;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.GradientPaintTransformer;
-import org.jfree.ui.StandardGradientPaintTransformer;
-import org.jfree.util.PublicCloneable;
-import org.jfree.util.ShapeUtilities;
 
 /**
  * Area item renderer for an {@link XYPlot}.  This class can draw (a) shapes at
@@ -242,7 +244,7 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
                           XYURLGenerator urlGenerator) {
 
         super();
-        setBaseToolTipGenerator(toolTipGenerator);
+        setDefaultToolTipGenerator(toolTipGenerator);
         setURLGenerator(urlGenerator);
 
         if (type == SHAPES) {
@@ -343,7 +345,7 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
      * @param area  the area ({@code null} not permitted).
      */
     public void setLegendArea(Shape area) {
-        ParamChecks.nullNotPermitted(area, "area");
+        Args.nullNotPermitted(area, "area");
         this.legendArea = area;
         fireChangeEvent();
     }
@@ -394,7 +396,7 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
      * @since 1.0.14
      */
     public void setGradientTransformer(GradientPaintTransformer transformer) {
-        ParamChecks.nullNotPermitted(transformer, "transformer");
+        Args.nullNotPermitted(transformer, "transformer");
         this.gradientTransformer = transformer;
         fireChangeEvent();
     }
@@ -566,10 +568,10 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
         if (getPlotShapes()) {
             shape = getItemShape(series, item);
             if (orientation == PlotOrientation.VERTICAL) {
-                shape = ShapeUtilities.createTranslatedShape(shape, transX1,
+                shape = ShapeUtils.createTranslatedShape(shape, transX1,
                         transY1);
             } else if (orientation == PlotOrientation.HORIZONTAL) {
-                shape = ShapeUtilities.createTranslatedShape(shape, transY1,
+                shape = ShapeUtils.createTranslatedShape(shape, transY1,
                         transX1);
             }
             g2.draw(shape);
@@ -643,10 +645,9 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
             }
         }
 
-        int domainAxisIndex = plot.getDomainAxisIndex(domainAxis);
-        int rangeAxisIndex = plot.getRangeAxisIndex(rangeAxis);
-        updateCrosshairValues(crosshairState, x1, y1, domainAxisIndex,
-                rangeAxisIndex, transX1, transY1, orientation);
+        int datasetIndex = plot.indexOf(dataset);
+        updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
+                transX1, transY1, orientation);
 
         // collect entity and tool tip information...
         EntityCollection entities = state.getEntityCollection();
@@ -672,7 +673,8 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
             dataAreaHotspot.intersect(new Area(dataArea));
 
             if (dataAreaHotspot.isEmpty() == false) {
-                addEntity(entities, dataAreaHotspot, dataset, series, item, 0.0, 0.0);
+                addEntity(entities, dataAreaHotspot, dataset, series, item, 
+                        0.0, 0.0);
             }
         }
 
@@ -688,7 +690,7 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
     @Override
     public Object clone() throws CloneNotSupportedException {
         XYAreaRenderer clone = (XYAreaRenderer) super.clone();
-        clone.legendArea = ShapeUtilities.clone(this.legendArea);
+        clone.legendArea = ShapeUtils.clone(this.legendArea);
         return clone;
     }
 
@@ -726,7 +728,7 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
         if (!this.gradientTransformer.equals(that.gradientTransformer)) {
             return false;
         }
-        if (!ShapeUtilities.equal(this.legendArea, that.legendArea)) {
+        if (!ShapeUtils.equal(this.legendArea, that.legendArea)) {
             return false;
         }
         return true;
@@ -740,10 +742,10 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = HashUtilities.hashCode(result, this.plotArea);
-        result = HashUtilities.hashCode(result, this.plotLines);
-        result = HashUtilities.hashCode(result, this.plotShapes);
-        result = HashUtilities.hashCode(result, this.useFillPaint);
+        result = HashUtils.hashCode(result, this.plotArea);
+        result = HashUtils.hashCode(result, this.plotLines);
+        result = HashUtils.hashCode(result, this.plotShapes);
+        result = HashUtils.hashCode(result, this.useFillPaint);
         return result;
     }
 
@@ -758,7 +760,7 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.legendArea = SerialUtilities.readShape(stream);
+        this.legendArea = SerialUtils.readShape(stream);
     }
 
     /**
@@ -770,6 +772,6 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writeShape(this.legendArea, stream);
+        SerialUtils.writeShape(this.legendArea, stream);
     }
 }

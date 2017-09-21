@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -50,7 +50,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.event.ChartChangeEvent;
@@ -110,7 +110,7 @@ public class CombinedRangeCategoryPlotTest implements ChartChangeListener {
     public void testSerialization() {
         CombinedRangeCategoryPlot plot1 = createPlot();
         CombinedRangeCategoryPlot plot2 = (CombinedRangeCategoryPlot) 
-                TestUtilities.serialised(plot1);
+                TestUtils.serialised(plot1);
         assertEquals(plot1, plot2);
     }
 
@@ -253,7 +253,7 @@ public class CombinedRangeCategoryPlotTest implements ChartChangeListener {
         CategoryDataset dataset1 = createDataset1();
         CategoryAxis catAxis1 = new CategoryAxis("Category");
         LineAndShapeRenderer renderer1 = new LineAndShapeRenderer();
-        renderer1.setBaseToolTipGenerator(
+        renderer1.setDefaultToolTipGenerator(
                 new StandardCategoryToolTipGenerator());
         CategoryPlot subplot1 = new CategoryPlot(dataset1, catAxis1, null,
                 renderer1);
@@ -262,7 +262,7 @@ public class CombinedRangeCategoryPlotTest implements ChartChangeListener {
         CategoryDataset dataset2 = createDataset2();
         CategoryAxis catAxis2 = new CategoryAxis("Category");
         BarRenderer renderer2 = new BarRenderer();
-        renderer2.setBaseToolTipGenerator(
+        renderer2.setDefaultToolTipGenerator(
                 new StandardCategoryToolTipGenerator());
         CategoryPlot subplot2 = new CategoryPlot(dataset2, catAxis2, null,
                 renderer2);

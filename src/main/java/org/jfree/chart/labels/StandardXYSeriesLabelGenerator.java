@@ -47,10 +47,10 @@ package org.jfree.chart.labels;
 import java.io.Serializable;
 import java.text.MessageFormat;
 
-import org.jfree.chart.HashUtilities;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.HashUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A standard series label generator for plots that use data from
@@ -85,7 +85,7 @@ public class StandardXYSeriesLabelGenerator implements XYSeriesLabelGenerator,
      * @param format  the format pattern ({@code null} not permitted).
      */
     public StandardXYSeriesLabelGenerator(String format) {
-        ParamChecks.nullNotPermitted(format, "format");
+        Args.nullNotPermitted(format, "format");
         this.formatPattern = format;
     }
 
@@ -100,7 +100,7 @@ public class StandardXYSeriesLabelGenerator implements XYSeriesLabelGenerator,
      */
     @Override
     public String generateLabel(XYDataset dataset, int series) {
-        ParamChecks.nullNotPermitted(dataset, "dataset");
+        Args.nullNotPermitted(dataset, "dataset");
         String label = MessageFormat.format(
             this.formatPattern, createItemArray(dataset, series)
         );
@@ -167,7 +167,7 @@ public class StandardXYSeriesLabelGenerator implements XYSeriesLabelGenerator,
     @Override
     public int hashCode() {
         int result = 127;
-        result = HashUtilities.hashCode(result, this.formatPattern);
+        result = HashUtils.hashCode(result, this.formatPattern);
         return result;
     }
 

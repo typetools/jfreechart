@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ----------------
  * MeterNeedle.java
  * ----------------
- * (C) Copyright 2002-2016, by the Australian Antarctic Division and
+ * (C) Copyright 2002-2017, by the Australian Antarctic Division and
  *                          Contributors.
  *
  * Original Author:  Bryan Scott (for the Australian Antarctic Division);
@@ -62,10 +62,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import org.jfree.chart.HashUtilities;
-import org.jfree.io.SerialUtilities;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PaintUtilities;
+import org.jfree.chart.HashUtils;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.SerialUtils;
 
 /**
  * The base class used to represent the needle on a
@@ -77,7 +77,7 @@ public abstract class MeterNeedle implements Serializable {
     private static final long serialVersionUID = 5203064851510951052L;
 
     /** The outline paint. */
-    private transient Paint outlinePaint = Color.black;
+    private transient Paint outlinePaint = Color.BLACK;
 
     /** The outline stroke. */
     private transient Stroke outlineStroke = new BasicStroke(2);
@@ -353,16 +353,16 @@ public abstract class MeterNeedle implements Serializable {
             return false;
         }
         MeterNeedle that = (MeterNeedle) obj;
-        if (!PaintUtilities.equal(this.outlinePaint, that.outlinePaint)) {
+        if (!PaintUtils.equal(this.outlinePaint, that.outlinePaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.outlineStroke, that.outlineStroke)) {
+        if (!ObjectUtils.equal(this.outlineStroke, that.outlineStroke)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.fillPaint, that.fillPaint)) {
+        if (!PaintUtils.equal(this.fillPaint, that.fillPaint)) {
             return false;
         }
-        if (!PaintUtilities.equal(this.highlightPaint, that.highlightPaint)) {
+        if (!PaintUtils.equal(this.highlightPaint, that.highlightPaint)) {
             return false;
         }
         if (this.size != that.size) {
@@ -384,13 +384,13 @@ public abstract class MeterNeedle implements Serializable {
      */
     @Override
     public int hashCode() {
-        int result = HashUtilities.hashCode(193, this.fillPaint);
-        result = HashUtilities.hashCode(result, this.highlightPaint);
-        result = HashUtilities.hashCode(result, this.outlinePaint);
-        result = HashUtilities.hashCode(result, this.outlineStroke);
-        result = HashUtilities.hashCode(result, this.rotateX);
-        result = HashUtilities.hashCode(result, this.rotateY);
-        result = HashUtilities.hashCode(result, this.size);
+        int result = HashUtils.hashCode(193, this.fillPaint);
+        result = HashUtils.hashCode(result, this.highlightPaint);
+        result = HashUtils.hashCode(result, this.outlinePaint);
+        result = HashUtils.hashCode(result, this.outlineStroke);
+        result = HashUtils.hashCode(result, this.rotateX);
+        result = HashUtils.hashCode(result, this.rotateY);
+        result = HashUtils.hashCode(result, this.size);
         return result;
     }
 
@@ -403,10 +403,10 @@ public abstract class MeterNeedle implements Serializable {
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writeStroke(this.outlineStroke, stream);
-        SerialUtilities.writePaint(this.outlinePaint, stream);
-        SerialUtilities.writePaint(this.fillPaint, stream);
-        SerialUtilities.writePaint(this.highlightPaint, stream);
+        SerialUtils.writeStroke(this.outlineStroke, stream);
+        SerialUtils.writePaint(this.outlinePaint, stream);
+        SerialUtils.writePaint(this.fillPaint, stream);
+        SerialUtils.writePaint(this.highlightPaint, stream);
     }
 
     /**
@@ -420,10 +420,10 @@ public abstract class MeterNeedle implements Serializable {
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.outlineStroke = SerialUtilities.readStroke(stream);
-        this.outlinePaint = SerialUtilities.readPaint(stream);
-        this.fillPaint = SerialUtilities.readPaint(stream);
-        this.highlightPaint = SerialUtilities.readPaint(stream);
+        this.outlineStroke = SerialUtils.readStroke(stream);
+        this.outlinePaint = SerialUtils.readPaint(stream);
+        this.fillPaint = SerialUtils.readPaint(stream);
+        this.highlightPaint = SerialUtils.readPaint(stream);
     }
 
 }

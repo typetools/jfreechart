@@ -47,10 +47,9 @@
 package org.jfree.chart.axis;
 
 import java.io.Serializable;
-import org.jfree.chart.util.ParamChecks;
-
-import org.jfree.ui.TextAnchor;
-import org.jfree.util.ObjectUtilities;
+import org.jfree.chart.ui.TextAnchor;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
 
 /**
  * The base class used to represent labeled ticks along an axis.
@@ -83,8 +82,8 @@ public abstract class Tick implements Serializable, Cloneable {
      */
     public Tick(String text, TextAnchor textAnchor, TextAnchor rotationAnchor,
                 double angle) {
-        ParamChecks.nullNotPermitted(textAnchor, "textAnchor");
-        ParamChecks.nullNotPermitted(rotationAnchor, "rotationAnchor");
+        Args.nullNotPermitted(textAnchor, "textAnchor");
+        Args.nullNotPermitted(rotationAnchor, "rotationAnchor");
         this.text = text;
         this.textAnchor = textAnchor;
         this.rotationAnchor = rotationAnchor;
@@ -142,13 +141,13 @@ public abstract class Tick implements Serializable, Cloneable {
         }
         if (obj instanceof Tick) {
             Tick t = (Tick) obj;
-            if (!ObjectUtilities.equal(this.text, t.text)) {
+            if (!ObjectUtils.equal(this.text, t.text)) {
                 return false;
             }
-            if (!ObjectUtilities.equal(this.textAnchor, t.textAnchor)) {
+            if (!ObjectUtils.equal(this.textAnchor, t.textAnchor)) {
                 return false;
             }
-            if (!ObjectUtilities.equal(this.rotationAnchor, t.rotationAnchor)) {
+            if (!ObjectUtils.equal(this.rotationAnchor, t.rotationAnchor)) {
                 return false;
             }
             if (!(this.angle == t.angle)) {

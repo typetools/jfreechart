@@ -48,14 +48,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
 
 import org.jfree.data.DomainOrder;
 import org.jfree.data.general.DatasetChangeEvent;
 import org.jfree.data.xy.AbstractIntervalXYDataset;
 import org.jfree.data.xy.IntervalXYDataset;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A dataset used for creating simple histograms with custom defined bins.
@@ -88,7 +88,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @param key  the series key ({@code null} not permitted).
      */
     public SimpleHistogramDataset(Comparable key) {
-        ParamChecks.nullNotPermitted(key, "key");
+        Args.nullNotPermitted(key, "key");
         this.key = key;
         this.bins = new ArrayList();
         this.adjustForBinSize = true;
@@ -484,7 +484,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
     @Override
     public Object clone() throws CloneNotSupportedException {
         SimpleHistogramDataset clone = (SimpleHistogramDataset) super.clone();
-        clone.bins = (List) ObjectUtilities.deepClone(this.bins);
+        clone.bins = (List) ObjectUtils.deepClone(this.bins);
         return clone;
     }
 

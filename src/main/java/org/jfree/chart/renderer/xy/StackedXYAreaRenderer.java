@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * --------------------------
  * StackedXYAreaRenderer.java
  * --------------------------
- * (C) Copyright 2003-2016, by Richard Atkinson and Contributors.
+ * (C) Copyright 2003-2017, by Richard Atkinson and Contributors.
  *
  * Original Author:  Richard Atkinson;
  * Contributor(s):   Christian W. Zuckschwerdt;
@@ -65,6 +65,7 @@
  *               methods (DG);
  * 20-Apr-2007 : Updated getLegendItem() for renderer change (DG);
  * 04-Aug-2014 : Fix entity hotspot (patch #312) (UV);
+ * 18-Feb-2017 : Updates for crosshairs (bug #36) (DG);
  *
  */
 
@@ -95,15 +96,15 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.urls.XYURLGenerator;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
+import org.jfree.chart.util.ShapeUtils;
 import org.jfree.data.Range;
-import org.jfree.data.general.DatasetUtilities;
+import org.jfree.data.general.DatasetUtils;
 import org.jfree.data.xy.TableXYDataset;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.PublicCloneable;
-import org.jfree.util.ShapeUtilities;
 
 /**
  * A stacked area renderer for the {@link XYPlot} class.
@@ -362,7 +363,7 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
     @Override
     public Range findRangeBounds(XYDataset dataset) {
         if (dataset != null) {
-            return DatasetUtilities.findStackedRangeBounds(
+            return DatasetUtils.findStackedRangeBounds(
                 (TableXYDataset) dataset);
         }
         else {
@@ -533,10 +534,9 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
                 }
             }
 
-            int domainAxisIndex = plot.getDomainAxisIndex(domainAxis);
-            int rangeAxisIndex = plot.getRangeAxisIndex(rangeAxis);
-            updateCrosshairValues(crosshairState, x1, ph1 + y1, domainAxisIndex,
-                    rangeAxisIndex, transX1, transY1, orientation);
+            int datasetIndex = plot.indexOf(dataset);
+            updateCrosshairValues(crosshairState, x1, ph1 + y1, datasetIndex,
+                    transX1, transY1, orientation);
 
         }
         else if (pass == 1) {
@@ -547,11 +547,11 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
             if (getPlotShapes()) {
                 shape = getItemShape(series, item);
                 if (plot.getOrientation() == PlotOrientation.VERTICAL) {
-                    shape = ShapeUtilities.createTranslatedShape(shape,
+                    shape = ShapeUtils.createTranslatedShape(shape,
                             transX1, transY1);
                 }
                 else if (plot.getOrientation() == PlotOrientation.HORIZONTAL) {
-                    shape = ShapeUtilities.createTranslatedShape(shape,
+                    shape = ShapeUtils.createTranslatedShape(shape,
                             transY1, transX1);
                 }
                 if (!nullPoint) {
@@ -651,10 +651,10 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
             return false;
         }
         StackedXYAreaRenderer that = (StackedXYAreaRenderer) obj;
-        if (!PaintUtilities.equal(this.shapePaint, that.shapePaint)) {
+        if (!PaintUtils.equal(this.shapePaint, that.shapePaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.shapeStroke, that.shapeStroke)) {
+        if (!ObjectUtils.equal(this.shapeStroke, that.shapeStroke)) {
             return false;
         }
         return true;
@@ -683,8 +683,8 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.shapePaint = SerialUtilities.readPaint(stream);
-        this.shapeStroke = SerialUtilities.readStroke(stream);
+        this.shapePaint = SerialUtils.readPaint(stream);
+        this.shapeStroke = SerialUtils.readStroke(stream);
     }
 
     /**
@@ -696,8 +696,8 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.shapePaint, stream);
-        SerialUtilities.writeStroke(this.shapeStroke, stream);
+        SerialUtils.writePaint(this.shapePaint, stream);
+        SerialUtils.writeStroke(this.shapeStroke, stream);
     }
 
 }

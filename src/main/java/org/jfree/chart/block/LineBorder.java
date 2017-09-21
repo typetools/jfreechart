@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -56,12 +56,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import org.jfree.chart.util.ParamChecks;
-
-import org.jfree.io.SerialUtilities;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PaintUtilities;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.SerialUtils;
 
 /**
  * A line border for any {@link AbstractBlock}.
@@ -86,7 +85,7 @@ public class LineBorder implements BlockFrame, Serializable {
      * Creates a default border.
      */
     public LineBorder() {
-        this(Color.black, new BasicStroke(1.0f), new RectangleInsets(1.0, 1.0,
+        this(Color.BLACK, new BasicStroke(1.0f), new RectangleInsets(1.0, 1.0,
                 1.0, 1.0));
     }
 
@@ -98,9 +97,9 @@ public class LineBorder implements BlockFrame, Serializable {
      * @param insets  the insets ({@code null} not permitted).
      */
     public LineBorder(Paint paint, Stroke stroke, RectangleInsets insets) {
-        ParamChecks.nullNotPermitted(paint, "paint");
-        ParamChecks.nullNotPermitted(stroke, "stroke");
-        ParamChecks.nullNotPermitted(insets, "insets");
+        Args.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(stroke, "stroke");
+        Args.nullNotPermitted(insets, "insets");
         this.paint = paint;
         this.stroke = stroke;
         this.insets = insets;
@@ -199,10 +198,10 @@ public class LineBorder implements BlockFrame, Serializable {
             return false;
         }
         LineBorder that = (LineBorder) obj;
-        if (!PaintUtilities.equal(this.paint, that.paint)) {
+        if (!PaintUtils.equal(this.paint, that.paint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.stroke, that.stroke)) {
+        if (!ObjectUtils.equal(this.stroke, that.stroke)) {
             return false;
         }
         if (!this.insets.equals(that.insets)) {
@@ -220,8 +219,8 @@ public class LineBorder implements BlockFrame, Serializable {
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.paint, stream);
-        SerialUtilities.writeStroke(this.stroke, stream);
+        SerialUtils.writePaint(this.paint, stream);
+        SerialUtils.writeStroke(this.stroke, stream);
     }
 
     /**
@@ -235,8 +234,8 @@ public class LineBorder implements BlockFrame, Serializable {
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.paint = SerialUtilities.readPaint(stream);
-        this.stroke = SerialUtilities.readStroke(stream);
+        this.paint = SerialUtils.readPaint(stream);
+        this.stroke = SerialUtils.readStroke(stream);
     }
 }
 

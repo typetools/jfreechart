@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ----------------
  * BarRenderer.java
  * ----------------
- * (C) Copyright 2002-2016, by Object Refinery Limited.
+ * (C) Copyright 2002-2017, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Christian W. Zuckschwerdt;
@@ -122,18 +122,18 @@ import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.text.TextUtils;
+import org.jfree.chart.ui.GradientPaintTransformer;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.StandardGradientPaintTransformer;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.PaintUtils;
+import org.jfree.chart.util.Args;
+import org.jfree.chart.util.PublicCloneable;
+import org.jfree.chart.util.SerialUtils;
 import org.jfree.data.KeyedValues2DItemKey;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.io.SerialUtilities;
-import org.jfree.text.TextUtilities;
-import org.jfree.ui.GradientPaintTransformer;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.StandardGradientPaintTransformer;
-import org.jfree.util.ObjectUtilities;
-import org.jfree.util.PaintUtilities;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A {@link CategoryItemRenderer} that draws individual data items as bars.
@@ -184,7 +184,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
      * @since 1.0.11
      */
     public static void setDefaultBarPainter(BarPainter painter) {
-        ParamChecks.nullNotPermitted(painter, "painter");
+        Args.nullNotPermitted(painter, "painter");
         BarRenderer.defaultBarPainter = painter;
     }
 
@@ -316,10 +316,10 @@ public class BarRenderer extends AbstractCategoryItemRenderer
         this.negativeItemLabelPositionFallback = null;
         this.gradientPaintTransformer = new StandardGradientPaintTransformer();
         this.minimumBarLength = 0.0;
-        setBaseLegendShape(new Rectangle2D.Double(-4.0, -4.0, 8.0, 8.0));
+        setDefaultLegendShape(new Rectangle2D.Double(-4.0, -4.0, 8.0, 8.0));
         this.barPainter = getDefaultBarPainter();
         this.shadowsVisible = getDefaultShadowsVisible();
-        this.shadowPaint = Color.gray;
+        this.shadowPaint = Color.GRAY;
         this.shadowXOffset = 4.0;
         this.shadowYOffset = 4.0;
     }
@@ -599,7 +599,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
      * @since 1.0.11
      */
     public void setBarPainter(BarPainter painter) {
-        ParamChecks.nullNotPermitted(painter, "painter");
+        Args.nullNotPermitted(painter, "painter");
         this.barPainter = painter;
         fireChangeEvent();
     }
@@ -653,7 +653,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
      * @since 1.0.11
      */
     public void setShadowPaint(Paint paint) {
-        ParamChecks.nullNotPermitted(paint, "paint");
+        Args.nullNotPermitted(paint, "paint");
         this.shadowPaint = paint;
         fireChangeEvent();
     }
@@ -951,7 +951,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
         LegendItem result = new LegendItem(label, description, toolTipText,
                 urlText, true, shape, true, paint, isDrawBarOutline(),
                 outlinePaint, outlineStroke, false, new Line2D.Float(),
-                new BasicStroke(1.0f), Color.black);
+                new BasicStroke(1.0f), Color.BLACK);
         result.setLabelFont(lookupLegendTextFont(series));
         Paint labelPaint = lookupLegendTextPaint(series);
         if (labelPaint != null) {
@@ -1159,7 +1159,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
                 position.getItemLabelAnchor(), bar, plot.getOrientation());
 
         if (isInternalAnchor(position.getItemLabelAnchor())) {
-            Shape bounds = TextUtilities.calculateRotatedStringBounds(label,
+            Shape bounds = TextUtils.calculateRotatedStringBounds(label,
                     g2, (float) anchorPoint.getX(), (float) anchorPoint.getY(),
                     position.getTextAnchor(), position.getAngle(),
                     position.getRotationAnchor());
@@ -1183,7 +1183,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
         }
 
         if (position != null) {
-            TextUtilities.drawRotatedString(label, g2,
+            TextUtils.drawRotatedString(label, g2,
                     (float) anchorPoint.getX(), (float) anchorPoint.getY(),
                     position.getTextAnchor(), position.getAngle(),
                     position.getRotationAnchor());
@@ -1355,15 +1355,15 @@ public class BarRenderer extends AbstractCategoryItemRenderer
         if (this.minimumBarLength != that.minimumBarLength) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.gradientPaintTransformer,
+        if (!ObjectUtils.equal(this.gradientPaintTransformer,
                 that.gradientPaintTransformer)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.positiveItemLabelPositionFallback,
+        if (!ObjectUtils.equal(this.positiveItemLabelPositionFallback,
             that.positiveItemLabelPositionFallback)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.negativeItemLabelPositionFallback,
+        if (!ObjectUtils.equal(this.negativeItemLabelPositionFallback,
             that.negativeItemLabelPositionFallback)) {
             return false;
         }
@@ -1373,7 +1373,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
         if (this.shadowsVisible != that.shadowsVisible) {
             return false;
         }
-        if (!PaintUtilities.equal(this.shadowPaint, that.shadowPaint)) {
+        if (!PaintUtils.equal(this.shadowPaint, that.shadowPaint)) {
             return false;
         }
         if (this.shadowXOffset != that.shadowXOffset) {
@@ -1394,7 +1394,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        SerialUtilities.writePaint(this.shadowPaint, stream);
+        SerialUtils.writePaint(this.shadowPaint, stream);
     }
 
     /**
@@ -1408,7 +1408,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        this.shadowPaint = SerialUtilities.readPaint(stream);
+        this.shadowPaint = SerialUtils.readPaint(stream);
     }
 
 }

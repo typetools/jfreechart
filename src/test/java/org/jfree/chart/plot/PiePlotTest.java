@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * ----------------
  * PiePlotTest.java
  * ----------------
- * (C) Copyright 2003-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2003-2017, by Object Refinery Limited and Contributors.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   -;
@@ -47,7 +47,6 @@
 
 package org.jfree.chart.plot;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -66,16 +65,16 @@ import java.text.AttributedString;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItemCollection;
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieToolTipGenerator;
 import org.jfree.chart.urls.CustomPieURLGenerator;
 import org.jfree.chart.urls.StandardPieURLGenerator;
 import org.jfree.chart.util.DefaultShadowGenerator;
+import org.jfree.chart.util.Rotation;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
-import org.jfree.util.Rotation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import org.junit.Test;
@@ -140,28 +139,21 @@ public class PiePlotTest {
         plot2.setIgnoreNullValues(true);
         assertTrue(plot1.equals(plot2));
 
-        // sectionPaint
-        plot1.setSectionPaint(new GradientPaint(1.0f, 2.0f, Color.red,
-                3.0f, 4.0f, Color.white));
-        assertFalse(plot1.equals(plot2));
-        plot2.setSectionPaint(new GradientPaint(1.0f, 2.0f, Color.red,
-                3.0f, 4.0f, Color.white));
-        assertTrue(plot1.equals(plot2));
 
         // sectionPaintMap
-        plot1.setSectionPaint("A", new GradientPaint(1.0f, 2.0f, Color.blue,
-                3.0f, 4.0f, Color.white));
+        plot1.setSectionPaint("A", new GradientPaint(1.0f, 2.0f, Color.BLUE,
+                3.0f, 4.0f, Color.WHITE));
         assertFalse(plot1.equals(plot2));
-        plot2.setSectionPaint("A", new GradientPaint(1.0f, 2.0f, Color.blue,
-                3.0f, 4.0f, Color.white));
+        plot2.setSectionPaint("A", new GradientPaint(1.0f, 2.0f, Color.BLUE,
+                3.0f, 4.0f, Color.WHITE));
         assertTrue(plot1.equals(plot2));
 
-        // baseSectionPaint
-        plot1.setBaseSectionPaint(new GradientPaint(1.0f, 2.0f, Color.black,
-                3.0f, 4.0f, Color.white));
+        // defaultSectionPaint
+        plot1.setDefaultSectionPaint(new GradientPaint(1.0f, 2.0f, Color.BLACK,
+                3.0f, 4.0f, Color.WHITE));
         assertFalse(plot1.equals(plot2));
-        plot2.setBaseSectionPaint(new GradientPaint(1.0f, 2.0f, Color.black,
-                3.0f, 4.0f, Color.white));
+        plot2.setDefaultSectionPaint(new GradientPaint(1.0f, 2.0f, Color.BLACK,
+                3.0f, 4.0f, Color.WHITE));
         assertTrue(plot1.equals(plot2));
 
         // sectionOutlinesVisible
@@ -170,34 +162,20 @@ public class PiePlotTest {
         plot2.setSectionOutlinesVisible(false);
         assertTrue(plot1.equals(plot2));
 
-        // sectionOutlinePaint
-        plot1.setSectionOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.cyan,
-                3.0f, 4.0f, Color.white));
-        assertFalse(plot1.equals(plot2));
-        plot2.setSectionOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.cyan,
-                3.0f, 4.0f, Color.white));
-        assertTrue(plot1.equals(plot2));
-
         // sectionOutlinePaintList
         plot1.setSectionOutlinePaint("A", new GradientPaint(1.0f, 2.0f,
-                Color.green, 3.0f, 4.0f, Color.white));
+                Color.GREEN, 3.0f, 4.0f, Color.WHITE));
         assertFalse(plot1.equals(plot2));
         plot2.setSectionOutlinePaint("A", new GradientPaint(1.0f, 2.0f,
-                Color.green, 3.0f, 4.0f, Color.white));
+                Color.GREEN, 3.0f, 4.0f, Color.WHITE));
         assertTrue(plot1.equals(plot2));
 
-        // baseSectionOutlinePaint
-        plot1.setBaseSectionOutlinePaint(new GradientPaint(1.0f, 2.0f,
-                Color.gray, 3.0f, 4.0f, Color.white));
+        // defaultSectionOutlinePaint
+        plot1.setDefaultSectionOutlinePaint(new GradientPaint(1.0f, 2.0f,
+                Color.GRAY, 3.0f, 4.0f, Color.WHITE));
         assertFalse(plot1.equals(plot2));
-        plot2.setBaseSectionOutlinePaint(new GradientPaint(1.0f, 2.0f,
-                Color.gray, 3.0f, 4.0f, Color.white));
-        assertTrue(plot1.equals(plot2));
-
-        // sectionOutlineStroke
-        plot1.setSectionOutlineStroke(new BasicStroke(1.0f));
-        assertFalse(plot1.equals(plot2));
-        plot2.setSectionOutlineStroke(new BasicStroke(1.0f));
+        plot2.setDefaultSectionOutlinePaint(new GradientPaint(1.0f, 2.0f,
+                Color.GRAY, 3.0f, 4.0f, Color.WHITE));
         assertTrue(plot1.equals(plot2));
 
         // sectionOutlineStrokeList
@@ -206,18 +184,18 @@ public class PiePlotTest {
         plot2.setSectionOutlineStroke("A", new BasicStroke(1.0f));
         assertTrue(plot1.equals(plot2));
 
-        // baseSectionOutlineStroke
-        plot1.setBaseSectionOutlineStroke(new BasicStroke(1.0f));
+        // defaultSectionOutlineStroke
+        plot1.setDefaultSectionOutlineStroke(new BasicStroke(1.0f));
         assertFalse(plot1.equals(plot2));
-        plot2.setBaseSectionOutlineStroke(new BasicStroke(1.0f));
+        plot2.setDefaultSectionOutlineStroke(new BasicStroke(1.0f));
         assertTrue(plot1.equals(plot2));
 
         // shadowPaint
-        plot1.setShadowPaint(new GradientPaint(1.0f, 2.0f, Color.orange,
-                3.0f, 4.0f, Color.white));
+        plot1.setShadowPaint(new GradientPaint(1.0f, 2.0f, Color.ORANGE,
+                3.0f, 4.0f, Color.WHITE));
         assertFalse(plot1.equals(plot2));
-        plot2.setShadowPaint(new GradientPaint(1.0f, 2.0f, Color.orange,
-                3.0f, 4.0f, Color.white));
+        plot2.setShadowPaint(new GradientPaint(1.0f, 2.0f, Color.ORANGE,
+                3.0f, 4.0f, Color.WHITE));
         assertTrue(plot1.equals(plot2));
 
         // shadowXOffset
@@ -239,27 +217,27 @@ public class PiePlotTest {
         assertTrue(plot1.equals(plot2));
 
         // labelPaint
-        plot1.setLabelPaint(new GradientPaint(1.0f, 2.0f, Color.darkGray,
-                3.0f, 4.0f, Color.white));
+        plot1.setLabelPaint(new GradientPaint(1.0f, 2.0f, Color.DARK_GRAY,
+                3.0f, 4.0f, Color.WHITE));
         assertFalse(plot1.equals(plot2));
-        plot2.setLabelPaint(new GradientPaint(1.0f, 2.0f, Color.darkGray,
-                3.0f, 4.0f, Color.white));
+        plot2.setLabelPaint(new GradientPaint(1.0f, 2.0f, Color.DARK_GRAY,
+                3.0f, 4.0f, Color.WHITE));
         assertTrue(plot1.equals(plot2));
 
         // labelBackgroundPaint
-        plot1.setLabelBackgroundPaint(new GradientPaint(1.0f, 2.0f, Color.red,
-                3.0f, 4.0f, Color.white));
+        plot1.setLabelBackgroundPaint(new GradientPaint(1.0f, 2.0f, Color.RED,
+                3.0f, 4.0f, Color.WHITE));
         assertFalse(plot1.equals(plot2));
-        plot2.setLabelBackgroundPaint(new GradientPaint(1.0f, 2.0f, Color.red,
-                3.0f, 4.0f, Color.white));
+        plot2.setLabelBackgroundPaint(new GradientPaint(1.0f, 2.0f, Color.RED,
+                3.0f, 4.0f, Color.WHITE));
         assertTrue(plot1.equals(plot2));
 
         // labelOutlinePaint
-        plot1.setLabelOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.blue,
-                3.0f, 4.0f, Color.white));
+        plot1.setLabelOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.BLUE,
+                3.0f, 4.0f, Color.WHITE));
         assertFalse(plot1.equals(plot2));
-        plot2.setLabelOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.blue,
-                3.0f, 4.0f, Color.white));
+        plot2.setLabelOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.BLUE,
+                3.0f, 4.0f, Color.WHITE));
         assertTrue(plot1.equals(plot2));
 
         // labelOutlineStroke
@@ -270,11 +248,11 @@ public class PiePlotTest {
         assertTrue(plot1.equals(plot2));
 
         // labelShadowPaint
-        plot1.setLabelShadowPaint(new GradientPaint(1.0f, 2.0f, Color.yellow,
-                3.0f, 4.0f, Color.white));
+        plot1.setLabelShadowPaint(new GradientPaint(1.0f, 2.0f, Color.YELLOW,
+                3.0f, 4.0f, Color.WHITE));
         assertFalse(plot1.equals(plot2));
-        plot2.setLabelShadowPaint(new GradientPaint(1.0f, 2.0f, Color.yellow,
-                3.0f, 4.0f, Color.white));
+        plot2.setLabelShadowPaint(new GradientPaint(1.0f, 2.0f, Color.YELLOW,
+                3.0f, 4.0f, Color.WHITE));
         assertTrue(plot1.equals(plot2));
 
         // explodePercentages
@@ -299,11 +277,11 @@ public class PiePlotTest {
         assertTrue(plot1.equals(plot2));
 
         // labelPaint
-        plot1.setLabelPaint(new GradientPaint(1.0f, 2.0f, Color.magenta,
-                3.0f, 4.0f, Color.white));
+        plot1.setLabelPaint(new GradientPaint(1.0f, 2.0f, Color.MAGENTA,
+                3.0f, 4.0f, Color.WHITE));
         assertFalse(plot1.equals(plot2));
-        plot2.setLabelPaint(new GradientPaint(1.0f, 2.0f, Color.magenta,
-                3.0f, 4.0f, Color.white));
+        plot2.setLabelPaint(new GradientPaint(1.0f, 2.0f, Color.MAGENTA,
+                3.0f, 4.0f, Color.WHITE));
         assertTrue(plot1.equals(plot2));
 
         // maximumLabelWidth
@@ -336,11 +314,11 @@ public class PiePlotTest {
         assertTrue(plot1.equals(plot2));
 
         // labelLinkPaint
-        plot1.setLabelLinkPaint(new GradientPaint(1.0f, 2.0f, Color.magenta,
-                3.0f, 4.0f, Color.white));
+        plot1.setLabelLinkPaint(new GradientPaint(1.0f, 2.0f, Color.MAGENTA,
+                3.0f, 4.0f, Color.WHITE));
         assertFalse(plot1.equals(plot2));
-        plot2.setLabelLinkPaint(new GradientPaint(1.0f, 2.0f, Color.magenta,
-                3.0f, 4.0f, Color.white));
+        plot2.setLabelLinkPaint(new GradientPaint(1.0f, 2.0f, Color.MAGENTA,
+                3.0f, 4.0f, Color.WHITE));
         assertTrue(plot1.equals(plot2));
 
         // labelLinkStroke
@@ -420,10 +398,10 @@ public class PiePlotTest {
         assertTrue(plot1.equals(plot2));
 
         // shadowGenerator
-        plot1.setShadowGenerator(new DefaultShadowGenerator(5, Color.gray,
+        plot1.setShadowGenerator(new DefaultShadowGenerator(5, Color.GRAY,
                 0.6f, 4, -Math.PI / 4));
         assertFalse(plot1.equals(plot2));
-        plot2.setShadowGenerator(new DefaultShadowGenerator(5, Color.gray,
+        plot2.setShadowGenerator(new DefaultShadowGenerator(5, Color.GRAY,
                 0.6f, 4, -Math.PI / 4));
         assertTrue(plot1.equals(plot2));
 
@@ -542,7 +520,7 @@ public class PiePlotTest {
     @Test
     public void testSerialization() {
         PiePlot p1 = new PiePlot(null);
-        PiePlot p2 = (PiePlot) TestUtilities.serialised(p1);
+        PiePlot p2 = (PiePlot) TestUtils.serialised(p1);
         assertEquals(p1, p2);
     }
 
@@ -580,17 +558,17 @@ public class PiePlotTest {
     }
 
     /**
-     * Check that the default base section paint is not null, and that you
+     * Check that the default section paint is not null, and that you
      * can never set it to null.
      */
     @Test
-    public void testGetBaseSectionPaint() {
+    public void testGetDefaultSectionPaint() {
         PiePlot plot = new PiePlot();
-        assertNotNull(plot.getBaseSectionPaint());
+        assertNotNull(plot.getDefaultSectionPaint());
 
         boolean pass = false;
         try {
-            plot.setBaseSectionPaint(null);
+            plot.setDefaultSectionPaint(null);
         }
         catch (IllegalArgumentException e) {
             pass = true;

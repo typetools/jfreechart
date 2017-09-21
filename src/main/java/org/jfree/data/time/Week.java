@@ -79,7 +79,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.Args;
 
 /**
  * A calendar week.  All years are considered to have 53 weeks, numbered from 1
@@ -175,28 +175,14 @@ public class Week extends RegularTimePeriod implements Serializable {
      *
      * @param time  the date/time ({@code null} not permitted).
      * @param zone  the time zone ({@code null} not permitted).
-     *
-     * @deprecated As of 1.0.7, use {@link #Week(Date, TimeZone, Locale)}.
-     */
-    public Week(Date time, TimeZone zone) {
-        // defer argument checking...
-        this(time, zone, Locale.getDefault());
-    }
-
-    /**
-     * Creates a time period for the week in which the specified date/time
-     * falls, calculated relative to the specified time zone.
-     *
-     * @param time  the date/time ({@code null} not permitted).
-     * @param zone  the time zone ({@code null} not permitted).
      * @param locale  the locale ({@code null} not permitted).
      *
      * @since 1.0.7
      */
     public Week(Date time, TimeZone zone, Locale locale) {
-        ParamChecks.nullNotPermitted(time, "time");
-        ParamChecks.nullNotPermitted(zone, "zone");
-        ParamChecks.nullNotPermitted(locale, "locale");
+        Args.nullNotPermitted(time, "time");
+        Args.nullNotPermitted(zone, "zone");
+        Args.nullNotPermitted(locale, "locale");
         Calendar calendar = Calendar.getInstance(zone, locale);
         calendar.setTime(time);
 

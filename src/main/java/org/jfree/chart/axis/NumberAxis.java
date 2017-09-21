@@ -121,13 +121,13 @@ import org.jfree.chart.event.AxisChangeEvent;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.ValueAxisPlot;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.ui.TextAnchor;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
 import org.jfree.data.Range;
 import org.jfree.data.RangeType;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.TextAnchor;
-import org.jfree.util.ObjectUtilities;
 
 /**
  * An axis for displaying numerical data.
@@ -228,7 +228,7 @@ public class NumberAxis extends ValueAxis implements Cloneable, Serializable {
      * @see #getRangeType()
      */
     public void setRangeType(RangeType rangeType) {
-        ParamChecks.nullNotPermitted(rangeType, "rangeType");
+        Args.nullNotPermitted(rangeType, "rangeType");
         this.rangeType = rangeType;
         notifyListeners(new AxisChangeEvent(this));
     }
@@ -344,7 +344,7 @@ public class NumberAxis extends ValueAxis implements Cloneable, Serializable {
     public void setTickUnit(NumberTickUnit unit, boolean notify,
             boolean turnOffAutoSelect) {
 
-        ParamChecks.nullNotPermitted(unit, "unit");
+        Args.nullNotPermitted(unit, "unit");
         this.tickUnit = unit;
         if (turnOffAutoSelect) {
             setAutoTickUnitSelection(false, false);
@@ -1168,10 +1168,10 @@ public class NumberAxis extends ValueAxis implements Cloneable, Serializable {
         if (this.autoRangeStickyZero != that.autoRangeStickyZero) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.tickUnit, that.tickUnit)) {
+        if (!ObjectUtils.equal(this.tickUnit, that.tickUnit)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.numberFormatOverride,
+        if (!ObjectUtils.equal(this.numberFormatOverride,
                 that.numberFormatOverride)) {
             return false;
         }

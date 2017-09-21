@@ -41,10 +41,10 @@
 
 package org.jfree.data.category;
 
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
+import org.jfree.chart.util.TableOrder;
 
 import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.util.TableOrder;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -207,7 +207,7 @@ public class CategoryToPieDatasetTest {
         CategoryToPieDataset d1 = new CategoryToPieDataset(underlying,
                 TableOrder.BY_COLUMN, 1);
         CategoryToPieDataset d2 = (CategoryToPieDataset) 
-                TestUtilities.serialised(d1);
+                TestUtils.serialised(d1);
         assertEquals(d1, d2);
 
         // regular equality for the datasets doesn't check the fields, just

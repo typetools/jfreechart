@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -27,7 +27,7 @@
  * -------------------------
  * StackedXYBarRenderer.java
  * -------------------------
- * (C) Copyright 2004-2016, by Andreas Schroeder and Contributors.
+ * (C) Copyright 2004-2017, by Andreas Schroeder and Contributors.
  *
  * Original Author:  Andreas Schroeder;
  * Contributor(s):   David Gilbert (for Object Refinery Limited);
@@ -68,13 +68,13 @@ import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.Range;
-import org.jfree.data.general.DatasetUtilities;
+import org.jfree.data.general.DatasetUtils;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.TableXYDataset;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.TextAnchor;
 
 /**
  * A bar renderer that displays the series items stacked.
@@ -120,8 +120,8 @@ public class StackedXYBarRenderer extends XYBarRenderer {
         // the user requests visible item labels...
         ItemLabelPosition p = new ItemLabelPosition(ItemLabelAnchor.CENTER,
                 TextAnchor.CENTER);
-        setBasePositiveItemLabelPosition(p);
-        setBaseNegativeItemLabelPosition(p);
+        setDefaultPositiveItemLabelPosition(p);
+        setDefaultNegativeItemLabelPosition(p);
         setPositiveItemLabelPositionFallback(null);
         setNegativeItemLabelPositionFallback(null);
     }
@@ -206,7 +206,7 @@ public class StackedXYBarRenderer extends XYBarRenderer {
                 return new Range(0.0, 1.0);
             }
             else {
-                return DatasetUtilities.findStackedRangeBounds(
+                return DatasetUtils.findStackedRangeBounds(
                         (TableXYDataset) dataset);
             }
         }
@@ -277,7 +277,7 @@ public class StackedXYBarRenderer extends XYBarRenderer {
         // fixed too.
         double total = 0.0;
         if (this.renderAsPercentages) {
-            total = DatasetUtilities.calculateStackTotal(
+            total = DatasetUtils.calculateStackTotal(
                     (TableXYDataset) dataset, item);
             value = value / total;
         }

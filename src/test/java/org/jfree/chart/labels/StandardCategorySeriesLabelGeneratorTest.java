@@ -45,10 +45,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
+import org.jfree.chart.util.PublicCloneable;
 
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.util.PublicCloneable;
 import org.junit.Test;
 
 /**
@@ -135,7 +135,7 @@ public class StandardCategorySeriesLabelGeneratorTest {
         StandardCategorySeriesLabelGenerator g1
                 = new StandardCategorySeriesLabelGenerator("{2}");
         StandardCategorySeriesLabelGenerator g2 = (StandardCategorySeriesLabelGenerator) 
-                TestUtilities.serialised(g1);
+                TestUtils.serialised(g1);
         assertEquals(g1, g2);
     }
 

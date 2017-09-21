@@ -50,11 +50,11 @@ import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 import java.util.List;
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
+import org.jfree.chart.util.PublicCloneable;
 
 import org.jfree.data.Range;
 import org.jfree.data.statistics.DefaultMultiValueCategoryDataset;
-import org.jfree.util.PublicCloneable;
 import org.junit.Test;
 
 /**
@@ -185,7 +185,7 @@ public class ScatterRendererTest {
     @Test
     public void testSerialization() {
         ScatterRenderer r1 = new ScatterRenderer();
-        ScatterRenderer r2 = (ScatterRenderer) TestUtilities.serialised(r1);
+        ScatterRenderer r2 = (ScatterRenderer) TestUtils.serialised(r1);
         assertEquals(r1, r2);
     }
 

@@ -45,9 +45,8 @@
 package org.jfree.chart.labels;
 
 import java.io.Serializable;
-import org.jfree.chart.util.ParamChecks;
-
-import org.jfree.ui.TextAnchor;
+import org.jfree.chart.ui.TextAnchor;
+import org.jfree.chart.util.Args;
 
 /**
  * The attributes that control the position of the label for each data item on
@@ -106,9 +105,9 @@ public class ItemLabelPosition implements Serializable {
     public ItemLabelPosition(ItemLabelAnchor itemLabelAnchor, 
             TextAnchor textAnchor, TextAnchor rotationAnchor, double angle) {
 
-        ParamChecks.nullNotPermitted(itemLabelAnchor, "itemLabelAnchor");
-        ParamChecks.nullNotPermitted(textAnchor, "textAnchor");
-        ParamChecks.nullNotPermitted(rotationAnchor, "rotationAnchor");
+        Args.nullNotPermitted(itemLabelAnchor, "itemLabelAnchor");
+        Args.nullNotPermitted(textAnchor, "textAnchor");
+        Args.nullNotPermitted(rotationAnchor, "rotationAnchor");
         this.itemLabelAnchor = itemLabelAnchor;
         this.textAnchor = textAnchor;
         this.rotationAnchor = rotationAnchor;

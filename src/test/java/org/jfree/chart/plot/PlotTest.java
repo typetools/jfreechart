@@ -55,8 +55,8 @@ import java.awt.Shape;
 import java.awt.Stroke;
 
 import org.jfree.chart.JFreeChart;
-import org.jfree.ui.Align;
-import org.jfree.ui.RectangleInsets;
+import org.jfree.chart.ui.Align;
+import org.jfree.chart.ui.RectangleInsets;
 import org.junit.Test;
 
 /**
@@ -88,11 +88,11 @@ public class PlotTest {
         assertTrue(plot1.equals(plot2));
 
         // noDataMessagePaint
-        plot1.setNoDataMessagePaint(new GradientPaint(1.0f, 2.0f, Color.red,
-                3.0f, 4.0f, Color.blue));
+        plot1.setNoDataMessagePaint(new GradientPaint(1.0f, 2.0f, Color.RED,
+                3.0f, 4.0f, Color.BLUE));
         assertFalse(plot1.equals(plot2));
-        plot2.setNoDataMessagePaint(new GradientPaint(1.0f, 2.0f, Color.red,
-                3.0f, 4.0f, Color.blue));
+        plot2.setNoDataMessagePaint(new GradientPaint(1.0f, 2.0f, Color.RED,
+                3.0f, 4.0f, Color.BLUE));
         assertTrue(plot1.equals(plot2));
 
         // insets
@@ -115,10 +115,10 @@ public class PlotTest {
         assertTrue(plot1.equals(plot2));
 
         // outlinePaint
-        plot1.setOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.yellow,
+        plot1.setOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.YELLOW,
                 3.0f, 4.0f, Color.green));
         assertFalse(plot1.equals(plot2));
-        plot2.setOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.yellow,
+        plot2.setOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.YELLOW,
                 3.0f, 4.0f, Color.green));
         assertTrue(plot1.equals(plot2));
 
@@ -130,11 +130,11 @@ public class PlotTest {
                 3.0f, 4.0f, Color.green));
         assertTrue(plot1.equals(plot2));
 
-        // backgroundImage
-        plot1.setBackgroundImage(JFreeChart.INFO.getLogo());
-        assertFalse(plot1.equals(plot2));
-        plot2.setBackgroundImage(JFreeChart.INFO.getLogo());
-        assertTrue(plot1.equals(plot2));
+//        // backgroundImage
+//        plot1.setBackgroundImage(JFreeChart.INFO.getLogo());
+//        assertFalse(plot1.equals(plot2));
+//        plot2.setBackgroundImage(JFreeChart.INFO.getLogo());
+//        assertTrue(plot1.equals(plot2));
 
         // backgroundImageAlignment
         plot1.setBackgroundImageAlignment(Align.BOTTOM_RIGHT);
@@ -162,13 +162,13 @@ public class PlotTest {
 
         // drawingSupplier
         plot1.setDrawingSupplier(new DefaultDrawingSupplier(
-                new Paint[] {Color.blue}, new Paint[] {Color.red},
+                new Paint[] {Color.BLUE}, new Paint[] {Color.RED},
                 new Stroke[] {new BasicStroke(1.1f)},
                 new Stroke[] {new BasicStroke(9.9f)},
                 new Shape[] {new Rectangle(1, 2, 3, 4)}));
         assertFalse(plot1.equals(plot2));
         plot2.setDrawingSupplier(new DefaultDrawingSupplier(
-                new Paint[] {Color.blue}, new Paint[] {Color.red},
+                new Paint[] {Color.BLUE}, new Paint[] {Color.RED},
                 new Stroke[] {new BasicStroke(1.1f)},
                 new Stroke[] {new BasicStroke(9.9f)},
                 new Shape[] {new Rectangle(1, 2, 3, 4)}));

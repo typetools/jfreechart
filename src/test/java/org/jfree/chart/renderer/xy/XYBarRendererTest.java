@@ -54,11 +54,14 @@ import java.awt.geom.Rectangle2D;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.ui.GradientPaintTransformType;
+import org.jfree.chart.ui.StandardGradientPaintTransformer;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.Range;
 import org.jfree.data.xy.DefaultIntervalXYDataset;
 import org.jfree.data.xy.XYBarDataset;
@@ -66,9 +69,6 @@ import org.jfree.data.xy.XYIntervalSeries;
 import org.jfree.data.xy.XYIntervalSeriesCollection;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.GradientPaintTransformType;
-import org.jfree.ui.StandardGradientPaintTransformer;
-import org.jfree.util.PublicCloneable;
 import org.junit.Test;
 
 /**
@@ -212,7 +212,7 @@ public class XYBarRendererTest {
     @Test
     public void testSerialization() {
         XYBarRenderer r1 = new XYBarRenderer();
-        XYBarRenderer r2 = (XYBarRenderer) TestUtilities.serialised(r1);
+        XYBarRenderer r2 = (XYBarRenderer) TestUtils.serialised(r1);
         assertEquals(r1, r2);
     }
 
@@ -223,7 +223,7 @@ public class XYBarRendererTest {
     public void testSerialization2() {
         XYBarRenderer r1 = new XYBarRenderer();
         r1.setPositiveItemLabelPositionFallback(new ItemLabelPosition());
-        XYBarRenderer r2 = (XYBarRenderer) TestUtilities.serialised(r1);
+        XYBarRenderer r2 = (XYBarRenderer) TestUtils.serialised(r1);
         assertEquals(r1, r2);
     }
 

@@ -48,12 +48,12 @@ import static org.junit.Assert.fail;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.util.PublicCloneable;
 import org.junit.Test;
 
 /**
@@ -151,7 +151,7 @@ public class LevelRendererTest {
     @Test
     public void testSerialization() {
         LevelRenderer r1 = new LevelRenderer();
-        LevelRenderer r2 = (LevelRenderer) TestUtilities.serialised(r1);
+        LevelRenderer r2 = (LevelRenderer) TestUtils.serialised(r1);
         assertEquals(r1, r2);
     }
 

@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2015, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -67,7 +67,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.Args;
 
 /**
  * Represents a second in a particular day.  This class is immutable, which is
@@ -116,9 +116,9 @@ public class Second extends RegularTimePeriod implements Serializable {
      * @param minute  the minute ({@code null} not permitted).
      */
     public Second(int second, Minute minute) {
-        ParamChecks.requireInRange(second, "second", 
+        Args.requireInRange(second, "second", 
                 Second.FIRST_SECOND_IN_MINUTE, Second.LAST_SECOND_IN_MINUTE);
-        ParamChecks.nullNotPermitted(minute, "minute");
+        Args.nullNotPermitted(minute, "minute");
         this.day = minute.getDay();
         this.hour = (byte) minute.getHourValue();
         this.minute = (byte) minute.getMinute();
@@ -147,23 +147,10 @@ public class Second extends RegularTimePeriod implements Serializable {
      *
      * @param time  the time ({@code null} not permitted).
      *
-     * @see #Second(Date, TimeZone)
+     * @see #Second(Date, TimeZone, Locale)
      */
     public Second(Date time) {
         this(time, TimeZone.getDefault(), Locale.getDefault());
-    }
-
-    /**
-     * Creates a new second based on the supplied time and time zone.
-     *
-     * @param time  the instant in time.
-     * @param zone  the time zone.
-     *
-     * @deprecated As of 1.0.13, use the constructor that specifies the locale
-     *     also.
-     */
-    public Second(Date time, TimeZone zone) {
-        this(time, zone, Locale.getDefault());
     }
 
     /**

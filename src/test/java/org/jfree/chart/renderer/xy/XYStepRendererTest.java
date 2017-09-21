@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -48,12 +48,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.TestUtilities;
+import org.jfree.chart.TestUtils;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.xy.DefaultTableXYDataset;
 import org.jfree.data.xy.XYSeries;
-import org.jfree.util.PublicCloneable;
 import org.junit.Test;
 
 /**
@@ -76,9 +76,9 @@ public class XYStepRendererTest {
         assertTrue(r1.equals(r2));
 
         // try something from the base class
-        r1.setBaseCreateEntities(false);
+        r1.setDefaultCreateEntities(false);
         assertFalse(r1.equals(r2));
-        r2.setBaseCreateEntities(false);
+        r2.setDefaultCreateEntities(false);
         assertTrue(r1.equals(r2));
     }
 
@@ -125,7 +125,7 @@ public class XYStepRendererTest {
     public void testSerialization() {
         XYStepRenderer r1 = new XYStepRenderer();
         r1.setStepPoint(0.123);
-        XYStepRenderer r2 = (XYStepRenderer) TestUtilities.serialised(r1);
+        XYStepRenderer r2 = (XYStepRenderer) TestUtils.serialised(r1);
         assertEquals(r1, r2);
     }
 

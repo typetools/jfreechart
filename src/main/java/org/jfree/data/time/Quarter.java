@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -66,9 +66,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import org.jfree.date.MonthConstants;
-import org.jfree.date.SerialDate;
+import org.jfree.chart.date.MonthConstants;
+import org.jfree.chart.date.SerialDate;
 
 /**
  * Defines a quarter (in a given year).  The range supported is Q1 1900 to
@@ -153,23 +152,10 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      *
      * @param time  the date/time ({@code null} not permitted).
      *
-     * @see #Quarter(Date, TimeZone)
+     * @see #Quarter(Date, TimeZone, Locale)
      */
     public Quarter(Date time) {
-        this(time, TimeZone.getDefault());
-    }
-
-    /**
-     * Constructs a Quarter, based on a date/time and time zone.
-     *
-     * @param time  the date/time.
-     * @param zone  the zone ({@code null} not permitted).
-     *
-     * @deprecated Since 1.0.12, use {@link #Quarter(Date, TimeZone, Locale)}
-     *     instead.
-     */
-    public Quarter(Date time, TimeZone zone) {
-        this(time, zone, Locale.getDefault());
+        this(time, TimeZone.getDefault(), Locale.getDefault());
     }
 
     /**

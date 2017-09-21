@@ -2,7 +2,7 @@
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
  *
- * (C) Copyright 2000-2016, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2000-2017, by Object Refinery Limited and Contributors.
  *
  * Project Info:  http://www.jfree.org/jfreechart/index.html
  *
@@ -72,7 +72,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.util.Args;
 
 /**
  * Represents a minute.  This class is immutable, which is a requirement for
@@ -118,7 +118,7 @@ public class Minute extends RegularTimePeriod implements Serializable {
      * @param hour  the hour ({@code null} not permitted).
      */
     public Minute(int minute, Hour hour) {
-        ParamChecks.nullNotPermitted(hour, "hour");
+        Args.nullNotPermitted(hour, "hour");
         this.minute = (byte) minute;
         this.hour = (byte) hour.getHour();
         this.day = hour.getDay();
@@ -131,24 +131,11 @@ public class Minute extends RegularTimePeriod implements Serializable {
      *
      * @param time  the time ({@code null} not permitted).
      *
-     * @see #Minute(Date, TimeZone)
+     * @see #Minute(Date, TimeZone, Locale)
      */
     public Minute(Date time) {
         // defer argument checking
         this(time, TimeZone.getDefault(), Locale.getDefault());
-    }
-
-    /**
-     * Constructs a new Minute, based on the supplied date/time and timezone.
-     *
-     * @param time  the time ({@code null} not permitted).
-     * @param zone  the time zone ({@code null} not permitted).
-     *
-     * @deprecated As of 1.0.13, use the constructor that specifies the locale
-     *     also.
-     */
-    public Minute(Date time, TimeZone zone) {
-        this(time, zone, Locale.getDefault());
     }
 
     /**
@@ -161,9 +148,9 @@ public class Minute extends RegularTimePeriod implements Serializable {
      * @since 1.0.13
      */
     public Minute(Date time, TimeZone zone, Locale locale) {
-        ParamChecks.nullNotPermitted(time, "time");
-        ParamChecks.nullNotPermitted(zone, "zone");
-        ParamChecks.nullNotPermitted(locale, "locale");
+        Args.nullNotPermitted(time, "time");
+        Args.nullNotPermitted(zone, "zone");
+        Args.nullNotPermitted(locale, "locale");
         Calendar calendar = Calendar.getInstance(zone, locale);
         calendar.setTime(time);
         int min = calendar.get(Calendar.MINUTE);

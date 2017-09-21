@@ -78,12 +78,12 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.event.PlotChangeEvent;
 import org.jfree.chart.event.PlotChangeListener;
-import org.jfree.chart.util.ParamChecks;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.util.ObjectUtils;
+import org.jfree.chart.util.Args;
 import org.jfree.chart.util.ShadowGenerator;
 import org.jfree.data.Range;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.util.ObjectUtilities;
 
 /**
  * A combined category plot where the range axis is shared.
@@ -166,7 +166,7 @@ public class CombinedRangeCategoryPlot extends CategoryPlot
      * @param weight  the weight (must be &gt;= 1).
      */
     public void add(CategoryPlot subplot, int weight) {
-        ParamChecks.nullNotPermitted(subplot, "subplot");
+        Args.nullNotPermitted(subplot, "subplot");
         if (weight <= 0) {
             throw new IllegalArgumentException("Require weight >= 1.");
         }
@@ -192,7 +192,7 @@ public class CombinedRangeCategoryPlot extends CategoryPlot
      * @param subplot  the subplot ({@code null} not permitted).
      */
     public void remove(CategoryPlot subplot) {
-        ParamChecks.nullNotPermitted(subplot, "subplot");
+        Args.nullNotPermitted(subplot, "subplot");
         int position = -1;
         int size = this.subplots.size();
         int i = 0;
@@ -531,7 +531,7 @@ public class CombinedRangeCategoryPlot extends CategoryPlot
         if (this.gap != that.gap) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.subplots, that.subplots)) {
+        if (!ObjectUtils.equal(this.subplots, that.subplots)) {
             return false;
         }
         return super.equals(obj);
@@ -549,7 +549,7 @@ public class CombinedRangeCategoryPlot extends CategoryPlot
     public Object clone() throws CloneNotSupportedException {
         CombinedRangeCategoryPlot result
             = (CombinedRangeCategoryPlot) super.clone();
-        result.subplots = (List) ObjectUtilities.deepClone(this.subplots);
+        result.subplots = (List) ObjectUtils.deepClone(this.subplots);
         for (Iterator it = result.subplots.iterator(); it.hasNext();) {
             Plot child = (Plot) it.next();
             child.setParent(result);
