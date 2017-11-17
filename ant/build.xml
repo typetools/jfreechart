@@ -103,7 +103,7 @@
     </condition>
 
     <presetdef name="jsr308.javac">
-        <javac fork="yes" executable="${checkerframework}/checker/bin/${cfJavac}" >
+        <javac fork="yes" executable="${checkerframework}/checker/bin-devel/${cfJavac}" >
             <!-- JSR-308-related compiler arguments -->
             <compilerarg value="-version"/>
             <compilerarg value="-implicit:class"/>

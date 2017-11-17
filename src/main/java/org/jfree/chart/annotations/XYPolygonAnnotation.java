@@ -229,7 +229,9 @@ public class XYPolygonAnnotation extends AbstractXYAnnotation
             for (int i = 2; i < this.polygon.length; i += 2) {
                 x = domainAxis.valueToJava2D(this.polygon[i], dataArea,
                         domainEdge);
-                y = rangeAxis.valueToJava2D(this.polygon[i + 1], dataArea,
+                @SuppressWarnings("index") // polygon always has an even number of elements, and i is an odd index
+                double y1 = this.polygon[i + 1];
+                y = rangeAxis.valueToJava2D(y1, dataArea,
                         rangeEdge);
                 area.lineTo((float) y, (float) x);
             }
@@ -240,7 +242,9 @@ public class XYPolygonAnnotation extends AbstractXYAnnotation
             for (int i = 2; i < this.polygon.length; i += 2) {
                 x = domainAxis.valueToJava2D(this.polygon[i], dataArea,
                         domainEdge);
-                y = rangeAxis.valueToJava2D(this.polygon[i + 1], dataArea,
+                @SuppressWarnings("index") // polygon always has an even number of elements, and i is an odd index
+                double y1 = this.polygon[i + 1];
+                y = rangeAxis.valueToJava2D(y1, dataArea,
                         rangeEdge);
                 area.lineTo((float) x, (float) y);
             }

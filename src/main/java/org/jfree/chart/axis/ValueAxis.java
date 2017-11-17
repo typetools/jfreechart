@@ -114,6 +114,10 @@
 
 package org.jfree.chart.axis;
 
+/*>>>
+import org.checkerframework.common.value.qual.ArrayLen;
+ */
+
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -628,7 +632,7 @@ public abstract class ValueAxis extends Axis
      *
      * @return The x and y coordinates of the anchor point.
      */
-    protected float[] calculateAnchorPoint(ValueTick tick, double cursor,
+    protected float /*@ArrayLen(2)*/ [] calculateAnchorPoint(ValueTick tick, double cursor,
             Rectangle2D dataArea, RectangleEdge edge) {
 
         RectangleInsets insets = getTickLabelInsets();

@@ -235,6 +235,11 @@
 
 package org.jfree.chart.plot;
 
+/*>>>
+import org.checkerframework.common.value.qual.ArrayLen;
+import org.checkerframework.dataflow.qual.Pure;
+*/
+
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -265,6 +270,7 @@ import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
+
 import org.jfree.chart.JFreeChart;
 
 import org.jfree.chart.LegendItem;
@@ -393,7 +399,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
     private transient Point2D quadrantOrigin = new Point2D.Double(0.0, 0.0);
 
     /** The paint used for each quadrant. */
-    private transient Paint[] quadrantPaint
+    private transient Paint /*@ArrayLen(4)*/ [] quadrantPaint
             = new Paint[] {null, null, null, null};
 
     /** A flag that controls whether the domain grid-lines are visible. */
@@ -735,6 +741,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * @see #setOrientation(PlotOrientation)
      */
     @Override
+    /*@Pure*/
     public PlotOrientation getOrientation() {
         return this.orientation;
     }
@@ -893,6 +900,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #setDomainAxisLocation(AxisLocation)
      */
+    /*@Pure*/
     public AxisLocation getDomainAxisLocation() {
         return (AxisLocation) this.domainAxisLocations.get(0);
     }
@@ -1097,6 +1105,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #setRangeAxisLocation(AxisLocation)
      */
+    /*@Pure*/
     public AxisLocation getRangeAxisLocation() {
         return (AxisLocation) this.rangeAxisLocations.get(0);
     }
@@ -1447,11 +1456,11 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @since 1.0.12
      */
-    public void mapDatasetToDomainAxes(int index, List axisIndices) {
+    public void mapDatasetToDomainAxes(int index, List<Integer> axisIndices) {
         Args.requireNonNegative(index, "index");
         checkAxisIndices(axisIndices);
         Integer key = new Integer(index);
-        this.datasetToDomainAxesMap.put(key, new ArrayList(axisIndices));
+        this.datasetToDomainAxesMap.put(key, new ArrayList<Integer>(axisIndices));
         // fake a dataset change event to update axes...
         datasetChanged(new DatasetChangeEvent(this, getDataset(index)));
     }
@@ -1481,11 +1490,11 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @since 1.0.12
      */
-    public void mapDatasetToRangeAxes(int index, List axisIndices) {
+    public void mapDatasetToRangeAxes(int index, List<Integer> axisIndices) {
         Args.requireNonNegative(index, "index");
         checkAxisIndices(axisIndices);
         Integer key = new Integer(index);
-        this.datasetToRangeAxesMap.put(key, new ArrayList(axisIndices));
+        this.datasetToRangeAxesMap.put(key, new ArrayList<Integer>(axisIndices));
         // fake a dataset change event to update axes...
         datasetChanged(new DatasetChangeEvent(this, getDataset(index)));
     }

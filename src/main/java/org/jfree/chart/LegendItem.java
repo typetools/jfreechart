@@ -64,6 +64,10 @@
 
 package org.jfree.chart;
 
+/*>>>
+import org.checkerframework.checker.index.qual.IndexFor;
+ */
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -78,6 +82,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.text.AttributedString;
 import java.text.CharacterIterator;
+
 import org.jfree.chart.text.AttributedStringUtils;
 import org.jfree.chart.ui.GradientPaintTransformer;
 import org.jfree.chart.ui.StandardGradientPaintTransformer;
@@ -514,7 +519,9 @@ public class LegendItem implements Cloneable, Serializable {
         int i = 0;
         char c = iterator.first();
         while (c != CharacterIterator.DONE) {
-            chars[i] = c;
+            @SuppressWarnings("index") // Correctness depends on the Character Iterator having count elements before supplying CharacterIterator.DONE
+            /*@IndexFor("chars")*/ int index = i;
+            chars[index] = c;
             i++;
             c = iterator.next();
         }

@@ -44,6 +44,9 @@
 
 package org.jfree.chart.renderer;
 
+/*>>>
+import org.checkerframework.common.value.qual.ArrayLen;
+*/
 import org.jfree.chart.util.Args;
 import org.jfree.data.DomainOrder;
 import org.jfree.data.xy.XYDataset;
@@ -252,8 +255,8 @@ public class RendererUtils {
      *
      * @return The indices of the boundary items.
      */
-    public static int[] findLiveItems(XYDataset dataset, int series,
-            double xLow, double xHigh) {
+    public static int /*@ArrayLen(2)*/ [] findLiveItems(XYDataset dataset, int series,
+                                                 double xLow, double xHigh) {
         // here we could probably be a little faster by searching for both
         // indices simultaneously, but I'll look at that later if it seems
         // like it matters...

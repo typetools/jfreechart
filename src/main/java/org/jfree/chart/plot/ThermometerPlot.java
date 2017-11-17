@@ -93,6 +93,12 @@
 
 package org.jfree.chart.plot;
 
+/*>>>
+import org.checkerframework.common.value.qual.ArrayLen;
+import org.checkerframework.common.value.qual.IntVal;
+import org.checkerframework.checker.index.qual.IndexFor;
+ */
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -193,7 +199,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
     protected static final int AXIS_GAP = 10;
 
     /** The unit strings. */
-    protected static final String[] UNITS = {"", "\u00B0F", "\u00B0C",
+    protected static final String /*@ArrayLen(4)*/ [] UNITS = {"", "\u00B0F", "\u00B0C",
             "\u00B0K"};
 
     /** Index for low value in subrangeInfo matrix. */
@@ -280,7 +286,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
     private transient Paint thermometerPaint = Color.BLACK;
 
     /** The display units */
-    private int units = UNITS_CELCIUS;
+    private /*@IndexFor("UNITS")*/ int units = UNITS_CELCIUS;
 
     /** The value label position. */
     private int valueLocation = BULB;
@@ -304,10 +310,10 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
     private boolean showValueLines = false;
 
     /** The display sub-range. */
-    private int subrange = -1;
+    private /*@IntVal({-1,0,1,2})*/ int subrange = -1;
 
     /** The start and end values for the subranges. */
-    private double[][] subrangeInfo = {
+    private double /*@ArrayLen(3)*/ [] /*@ArrayLen(4)*/ [] subrangeInfo = {
         {0.0, 50.0, 0.0, 50.0},
         {50.0, 75.0, 50.0, 75.0},
         {75.0, 100.0, 75.0, 100.0}
@@ -326,7 +332,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
     private boolean useSubrangePaint = true;
 
     /** Paint for each range */
-    private transient Paint[] subrangePaint = {Color.GREEN, Color.ORANGE,
+    private transient Paint /*@ArrayLen(3)*/ [] subrangePaint = {Color.GREEN, Color.ORANGE,
             Color.RED};
 
     /** A flag that controls whether the sub-range indicators are visible. */
