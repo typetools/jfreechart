@@ -129,6 +129,10 @@
 
 package org.jfree.data.general;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -2243,7 +2247,7 @@ public final class DatasetUtils {
      * 
      * @since 1.0.16
      */
-    public static double findYValue(XYDataset dataset, int series, double x) {
+    public static double findYValue(XYDataset dataset, /*@NonNegative*/ int series, double x) {
         // delegate null check on dataset
         int[] indices = findItemIndicesForX(dataset, series, x);
         if (indices[0] == -1) {
@@ -2280,7 +2284,7 @@ public final class DatasetUtils {
      * 
      * @see #findYValue(org.jfree.data.xy.XYDataset, int, double) 
      */
-    public static int[] findItemIndicesForX(XYDataset dataset, int series,
+    public static int[] findItemIndicesForX(XYDataset dataset, /*@NonNegative*/ int series,
             double x) {
         Args.nullNotPermitted(dataset, "dataset");
         int itemCount = dataset.getItemCount(series);

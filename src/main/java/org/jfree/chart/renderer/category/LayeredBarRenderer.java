@@ -54,6 +54,10 @@
 
 package org.jfree.chart.renderer.category;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -105,7 +109,7 @@ public class LayeredBarRenderer extends BarRenderer implements Serializable {
      *
      * @return The width for the series (1.0=100%, it is the maximum).
      */
-    public double getSeriesBarWidth(int series) {
+    public double getSeriesBarWidth(/*@NonNegative*/ int series) {
         double result = Double.NaN;
         Number n = (Number) this.seriesBarWidthList.get(series);
         if (n != null) {
@@ -121,7 +125,7 @@ public class LayeredBarRenderer extends BarRenderer implements Serializable {
      * @param width  the width of the series bar in percentage (1.0=100%, it is
      *               the maximum).
      */
-    public void setSeriesBarWidth(int series, double width) {
+    public void setSeriesBarWidth(/*@NonNegative*/ int series, double width) {
         this.seriesBarWidthList.set(series, new Double(width));
     }
 

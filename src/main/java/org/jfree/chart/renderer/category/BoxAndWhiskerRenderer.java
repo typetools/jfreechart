@@ -91,6 +91,10 @@
 
 package org.jfree.chart.renderer.category;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -451,7 +455,7 @@ public class BoxAndWhiskerRenderer extends AbstractCategoryItemRenderer
      * @return The legend item (possibly {@code null}).
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, int series) {
+    public LegendItem getLegendItem(int datasetIndex, /*@NonNegative*/ int series) {
 
         CategoryPlot cp = getPlot();
         if (cp == null) {

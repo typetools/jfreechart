@@ -74,6 +74,10 @@
 
 package org.jfree.chart.renderer.category;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
@@ -157,7 +161,7 @@ public class AreaRenderer extends AbstractCategoryItemRenderer
      * @return The legend item.
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, int series) {
+    public LegendItem getLegendItem(int datasetIndex, /*@NonNegative*/ int series) {
 
         // if there is no plot, there is no dataset to access...
         CategoryPlot cp = getPlot();

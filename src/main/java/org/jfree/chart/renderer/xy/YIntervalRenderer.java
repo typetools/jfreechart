@@ -50,6 +50,10 @@
 
 package org.jfree.chart.renderer.xy;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -261,7 +265,7 @@ public class YIntervalRenderer extends AbstractXYItemRenderer
      * @param y  the y coordinate (in Java2D space).
      */
     private void drawAdditionalItemLabel(Graphics2D g2,
-            PlotOrientation orientation, XYDataset dataset, int series,
+            PlotOrientation orientation, XYDataset dataset, /*@NonNegative*/ int series,
             int item, double x, double y) {
 
         if (this.additionalItemLabelGenerator == null) {

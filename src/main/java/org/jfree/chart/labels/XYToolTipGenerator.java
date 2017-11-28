@@ -42,6 +42,11 @@
 
 package org.jfree.chart.labels;
 
+
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import org.jfree.data.xy.XYDataset;
 
 /**
@@ -59,6 +64,6 @@ public interface XYToolTipGenerator {
      *
      * @return The tooltip text (possibly {@code null}).
      */
-    public String generateToolTip(XYDataset dataset, int series, int item);
+    public String generateToolTip(XYDataset dataset, /*@NonNegative*/ int series, int item);
 
 }

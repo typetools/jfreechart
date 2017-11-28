@@ -48,6 +48,10 @@
 
 package org.jfree.data.category;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -264,7 +268,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getSeriesIndex(Comparable)
      */
     @Override
-    public Comparable getSeriesKey(int series) {
+    public Comparable getSeriesKey(/*@NonNegative*/ int series) {
         if ((series >= getSeriesCount()) || (series < 0)) {
             throw new IllegalArgumentException("No such series : " + series);
         }
@@ -394,7 +398,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getEndValue(int, int)
      */
     @Override
-    public Number getValue(int series, int category) {
+    public Number getValue(/*@NonNegative*/ int series, int category) {
         return getEndValue(series, category);
     }
 
@@ -434,7 +438,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getStartValue(Comparable, Comparable)
      */
     @Override
-    public Number getStartValue(int series, int category) {
+    public Number getStartValue(/*@NonNegative*/ int series, int category) {
 
         // check arguments...
         if ((series < 0) || (series >= getSeriesCount())) {
@@ -488,7 +492,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getEndValue(Comparable, Comparable)
      */
     @Override
-    public Number getEndValue(int series, int category) {
+    public Number getEndValue(/*@NonNegative*/ int series, int category) {
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException(
                 "DefaultIntervalCategoryDataset.getValue(): "
@@ -514,7 +518,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      *
      * @see #setEndValue(int, Comparable, Number)
      */
-    public void setStartValue(int series, Comparable category, Number value) {
+    public void setStartValue(/*@NonNegative*/ int series, Comparable category, Number value) {
 
         // does the series exist?
         if ((series < 0) || (series > getSeriesCount() - 1)) {
@@ -547,7 +551,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      *
      * @see #setStartValue(int, Comparable, Number)
      */
-    public void setEndValue(int series, Comparable category, Number value) {
+    public void setEndValue(/*@NonNegative*/ int series, Comparable category, Number value) {
 
         // does the series exist?
         if ((series < 0) || (series > getSeriesCount() - 1)) {

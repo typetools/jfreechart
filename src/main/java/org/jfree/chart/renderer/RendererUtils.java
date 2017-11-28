@@ -45,7 +45,8 @@
 package org.jfree.chart.renderer;
 
 /*>>>
-import org.checkerframework.common.value.qual.ArrayLen;
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
 */
 import org.jfree.chart.util.Args;
 import org.jfree.data.DomainOrder;
@@ -73,7 +74,7 @@ public class RendererUtils {
      *
      * @see #findLiveItemsUpperBound(XYDataset, int, double, double)
      */
-    public static int findLiveItemsLowerBound(XYDataset dataset, int series,
+    public static int findLiveItemsLowerBound(XYDataset dataset, /*@NonNegative*/ int series,
             double xLow, double xHigh) {
         Args.nullNotPermitted(dataset, "dataset");
         if (xLow >= xHigh) {
@@ -167,7 +168,7 @@ public class RendererUtils {
      *
      * @see #findLiveItemsLowerBound(XYDataset, int, double, double)
      */
-    public static int findLiveItemsUpperBound(XYDataset dataset, int series,
+    public static int findLiveItemsUpperBound(XYDataset dataset, /*@NonNegative*/ int series,
             double xLow, double xHigh) {
         Args.nullNotPermitted(dataset, "dataset");
         if (xLow >= xHigh) {
@@ -255,7 +256,7 @@ public class RendererUtils {
      *
      * @return The indices of the boundary items.
      */
-    public static int /*@ArrayLen(2)*/ [] findLiveItems(XYDataset dataset, int series,
+    public static int /*@ArrayLen(2)*/ [] findLiveItems(XYDataset dataset, /*@NonNegative*/ int series,
                                                  double xLow, double xHigh) {
         // here we could probably be a little faster by searching for both
         // indices simultaneously, but I'll look at that later if it seems

@@ -111,6 +111,10 @@
 
 package org.jfree.chart.renderer.xy;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Paint;
@@ -326,7 +330,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      *
      * @see #getSeriesShapesFilled(int)
      */
-    public boolean getItemShapeFilled(int series, int item) {
+    public boolean getItemShapeFilled(/*@NonNegative*/ int series, int item) {
 
         // otherwise look up the paint table
         Boolean flag = this.seriesShapesFilled.getBoolean(series);
@@ -346,7 +350,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      *
      * @return A boolean.
      */
-    public Boolean getSeriesShapesFilled(int series) {
+    public Boolean getSeriesShapesFilled(/*@NonNegative*/ int series) {
         return this.seriesShapesFilled.getBoolean(series);
     }
 
@@ -359,7 +363,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      *
      * @see #getSeriesShapesFilled(int)
      */
-    public void setSeriesShapesFilled(int series, Boolean flag) {
+    public void setSeriesShapesFilled(/*@NonNegative*/ int series, Boolean flag) {
         this.seriesShapesFilled.setBoolean(series, flag);
         fireChangeEvent();
     }
@@ -574,7 +578,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      * @return A legend item for the series.
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, int series) {
+    public LegendItem getLegendItem(int datasetIndex, /*@NonNegative*/ int series) {
         XYPlot plot = getPlot();
         if (plot == null) {
             return null;
@@ -1009,7 +1013,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      *
      * @see #getPlotImages()
      */
-    protected Image getImage(Plot plot, int series, int item,
+    protected Image getImage(Plot plot, /*@NonNegative*/ int series, int item,
                              double x, double y) {
         // this method must be overridden if you want to display images
         return null;
@@ -1032,7 +1036,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      *
      * @return The hotspot used to draw the data item.
      */
-    protected Point getImageHotspot(Plot plot, int series, int item,
+    protected Point getImageHotspot(Plot plot, /*@NonNegative*/ int series, int item,
                                     double x, double y, Image image) {
 
         int height = image.getHeight(null);

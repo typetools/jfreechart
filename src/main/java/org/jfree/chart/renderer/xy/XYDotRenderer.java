@@ -55,6 +55,10 @@
 
 package org.jfree.chart.renderer.xy;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
@@ -275,7 +279,7 @@ public class XYDotRenderer extends AbstractXYItemRenderer
      * @return A legend item for the series (possibly {@code null}).
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, int series) {
+    public LegendItem getLegendItem(int datasetIndex, /*@NonNegative*/ int series) {
 
         // if the renderer isn't assigned to a plot, then we don't have a
         // dataset...

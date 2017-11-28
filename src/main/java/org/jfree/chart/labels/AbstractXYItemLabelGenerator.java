@@ -55,6 +55,10 @@
 
 package org.jfree.chart.labels;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.MessageFormat;
@@ -233,7 +237,7 @@ public class AbstractXYItemLabelGenerator implements Cloneable, Serializable {
      *
      * @return The label (possibly {@code null}).
      */
-    public String generateLabelString(XYDataset dataset, int series, int item) {
+    public String generateLabelString(XYDataset dataset, /*@NonNegative*/ int series, int item) {
         String result;
         Object[] items = createItemArray(dataset, series, item);
         result = MessageFormat.format(this.formatString, items);
@@ -262,7 +266,7 @@ public class AbstractXYItemLabelGenerator implements Cloneable, Serializable {
      * @return An array of three items from the dataset formatted as
      *         {@code String} objects (never {@code null}).
      */
-    protected Object[] createItemArray(XYDataset dataset, int series,
+    protected Object[] createItemArray(XYDataset dataset, /*@NonNegative*/ int series,
                                        int item) {
         Object[] result = new Object[3];
         result[0] = dataset.getSeriesKey(series).toString();

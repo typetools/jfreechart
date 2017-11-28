@@ -83,6 +83,10 @@
 
 package org.jfree.chart.renderer.xy;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -1115,7 +1119,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
      * @return A legend item for the series.
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, int series) {
+    public LegendItem getLegendItem(int datasetIndex, /*@NonNegative*/ int series) {
         LegendItem result = null;
         XYPlot p = getPlot();
         if (p != null) {

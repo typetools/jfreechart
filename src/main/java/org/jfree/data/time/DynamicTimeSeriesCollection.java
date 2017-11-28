@@ -62,6 +62,10 @@
 
 package org.jfree.data.time;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -476,7 +480,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    public int getItemCount(int series) {  // all arrays equal length,
+    public int getItemCount(/*@NonNegative*/ int series) {  // all arrays equal length,
                                            // so ignore argument:
         return this.historyCount;
     }
@@ -726,7 +730,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
     // getXxx() ftns can ignore the "series" argument:
     // Don't synchronize this!! Instead, synchronize the loop that calls it.
     @Override
-    public Number getX(int series, int item) {
+    public Number getX(/*@NonNegative*/ int series, int item) {
         RegularTimePeriod tp = this.pointsInTime[translateGet(item)];
         return new Long(getX(tp));
     }
@@ -740,7 +744,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public double getYValue(int series, int item) {
+    public double getYValue(/*@NonNegative*/ int series, int item) {
         // Don't synchronize this!!
         // Instead, synchronize the loop that calls it.
         ValueSequence values = this.valueHistory[series];
@@ -756,7 +760,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getY(int series, int item) {
+    public Number getY(/*@NonNegative*/ int series, int item) {
         return new Float(getYValue(series, item));
     }
 
@@ -769,7 +773,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getStartX(int series, int item) {
+    public Number getStartX(/*@NonNegative*/ int series, int item) {
         RegularTimePeriod tp = this.pointsInTime[translateGet(item)];
         return new Long(tp.getFirstMillisecond(this.workingCalendar));
     }
@@ -783,7 +787,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getEndX(int series, int item) {
+    public Number getEndX(/*@NonNegative*/ int series, int item) {
         RegularTimePeriod tp = this.pointsInTime[translateGet(item)];
         return new Long(tp.getLastMillisecond(this.workingCalendar));
     }
@@ -797,7 +801,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getStartY(int series, int item) {
+    public Number getStartY(/*@NonNegative*/ int series, int item) {
         return getY(series, item);
     }
 
@@ -810,7 +814,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getEndY(int series, int item) {
+    public Number getEndY(/*@NonNegative*/ int series, int item) {
         return getY(series, item);
     }
 
@@ -833,7 +837,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The key.
      */
     @Override
-    public Comparable getSeriesKey(int series) {
+    public Comparable getSeriesKey(/*@NonNegative*/ int series) {
         return this.seriesKeys[series];
     }
 

@@ -163,56 +163,56 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
     private static final long serialVersionUID = 4087093313147984390L;
 
     /** A constant for unit type 'None'. */
-    public static final int UNITS_NONE = 0;
+    public static final /*@IntVal(0)*/ int UNITS_NONE = 0;
 
     /** A constant for unit type 'Fahrenheit'. */
-    public static final int UNITS_FAHRENHEIT = 1;
+    public static final /*@IntVal(1)*/ int UNITS_FAHRENHEIT = 1;
 
     /** A constant for unit type 'Celcius'. */
-    public static final int UNITS_CELCIUS = 2;
+    public static final /*@IntVal(2)*/ int UNITS_CELCIUS = 2;
 
     /** A constant for unit type 'Kelvin'. */
-    public static final int UNITS_KELVIN = 3;
+    public static final /*@IntVal(3)*/ int UNITS_KELVIN = 3;
 
     /** A constant for the value label position (no label). */
-    public static final int NONE = 0;
+    public static final /*@IntVal(0)*/ int NONE = 0;
 
     /** A constant for the value label position (right of the thermometer). */
-    public static final int RIGHT = 1;
+    public static final /*@IntVal(1)*/ int RIGHT = 1;
 
     /** A constant for the value label position (left of the thermometer). */
-    public static final int LEFT = 2;
+    public static final /*@IntVal(2)*/ int LEFT = 2;
 
     /** A constant for the value label position (in the thermometer bulb). */
-    public static final int BULB = 3;
+    public static final /*@IntVal(3)*/ int BULB = 3;
 
     /** A constant for the 'normal' range. */
-    public static final int NORMAL = 0;
+    public static final /*@IntVal(0)*/ int NORMAL = 0;
 
     /** A constant for the 'warning' range. */
-    public static final int WARNING = 1;
+    public static final /*@IntVal(1)*/ int WARNING = 1;
 
     /** A constant for the 'critical' range. */
-    public static final int CRITICAL = 2;
+    public static final /*@IntVal(2)*/ int CRITICAL = 2;
 
     /** The axis gap. */
-    protected static final int AXIS_GAP = 10;
+    protected static final /*@IntVal(10)*/ int AXIS_GAP = 10;
 
     /** The unit strings. */
     protected static final String /*@ArrayLen(4)*/ [] UNITS = {"", "\u00B0F", "\u00B0C",
             "\u00B0K"};
 
     /** Index for low value in subrangeInfo matrix. */
-    protected static final int RANGE_LOW = 0;
+    protected static final /*@IntVal(0)*/ int RANGE_LOW = 0;
 
     /** Index for high value in subrangeInfo matrix. */
-    protected static final int RANGE_HIGH = 1;
+    protected static final /*@IntVal(1)*/ int RANGE_HIGH = 1;
 
     /** Index for display low value in subrangeInfo matrix. */
-    protected static final int DISPLAY_LOW = 2;
+    protected static final /*@IntVal(2)*/ int DISPLAY_LOW = 2;
 
     /** Index for display high value in subrangeInfo matrix. */
-    protected static final int DISPLAY_HIGH = 3;
+    protected static final /*@IntVal(3)*/ int DISPLAY_HIGH = 3;
 
     /** The default lower bound. */
     protected static final double DEFAULT_LOWER_BOUND = 0.0;
@@ -225,21 +225,21 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
      *
      * @since 1.0.7
      */
-    protected static final int DEFAULT_BULB_RADIUS = 40;
+    protected static final /*@IntVal(40)*/ int DEFAULT_BULB_RADIUS = 40;
 
     /**
      * The default column radius.
      *
      * @since 1.0.7
      */
-    protected static final int DEFAULT_COLUMN_RADIUS = 20;
+    protected static final /*@IntVal(20)*/ int DEFAULT_COLUMN_RADIUS = 20;
 
     /**
      * The default gap between the outlines representing the thermometer.
      *
      * @since 1.0.7
      */
-    protected static final int DEFAULT_GAP = 5;
+    protected static final /*@IntVal(5)*/ int DEFAULT_GAP = 5;
 
     /** The dataset for the plot. */
     private ValueDataset dataset;
@@ -1367,7 +1367,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
      *
      * @return A boolean.
      */
-    private boolean inSubrange(int subrange, double value) {
+    private boolean inSubrange(/*@IndexFor("this.subrangeInfo")*/ int subrange, double value) {
         return (value > this.subrangeInfo[subrange][RANGE_LOW]
             && value <= this.subrangeInfo[subrange][RANGE_HIGH]);
     }
@@ -1524,6 +1524,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
      * @throws CloneNotSupportedException  if the plot cannot be cloned.
      */
     @Override
+    @SuppressWarnings({"index", "value"}) // clone always results in the same types
     public Object clone() throws CloneNotSupportedException {
 
         ThermometerPlot clone = (ThermometerPlot) super.clone();

@@ -63,6 +63,10 @@
 
 package org.jfree.chart.renderer;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.AlphaComposite;
 import java.awt.Composite;
 import java.awt.Graphics2D;
@@ -367,7 +371,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      *
      * @return A boolean.
      */
-    public boolean isSeriesFilled(int series) {
+    public boolean isSeriesFilled(/*@NonNegative*/ int series) {
         boolean result = false;
         Boolean b = this.seriesFilled.getBoolean(series);
         if (b != null) {
@@ -382,7 +386,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      * @param series  the series index.
      * @param filled  the flag.
      */
-    public void setSeriesFilled(int series, boolean filled) {
+    public void setSeriesFilled(/*@NonNegative*/ int series, boolean filled) {
         this.seriesFilled.setBoolean(series, Boolean.valueOf(filled));
     }
 
@@ -455,7 +459,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      *                 used if {@code area} is {@code null}).
      */
     protected void addEntity(EntityCollection entities, Shape area,
-                             XYDataset dataset, int series, int item,
+                             XYDataset dataset, /*@NonNegative*/ int series, int item,
                              double entityX, double entityY) {
         if (!getItemCreateEntity(series, item)) {
             return;
@@ -684,7 +688,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      * @return The legend item.
      */
     @Override
-    public LegendItem getLegendItem(int series) {
+    public LegendItem getLegendItem(/*@NonNegative*/ int series) {
         LegendItem result;
         PolarPlot plot = getPlot();
         if (plot == null) {
@@ -746,7 +750,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      * @since 1.0.14
      */
     @Override
-    public XYToolTipGenerator getToolTipGenerator(int series, int item) {
+    public XYToolTipGenerator getToolTipGenerator(/*@NonNegative*/ int series, int item) {
         XYToolTipGenerator generator
             = (XYToolTipGenerator) this.toolTipGeneratorList.get(series);
         if (generator == null) {
@@ -763,7 +767,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      * @since 1.0.14
      */
     @Override
-    public XYToolTipGenerator getSeriesToolTipGenerator(int series) {
+    public XYToolTipGenerator getSeriesToolTipGenerator(/*@NonNegative*/ int series) {
         return (XYToolTipGenerator) this.toolTipGeneratorList.get(series);
     }
 
@@ -776,7 +780,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      * @since 1.0.14
      */
     @Override
-    public void setSeriesToolTipGenerator(int series,
+    public void setSeriesToolTipGenerator(/*@NonNegative*/ int series,
             XYToolTipGenerator generator) {
         this.toolTipGeneratorList.set(series, generator);
         fireChangeEvent();

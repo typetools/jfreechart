@@ -42,6 +42,10 @@
 
 package org.jfree.chart.labels;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.MessageFormat;
@@ -157,7 +161,7 @@ public class StandardXYZToolTipGenerator extends StandardXYToolTipGenerator
      * @return The tooltip text (possibly {@code null}).
      */
     @Override
-    public String generateToolTip(XYZDataset dataset, int series, int item) {
+    public String generateToolTip(XYZDataset dataset, /*@NonNegative*/ int series, int item) {
         return generateLabelString(dataset, series, item);
     }
 
@@ -171,7 +175,7 @@ public class StandardXYZToolTipGenerator extends StandardXYToolTipGenerator
      * @return The label (possibly {@code null}).
      */
     @Override
-    public String generateLabelString(XYDataset dataset, int series, int item) {
+    public String generateLabelString(XYDataset dataset, /*@NonNegative*/ int series, int item) {
         String result;
         Object[] items = createItemArray((XYZDataset) dataset, series, item);
         result = MessageFormat.format(getFormatString(), items);

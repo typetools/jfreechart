@@ -51,6 +51,10 @@
 
 package org.jfree.data.gantt;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
@@ -120,7 +124,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      *
      * @since 1.0.1
      */
-    public TaskSeries getSeries(int series) {
+    public TaskSeries getSeries(/*@NonNegative*/ int series) {
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException("Series index out of bounds");
         }
@@ -145,7 +149,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The name of a series.
      */
     @Override
-    public Comparable getSeriesKey(int series) {
+    public Comparable getSeriesKey(/*@NonNegative*/ int series) {
         TaskSeries ts = (TaskSeries) this.data.get(series);
         return ts.getKey();
     }
@@ -297,7 +301,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      *
      * @param series  the series (zero based index).
      */
-    public void remove(int series) {
+    public void remove(/*@NonNegative*/ int series) {
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException(
                 "TaskSeriesCollection.remove(): index outside valid range.");

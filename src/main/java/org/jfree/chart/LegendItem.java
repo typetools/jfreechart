@@ -65,7 +65,7 @@
 package org.jfree.chart;
 
 /*>>>
-import org.checkerframework.checker.index.qual.IndexFor;
+import org.checkerframework.checker.index.qual.*;
  */
 
 import java.awt.BasicStroke;
@@ -122,7 +122,7 @@ public class LegendItem implements Cloneable, Serializable {
     private int datasetIndex;
 
     /** The series index. */
-    private int series;
+    private /*@NonNegative*/ int series;
 
     /** The label. */
     private String label;

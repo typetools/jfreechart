@@ -40,6 +40,10 @@
 
 package org.jfree.chart.labels;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.MessageFormat;
@@ -146,7 +150,7 @@ public class IntervalXYToolTipGenerator extends AbstractXYItemLabelGenerator
      *         {@code String} objects (never {@code null}).
      */
     @Override
-    protected Object[] createItemArray(XYDataset dataset, int series, 
+    protected Object[] createItemArray(XYDataset dataset, /*@NonNegative*/ int series,
             int item) {
         IntervalXYDataset intervalDataset = null;
         if (dataset instanceof IntervalXYDataset) {
@@ -227,7 +231,7 @@ public class IntervalXYToolTipGenerator extends AbstractXYItemLabelGenerator
      * @return The tool tip text (possibly {@code null}).
      */
     @Override
-    public String generateToolTip(XYDataset dataset, int series, int item) {
+    public String generateToolTip(XYDataset dataset, /*@NonNegative*/ int series, int item) {
         return generateLabelString(dataset, series, item);
     }
 

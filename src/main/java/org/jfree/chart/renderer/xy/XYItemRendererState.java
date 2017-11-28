@@ -48,6 +48,10 @@
 
 package org.jfree.chart.renderer.xy;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.geom.Line2D;
 
 import org.jfree.chart.plot.PlotRenderingInfo;
@@ -167,7 +171,7 @@ public class XYItemRendererState extends RendererState {
      *
      * @since 1.0.11
      */
-    public void startSeriesPass(XYDataset dataset, int series, int firstItem,
+    public void startSeriesPass(XYDataset dataset, /*@NonNegative*/ int series, int firstItem,
             int lastItem, int pass, int passCount) {
         this.firstItemIndex = firstItem;
         this.lastItemIndex = lastItem;
@@ -190,7 +194,7 @@ public class XYItemRendererState extends RendererState {
      *
      * @since 1.0.11
      */
-    public void endSeriesPass(XYDataset dataset, int series, int firstItem,
+    public void endSeriesPass(XYDataset dataset, /*@NonNegative*/ int series, int firstItem,
             int lastItem, int pass, int passCount) {
         // do nothing...this is just a hook for subclasses
     }

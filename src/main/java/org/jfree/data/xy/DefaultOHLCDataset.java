@@ -45,6 +45,10 @@
 
 package org.jfree.data.xy;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.util.Arrays;
 import java.util.Date;
 import org.jfree.chart.util.PublicCloneable;
@@ -81,7 +85,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The series key.
      */
     @Override
-    public Comparable getSeriesKey(int series) {
+    public Comparable getSeriesKey(/*@NonNegative*/ int series) {
         return this.key;
     }
 
@@ -94,7 +98,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The x-value.
      */
     @Override
-    public Number getX(int series, int item) {
+    public Number getX(/*@NonNegative*/ int series, int item) {
         return new Long(this.data[item].getDate().getTime());
     }
 
@@ -106,7 +110,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      *
      * @return The x-value as a date.
      */
-    public Date getXDate(int series, int item) {
+    public Date getXDate(/*@NonNegative*/ int series, int item) {
         return this.data[item].getDate();
     }
 
@@ -119,7 +123,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The y value.
      */
     @Override
-    public Number getY(int series, int item) {
+    public Number getY(/*@NonNegative*/ int series, int item) {
         return getClose(series, item);
     }
 
@@ -132,7 +136,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The high value.
      */
     @Override
-    public Number getHigh(int series, int item) {
+    public Number getHigh(/*@NonNegative*/ int series, int item) {
         return this.data[item].getHigh();
     }
 
@@ -146,7 +150,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The high-value.
      */
     @Override
-    public double getHighValue(int series, int item) {
+    public double getHighValue(/*@NonNegative*/ int series, int item) {
         double result = Double.NaN;
         Number high = getHigh(series, item);
         if (high != null) {
@@ -164,7 +168,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The low value.
      */
     @Override
-    public Number getLow(int series, int item) {
+    public Number getLow(/*@NonNegative*/ int series, int item) {
         return this.data[item].getLow();
     }
 
@@ -178,7 +182,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The low-value.
      */
     @Override
-    public double getLowValue(int series, int item) {
+    public double getLowValue(/*@NonNegative*/ int series, int item) {
         double result = Double.NaN;
         Number low = getLow(series, item);
         if (low != null) {
@@ -196,7 +200,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The open value.
      */
     @Override
-    public Number getOpen(int series, int item) {
+    public Number getOpen(/*@NonNegative*/ int series, int item) {
         return this.data[item].getOpen();
     }
 
@@ -210,7 +214,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The open-value.
      */
     @Override
-    public double getOpenValue(int series, int item) {
+    public double getOpenValue(/*@NonNegative*/ int series, int item) {
         double result = Double.NaN;
         Number open = getOpen(series, item);
         if (open != null) {
@@ -228,7 +232,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The close value.
      */
     @Override
-    public Number getClose(int series, int item) {
+    public Number getClose(/*@NonNegative*/ int series, int item) {
         return this.data[item].getClose();
     }
 
@@ -242,7 +246,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The close-value.
      */
     @Override
-    public double getCloseValue(int series, int item) {
+    public double getCloseValue(/*@NonNegative*/ int series, int item) {
         double result = Double.NaN;
         Number close = getClose(series, item);
         if (close != null) {
@@ -260,7 +264,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The trading volume.
      */
     @Override
-    public Number getVolume(int series, int item) {
+    public Number getVolume(/*@NonNegative*/ int series, int item) {
         return this.data[item].getVolume();
     }
 
@@ -274,7 +278,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The volume-value.
      */
     @Override
-    public double getVolumeValue(int series, int item) {
+    public double getVolumeValue(/*@NonNegative*/ int series, int item) {
         double result = Double.NaN;
         Number volume = getVolume(series, item);
         if (volume != null) {
@@ -301,7 +305,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The item count.
      */
     @Override
-    public int getItemCount(int series) {
+    public int getItemCount(/*@NonNegative*/ int series) {
         return this.data.length;
     }
 

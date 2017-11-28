@@ -116,6 +116,7 @@ package org.jfree.chart.axis;
 
 /*>>>
 import org.checkerframework.common.value.qual.ArrayLen;
+import org.checkerframework.dataflow.qual.Pure;
  */
 
 import java.awt.Font;
@@ -1475,6 +1476,7 @@ public abstract class ValueAxis extends Axis
      *
      * @see #java2DToValue(double, Rectangle2D, RectangleEdge)
      */
+    /*@Pure*/
     public abstract double valueToJava2D(double value, Rectangle2D area,
                                          RectangleEdge edge);
 

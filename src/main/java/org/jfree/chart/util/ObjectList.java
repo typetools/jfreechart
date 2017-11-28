@@ -28,6 +28,10 @@
 
 package org.jfree.chart.util;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 /**
  * A list of objects that can grow as required.
  * <p>
@@ -46,7 +50,7 @@ public class ObjectList extends AbstractObjectList {
      * 
      * @param initialCapacity  the initial capacity.
      */
-    public ObjectList(int initialCapacity) {
+    public ObjectList(/*@NonNegative*/ int initialCapacity) {
         super(initialCapacity);
     }
     
@@ -75,7 +79,7 @@ public class ObjectList extends AbstractObjectList {
      * @param object  the object ({@code null} permitted).          
      */          
     @Override
-    public void set(int index, Object object) {      
+    public void set(/*@NonNegative*/ int index, Object object) {
         super.set(index, object);        
     }    
          

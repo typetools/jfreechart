@@ -41,6 +41,10 @@
  */
 package org.jfree.chart.urls;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +101,7 @@ public class CustomCategoryURLGenerator implements CategoryURLGenerator,
      *
      * @return The URL (possibly {@code null}).
      */
-    public String getURL(int series, int item) {
+    public String getURL(/*@NonNegative*/ int series, int item) {
         String result = null;
         if (series < getListCount()) {
             List urls = (List) this.urlSeries.get(series);
@@ -120,7 +124,7 @@ public class CustomCategoryURLGenerator implements CategoryURLGenerator,
      * @return A string containing the URL (possibly {@code null}).
      */
     @Override
-    public String generateURL(CategoryDataset dataset, int series, int item) {
+    public String generateURL(CategoryDataset dataset, /*@NonNegative*/ int series, int item) {
         return getURL(series, item);
     }
 

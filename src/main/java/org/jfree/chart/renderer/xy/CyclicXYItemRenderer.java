@@ -47,6 +47,10 @@
 
 package org.jfree.chart.renderer.xy;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
@@ -363,7 +367,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The item count.
          */
         @Override
-        public int getItemCount(int series) {
+        public int getItemCount(/*@NonNegative*/ int series) {
             return this.x.length;
         }
 
@@ -376,7 +380,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The x-value.
          */
         @Override
-        public Number getX(int series, int item) {
+        public Number getX(/*@NonNegative*/ int series, int item) {
             return this.x[item];
         }
 
@@ -390,7 +394,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The x-value.
          */
         @Override
-        public double getXValue(int series, int item) {
+        public double getXValue(/*@NonNegative*/ int series, int item) {
             double result = Double.NaN;
             Number xx = getX(series, item);
             if (xx != null) {
@@ -408,7 +412,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The y-value.
          */
         @Override
-        public Number getY(int series, int item) {
+        public Number getY(/*@NonNegative*/ int series, int item) {
             return this.y[item];
         }
 
@@ -422,7 +426,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The y-value.
          */
         @Override
-        public double getYValue(int series, int item) {
+        public double getYValue(/*@NonNegative*/ int series, int item) {
             double result = Double.NaN;
             Number yy = getY(series, item);
             if (yy != null) {
@@ -449,7 +453,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The series name.
          */
         @Override
-        public Comparable getSeriesKey(int series) {
+        public Comparable getSeriesKey(/*@NonNegative*/ int series) {
             return this.delegateSet.getSeriesKey(series);
         }
 

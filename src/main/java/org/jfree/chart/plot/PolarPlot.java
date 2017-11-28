@@ -62,6 +62,10 @@
 
 package org.jfree.chart.plot;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -383,7 +387,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void setAxis(int index, ValueAxis axis) {
+    public void setAxis(/*@NonNegative*/ int index, ValueAxis axis) {
         setAxis(index, axis, true);
     }
 
@@ -399,7 +403,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void setAxis(int index, ValueAxis axis, boolean notify) {
+    public void setAxis(/*@NonNegative*/ int index, ValueAxis axis, boolean notify) {
         ValueAxis existing = getAxis(index);
         if (existing != null) {
             existing.removeChangeListener(this);
@@ -441,7 +445,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public PolarAxisLocation getAxisLocation(int index) {
+    public PolarAxisLocation getAxisLocation(/*@NonNegative*/ int index) {
         PolarAxisLocation result = null;
         if (index < this.axisLocations.size()) {
             result = (PolarAxisLocation) this.axisLocations.get(index);
@@ -491,7 +495,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void setAxisLocation(int index, PolarAxisLocation location) {
+    public void setAxisLocation(/*@NonNegative*/ int index, PolarAxisLocation location) {
         // delegate...
         setAxisLocation(index, location, true);
     }
@@ -506,7 +510,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void setAxisLocation(int index, PolarAxisLocation location,
+    public void setAxisLocation(/*@NonNegative*/ int index, PolarAxisLocation location,
             boolean notify) {
         Args.nullNotPermitted(location, "location");
         this.axisLocations.set(index, location);
@@ -548,7 +552,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public XYDataset getDataset(int index) {
+    public XYDataset getDataset(/*@NonNegative*/ int index) {
         XYDataset result = null;
         if (index < this.datasets.size()) {
             result = (XYDataset) this.datasets.get(index);
@@ -581,7 +585,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void setDataset(int index, XYDataset dataset) {
+    public void setDataset(/*@NonNegative*/ int index, XYDataset dataset) {
         XYDataset existing = getDataset(index);
         if (existing != null) {
             existing.removeChangeListener(this);
@@ -682,7 +686,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void setRenderer(int index, PolarItemRenderer renderer) {
+    public void setRenderer(/*@NonNegative*/ int index, PolarItemRenderer renderer) {
         setRenderer(index, renderer, true);
     }
 
@@ -698,7 +702,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void setRenderer(int index, PolarItemRenderer renderer,
+    public void setRenderer(/*@NonNegative*/ int index, PolarItemRenderer renderer,
                             boolean notify) {
         PolarItemRenderer existing = getRenderer(index);
         if (existing != null) {

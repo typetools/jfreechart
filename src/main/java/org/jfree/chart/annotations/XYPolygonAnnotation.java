@@ -213,6 +213,7 @@ public class XYPolygonAnnotation extends AbstractXYAnnotation
         if (this.polygon.length < 4) {
             return;
         }
+
         PlotOrientation orientation = plot.getOrientation();
         RectangleEdge domainEdge = Plot.resolveDomainAxisLocation(
                 plot.getDomainAxisLocation(), orientation);
@@ -220,8 +221,11 @@ public class XYPolygonAnnotation extends AbstractXYAnnotation
                 plot.getRangeAxisLocation(), orientation);
 
         GeneralPath area = new GeneralPath();
+
+        @SuppressWarnings("index") // Length is checked above, and all functions called in-between are pure
         double x = domainAxis.valueToJava2D(this.polygon[0], dataArea,
                 domainEdge);
+        @SuppressWarnings("index") // Length is checked above, and all functions called in-between are pure
         double y = rangeAxis.valueToJava2D(this.polygon[1], dataArea,
                 rangeEdge);
         if (orientation == PlotOrientation.HORIZONTAL) {

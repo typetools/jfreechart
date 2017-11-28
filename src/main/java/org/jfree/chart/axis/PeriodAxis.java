@@ -1147,7 +1147,7 @@ public class PeriodAxis extends ValueAxis
     public Object clone() throws CloneNotSupportedException {
         PeriodAxis clone = (PeriodAxis) super.clone();
         clone.timeZone = (TimeZone) this.timeZone.clone();
-        clone.labelInfo = (PeriodAxisLabelInfo[]) this.labelInfo.clone();
+        clone.labelInfo = (PeriodAxisLabelInfo /*@ArrayLen(2)*/ []) this.labelInfo.clone();
         return clone;
     }
 

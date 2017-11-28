@@ -44,6 +44,10 @@
 
 package org.jfree.chart.labels;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.io.Serializable;
 import java.text.MessageFormat;
 
@@ -99,7 +103,7 @@ public class StandardXYSeriesLabelGenerator implements XYSeriesLabelGenerator,
      * @return A series label.
      */
     @Override
-    public String generateLabel(XYDataset dataset, int series) {
+    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series) {
         Args.nullNotPermitted(dataset, "dataset");
         String label = MessageFormat.format(
             this.formatPattern, createItemArray(dataset, series)
@@ -116,7 +120,7 @@ public class StandardXYSeriesLabelGenerator implements XYSeriesLabelGenerator,
      *
      * @return The items (never {@code null}).
      */
-    protected Object[] createItemArray(XYDataset dataset, int series) {
+    protected Object[] createItemArray(XYDataset dataset, /*@NonNegative*/ int series) {
         Object[] result = new Object[1];
         result[0] = dataset.getSeriesKey(series).toString();
         return result;

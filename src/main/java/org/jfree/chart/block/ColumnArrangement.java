@@ -41,6 +41,10 @@
 
 package org.jfree.chart.block;
 
+/*>>>
+import org.checkerframework.checker.index.qual.SameLen;
+ */
+
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
@@ -308,6 +312,7 @@ public class ColumnArrangement implements Arrangement, Serializable {
      *
      * @return The size after the arrangement.
      */
+    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/152
     protected Size2D arrangeNN(BlockContainer container, Graphics2D g2) {
         double y = 0.0;
         double height = 0.0;

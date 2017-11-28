@@ -496,7 +496,8 @@ public class CombinedDomainXYPlot extends XYPlot
         parentState.getSharedAxisStates().put(axis, axisState);
 
         // draw all the subplots
-        for (int i = 0; i < this.subplots.size(); i++) {
+        // this.subplotAreas and this.subplots always have the same length
+        for (int i = 0; i < this.subplotAreas.length; i++) {
             XYPlot plot = (XYPlot) this.subplots.get(i);
             PlotRenderingInfo subplotInfo = null;
             if (info != null) {

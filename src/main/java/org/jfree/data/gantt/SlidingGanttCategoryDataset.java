@@ -40,6 +40,10 @@
 
 package org.jfree.data.gantt;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.util.Collections;
 import java.util.List;
 import org.jfree.chart.util.PublicCloneable;
@@ -402,7 +406,7 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
      * @return The percent complete.
      */
     @Override
-    public Number getPercentComplete(int series, int category) {
+    public Number getPercentComplete(/*@NonNegative*/ int series, int category) {
         return this.underlying.getPercentComplete(series,
                 category + this.firstCategoryIndex);
     }
@@ -575,7 +579,7 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
      * @return The end value (possibly {@code null}).
      */
     @Override
-    public Number getEndValue(int series, int category) {
+    public Number getEndValue(/*@NonNegative*/ int series, int category) {
         return this.underlying.getEndValue(series,
                 category + this.firstCategoryIndex);
     }

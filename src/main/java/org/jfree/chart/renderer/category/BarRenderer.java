@@ -96,6 +96,10 @@
 
 package org.jfree.chart.renderer.category;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -917,7 +921,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
      * @return The legend item (possibly {@code null}).
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, int series) {
+    public LegendItem getLegendItem(int datasetIndex, /*@NonNegative*/ int series) {
 
         CategoryPlot cp = getPlot();
         if (cp == null) {
@@ -1104,7 +1108,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
      * @return The width of one series.
      */
     protected double calculateSeriesWidth(double space, CategoryAxis axis,
-                                          int categories, int series) {
+                                          int categories, /*@NonNegative*/ int series) {
         double factor = 1.0 - getItemMargin() - axis.getLowerMargin()
                             - axis.getUpperMargin();
         if (categories > 1) {

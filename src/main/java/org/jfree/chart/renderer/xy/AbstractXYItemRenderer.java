@@ -129,6 +129,10 @@
 
 package org.jfree.chart.renderer.xy;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.AlphaComposite;
 import java.awt.Composite;
 import java.awt.Font;
@@ -344,7 +348,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @return The generator (possibly {@code null}).
      */
     @Override
-    public XYItemLabelGenerator getItemLabelGenerator(int series, int item) {
+    public XYItemLabelGenerator getItemLabelGenerator(/*@NonNegative*/ int series, int item) {
 
         // otherwise look up the generator table
         XYItemLabelGenerator generator
@@ -363,7 +367,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @return The generator (possibly {@code null}).
      */
     @Override
-    public XYItemLabelGenerator getSeriesItemLabelGenerator(int series) {
+    public XYItemLabelGenerator getSeriesItemLabelGenerator(/*@NonNegative*/ int series) {
         return this.itemLabelGeneratorMap.get(series);
     }
 
@@ -375,7 +379,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @param generator  the generator ({@code null} permitted).
      */
     @Override
-    public void setSeriesItemLabelGenerator(int series,
+    public void setSeriesItemLabelGenerator(/*@NonNegative*/ int series,
             XYItemLabelGenerator generator) {
         this.itemLabelGeneratorMap.put(series, generator);
         fireChangeEvent();
@@ -416,7 +420,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @return The generator (possibly {@code null}).
      */
     @Override
-    public XYToolTipGenerator getToolTipGenerator(int series, int item) {
+    public XYToolTipGenerator getToolTipGenerator(/*@NonNegative*/ int series, int item) {
 
         // otherwise look up the generator table
         XYToolTipGenerator generator
@@ -435,7 +439,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @return The generator (possibly {@code null}).
      */
     @Override
-    public XYToolTipGenerator getSeriesToolTipGenerator(int series) {
+    public XYToolTipGenerator getSeriesToolTipGenerator(/*@NonNegative*/ int series) {
         return this.toolTipGeneratorMap.get(series);
     }
 
@@ -447,7 +451,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @param generator  the generator ({@code null} permitted).
      */
     @Override
-    public void setSeriesToolTipGenerator(int series,
+    public void setSeriesToolTipGenerator(/*@NonNegative*/ int series,
             XYToolTipGenerator generator) {
         this.toolTipGeneratorMap.put(series, generator);
         fireChangeEvent();
@@ -837,7 +841,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @return A legend item for the series.
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, int series) {
+    public LegendItem getLegendItem(int datasetIndex, /*@NonNegative*/ int series) {
         XYPlot xyplot = getPlot();
         if (xyplot == null) {
             return null;
@@ -1624,7 +1628,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      *                  label position).
      */
     protected void drawItemLabel(Graphics2D g2, PlotOrientation orientation,
-            XYDataset dataset, int series, int item, double x, double y,
+            XYDataset dataset, /*@NonNegative*/ int series, int item, double x, double y,
             boolean negative) {
 
         XYItemLabelGenerator generator = getItemLabelGenerator(series, item);
@@ -1708,7 +1712,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      *         {@code hotspot} is {@code null}).
      */
     protected void addEntity(EntityCollection entities, Shape hotspot,
-            XYDataset dataset, int series, int item, double entityX, 
+            XYDataset dataset, /*@NonNegative*/ int series, int item, double entityX,
             double entityY) {
         
         if (!getItemCreateEntity(series, item)) {

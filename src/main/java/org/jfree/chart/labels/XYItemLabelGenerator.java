@@ -48,6 +48,10 @@
 
 package org.jfree.chart.labels;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import org.jfree.data.xy.XYDataset;
 
 /**
@@ -66,6 +70,6 @@ public interface XYItemLabelGenerator {
      *
      * @return The label (possibly {@code null}).
      */
-    public String generateLabel(XYDataset dataset, int series, int item);
+    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, int item);
 
 }

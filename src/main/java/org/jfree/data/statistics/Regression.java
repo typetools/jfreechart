@@ -46,6 +46,10 @@
 
 package org.jfree.data.statistics;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import org.jfree.chart.util.Args;
 import org.jfree.data.xy.XYDataset;
 
@@ -107,7 +111,7 @@ public abstract class Regression {
      *
      * @return The parameters.
      */
-    public static double[] getOLSRegression(XYDataset data, int series) {
+    public static double[] getOLSRegression(XYDataset data, /*@NonNegative*/ int series) {
 
         int n = data.getItemCount(series);
         if (n < 2) {
@@ -194,7 +198,7 @@ public abstract class Regression {
      *
      * @return The parameters.
      */
-    public static double[] getPowerRegression(XYDataset data, int series) {
+    public static double[] getPowerRegression(XYDataset data, /*@NonNegative*/ int series) {
 
         int n = data.getItemCount(series);
         if (n < 2) {

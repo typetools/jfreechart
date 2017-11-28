@@ -70,6 +70,7 @@ package org.jfree.chart.plot;
 
 /*>>>
 import org.checkerframework.common.value.qual.ArrayLen;
+import org.checkerframework.checker.index.qual.SameLen;
 import org.checkerframework.checker.index.qual.PolySameLen;
 */
 
@@ -127,7 +128,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
     public static final Paint DEFAULT_GRIDLINE_PAINT = Color.lightGray;
 
     /** The data. */
-    private float /*@ArrayLen(2)*/ [] /*@PolySameLen*/ [] data;
+    private float /*@ArrayLen(2)*/ [] /*@SameLen({"this.data[0]", "this.data[1]"})*/ [] data;
 
     /** The x data range. */
     private Range xDataRange;
@@ -200,7 +201,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
      * @param domainAxis  the domain (x) axis ({@code null} not permitted).
      * @param rangeAxis  the range (y) axis ({@code null} not permitted).
      */
-    public FastScatterPlot(float /*@ArrayLen(2)*/ [] /*@PolySameLen*/ [] data,
+    public FastScatterPlot(float /*@ArrayLen(2)*/ [] /*@SameLen({"data[0]", "data[1]"})*/ [] data,
                            ValueAxis domainAxis, ValueAxis rangeAxis) {
 
         super();
@@ -257,7 +258,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #getData()
      */
-    public void setData(float /*@ArrayLen(2)*/ [] /*@PolySameLen*/ [] data) {
+    public void setData(float /*@ArrayLen(2)*/ [] /*@SameLen({"data[0]", "data[1]"})*/ [] data) {
         this.data = data;
         fireChangeEvent();
     }
@@ -706,7 +707,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @return The range.
      */
-    private Range calculateXDataRange(float[][] data) {
+    private Range calculateXDataRange(float /*@ArrayLen(2)*/ [] /*@SameLen({"data[0]", "data[1]"})*/ [] data) {
 
         Range result = null;
 
@@ -738,7 +739,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @return The range.
      */
-    private Range calculateYDataRange(float[][] data) {
+    private Range calculateYDataRange(float /*@ArrayLen(2)*/ [] /*@SameLen({"data[0]", "data[1]"})*/ [] data) {
 
         Range result = null;
         if (data != null) {
@@ -1071,6 +1072,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
      *                                    not support cloning.
      */
     @Override
+    @SuppressWarnings("index") // clone always results in the same types
     public Object clone() throws CloneNotSupportedException {
 
         FastScatterPlot clone = (FastScatterPlot) super.clone();

@@ -67,6 +67,14 @@
 
 package org.jfree.chart.plot;
 
+/*>>>
+import org.checkerframework.common.value.qual.MinLen;
+import org.checkerframework.checker.index.qual.SameLen;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.LTLengthOf;
+import org.checkerframework.checker.index.qual.IndexFor;
+ */
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -162,10 +170,12 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
     private transient Rectangle2D rect1;
 
     /** An array of value datasets. */
-    private ValueDataset[] datasets = new ValueDataset[1];
+    @SuppressWarnings("index") // this.datasets and this.seriesNeedle are always updated in tandem
+    private ValueDataset /*@MinLen(1)*/ /*@SameLen("this.seriesNeedle")*/ [] datasets = new ValueDataset[1];
 
     /** An array of needles. */
-    private MeterNeedle[] seriesNeedle = new MeterNeedle[1];
+    @SuppressWarnings("index") // this.datasets and this.seriesNeedle are always updated in tandem
+    private MeterNeedle /*@MinLen(1)*/ /*@SameLen("this.datasets")*/ [] seriesNeedle = new MeterNeedle[1];
 
     /** The resourceBundle for the localization. */
     protected static ResourceBundle localizationResources
@@ -369,7 +379,7 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
      *
      * @see #setSeriesOutlinePaint(int, Paint)
      */
-    public void setSeriesPaint(int series, Paint paint) {
+    public void setSeriesPaint(/*@NonNegative*/ int series, Paint paint) {
        // super.setSeriesPaint(series, paint);
         if ((series >= 0) && (series < this.seriesNeedle.length)) {
             this.seriesNeedle[series].setFillPaint(paint);
@@ -384,7 +394,7 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
      *
      * @see #setSeriesPaint(int, Paint)
      */
-    public void setSeriesOutlinePaint(int series, Paint p) {
+    public void setSeriesOutlinePaint(/*@NonNegative*/ int series, Paint p) {
 
         if ((series >= 0) && (series < this.seriesNeedle.length)) {
             this.seriesNeedle[series].setOutlinePaint(p);
@@ -400,7 +410,7 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
      *
      * @see #setSeriesOutlinePaint(int, Paint)
      */
-    public void setSeriesOutlineStroke(int series, Stroke stroke) {
+    public void setSeriesOutlineStroke(/*@NonNegative*/ int series, Stroke stroke) {
 
         if ((series >= 0) && (series < this.seriesNeedle.length)) {
             this.seriesNeedle[series].setOutlineStroke(stroke);
@@ -438,12 +448,14 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
      *
      * @see #setSeriesNeedle(int)
      */
-    public void setSeriesNeedle(int index, int type) {
+    public void setSeriesNeedle(/*@NonNegative*/ int index, int type) {
         switch (type) {
             case 0:
                 setSeriesNeedle(index, new ArrowNeedle(true));
                 setSeriesPaint(index, Color.RED);
-                this.seriesNeedle[index].setHighlightPaint(Color.WHITE);
+                @SuppressWarnings("index") // I believe this is a bug TODO: explain why and/or verify this
+                MeterNeedle seriesNeedOfIndex = this.seriesNeedle[index];
+                seriesNeedOfIndex.setHighlightPaint(Color.WHITE);
                 break;
             case 1:
                 setSeriesNeedle(index, new LineNeedle());
@@ -491,7 +503,7 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
      * @param index  the series index.
      * @param needle  the needle.
      */
-    public void setSeriesNeedle(int index, MeterNeedle needle) {
+    public void setSeriesNeedle(/*@NonNegative*/ int index, MeterNeedle needle) {
         if ((needle != null) && (index < this.seriesNeedle.length)) {
             this.seriesNeedle[index] = needle;
         }
@@ -537,7 +549,10 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
                 t[i] = this.datasets[i];
                 p[i] = this.seriesNeedle[i];
             }
-            i = this.datasets.length;
+
+            @SuppressWarnings("index") // arrays have correlated but non-equal length
+            /*@LTLengthOf(value = {"t", "p", "p", "this.datasets"}, offset = {"0", "0", "-1", "-1"})*/ int newI = this.datasets.length;
+            i = newI;
             t[i] = dataset;
             p[i] = ((needle != null) ? needle : p[i - 1]);
 
@@ -682,7 +697,9 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
                 value = (data.getValue().doubleValue())
                     % this.revolutionDistance;
                 value = value / this.revolutionDistance * 360;
-                current = i % x;
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/195
+                /*@IndexFor("this.seriesNeedle")*/ int current1 = i % x;
+                current = current1;
                 this.seriesNeedle[current].draw(g2, needleArea, value);
             }
         }
@@ -801,6 +818,7 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
      *         exception, but subclasses (if any) might.
      */
     @Override
+    @SuppressWarnings({"value", "index"}) // clone results in identical types
     public Object clone() throws CloneNotSupportedException {
 
         CompassPlot clone = (CompassPlot) super.clone();

@@ -44,6 +44,10 @@
 
 package org.jfree.data.general;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.io.Serializable;
 
 /**
@@ -84,7 +88,7 @@ public abstract class AbstractSeriesDataset extends AbstractDataset
      * @return The series key.
      */
     @Override
-    public abstract Comparable getSeriesKey(int series);
+    public abstract Comparable getSeriesKey(/*@NonNegative*/ int series);
 
     /**
      * Returns the index of the named series, or -1.

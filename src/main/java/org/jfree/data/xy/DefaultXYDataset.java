@@ -43,6 +43,10 @@
 
 package org.jfree.data.xy;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -104,7 +108,7 @@ public class DefaultXYDataset extends AbstractXYDataset
      *     specified range.
      */
     @Override
-    public Comparable getSeriesKey(int series) {
+    public Comparable getSeriesKey(/*@NonNegative*/ int series) {
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException("Series index out of bounds");
         }
@@ -148,7 +152,7 @@ public class DefaultXYDataset extends AbstractXYDataset
      *     specified range.
      */
     @Override
-    public int getItemCount(int series) {
+    public int getItemCount(/*@NonNegative*/ int series) {
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException("Series index out of bounds");
         }
@@ -174,7 +178,7 @@ public class DefaultXYDataset extends AbstractXYDataset
      * @see #getX(int, int)
      */
     @Override
-    public double getXValue(int series, int item) {
+    public double getXValue(/*@NonNegative*/ int series, int item) {
         double[][] seriesData = (double[][]) this.seriesList.get(series);
         return seriesData[0][item];
     }
@@ -197,7 +201,7 @@ public class DefaultXYDataset extends AbstractXYDataset
      * @see #getXValue(int, int)
      */
     @Override
-    public Number getX(int series, int item) {
+    public Number getX(/*@NonNegative*/ int series, int item) {
         return new Double(getXValue(series, item));
     }
 
@@ -219,7 +223,7 @@ public class DefaultXYDataset extends AbstractXYDataset
      * @see #getY(int, int)
      */
     @Override
-    public double getYValue(int series, int item) {
+    public double getYValue(/*@NonNegative*/ int series, int item) {
         double[][] seriesData = (double[][]) this.seriesList.get(series);
         return seriesData[1][item];
     }
@@ -242,7 +246,7 @@ public class DefaultXYDataset extends AbstractXYDataset
      * @see #getX(int, int)
      */
     @Override
-    public Number getY(int series, int item) {
+    public Number getY(/*@NonNegative*/ int series, int item) {
         return new Double(getYValue(series, item));
     }
 

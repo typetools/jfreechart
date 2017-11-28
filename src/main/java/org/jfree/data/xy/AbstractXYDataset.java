@@ -43,6 +43,10 @@
 
 package org.jfree.data.xy;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import org.jfree.data.DomainOrder;
 import org.jfree.data.general.AbstractSeriesDataset;
 
@@ -72,7 +76,7 @@ public abstract class AbstractXYDataset extends AbstractSeriesDataset
      * @return The value.
      */
     @Override
-    public double getXValue(int series, int item) {
+    public double getXValue(/*@NonNegative*/ int series, int item) {
         double result = Double.NaN;
         Number x = getX(series, item);
         if (x != null) {
@@ -90,7 +94,7 @@ public abstract class AbstractXYDataset extends AbstractSeriesDataset
      * @return The value.
      */
     @Override
-    public double getYValue(int series, int item) {
+    public double getYValue(/*@NonNegative*/ int series, int item) {
         double result = Double.NaN;
         Number y = getY(series, item);
         if (y != null) {

@@ -428,7 +428,7 @@ public class TestIntervalCategoryDataset extends AbstractDataset
     }
 
     @Override
-    public Number getStartValue(int series, int category) {
+    public Number getStartValue(/*@NonNegative*/ int series, int category) {
         IntervalDataItem item = (IntervalDataItem) this.data.getObject(series,
                 category);
         if (item == null) {
@@ -448,7 +448,7 @@ public class TestIntervalCategoryDataset extends AbstractDataset
     }
 
     @Override
-    public Number getEndValue(int series, int category) {
+    public Number getEndValue(/*@NonNegative*/ int series, int category) {
         IntervalDataItem item = (IntervalDataItem) this.data.getObject(series,
                 category);
         if (item == null) {

@@ -52,6 +52,10 @@
 
 package org.jfree.chart.labels;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -118,7 +122,7 @@ public class HighLowItemLabelGenerator implements XYItemLabelGenerator,
      * @return The tooltip text.
      */
     @Override
-    public String generateToolTip(XYDataset dataset, int series, int item) {
+    public String generateToolTip(XYDataset dataset, /*@NonNegative*/ int series, int item) {
         if (!(dataset instanceof OHLCDataset)) {
             return null;
         }
@@ -164,7 +168,7 @@ public class HighLowItemLabelGenerator implements XYItemLabelGenerator,
      * @return The label (possibly {@code null}).
      */
     @Override
-    public String generateLabel(XYDataset dataset, int series, int category) {
+    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, int category) {
         return null;  //TODO: implement this method properly
     }
 

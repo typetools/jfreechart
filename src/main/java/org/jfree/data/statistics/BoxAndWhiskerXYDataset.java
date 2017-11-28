@@ -52,6 +52,10 @@
 
 package org.jfree.data.statistics;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.util.List;
 
 import org.jfree.data.xy.XYDataset;
@@ -73,7 +77,7 @@ public interface BoxAndWhiskerXYDataset extends XYDataset {
      *
      * @return The mean for the specified series and item.
      */
-    public Number getMeanValue(int series, int item);
+    public Number getMeanValue(/*@NonNegative*/ int series, int item);
 
     /**
      * Returns the median-value for the specified series and item.
@@ -83,7 +87,7 @@ public interface BoxAndWhiskerXYDataset extends XYDataset {
      *
      * @return The median-value for the specified series and item.
      */
-    public Number getMedianValue(int series, int item);
+    public Number getMedianValue(/*@NonNegative*/ int series, int item);
 
     /**
      * Returns the Q1 median-value for the specified series and item.
@@ -93,7 +97,7 @@ public interface BoxAndWhiskerXYDataset extends XYDataset {
      *
      * @return The Q1 median-value for the specified series and item.
      */
-    public Number getQ1Value(int series, int item);
+    public Number getQ1Value(/*@NonNegative*/ int series, int item);
 
     /**
      * Returns the Q3 median-value for the specified series and item.
@@ -103,7 +107,7 @@ public interface BoxAndWhiskerXYDataset extends XYDataset {
      *
      * @return The Q3 median-value for the specified series and item.
      */
-    public Number getQ3Value(int series, int item);
+    public Number getQ3Value(/*@NonNegative*/ int series, int item);
 
     /**
      * Returns the min-value for the specified series and item.
@@ -113,7 +117,7 @@ public interface BoxAndWhiskerXYDataset extends XYDataset {
      *
      * @return The min-value for the specified series and item.
      */
-    public Number getMinRegularValue(int series, int item);
+    public Number getMinRegularValue(/*@NonNegative*/ int series, int item);
 
     /**
      * Returns the max-value for the specified series and item.
@@ -123,7 +127,7 @@ public interface BoxAndWhiskerXYDataset extends XYDataset {
      *
      * @return The max-value for the specified series and item.
      */
-    public Number getMaxRegularValue(int series, int item);
+    public Number getMaxRegularValue(/*@NonNegative*/ int series, int item);
 
     /**
      * Returns the minimum value which is not a farout.
@@ -132,7 +136,7 @@ public interface BoxAndWhiskerXYDataset extends XYDataset {
      *
      * @return A {@code Number} representing the maximum non-farout value.
      */
-    public Number getMinOutlier(int series, int item);
+    public Number getMinOutlier(/*@NonNegative*/ int series, int item);
 
     /**
      * Returns the maximum value which is not a farout, ie Q3 + (interquartile
@@ -143,7 +147,7 @@ public interface BoxAndWhiskerXYDataset extends XYDataset {
      *
      * @return A {@code Number} representing the maximum non-farout value.
      */
-    public Number getMaxOutlier(int series, int item);
+    public Number getMaxOutlier(/*@NonNegative*/ int series, int item);
 
     /**
      * Returns a list of outliers for the specified series and item.
@@ -154,7 +158,7 @@ public interface BoxAndWhiskerXYDataset extends XYDataset {
      * @return The list of outliers for the specified series and item
      *         (possibly {@code null}).
      */
-    public List getOutliers(int series, int item);
+    public List getOutliers(/*@NonNegative*/ int series, int item);
 
     /**
      * Returns the value used as the outlier coefficient. The outlier

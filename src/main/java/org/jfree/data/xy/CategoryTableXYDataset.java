@@ -49,6 +49,10 @@
 
 package org.jfree.data.xy;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.DefaultKeyedValues2D;
 import org.jfree.data.DomainInfo;
@@ -171,7 +175,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The key for a series.
      */
     @Override
-    public Comparable getSeriesKey(int series) {
+    public Comparable getSeriesKey(/*@NonNegative*/ int series) {
         return this.values.getColumnKey(series);
     }
 
@@ -194,7 +198,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    public int getItemCount(int series) {
+    public int getItemCount(/*@NonNegative*/ int series) {
         return getItemCount();  // all series have the same number of items in
                                 // this dataset
     }
@@ -208,7 +212,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getX(int series, int item) {
+    public Number getX(/*@NonNegative*/ int series, int item) {
         return (Number) this.values.getRowKey(item);
     }
 
@@ -221,7 +225,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The starting X value.
      */
     @Override
-    public Number getStartX(int series, int item) {
+    public Number getStartX(/*@NonNegative*/ int series, int item) {
         return this.intervalDelegate.getStartX(series, item);
     }
 
@@ -234,7 +238,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The ending X value.
      */
     @Override
-    public Number getEndX(int series, int item) {
+    public Number getEndX(/*@NonNegative*/ int series, int item) {
         return this.intervalDelegate.getEndX(series, item);
     }
 
@@ -247,7 +251,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The y value (possibly {@code null}).
      */
     @Override
-    public Number getY(int series, int item) {
+    public Number getY(/*@NonNegative*/ int series, int item) {
         return this.values.getValue(item, series);
     }
 
@@ -260,7 +264,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The starting Y value.
      */
     @Override
-    public Number getStartY(int series, int item) {
+    public Number getStartY(/*@NonNegative*/ int series, int item) {
         return getY(series, item);
     }
 
@@ -273,7 +277,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The ending Y value.
      */
     @Override
-    public Number getEndY(int series, int item) {
+    public Number getEndY(/*@NonNegative*/ int series, int item) {
         return getY(series, item);
     }
 

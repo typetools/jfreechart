@@ -45,6 +45,10 @@
 
 package org.jfree.chart.renderer.xy;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
@@ -168,7 +172,7 @@ public class SamplingXYLineRenderer extends AbstractXYItemRenderer
          * @param passCount  the number of passes.
          */
         @Override
-        public void startSeriesPass(XYDataset dataset, int series,
+        public void startSeriesPass(XYDataset dataset, /*@NonNegative*/ int series,
                 int firstItem, int lastItem, int pass, int passCount) {
             this.seriesPath.reset();
             this.intervalPath.reset();

@@ -41,6 +41,11 @@
 
 package org.jfree.chart.axis;
 
+/*>>>
+import org.checkerframework.common.value.qual.ArrayLen;
+import org.checkerframework.common.value.qual.IntRange;
+ */
+
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.FieldPosition;
@@ -64,10 +69,10 @@ import org.jfree.data.time.Month;
 public class MonthDateFormat extends DateFormat {
 
     /** The symbols used for the months. */
-    private String[] months;
+    private String /*@ArrayLen(12)*/ [] months;
 
     /** Flags that control which months will have the year appended. */
-    private boolean[] showYear;
+    private boolean /*@ArrayLen(13)*/ [] showYear;
 
     /** The year formatter. */
     private DateFormat yearFormatter;
@@ -163,18 +168,21 @@ public class MonthDateFormat extends DateFormat {
      * @param yearFormatter  the year formatter.
      */
     public MonthDateFormat(TimeZone zone, Locale locale, int chars,
-                           boolean[] showYear, DateFormat yearFormatter) {
+                           boolean /*@ArrayLen(13)*/ [] showYear, DateFormat yearFormatter) {
         Args.nullNotPermitted(locale, "locale");
         DateFormatSymbols dfs = new DateFormatSymbols(locale);
-        String[] monthsFromLocale = dfs.getMonths();
+        @SuppressWarnings({"value", "index"}) // DateFormatSymbols needs annotations
+        String /*@ArrayLen(12)*/ [] monthsFromLocale = dfs.getMonths();
         this.months = new String[12];
         for (int i = 0; i < 12; i++) {
+            @SuppressWarnings({"index", "value"}) // https://github.com/typetools/checker-framework/issues/1669
+            /*@IntRange(from = 0, to = 11)*/ int i1 = i;
             if (chars > 0) {
-                this.months[i] = monthsFromLocale[i].substring(0,
-                        Math.min(chars, monthsFromLocale[i].length()));
+                this.months[i1] = monthsFromLocale[i1].substring(0,
+                        Math.min(chars, monthsFromLocale[i1].length()));
             }
             else {
-                this.months[i] = monthsFromLocale[i];
+                this.months[i1] = monthsFromLocale[i1];
             }
         }
         this.calendar = new GregorianCalendar(zone);
@@ -200,7 +208,8 @@ public class MonthDateFormat extends DateFormat {
     public StringBuffer format(Date date, StringBuffer toAppendTo,
                                FieldPosition fieldPosition) {
         this.calendar.setTime(date);
-        int month = this.calendar.get(Calendar.MONTH);
+        @SuppressWarnings({"index", "value"}) // Calendar needs index annotations
+        /*@IntRange(from=0, to=11)*/ int month = this.calendar.get(Calendar.MONTH);
         toAppendTo.append(this.months[month]);
         if (this.showYear[month]) {
             toAppendTo.append(this.yearFormatter.format(date));

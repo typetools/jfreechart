@@ -45,6 +45,10 @@
 
 package org.jfree.chart.labels;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.MessageFormat;
@@ -161,7 +165,7 @@ public class BubbleXYItemLabelGenerator extends AbstractXYItemLabelGenerator
      * @return The item label (possibly {@code null}).
      */
     @Override
-    public String generateLabel(XYDataset dataset, int series, int item) {
+    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, int item) {
         return generateLabelString(dataset, series, item);
     }
 
@@ -175,7 +179,7 @@ public class BubbleXYItemLabelGenerator extends AbstractXYItemLabelGenerator
      * @return The label (possibly {@code null}).
      */
     @Override
-    public String generateLabelString(XYDataset dataset, int series, int item) {
+    public String generateLabelString(XYDataset dataset, /*@NonNegative*/ int series, int item) {
         String result;
         Object[] items;
         if (dataset instanceof XYZDataset) {

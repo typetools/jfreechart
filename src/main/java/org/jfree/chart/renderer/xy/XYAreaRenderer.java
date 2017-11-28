@@ -88,6 +88,10 @@
 
 package org.jfree.chart.renderer.xy;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.BasicStroke;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
@@ -435,7 +439,7 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
      * @return A legend item for the series.
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, int series) {
+    public LegendItem getLegendItem(int datasetIndex, /*@NonNegative*/ int series) {
         LegendItem result = null;
         XYPlot xyplot = getPlot();
         if (xyplot != null) {

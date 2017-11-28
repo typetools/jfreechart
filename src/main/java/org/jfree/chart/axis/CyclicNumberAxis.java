@@ -50,6 +50,10 @@
 
 package org.jfree.chart.axis;
 
+/*>>>
+import org.checkerframework.common.value.qual.ArrayLen;
+ */
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -384,7 +388,7 @@ public class CyclicNumberAxis extends NumberAxis {
      * @return The anchor point.
      */
     @Override
-    protected float[] calculateAnchorPoint(ValueTick tick, double cursor,
+    protected float /*@ArrayLen(2)*/ [] calculateAnchorPoint(ValueTick tick, double cursor,
             Rectangle2D dataArea, RectangleEdge edge) {
         if (tick instanceof CycleBoundTick) {
             boolean mapsav = this.boundMappedToLastCycle;

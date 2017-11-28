@@ -47,6 +47,10 @@
 
 package org.jfree.chart.renderer.xy;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -510,7 +514,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
      *
      * @return The paint.
      */
-    protected Paint getPaint(XYDataset dataset, int series, int item) {
+    protected Paint getPaint(XYDataset dataset, /*@NonNegative*/ int series, int item) {
         Paint p;
         if (dataset instanceof XYZDataset) {
             double z = ((XYZDataset) dataset).getZValue(series, item);

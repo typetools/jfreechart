@@ -48,6 +48,11 @@
 
  package org.jfree.chart.plot;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.IndexFor;
+ */
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
@@ -108,37 +113,37 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
     private transient Paint[] paintSequence;
 
     /** The current paint index. */
-    private int paintIndex;
+    private /*@NonNegative*/ int paintIndex;
 
     /** The outline paint sequence. */
     private transient Paint[] outlinePaintSequence;
 
     /** The current outline paint index. */
-    private int outlinePaintIndex;
+    private /*@NonNegative*/ int outlinePaintIndex;
 
     /** The fill paint sequence. */
     private transient Paint[] fillPaintSequence;
 
     /** The current fill paint index. */
-    private int fillPaintIndex;
+    private /*@NonNegative*/ int fillPaintIndex;
 
     /** The stroke sequence. */
     private transient Stroke[] strokeSequence;
 
     /** The current stroke index. */
-    private int strokeIndex;
+    private /*@NonNegative*/ int strokeIndex;
 
     /** The outline stroke sequence. */
     private transient Stroke[] outlineStrokeSequence;
 
     /** The current outline stroke index. */
-    private int outlineStrokeIndex;
+    private /*@NonNegative*/ int outlineStrokeIndex;
 
     /** The shape sequence. */
     private transient Shape[] shapeSequence;
 
     /** The current shape index. */
-    private int shapeIndex;
+    private /*@NonNegative*/ int shapeIndex;
 
     /**
      * Creates a new supplier, with default sequences for fill paint, outline
@@ -210,8 +215,10 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
      */
     @Override
     public Paint getNextPaint() {
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/195
+        /*@IndexFor("this.paintSequence")*/ int index = this.paintIndex % this.paintSequence.length;
         Paint result
-            = this.paintSequence[this.paintIndex % this.paintSequence.length];
+            = this.paintSequence[index];
         this.paintIndex++;
         return result;
     }
@@ -223,8 +230,9 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
      */
     @Override
     public Paint getNextOutlinePaint() {
-        Paint result = this.outlinePaintSequence[
-                this.outlinePaintIndex % this.outlinePaintSequence.length];
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/195
+        /*@IndexFor("this.outlinePaintSequence")*/ int index = this.outlinePaintIndex % this.outlinePaintSequence.length;
+        Paint result = this.outlinePaintSequence[index];
         this.outlinePaintIndex++;
         return result;
     }
@@ -238,8 +246,9 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
      */
     @Override
     public Paint getNextFillPaint() {
-        Paint result = this.fillPaintSequence[this.fillPaintIndex
-                % this.fillPaintSequence.length];
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/195
+        /*@IndexFor("this.fillPaintSequence")*/ int index = this.fillPaintIndex % this.fillPaintSequence.length;
+        Paint result = this.fillPaintSequence[index];
         this.fillPaintIndex++;
         return result;
     }
@@ -251,8 +260,9 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
      */
     @Override
     public Stroke getNextStroke() {
-        Stroke result = this.strokeSequence[
-                this.strokeIndex % this.strokeSequence.length];
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/195
+        /*@IndexFor("this.strokeSequence")*/ int index = this.strokeIndex % this.strokeSequence.length;
+        Stroke result = this.strokeSequence[index];
         this.strokeIndex++;
         return result;
     }
@@ -264,8 +274,9 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
      */
     @Override
     public Stroke getNextOutlineStroke() {
-        Stroke result = this.outlineStrokeSequence[
-                this.outlineStrokeIndex % this.outlineStrokeSequence.length];
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/195
+        /*@IndexFor("this.outlineStrokeSequence")*/ int index = this.outlineStrokeIndex % this.outlineStrokeSequence.length;
+        Stroke result = this.outlineStrokeSequence[index];
         this.outlineStrokeIndex++;
         return result;
     }
@@ -277,8 +288,9 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
      */
     @Override
     public Shape getNextShape() {
-        Shape result = this.shapeSequence[
-                this.shapeIndex % this.shapeSequence.length];
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/195
+        /*@IndexFor("this.shapeSequence")*/ int index = this.shapeIndex % this.shapeSequence.length;
+        Shape result = this.shapeSequence[index];
         this.shapeIndex++;
         return result;
     }
@@ -468,6 +480,7 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
      * @throws IOException if there is an I/O problem.
      * @throws ClassNotFoundException if there is a problem loading a class.
      */
+    @SuppressWarnings("index") // stream must have been serialized from an object of this class
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();

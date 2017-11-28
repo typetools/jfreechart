@@ -62,6 +62,10 @@
 
 package org.jfree.data.statistics;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -263,7 +267,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      * @throws IndexOutOfBoundsException if {@code series} is outside the
      *     specified range.
      */
-    List getBins(int series) {
+    List getBins(/*@NonNegative*/ int series) {
         Map map = (Map) this.list.get(series);
         return (List) map.get("bins");
     }
@@ -275,7 +279,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *
      * @return The total.
      */
-    private int getTotal(int series) {
+    private int getTotal(/*@NonNegative*/ int series) {
         Map map = (Map) this.list.get(series);
         return ((Integer) map.get("values.length")).intValue();
     }
@@ -287,7 +291,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *
      * @return The bin width.
      */
-    private double getBinWidth(int series) {
+    private double getBinWidth(/*@NonNegative*/ int series) {
         Map map = (Map) this.list.get(series);
         return ((Double) map.get("bin width")).doubleValue();
     }
@@ -314,7 +318,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Comparable getSeriesKey(int series) {
+    public Comparable getSeriesKey(/*@NonNegative*/ int series) {
         Map map = (Map) this.list.get(series);
         return (Comparable) map.get("key");
     }
@@ -331,7 +335,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public int getItemCount(int series) {
+    public int getItemCount(/*@NonNegative*/ int series) {
         return getBins(series).size();
     }
 
@@ -351,7 +355,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getX(int series, int item) {
+    public Number getX(/*@NonNegative*/ int series, int item) {
         List bins = getBins(series);
         HistogramBin bin = (HistogramBin) bins.get(item);
         double x = (bin.getStartBoundary() + bin.getEndBoundary()) / 2.;
@@ -372,7 +376,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getY(int series, int item) {
+    public Number getY(/*@NonNegative*/ int series, int item) {
         List bins = getBins(series);
         HistogramBin bin = (HistogramBin) bins.get(item);
         double total = getTotal(series);
@@ -405,7 +409,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getStartX(int series, int item) {
+    public Number getStartX(/*@NonNegative*/ int series, int item) {
         List bins = getBins(series);
         HistogramBin bin = (HistogramBin) bins.get(item);
         return new Double(bin.getStartBoundary());
@@ -424,7 +428,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getEndX(int series, int item) {
+    public Number getEndX(/*@NonNegative*/ int series, int item) {
         List bins = getBins(series);
         HistogramBin bin = (HistogramBin) bins.get(item);
         return new Double(bin.getEndBoundary());
@@ -445,7 +449,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getStartY(int series, int item) {
+    public Number getStartY(/*@NonNegative*/ int series, int item) {
         return getY(series, item);
     }
 
@@ -464,7 +468,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getEndY(int series, int item) {
+    public Number getEndY(/*@NonNegative*/ int series, int item) {
         return getY(series, item);
     }
 

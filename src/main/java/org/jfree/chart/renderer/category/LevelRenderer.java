@@ -51,6 +51,10 @@
 
 package org.jfree.chart.renderer.category;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -383,7 +387,7 @@ public class LevelRenderer extends AbstractCategoryItemRenderer
      * @return The width of one series.
      */
     protected double calculateSeriesWidth(double space, CategoryAxis axis,
-                                          int categories, int series) {
+                                          int categories, /*@NonNegative*/ int series) {
         double factor = 1.0 - getItemMargin() - axis.getLowerMargin()
                         - axis.getUpperMargin();
         if (categories > 1) {

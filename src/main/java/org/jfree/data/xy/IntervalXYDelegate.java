@@ -53,6 +53,10 @@
 
 package org.jfree.data.xy;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.io.Serializable;
 
 import org.jfree.chart.HashUtils;
@@ -257,7 +261,7 @@ public class IntervalXYDelegate implements DatasetChangeListener,
      *
      * @see #getStartXValue(int, int)
      */
-    public Number getStartX(int series, int item) {
+    public Number getStartX(/*@NonNegative*/ int series, int item) {
         Number startX = null;
         Number x = this.dataset.getX(series, item);
         if (x != null) {
@@ -277,7 +281,7 @@ public class IntervalXYDelegate implements DatasetChangeListener,
      *
      * @see #getStartX(int, int)
      */
-    public double getStartXValue(int series, int item) {
+    public double getStartXValue(/*@NonNegative*/ int series, int item) {
         return this.dataset.getXValue(series, item)
                 - getIntervalPositionFactor() * getIntervalWidth();
     }
@@ -292,7 +296,7 @@ public class IntervalXYDelegate implements DatasetChangeListener,
      *
      * @see #getEndXValue(int, int)
      */
-    public Number getEndX(int series, int item) {
+    public Number getEndX(/*@NonNegative*/ int series, int item) {
         Number endX = null;
         Number x = this.dataset.getX(series, item);
         if (x != null) {
@@ -312,7 +316,7 @@ public class IntervalXYDelegate implements DatasetChangeListener,
      *
      * @see #getEndX(int, int)
      */
-    public double getEndXValue(int series, int item) {
+    public double getEndXValue(/*@NonNegative*/ int series, int item) {
         return this.dataset.getXValue(series, item)
                 + (1.0 - getIntervalPositionFactor()) * getIntervalWidth();
     }
@@ -415,7 +419,7 @@ public class IntervalXYDelegate implements DatasetChangeListener,
      *
      * @return The interval width.
      */
-    private double calculateIntervalForSeries(int series) {
+    private double calculateIntervalForSeries(/*@NonNegative*/ int series) {
         double result = Double.POSITIVE_INFINITY;
         int itemCount = this.dataset.getItemCount(series);
         if (itemCount > 1) {

@@ -41,6 +41,10 @@
 
 package org.jfree.chart.labels;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
@@ -108,7 +112,7 @@ public class BoxAndWhiskerToolTipGenerator
      * @return The items (never {@code null}).
      */
     @Override
-    protected Object[] createItemArray(CategoryDataset dataset, int series,
+    protected Object[] createItemArray(CategoryDataset dataset, /*@NonNegative*/ int series,
                                        int item) {
         Object[] result = new Object[8];
         result[0] = dataset.getRowKey(series);

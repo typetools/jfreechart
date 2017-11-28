@@ -28,6 +28,11 @@
 
 package org.jfree.chart.date;
 
+/*>>>
+import org.checkerframework.common.value.qual.ArrayLen;
+import org.checkerframework.common.value.qual.IntRange;
+ */
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -58,16 +63,16 @@ public class SpreadsheetDate extends SerialDate {
      * The day number (1-Jan-1900 = 2, 2-Jan-1900 = 3, ..., 31-Dec-9999 = 
      * 2958465). 
      */
-    private final int serial;
+    private final /*@IntRange(from = 2, to = 2958465)*/ int serial;
 
     /** The day of the month (1 to 28, 29, 30 or 31 depending on the month). */
-    private final int day;
+    private final /*@IntRange(from = 1, to = 31)*/ int day;
 
     /** The month of the year (1 to 12). */
-    private final int month;
+    private final /*@IntRange(from = 1, to = 12)*/ int month;
 
     /** The year (1900 to 9999). */
-    private final int year;
+    private final /*@IntRange(from = 1900, to = 9999)*/ int year;
 
     /**
      * Creates a new date instance.
@@ -76,7 +81,7 @@ public class SpreadsheetDate extends SerialDate {
      * @param month  the month (in the range 1 to 12).
      * @param year  the year (in the range 1900 to 9999).
      */
-    public SpreadsheetDate(int day, int month, int year) {
+    public SpreadsheetDate(/*@IntRange(from = 1, to = 31)*/ int day, /*@IntRange(from = 1, to = 12)*/ int month, /*@IntRange(from = 1, to = 9999)*/ int year) {
 
         if ((year >= 1900) && (year <= 9999)) {
             this.year = year;
@@ -111,7 +116,7 @@ public class SpreadsheetDate extends SerialDate {
      *
      * @param serial  the serial number for the day (range: 2 to 2958465).
      */
-    public SpreadsheetDate(int serial) {
+    public SpreadsheetDate(/*@IntRange(from = 2, to = 2958465)*/ int serial) {
 
         if ((serial >= SERIAL_LOWER_BOUND) && (serial <= SERIAL_UPPER_BOUND)) {
             this.serial = serial;
@@ -144,7 +149,7 @@ public class SpreadsheetDate extends SerialDate {
 
         final int ss2 = calcSerial(1, 1, this.year);
 
-        int[] daysToEndOfPrecedingMonth 
+        int /*@ArrayLen(14)*/ [] daysToEndOfPrecedingMonth
                 = AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH;
 
         if (isLeapYear(this.year)) {
@@ -153,10 +158,12 @@ public class SpreadsheetDate extends SerialDate {
         }
 
         // get the month from the serial date
-        int mm = 1;
+        /*@IntRange(from = 1, to = 13)*/ int mm = 1;
         int sss = ss2 + daysToEndOfPrecedingMonth[mm] - 1;
         while (sss < this.serial) {
-            mm = mm + 1;
+            @SuppressWarnings({"index", "value"}) // this loop cannot go around more than 12 times
+            /*@IntRange(from=2, to=13)*/ int mm1 = mm + 1;
+            mm = mm1;
             sss = ss2 + daysToEndOfPrecedingMonth[mm] - 1;
         }
         this.month = mm - 1;
@@ -175,7 +182,7 @@ public class SpreadsheetDate extends SerialDate {
      * @return The serial number of this date.
      */
     @Override
-    public int toSerial() {
+    public /*@IntRange(from = 2, to = 2958465)*/ int toSerial() {
         return this.serial;
     }
 
@@ -197,7 +204,7 @@ public class SpreadsheetDate extends SerialDate {
      * @return The year.
      */
     @Override
-    public int getYYYY() {
+    public /*@IntRange(from = 1900, to = 9999)*/ int getYYYY() {
         return this.year;
     }
 
@@ -207,7 +214,7 @@ public class SpreadsheetDate extends SerialDate {
      * @return The month of the year.
      */
     @Override
-    public int getMonth() {
+    public /*@IntRange(from = 1, to = 12)*/ int getMonth() {
         return this.month;
     }
 
@@ -217,7 +224,7 @@ public class SpreadsheetDate extends SerialDate {
      * @return The day of the month.
      */
     @Override
-    public int getDayOfMonth() {
+    public /*@IntRange(from = 1, to = 31)*/ int getDayOfMonth() {
         return this.day;
     }
 
@@ -232,7 +239,7 @@ public class SpreadsheetDate extends SerialDate {
      * @return A code representing the day of the week.
      */
     @Override
-    public int getDayOfWeek() {
+    public /*@IntRange(from = 1, to = 7)*/ int getDayOfWeek() {
         return (this.serial + 6) % 7 + 1;
     }
 
@@ -425,9 +432,11 @@ public class SpreadsheetDate extends SerialDate {
      *
      * @return the serial number from the day, month and year.
      */
-    private int calcSerial(int d, int m, int y) {
+    private /*@IntRange(from = 2, to = 2958465)*/ int calcSerial(/*@IntRange(from = 1, to = 31)*/ int d, /*@IntRange(from=1,to=12)*/ int m, /*@IntRange(from = 1900, to = 9999)*/ int y) {
+        @SuppressWarnings({"index", "value"}) // Though passing y - 1 is technically incorrect iff y = 1900, leapYearCount returns zero if passed 1899 (same as 1900).
         int yy = ((y - 1900) * 365) + SerialDate.leapYearCount(y - 1);
-        int mm = SerialDate.AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH[m];
+        @SuppressWarnings({"index", "value"}) // Preceding month can't be December - month must be 1 - 12 (12 -> current month is december).
+        /*@IntRange(from = 0, to = 336)*/ int mm = SerialDate.AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH[m];
         if (m > MonthConstants.FEBRUARY) {
             if (SerialDate.isLeapYear(y)) {
                 mm = mm + 1;

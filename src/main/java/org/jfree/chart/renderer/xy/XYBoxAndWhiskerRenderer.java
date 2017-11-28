@@ -78,6 +78,10 @@
 
 package org.jfree.chart.renderer.xy;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -303,7 +307,7 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
      *
      * @since 1.0.10
      */
-    protected Paint lookupBoxPaint(int series, int item) {
+    protected Paint lookupBoxPaint(/*@NonNegative*/ int series, int item) {
         Paint p = getBoxPaint();
         if (p != null) {
             return p;
@@ -373,7 +377,7 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
      */
     public void drawHorizontalItem(Graphics2D g2, Rectangle2D dataArea,
             PlotRenderingInfo info, XYPlot plot, ValueAxis domainAxis,
-            ValueAxis rangeAxis, XYDataset dataset, int series,
+            ValueAxis rangeAxis, XYDataset dataset, /*@NonNegative*/ int series,
             int item, CrosshairState crosshairState, int pass) {
 
         // setup for collecting optional entity info...
@@ -513,7 +517,7 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
      */
     public void drawVerticalItem(Graphics2D g2, Rectangle2D dataArea,
             PlotRenderingInfo info, XYPlot plot, ValueAxis domainAxis,
-            ValueAxis rangeAxis, XYDataset dataset, int series,
+            ValueAxis rangeAxis, XYDataset dataset, /*@NonNegative*/ int series,
             int item, CrosshairState crosshairState, int pass) {
 
         // setup for collecting optional entity info...
