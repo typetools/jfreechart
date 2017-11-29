@@ -68,7 +68,7 @@ public class ObjectList extends AbstractObjectList {
      * @return The object or {@code null}.          
      */          
     @Override
-    public Object get(int index) {         
+    public Object get(/*@NonNegative*/ int index) {
         return super.get(index);         
     }    
          

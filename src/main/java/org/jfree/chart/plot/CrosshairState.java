@@ -52,6 +52,7 @@
  */
 
 package org.jfree.chart.plot;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.geom.Point2D;
 
@@ -390,7 +391,7 @@ public class CrosshairState {
      *
      * @since 1.0.11
      */
-    public void setDatasetIndex(int index) {
+    public void setDatasetIndex(/*@NonNegative*/ int index) {
         this.datasetIndex = index;
     }
 }

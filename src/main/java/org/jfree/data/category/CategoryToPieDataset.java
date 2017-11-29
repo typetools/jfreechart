@@ -48,6 +48,7 @@
  */
 
 package org.jfree.data.category;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.util.Collections;
 import java.util.List;
@@ -194,7 +195,7 @@ public class CategoryToPieDataset extends AbstractDataset
      *     specified range.
      */
     @Override
-    public Comparable getKey(int index) {
+    public Comparable getKey(/*@NonNegative*/ int index) {
         Comparable result = null;
         if (index < 0 || index >= getItemCount()) {
             // this includes the case where the underlying dataset is null

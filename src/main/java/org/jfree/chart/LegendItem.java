@@ -575,7 +575,7 @@ public class LegendItem implements Cloneable, Serializable {
      *
      * @see #getDatasetIndex()
      */
-    public void setDatasetIndex(int index) {
+    public void setDatasetIndex(/*@NonNegative*/ int index) {
         this.datasetIndex = index;
     }
 
@@ -610,7 +610,7 @@ public class LegendItem implements Cloneable, Serializable {
      *
      * @since 1.0.2
      */
-    public int getSeriesIndex() {
+    public /*@NonNegative*/ int getSeriesIndex() {
         return this.series;
     }
 
@@ -621,7 +621,7 @@ public class LegendItem implements Cloneable, Serializable {
      *
      * @since 1.0.2
      */
-    public void setSeriesIndex(int index) {
+    public void setSeriesIndex(/*@NonNegative*/ int index) {
         this.series = index;
     }
 

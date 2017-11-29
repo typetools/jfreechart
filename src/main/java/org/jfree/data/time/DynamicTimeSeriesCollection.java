@@ -158,7 +158,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
          * @param index  the index.
          * @param value  the value.
          */
-        public void enterData(int index, float value) {
+        public void enterData(/*@NonNegative*/ int index, float value) {
             this.dataPoints[index] = value;
         }
 
@@ -169,7 +169,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
          *
          * @return The value.
          */
-        public float getData(int index) {
+        public float getData(/*@NonNegative*/ int index) {
             return this.dataPoints[index];
         }
     }
@@ -439,7 +439,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @param index  ??.
      * @param value  the value.
      */
-    public void addValue(int seriesNumber, int index, float value) {
+    public void addValue(int seriesNumber, /*@NonNegative*/ int index, float value) {
         invalidateRangeInfo();
         if (seriesNumber >= this.valueHistory.length) {
             throw new IllegalArgumentException(

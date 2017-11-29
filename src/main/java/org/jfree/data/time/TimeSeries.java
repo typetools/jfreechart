@@ -90,6 +90,7 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -476,7 +477,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      * 
      * @return The data item.
      */
-    public TimeSeriesDataItem getDataItem(int index) {
+    public TimeSeriesDataItem getDataItem(/*@NonNegative*/ int index) {
         TimeSeriesDataItem item = (TimeSeriesDataItem) this.data.get(index);
         return (TimeSeriesDataItem) item.clone();
     }
@@ -514,7 +515,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @since 1.0.14
      */
-    TimeSeriesDataItem getRawDataItem(int index) {
+    TimeSeriesDataItem getRawDataItem(/*@NonNegative*/ int index) {
         return (TimeSeriesDataItem) this.data.get(index);
     }
 
@@ -546,7 +547,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @return The time period.
      */
-    public RegularTimePeriod getTimePeriod(int index) {
+    public RegularTimePeriod getTimePeriod(/*@NonNegative*/ int index) {
         return getRawDataItem(index).getPeriod();
     }
 
@@ -616,7 +617,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @return The value (possibly {@code null}).
      */
-    public Number getValue(int index) {
+    public Number getValue(/*@NonNegative*/ int index) {
         return getRawDataItem(index).getValue();
     }
 
@@ -809,7 +810,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      * @param index  the index of the data item.
      * @param value  the new value ({@code null} permitted).
      */
-    public void update(int index, Number value) {
+    public void update(/*@NonNegative*/ int index, Number value) {
         TimeSeriesDataItem item = (TimeSeriesDataItem) this.data.get(index);
         boolean iterate = false;
         Number oldYN = item.getValue();

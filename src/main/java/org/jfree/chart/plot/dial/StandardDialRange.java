@@ -43,6 +43,7 @@
  */
 
 package org.jfree.chart.plot.dial;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -142,7 +143,7 @@ public class StandardDialRange extends AbstractDialLayer implements DialLayer,
      *
      * @see #getScaleIndex()
      */
-    public void setScaleIndex(int index) {
+    public void setScaleIndex(/*@NonNegative*/ int index) {
         this.scaleIndex = index;
         notifyListeners(new DialLayerChangeEvent(this));
     }

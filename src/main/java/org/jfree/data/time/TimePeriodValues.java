@@ -47,6 +47,7 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -201,7 +202,7 @@ public class TimePeriodValues extends Series implements Serializable {
      *
      * @return One data item for the series.
      */
-    public TimePeriodValue getDataItem(int index) {
+    public TimePeriodValue getDataItem(/*@NonNegative*/ int index) {
         return (TimePeriodValue) this.data.get(index);
     }
 
@@ -215,7 +216,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @see #getDataItem(int)
      */
-    public TimePeriod getTimePeriod(int index) {
+    public TimePeriod getTimePeriod(/*@NonNegative*/ int index) {
         return getDataItem(index).getPeriod();
     }
 
@@ -229,7 +230,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @see #getDataItem(int)
      */
-    public Number getValue(int index) {
+    public Number getValue(/*@NonNegative*/ int index) {
         return getDataItem(index).getValue();
     }
 
@@ -252,7 +253,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * @param period  the time period.
      * @param index  the index of the time period.
      */
-    private void updateBounds(TimePeriod period, int index) {
+    private void updateBounds(TimePeriod period, /*@NonNegative*/ int index) {
         
         long start = period.getStart().getTime();
         long end = period.getEnd().getTime();
@@ -381,7 +382,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * @param index  the index of the data item to update.
      * @param value  the new value ({@code null} not permitted).
      */
-    public void update(int index, Number value) {
+    public void update(/*@NonNegative*/ int index, Number value) {
         TimePeriodValue item = getDataItem(index);
         item.setValue(value);
         fireSeriesChanged();

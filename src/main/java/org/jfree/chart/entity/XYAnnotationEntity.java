@@ -39,6 +39,7 @@
  */
 
 package org.jfree.chart.entity;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Shape;
 import java.io.Serializable;
@@ -84,7 +85,7 @@ public class XYAnnotationEntity extends ChartEntity
      *
      * @param index  the item index (zero-based).
      */
-    public void setRendererIndex(int index) {
+    public void setRendererIndex(/*@NonNegative*/ int index) {
         this.rendererIndex = index;
     }
 

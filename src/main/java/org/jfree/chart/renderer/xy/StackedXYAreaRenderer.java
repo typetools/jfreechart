@@ -70,6 +70,7 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -624,7 +625,7 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
      *         {@code series} for {@code index}.
      */
     protected double getPreviousHeight(TableXYDataset dataset,
-                                       int series, int index) {
+                                       int series, /*@NonNegative*/ int index) {
         double result = 0.0;
         for (int i = 0; i < series; i++) {
             double value = dataset.getYValue(i, index);

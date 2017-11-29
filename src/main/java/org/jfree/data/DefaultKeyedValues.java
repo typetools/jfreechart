@@ -59,6 +59,7 @@
  */
 
 package org.jfree.data;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -135,7 +136,7 @@ public class DefaultKeyedValues implements KeyedValues, Cloneable,
      * @throws IndexOutOfBoundsException if {@code item} is out of bounds.
      */
     @Override
-    public Comparable getKey(int index) {
+    public Comparable getKey(/*@NonNegative*/ int index) {
         return (Comparable) this.keys.get(index);
     }
 
@@ -312,7 +313,7 @@ public class DefaultKeyedValues implements KeyedValues, Cloneable,
      * @throws IndexOutOfBoundsException if {@code index} is not within
      *     the specified range.
      */
-    public void removeValue(int index) {
+    public void removeValue(/*@NonNegative*/ int index) {
         this.keys.remove(index);
         this.values.remove(index);
         rebuildIndex();

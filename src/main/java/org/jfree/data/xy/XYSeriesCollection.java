@@ -397,7 +397,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * @return The value (possibly {@code null}).
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, int index) {
+    public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int index) {
         XYSeries s = (XYSeries) this.data.get(series);
         return s.getY(index);
     }

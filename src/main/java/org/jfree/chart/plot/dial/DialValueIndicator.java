@@ -43,6 +43,7 @@
  */
 
 package org.jfree.chart.plot.dial;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -186,7 +187,7 @@ public class DialValueIndicator extends AbstractDialLayer implements DialLayer,
      *
      * @see #getDatasetIndex()
      */
-    public void setDatasetIndex(int index) {
+    public void setDatasetIndex(/*@NonNegative*/ int index) {
         this.datasetIndex = index;
         notifyListeners(new DialLayerChangeEvent(this));
     }

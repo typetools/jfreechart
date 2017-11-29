@@ -202,7 +202,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The column key.
      */
     @Override
-    public Comparable getColumnKey(int index) {
+    public Comparable getColumnKey(/*@NonNegative*/ int index) {
         return (Comparable) this.keys.get(index);
     }
 
@@ -248,7 +248,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The key.
      */
     @Override
-    public Comparable getRowKey(int index) {
+    public Comparable getRowKey(/*@NonNegative*/ int index) {
         TaskSeries series = (TaskSeries) this.data.get(index);
         return series.getKey();
     }

@@ -79,6 +79,7 @@
  */
 
 package org.jfree.data.xy;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -573,7 +574,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @return The item removed.
      */
-    public XYDataItem remove(int index) {
+    public XYDataItem remove(/*@NonNegative*/ int index) {
         XYDataItem removed = (XYDataItem) this.data.remove(index);
         updateBoundsForRemovedItem(removed);
         fireSeriesChanged();
@@ -616,7 +617,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @return The data item with the specified index.
      */
-    public XYDataItem getDataItem(int index) {
+    public XYDataItem getDataItem(/*@NonNegative*/ int index) {
         XYDataItem item = (XYDataItem) this.data.get(index);
         return (XYDataItem) item.clone();
     }
@@ -630,7 +631,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @since 1.0.14
      */
-    XYDataItem getRawDataItem(int index) {
+    XYDataItem getRawDataItem(/*@NonNegative*/ int index) {
         return (XYDataItem) this.data.get(index);
     }
 
@@ -641,7 +642,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @return The x-value (never {@code null}).
      */
-    public Number getX(int index) {
+    public Number getX(/*@NonNegative*/ int index) {
         return getRawDataItem(index).getX();
     }
 
@@ -652,7 +653,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @return The y-value (possibly {@code null}).
      */
-    public Number getY(int index) {
+    public Number getY(/*@NonNegative*/ int index) {
         return getRawDataItem(index).getY();
     }
 
@@ -703,7 +704,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @since 1.0.1
      */
-    public void updateByIndex(int index, Number y) {
+    public void updateByIndex(/*@NonNegative*/ int index, Number y) {
         XYDataItem item = getRawDataItem(index);
 
         // figure out if we need to iterate through all the y-values

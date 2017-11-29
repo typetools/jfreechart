@@ -27,6 +27,7 @@
  */
 
 package org.jfree.chart.util;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Shape;
 import java.io.IOException;
@@ -52,7 +53,7 @@ public class ShapeList extends AbstractObjectList {
      *
      * @return The object.
      */
-    public Shape getShape(int index) {
+    public Shape getShape(/*@NonNegative*/ int index) {
         return (Shape) get(index);
     }
 
@@ -63,7 +64,7 @@ public class ShapeList extends AbstractObjectList {
      * @param index  the index (zero-based).
      * @param shape  the {@link Shape}.
      */
-    public void setShape(int index, Shape shape) {
+    public void setShape(/*@NonNegative*/ int index, Shape shape) {
         set(index, shape);
     }
 

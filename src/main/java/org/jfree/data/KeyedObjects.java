@@ -43,6 +43,7 @@
  */
 
 package org.jfree.data;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -106,7 +107,7 @@ public class KeyedObjects implements Cloneable, PublicCloneable, Serializable {
      *
      * @see #getIndex(Comparable)
      */
-    public Comparable getKey(int index) {
+    public Comparable getKey(/*@NonNegative*/ int index) {
         Comparable result = null;
         KeyedObject item = (KeyedObject) this.data.get(index);
         if (item != null) {
@@ -244,7 +245,7 @@ public class KeyedObjects implements Cloneable, PublicCloneable, Serializable {
      *
      * @see #removeValue(Comparable)
      */
-    public void removeValue(int index) {
+    public void removeValue(/*@NonNegative*/ int index) {
         this.data.remove(index);
     }
 

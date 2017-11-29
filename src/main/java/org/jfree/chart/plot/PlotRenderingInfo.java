@@ -45,6 +45,7 @@
  */
 
 package org.jfree.chart.plot;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -176,7 +177,7 @@ public class PlotRenderingInfo implements Cloneable, Serializable {
      *
      * @see #addSubplotInfo(PlotRenderingInfo)
      */
-    public PlotRenderingInfo getSubplotInfo(int index) {
+    public PlotRenderingInfo getSubplotInfo(/*@NonNegative*/ int index) {
         return (PlotRenderingInfo) this.subplotInfo.get(index);
     }
 

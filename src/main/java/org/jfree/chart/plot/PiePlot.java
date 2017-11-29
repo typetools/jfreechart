@@ -174,6 +174,7 @@
  */
 
 package org.jfree.chart.plot;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -673,7 +674,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
      *
      * @see #getPieIndex()
      */
-    public void setPieIndex(int index) {
+    public void setPieIndex(/*@NonNegative*/ int index) {
         this.pieIndex = index;
     }
 

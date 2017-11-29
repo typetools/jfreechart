@@ -118,7 +118,7 @@ public class XYItemEntity extends ChartEntity {
      *
      * @return The series index.
      */
-    public int getSeriesIndex() {
+    public /*@NonNegative*/ int getSeriesIndex() {
         return this.series;
     }
 

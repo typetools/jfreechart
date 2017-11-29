@@ -1548,7 +1548,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @return A domain axis.
      */
-    protected CategoryAxis getDomainAxis(CategoryPlot plot, int index) {
+    protected CategoryAxis getDomainAxis(CategoryPlot plot, /*@NonNegative*/ int index) {
         CategoryAxis result = plot.getDomainAxis(index);
         if (result == null) {
             result = plot.getDomainAxis();
@@ -1564,7 +1564,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @return A range axis.
      */
-    protected ValueAxis getRangeAxis(CategoryPlot plot, int index) {
+    protected ValueAxis getRangeAxis(CategoryPlot plot, /*@NonNegative*/ int index) {
         ValueAxis result = plot.getRangeAxis(index);
         if (result == null) {
             result = plot.getRangeAxis();

@@ -366,7 +366,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      *
      * @param index  the series index (zero-based).
      */
-    public void removeSeries(int index) {
+    public void removeSeries(/*@NonNegative*/ int index) {
         TimeSeries series = getSeries(index);
         if (series != null) {
             removeSeries(series);

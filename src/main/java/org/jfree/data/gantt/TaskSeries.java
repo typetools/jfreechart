@@ -45,6 +45,7 @@
  */
 
 package org.jfree.data.gantt;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.util.Collections;
 import java.util.List;
@@ -126,7 +127,7 @@ public class TaskSeries extends Series {
      *
      * @return The task.
      */
-    public Task get(int index) {
+    public Task get(/*@NonNegative*/ int index) {
         return (Task) this.tasks.get(index);
     }
 

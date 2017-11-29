@@ -45,6 +45,7 @@
  */
 
 package org.jfree.chart.plot.dial;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Graphics2D;
 import java.awt.Shape;
@@ -355,7 +356,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      *
      * @param index  the index.
      */
-    public void removeLayer(int index) {
+    public void removeLayer(/*@NonNegative*/ int index) {
         DialLayer layer = (DialLayer) this.layers.get(index);
         if (layer != null) {
             layer.removeChangeListener(this);
@@ -406,7 +407,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      *
      * @param index  the index.
      */
-    public void removePointer(int index) {
+    public void removePointer(/*@NonNegative*/ int index) {
         DialPointer pointer = (DialPointer) this.pointers.get(index);
         if (pointer != null) {
             pointer.removeChangeListener(this);
@@ -462,7 +463,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      *
      * @return The dataset (possibly {@code null}).
      */
-    public ValueDataset getDataset(int index) {
+    public ValueDataset getDataset(/*@NonNegative*/ int index) {
         ValueDataset result = null;
         if (this.datasets.size() > index) {
             result = (ValueDataset) this.datasets.get(index);
@@ -487,7 +488,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      * @param index  the dataset index.
      * @param dataset  the dataset ({@code null} permitted).
      */
-    public void setDataset(int index, ValueDataset dataset) {
+    public void setDataset(/*@NonNegative*/ int index, ValueDataset dataset) {
 
         ValueDataset existing = (ValueDataset) this.datasets.get(index);
         if (existing != null) {
@@ -643,7 +644,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      * @param index  the scale index.
      * @param scale  the scale ({@code null} not permitted).
      */
-    public void addScale(int index, DialScale scale) {
+    public void addScale(/*@NonNegative*/ int index, DialScale scale) {
         Args.nullNotPermitted(scale, "scale");
         DialScale existing = (DialScale) this.scales.get(index);
         if (existing != null) {
@@ -662,7 +663,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      *
      * @return The scale (possibly {@code null}).
      */
-    public DialScale getScale(int index) {
+    public DialScale getScale(/*@NonNegative*/ int index) {
         DialScale result = null;
         if (this.scales.size() > index) {
             result = (DialScale) this.scales.get(index);
@@ -676,7 +677,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      * @param index  the dataset index (zero-based).
      * @param scaleIndex  the scale index (zero-based).
      */
-    public void mapDatasetToScale(int index, int scaleIndex) {
+    public void mapDatasetToScale(/*@NonNegative*/ int index, int scaleIndex) {
         this.datasetToScaleMap.set(index, new Integer(scaleIndex));
         fireChangeEvent();
     }

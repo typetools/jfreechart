@@ -113,6 +113,7 @@
  */
 
 package org.jfree.chart.axis;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 /*>>>
 import org.checkerframework.common.value.qual.ArrayLen;
@@ -1659,7 +1660,7 @@ public abstract class ValueAxis extends Axis
      *
      * @see #getAutoTickIndex()
      */
-    protected void setAutoTickIndex(int index) {
+    protected void setAutoTickIndex(/*@NonNegative*/ int index) {
         this.autoTickIndex = index;
     }
 

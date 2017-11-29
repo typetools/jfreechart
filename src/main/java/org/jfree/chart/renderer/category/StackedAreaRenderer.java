@@ -67,6 +67,7 @@
  */
 
 package org.jfree.chart.renderer.category;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -413,7 +414,7 @@ public class StackedAreaRenderer extends AreaRenderer
      *     for {@code index}.
      */
     protected double[] getStackValues(CategoryDataset dataset,
-            int series, int index, int[] validRows) {
+            int series, /*@NonNegative*/ int index, int[] validRows) {
         double[] result = new double[2];
         double total = 0.0;
         if (this.renderAsPercentages) {

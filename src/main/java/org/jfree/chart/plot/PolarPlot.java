@@ -358,7 +358,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public ValueAxis getAxis(int index) {
+    public ValueAxis getAxis(/*@NonNegative*/ int index) {
         ValueAxis result = null;
         if (index < this.axes.size()) {
             result = (ValueAxis) this.axes.get(index);
@@ -654,7 +654,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public PolarItemRenderer getRenderer(int index) {
+    public PolarItemRenderer getRenderer(/*@NonNegative*/ int index) {
         PolarItemRenderer result = null;
         if (index < this.renderers.size()) {
             result = (PolarItemRenderer) this.renderers.get(index);
@@ -1234,7 +1234,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void mapDatasetToAxis(int index, int axisIndex) {
+    public void mapDatasetToAxis(/*@NonNegative*/ int index, int axisIndex) {
         List axisIndices = new java.util.ArrayList(1);
         axisIndices.add(new Integer(axisIndex));
         mapDatasetToAxes(index, axisIndices);
@@ -1250,7 +1250,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void mapDatasetToAxes(int index, List axisIndices) {
+    public void mapDatasetToAxes(/*@NonNegative*/ int index, List axisIndices) {
         if (index < 0) {
             throw new IllegalArgumentException("Requires 'index' >= 0.");
         }
@@ -1301,7 +1301,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public ValueAxis getAxisForDataset(int index) {
+    public ValueAxis getAxisForDataset(/*@NonNegative*/ int index) {
         ValueAxis valueAxis;
         List axisIndices = (List) this.datasetToAxesMap.get(
                 new Integer(index));

@@ -396,7 +396,7 @@ public class OHLCSeriesCollection extends AbstractXYDataset
      *
      * @since 1.0.14
      */
-    public void removeSeries(int index) {
+    public void removeSeries(/*@NonNegative*/ int index) {
         OHLCSeries series = getSeries(index);
         if (series != null) {
             removeSeries(series);

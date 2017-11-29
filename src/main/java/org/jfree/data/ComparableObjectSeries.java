@@ -41,6 +41,7 @@
  */
 
 package org.jfree.data;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -314,7 +315,7 @@ public class ComparableObjectSeries extends Series
      * @param index  the item (zero based index).
      * @param y  the new value ({@code null} permitted).
      */
-    protected void updateByIndex(int index, Object y) {
+    protected void updateByIndex(/*@NonNegative*/ int index, Object y) {
         ComparableObjectItem item = getDataItem(index);
         item.setObject(y);
         fireSeriesChanged();
@@ -327,7 +328,7 @@ public class ComparableObjectSeries extends Series
      *
      * @return The data item with the specified index.
      */
-    protected ComparableObjectItem getDataItem(int index) {
+    protected ComparableObjectItem getDataItem(/*@NonNegative*/ int index) {
         return (ComparableObjectItem) this.data.get(index);
     }
 
@@ -365,7 +366,7 @@ public class ComparableObjectSeries extends Series
      *
      * @return The item removed.
      */
-    protected ComparableObjectItem remove(int index) {
+    protected ComparableObjectItem remove(/*@NonNegative*/ int index) {
         ComparableObjectItem result = (ComparableObjectItem) this.data.remove(
                 index);
         fireSeriesChanged();
