@@ -2182,7 +2182,7 @@ public final class DatasetUtils {
      *
      * @since 1.0.5
      */
-    public static double calculateStackTotal(TableXYDataset dataset, int item) {
+    public static double calculateStackTotal(TableXYDataset dataset, /*@NonNegative*/ int item) {
         double total = 0.0;
         int seriesCount = dataset.getSeriesCount();
         for (int s = 0; s < seriesCount; s++) {

@@ -233,7 +233,7 @@ public class XYAreaRenderer2 extends AbstractXYItemRenderer
      * @return A legend item for the series.
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
         LegendItem result = null;
         XYPlot xyplot = getPlot();
         if (xyplot != null) {
@@ -291,7 +291,7 @@ public class XYAreaRenderer2 extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
          Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
          ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-         int series, int item, CrosshairState crosshairState, int pass) {
+         /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass) {
 
         if (!getItemVisible(series, item)) {
             return;

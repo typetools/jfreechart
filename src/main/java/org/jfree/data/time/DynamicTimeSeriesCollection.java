@@ -466,7 +466,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    public int getSeriesCount() {
+    public /*@NonNegative*/ int getSeriesCount() {
         return this.seriesCount;
     }
 
@@ -480,7 +480,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    public int getItemCount(/*@NonNegative*/ int series) {  // all arrays equal length,
+    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {  // all arrays equal length,
                                            // so ignore argument:
         return this.historyCount;
     }
@@ -730,7 +730,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
     // getXxx() ftns can ignore the "series" argument:
     // Don't synchronize this!! Instead, synchronize the loop that calls it.
     @Override
-    public Number getX(/*@NonNegative*/ int series, int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         RegularTimePeriod tp = this.pointsInTime[translateGet(item)];
         return new Long(getX(tp));
     }
@@ -744,7 +744,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public double getYValue(/*@NonNegative*/ int series, int item) {
+    public double getYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         // Don't synchronize this!!
         // Instead, synchronize the loop that calls it.
         ValueSequence values = this.valueHistory[series];
@@ -760,7 +760,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, int item) {
+    public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return new Float(getYValue(series, item));
     }
 
@@ -773,7 +773,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getStartX(/*@NonNegative*/ int series, int item) {
+    public Number getStartX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         RegularTimePeriod tp = this.pointsInTime[translateGet(item)];
         return new Long(tp.getFirstMillisecond(this.workingCalendar));
     }
@@ -787,7 +787,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getEndX(/*@NonNegative*/ int series, int item) {
+    public Number getEndX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         RegularTimePeriod tp = this.pointsInTime[translateGet(item)];
         return new Long(tp.getLastMillisecond(this.workingCalendar));
     }
@@ -801,7 +801,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getStartY(/*@NonNegative*/ int series, int item) {
+    public Number getStartY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getY(series, item);
     }
 
@@ -814,17 +814,17 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getEndY(/*@NonNegative*/ int series, int item) {
+    public Number getEndY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getY(series, item);
     }
 
     /* // "Extras" found useful when analyzing/verifying class behavior:
-    public Number getUntranslatedXValue(int series, int item)
+    public Number getUntranslatedXValue(int series, @NonNegative int item)
     {
       return super.getXValue(series, item);
     }
 
-    public float getUntranslatedY(int series, int item)
+    public float getUntranslatedY(int series, @NonNegative int item)
     {
       return super.getY(series, item);
     }  */

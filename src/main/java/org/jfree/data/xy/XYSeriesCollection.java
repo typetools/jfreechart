@@ -64,6 +64,7 @@
  */
 
 package org.jfree.data.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -224,7 +225,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    public int getSeriesCount() {
+    public /*@NonNegative*/ int getSeriesCount() {
         return this.data.size();
     }
 
@@ -247,7 +248,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      *
      * @since 1.0.6
      */
-    public int indexOf(XYSeries series) {
+    public /*@GTENegativeOne*/ int indexOf(XYSeries series) {
         Args.nullNotPermitted(series, "series");
         return this.data.indexOf(series);
     }
@@ -343,7 +344,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      *     range {@code 0} to {@code getSeriesCount() - 1}.
      */
     @Override
-    public int getItemCount(/*@NonNegative*/ int series) {
+    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
         // defer argument checking
         return getSeries(series).getItemCount();
     }
@@ -357,7 +358,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         XYSeries s = (XYSeries) this.data.get(series);
         return s.getX(item);
     }
@@ -371,7 +372,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * @return The starting X value.
      */
     @Override
-    public Number getStartX(/*@NonNegative*/ int series, int item) {
+    public Number getStartX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return this.intervalDelegate.getStartX(series, item);
     }
 
@@ -384,7 +385,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * @return The ending X value.
      */
     @Override
-    public Number getEndX(/*@NonNegative*/ int series, int item) {
+    public Number getEndX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return this.intervalDelegate.getEndX(series, item);
     }
 
@@ -411,7 +412,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * @return The starting Y value.
      */
     @Override
-    public Number getStartY(/*@NonNegative*/ int series, int item) {
+    public Number getStartY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getY(series, item);
     }
 
@@ -424,7 +425,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * @return The ending Y value.
      */
     @Override
-    public Number getEndY(/*@NonNegative*/ int series, int item) {
+    public Number getEndY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getY(series, item);
     }
 

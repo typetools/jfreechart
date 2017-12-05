@@ -71,6 +71,7 @@
  */
 
 package org.jfree.data.jdbc;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -423,7 +424,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      * @see XYDataset
      */
     @Override
-    public Number getX(int seriesIndex, int itemIndex) {
+    public Number getX(/*@NonNegative*/ int seriesIndex, /*@NonNegative*/ int itemIndex) {
         ArrayList row = (ArrayList) this.rows.get(itemIndex);
         return (Number) row.get(0);
     }
@@ -439,7 +440,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      * @see XYDataset
      */
     @Override
-    public Number getY(int seriesIndex, int itemIndex) {
+    public Number getY(/*@NonNegative*/ int seriesIndex, /*@NonNegative*/ int itemIndex) {
         ArrayList row = (ArrayList) this.rows.get(itemIndex);
         return (Number) row.get(seriesIndex + 1);
     }
@@ -454,7 +455,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      * @see XYDataset
      */
     @Override
-    public int getItemCount(int seriesIndex) {
+    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int seriesIndex) {
         return this.rows.size();
     }
 
@@ -465,7 +466,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      * @return The item count.
      */
     @Override
-    public int getItemCount() {
+    public /*@NonNegative*/ int getItemCount() {
         return getItemCount(0);
     }
 
@@ -478,7 +479,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      * @see Dataset
      */
     @Override
-    public int getSeriesCount() {
+    public /*@NonNegative*/ int getSeriesCount() {
         return this.columnNames.length;
     }
 
@@ -493,7 +494,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      * @see Dataset
      */
     @Override
-    public Comparable getSeriesKey(int seriesIndex) {
+    public Comparable getSeriesKey(/*@NonNegative*/ int seriesIndex) {
 
         if ((seriesIndex < this.columnNames.length)
                 && (this.columnNames[seriesIndex] != null)) {

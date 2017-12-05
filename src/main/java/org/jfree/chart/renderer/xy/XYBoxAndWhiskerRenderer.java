@@ -307,7 +307,7 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
      *
      * @since 1.0.10
      */
-    protected Paint lookupBoxPaint(/*@NonNegative*/ int series, int item) {
+    protected Paint lookupBoxPaint(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Paint p = getBoxPaint();
         if (p != null) {
             return p;
@@ -342,7 +342,7 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            int series, int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass) {
 
         PlotOrientation orientation = plot.getOrientation();
 

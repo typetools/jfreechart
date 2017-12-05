@@ -137,7 +137,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The series count.
      */
     @Override
-    public int getSeriesCount() {
+    public /*@NonNegative*/ int getSeriesCount() {
         return getRowCount();
     }
 
@@ -358,7 +358,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The start value.
      */
     @Override
-    public Number getValue(int row, int column) {
+    public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return getStartValue(row, column);
     }
 
@@ -395,7 +395,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The start value.
      */
     @Override
-    public Number getStartValue(int row, int column) {
+    public Number getStartValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Comparable rowKey = getRowKey(row);
         Comparable columnKey = getColumnKey(column);
         return getStartValue(rowKey, columnKey);
@@ -434,7 +434,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The end value.
      */
     @Override
-    public Number getEndValue(int row, int column) {
+    public Number getEndValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Comparable rowKey = getRowKey(row);
         Comparable columnKey = getColumnKey(column);
         return getEndValue(rowKey, columnKey);
@@ -449,7 +449,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The percent complete (possibly {@code null}).
      */
     @Override
-    public Number getPercentComplete(int row, int column) {
+    public Number getPercentComplete(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Comparable rowKey = getRowKey(row);
         Comparable columnKey = getColumnKey(column);
         return getPercentComplete(rowKey, columnKey);
@@ -484,7 +484,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The sub-interval count.
      */
     @Override
-    public int getSubIntervalCount(int row, int column) {
+    public int getSubIntervalCount(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Comparable rowKey = getRowKey(row);
         Comparable columnKey = getColumnKey(column);
         return getSubIntervalCount(rowKey, columnKey);
@@ -520,7 +520,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The start value (possibly {@code null}).
      */
     @Override
-    public Number getStartValue(int row, int column, int subinterval) {
+    public Number getStartValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column, int subinterval) {
         Comparable rowKey = getRowKey(row);
         Comparable columnKey = getColumnKey(column);
         return getStartValue(rowKey, columnKey, subinterval);
@@ -562,7 +562,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The end value (possibly {@code null}).
      */
     @Override
-    public Number getEndValue(int row, int column, int subinterval) {
+    public Number getEndValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column, int subinterval) {
         Comparable rowKey = getRowKey(row);
         Comparable columnKey = getColumnKey(column);
         return getEndValue(rowKey, columnKey, subinterval);
@@ -604,7 +604,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The percent complete value (possibly {@code null}).
      */
     @Override
-    public Number getPercentComplete(int row, int column, int subinterval) {
+    public Number getPercentComplete(/*@NonNegative*/ int row, /*@NonNegative*/ int column, int subinterval) {
         Comparable rowKey = getRowKey(row);
         Comparable columnKey = getColumnKey(column);
         return getPercentComplete(rowKey, columnKey, subinterval);

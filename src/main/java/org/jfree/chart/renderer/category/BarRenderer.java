@@ -831,7 +831,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
     protected double calculateBarW0(CategoryPlot plot, 
             PlotOrientation orientation, Rectangle2D dataArea, 
             CategoryAxis domainAxis, CategoryItemRendererState state,
-            int row, int column) {
+            int row, /*@NonNegative*/ int column) {
         // calculate bar width...
         double space;
         if (orientation == PlotOrientation.HORIZONTAL) {
@@ -921,7 +921,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
      * @return The legend item (possibly {@code null}).
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
 
         CategoryPlot cp = getPlot();
         if (cp == null) {
@@ -988,7 +988,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, int row,
+            ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row,
             int column, int pass) {
 
         // nothing is drawn if the row index is not included in the list with

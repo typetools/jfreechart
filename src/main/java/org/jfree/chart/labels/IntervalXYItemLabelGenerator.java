@@ -154,7 +154,7 @@ public class IntervalXYItemLabelGenerator extends AbstractXYItemLabelGenerator
      */
     @Override
     protected Object[] createItemArray(XYDataset dataset, /*@NonNegative*/ int series,
-                                       int item) {
+                                       /*@NonNegative*/ int item) {
 
         IntervalXYDataset intervalDataset = null;
         if (dataset instanceof IntervalXYDataset) {
@@ -239,7 +239,7 @@ public class IntervalXYItemLabelGenerator extends AbstractXYItemLabelGenerator
      * @return The label text (possibly {@code null}).
      */
     @Override
-    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, int item) {
+    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return generateLabelString(dataset, series, item);
     }
 

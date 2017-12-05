@@ -302,7 +302,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    public int getSeriesCount() {
+    public /*@NonNegative*/ int getSeriesCount() {
         return this.list.size();
     }
 
@@ -335,7 +335,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public int getItemCount(/*@NonNegative*/ int series) {
+    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
         return getBins(series).size();
     }
 
@@ -355,7 +355,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         List bins = getBins(series);
         HistogramBin bin = (HistogramBin) bins.get(item);
         double x = (bin.getStartBoundary() + bin.getEndBoundary()) / 2.;
@@ -376,7 +376,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, int item) {
+    public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         List bins = getBins(series);
         HistogramBin bin = (HistogramBin) bins.get(item);
         double total = getTotal(series);
@@ -409,7 +409,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getStartX(/*@NonNegative*/ int series, int item) {
+    public Number getStartX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         List bins = getBins(series);
         HistogramBin bin = (HistogramBin) bins.get(item);
         return new Double(bin.getStartBoundary());
@@ -428,7 +428,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getEndX(/*@NonNegative*/ int series, int item) {
+    public Number getEndX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         List bins = getBins(series);
         HistogramBin bin = (HistogramBin) bins.get(item);
         return new Double(bin.getEndBoundary());
@@ -449,7 +449,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getStartY(/*@NonNegative*/ int series, int item) {
+    public Number getStartY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getY(series, item);
     }
 
@@ -468,7 +468,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getEndY(/*@NonNegative*/ int series, int item) {
+    public Number getEndY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getY(series, item);
     }
 

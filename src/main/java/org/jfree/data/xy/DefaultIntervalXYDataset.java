@@ -44,6 +44,10 @@
  */
 
 package org.jfree.data.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.common.value.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -80,7 +84,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * order of the series is significant.  This list must be kept in sync
      * with the seriesKeys list.
      */
-    private List seriesList;
+    private List<double /*@ArrayLen(6)*/ [][]> seriesList;
 
     /**
      * Creates a new {@code DefaultIntervalXYDataset} instance, initially
@@ -97,7 +101,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    public int getSeriesCount() {
+    public /*@NonNegative*/ int getSeriesCount() {
         return this.seriesList.size();
     }
 
@@ -132,11 +136,14 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public int getItemCount(/*@NonNegative*/ int series) {
+    public /*@LengthOf({"this.seriesList.get(#1)[0]", "this.seriesList.get(#1)[1]", "this.seriesList.get(#1)[2]", "this.seriesList.get(#1)[3]", "this.seriesList.get(#1)[4]", "this.seriesList.get(#1)[5]"})*/ int getItemCount(/*@NonNegative*/ int series) {
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException("Series index out of bounds");
         }
-        double[][] seriesArray = (double[][]) this.seriesList.get(series);
+        @SuppressWarnings("index") // class invariant: list of 2D arrays that are 6xN, where N is the same for each array
+                double[] /*@SameLen({"this.seriesList.get(series)[0]", "this.seriesList.get(series)[1]", "this.seriesList.get(series)[2]", "this.seriesList.get(series)[3]", "this.seriesList.get(series)[4]", "this.seriesList.get(series)[5]"})*/ [] seriesArray =
+                (double[] /*@SameLen({"this.seriesList.get(series)[0]", "this.seriesList.get(series)[1]", "this.seriesList.get(series)[2]", "this.seriesList.get(series)[3]", "this.seriesList.get(series)[4]", "this.seriesList.get(series)[5]"})*/ [])
+                        this.seriesList.get(series);
         return seriesArray[0].length;
     }
 
@@ -158,7 +165,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * @see #getX(int, int)
      */
     @Override
-    public double getXValue(/*@NonNegative*/ int series, int item) {
+    public double getXValue(/*@NonNegative*/ int series, /*@IndexFor("this.seriesList.get(#1)[0]")*/ int item) {
         double[][] seriesData = (double[][]) this.seriesList.get(series);
         return seriesData[0][item];
     }
@@ -181,7 +188,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * @see #getY(int, int)
      */
     @Override
-    public double getYValue(/*@NonNegative*/ int series, int item) {
+    public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.seriesList.get(#1)[3]")*/ int item) {
         double[][] seriesData = (double[][]) this.seriesList.get(series);
         return seriesData[3][item];
     }
@@ -204,7 +211,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * @see #getStartX(int, int)
      */
     @Override
-    public double getStartXValue(/*@NonNegative*/ int series, int item) {
+    public double getStartXValue(/*@NonNegative*/ int series, /*@IndexFor("this.seriesList.get(#1)[1]")*/ int item) {
         double[][] seriesData = (double[][]) this.seriesList.get(series);
         return seriesData[1][item];
     }
@@ -227,7 +234,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * @see #getEndX(int, int)
      */
     @Override
-    public double getEndXValue(/*@NonNegative*/ int series, int item) {
+    public double getEndXValue(/*@NonNegative*/ int series, /*@IndexFor("this.seriesList.get(#1)[2]")*/ int item) {
         double[][] seriesData = (double[][]) this.seriesList.get(series);
         return seriesData[2][item];
     }
@@ -250,7 +257,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * @see #getStartY(int, int)
      */
     @Override
-    public double getStartYValue(/*@NonNegative*/ int series, int item) {
+    public double getStartYValue(/*@NonNegative*/ int series, /*@IndexFor("this.seriesList.get(#1)[4]")*/ int item) {
         double[][] seriesData = (double[][]) this.seriesList.get(series);
         return seriesData[4][item];
     }
@@ -273,7 +280,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * @see #getEndY(int, int)
      */
     @Override
-    public double getEndYValue(/*@NonNegative*/ int series, int item) {
+    public double getEndYValue(/*@NonNegative*/ int series, /*@IndexFor("this.seriesList.get(#1)[5]")*/ int item) {
         double[][] seriesData = (double[][]) this.seriesList.get(series);
         return seriesData[5][item];
     }
@@ -296,7 +303,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * @see #getEndXValue(int, int)
      */
     @Override
-    public Number getEndX(/*@NonNegative*/ int series, int item) {
+    public Number getEndX(/*@NonNegative*/ int series, /*@IndexFor("this.seriesList.get(#1)[6]")*/ int item) {
         return new Double(getEndXValue(series, item));
     }
 
@@ -318,7 +325,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * @see #getEndYValue(int, int)
      */
     @Override
-    public Number getEndY(/*@NonNegative*/ int series, int item) {
+    public Number getEndY(/*@NonNegative*/ int series, /*@IndexFor("this.seriesList.get(#1)[5]")*/ int item) {
         return new Double(getEndYValue(series, item));
     }
 
@@ -340,7 +347,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * @see #getStartXValue(int, int)
      */
     @Override
-    public Number getStartX(/*@NonNegative*/ int series, int item) {
+    public Number getStartX(/*@NonNegative*/ int series, /*@IndexFor("this.seriesList.get(#1)[1]")*/ int item) {
         return new Double(getStartXValue(series, item));
     }
 
@@ -362,7 +369,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * @see #getStartYValue(int, int)
      */
     @Override
-    public Number getStartY(/*@NonNegative*/ int series, int item) {
+    public Number getStartY(/*@NonNegative*/ int series, /*@IndexFor("this.seriesList.get(#1)[4]")*/ int item) {
         return new Double(getStartYValue(series, item));
     }
 
@@ -384,7 +391,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * @see #getXValue(int, int)
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.seriesList.get(#1)[0]")*/ int item) {
         return new Double(getXValue(series, item));
     }
 
@@ -406,7 +413,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * @see #getYValue(int, int)
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, int item) {
+    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.seriesList.get(#1)[1]")*/ int item) {
         return new Double(getYValue(series, item));
     }
 
@@ -421,7 +428,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      *     (x, xLow and xHigh) and the last three containing the y-values
      *     (y, yLow and yHigh)).
      */
-    public void addSeries(Comparable seriesKey, double[][] data) {
+    public void addSeries(Comparable seriesKey, double /*@ArrayLen(6)*/ [] /*@SameLen({"#2[0]", "#2[1]", "#2[2]", "#2[3]", "#2[4]", "#2[5]"})*/ [] data) {
         if (seriesKey == null) {
             throw new IllegalArgumentException(
                     "The 'seriesKey' cannot be null.");
@@ -468,6 +475,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * @return A boolean.
      */
     @Override
+    @SuppressWarnings("index") // Equality test relies on well-formedness of other object, which can't be annotated perfectly because of array-list interop
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;

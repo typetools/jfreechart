@@ -76,7 +76,7 @@ public abstract class AbstractXYDataset extends AbstractSeriesDataset
      * @return The value.
      */
     @Override
-    public double getXValue(/*@NonNegative*/ int series, int item) {
+    public double getXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         double result = Double.NaN;
         Number x = getX(series, item);
         if (x != null) {
@@ -94,7 +94,7 @@ public abstract class AbstractXYDataset extends AbstractSeriesDataset
      * @return The value.
      */
     @Override
-    public double getYValue(/*@NonNegative*/ int series, int item) {
+    public double getYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         double result = Double.NaN;
         Number y = getY(series, item);
         if (y != null) {

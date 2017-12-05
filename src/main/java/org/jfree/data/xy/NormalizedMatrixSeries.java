@@ -40,6 +40,7 @@
  */
 
 package org.jfree.data.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /**
  * Represents a dense normalized matrix M[i,j] where each Mij item of the
@@ -90,7 +91,7 @@ public class NormalizedMatrixSeries extends MatrixSeries {
      * @see org.jfree.data.xy.MatrixSeries#getItem(int)
      */
     @Override
-    public Number getItem(int itemIndex) {
+    public Number getItem(/*@NonNegative*/ int itemIndex) {
         int i = getItemRow(itemIndex);
         int j = getItemColumn(itemIndex);
 

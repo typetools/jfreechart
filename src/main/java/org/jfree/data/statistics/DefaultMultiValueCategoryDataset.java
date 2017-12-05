@@ -41,6 +41,7 @@
  */
 
 package org.jfree.data.statistics;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -163,7 +164,7 @@ public class DefaultMultiValueCategoryDataset extends AbstractDataset
      * @return The list of values.
      */
     @Override
-    public List getValues(int row, int column) {
+    public List getValues(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         List values = (List) this.data.getObject(row, column);
         if (values != null) {
             return Collections.unmodifiableList(values);
@@ -226,7 +227,7 @@ public class DefaultMultiValueCategoryDataset extends AbstractDataset
      * @return The average value.
      */
     @Override
-    public Number getValue(int row, int column) {
+    public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         List l = (List) this.data.getObject(row, column);
         double average = 0.0d;
         int count = 0;
@@ -266,7 +267,7 @@ public class DefaultMultiValueCategoryDataset extends AbstractDataset
      * @return The column key.
      */
     @Override
-    public Comparable getColumnKey(int column) {
+    public Comparable getColumnKey(/*@NonNegative*/ int column) {
         return this.data.getColumnKey(column);
     }
 
@@ -300,7 +301,7 @@ public class DefaultMultiValueCategoryDataset extends AbstractDataset
      * @return The row key.
      */
     @Override
-    public Comparable getRowKey(int row) {
+    public Comparable getRowKey(/*@NonNegative*/ int row) {
         return this.data.getRowKey(row);
     }
 

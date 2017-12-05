@@ -64,6 +64,6 @@ public interface XYToolTipGenerator {
      *
      * @return The tooltip text (possibly {@code null}).
      */
-    public String generateToolTip(XYDataset dataset, /*@NonNegative*/ int series, int item);
+    public String generateToolTip(XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item);
 
 }

@@ -330,7 +330,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      *
      * @see #getSeriesShapesFilled(int)
      */
-    public boolean getItemShapeFilled(/*@NonNegative*/ int series, int item) {
+    public boolean getItemShapeFilled(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
 
         // otherwise look up the paint table
         Boolean flag = this.seriesShapesFilled.getBoolean(series);
@@ -578,7 +578,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      * @return A legend item for the series.
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
         XYPlot plot = getPlot();
         if (plot == null) {
             return null;
@@ -739,7 +739,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            int series, int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass) {
 
         boolean itemVisible = getItemVisible(series, item);
 
@@ -1013,7 +1013,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      *
      * @see #getPlotImages()
      */
-    protected Image getImage(Plot plot, /*@NonNegative*/ int series, int item,
+    protected Image getImage(Plot plot, /*@NonNegative*/ int series, /*@NonNegative*/ int item,
                              double x, double y) {
         // this method must be overridden if you want to display images
         return null;
@@ -1036,7 +1036,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      *
      * @return The hotspot used to draw the data item.
      */
-    protected Point getImageHotspot(Plot plot, /*@NonNegative*/ int series, int item,
+    protected Point getImageHotspot(Plot plot, /*@NonNegative*/ int series, /*@NonNegative*/ int item,
                                     double x, double y, Image image) {
 
         int height = image.getHeight(null);

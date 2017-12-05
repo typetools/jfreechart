@@ -348,7 +348,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @return The generator (possibly {@code null}).
      */
     @Override
-    public XYItemLabelGenerator getItemLabelGenerator(/*@NonNegative*/ int series, int item) {
+    public XYItemLabelGenerator getItemLabelGenerator(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
 
         // otherwise look up the generator table
         XYItemLabelGenerator generator
@@ -420,7 +420,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @return The generator (possibly {@code null}).
      */
     @Override
-    public XYToolTipGenerator getToolTipGenerator(/*@NonNegative*/ int series, int item) {
+    public XYToolTipGenerator getToolTipGenerator(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
 
         // otherwise look up the generator table
         XYToolTipGenerator generator
@@ -841,7 +841,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @return A legend item for the series.
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
         XYPlot xyplot = getPlot();
         if (xyplot == null) {
             return null;
@@ -1587,7 +1587,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @since 1.0.20
      */
     protected void updateCrosshairValues(CrosshairState crosshairState,
-            double x, double y, int datasetIndex,
+            double x, double y, /*@NonNegative*/ int datasetIndex,
             double transX, double transY, PlotOrientation orientation) {
 
         Args.nullNotPermitted(orientation, "orientation");
@@ -1628,7 +1628,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      *                  label position).
      */
     protected void drawItemLabel(Graphics2D g2, PlotOrientation orientation,
-            XYDataset dataset, /*@NonNegative*/ int series, int item, double x, double y,
+            XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item, double x, double y,
             boolean negative) {
 
         XYItemLabelGenerator generator = getItemLabelGenerator(series, item);
@@ -1712,7 +1712,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      *         {@code hotspot} is {@code null}).
      */
     protected void addEntity(EntityCollection entities, Shape hotspot,
-            XYDataset dataset, /*@NonNegative*/ int series, int item, double entityX,
+            XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item, double entityX,
             double entityY) {
         
         if (!getItemCreateEntity(series, item)) {

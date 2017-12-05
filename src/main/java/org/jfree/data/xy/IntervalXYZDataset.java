@@ -58,7 +58,7 @@ public interface IntervalXYZDataset extends XYZDataset {
      *
      * @return The starting X value for the specified series and item.
      */
-    public Number getStartXValue(/*@NonNegative*/ int series, int item);
+    public Number getStartXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
 
     /**
      * Returns the ending X value for the specified series and item.
@@ -68,7 +68,7 @@ public interface IntervalXYZDataset extends XYZDataset {
      *
      * @return The ending X value for the specified series and item.
      */
-    public Number getEndXValue(/*@NonNegative*/ int series, int item);
+    public Number getEndXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
 
     /**
      * Returns the starting Y value for the specified series and item.
@@ -78,7 +78,7 @@ public interface IntervalXYZDataset extends XYZDataset {
      *
      * @return The starting Y value for the specified series and item.
      */
-    public Number getStartYValue(/*@NonNegative*/ int series, int item);
+    public Number getStartYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
 
     /**
      * Returns the ending Y value for the specified series and item.
@@ -88,7 +88,7 @@ public interface IntervalXYZDataset extends XYZDataset {
      *
      * @return The ending Y value for the specified series and item.
      */
-    public Number getEndYValue(/*@NonNegative*/ int series, int item);
+    public Number getEndYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
 
     /**
      * Returns the starting Z value for the specified series and item.
@@ -98,7 +98,7 @@ public interface IntervalXYZDataset extends XYZDataset {
      *
      * @return The starting Z value for the specified series and item.
      */
-    public Number getStartZValue(/*@NonNegative*/ int series, int item);
+    public Number getStartZValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
 
     /**
      * Returns the ending Z value for the specified series and item.
@@ -108,6 +108,6 @@ public interface IntervalXYZDataset extends XYZDataset {
      *
      * @return The ending Z value for the specified series and item.
      */
-    public Number getEndZValue(/*@NonNegative*/ int series, int item);
+    public Number getEndZValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
 
 }

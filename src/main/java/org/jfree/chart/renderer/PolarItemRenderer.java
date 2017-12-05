@@ -153,7 +153,7 @@ public interface PolarItemRenderer {
      *
      * @since 1.0.14
      */
-    public XYToolTipGenerator getToolTipGenerator(int row, int column);
+    public XYToolTipGenerator getToolTipGenerator(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
 
     /**
      * Returns the tool tip generator for a series.

@@ -46,6 +46,7 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -148,7 +149,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state, 
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            int series, int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass) {
 
         if ((!getPlotLines()) || ((!(domainAxis instanceof CyclicNumberAxis))
                 && (!(rangeAxis instanceof CyclicNumberAxis))) || (item <= 0)) {
@@ -367,7 +368,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The item count.
          */
         @Override
-        public int getItemCount(/*@NonNegative*/ int series) {
+        public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
             return this.x.length;
         }
 
@@ -380,7 +381,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The x-value.
          */
         @Override
-        public Number getX(/*@NonNegative*/ int series, int item) {
+        public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
             return this.x[item];
         }
 
@@ -394,7 +395,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The x-value.
          */
         @Override
-        public double getXValue(/*@NonNegative*/ int series, int item) {
+        public double getXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
             double result = Double.NaN;
             Number xx = getX(series, item);
             if (xx != null) {
@@ -412,7 +413,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The y-value.
          */
         @Override
-        public Number getY(/*@NonNegative*/ int series, int item) {
+        public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
             return this.y[item];
         }
 
@@ -426,7 +427,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The y-value.
          */
         @Override
-        public double getYValue(/*@NonNegative*/ int series, int item) {
+        public double getYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
             double result = Double.NaN;
             Number yy = getY(series, item);
             if (yy != null) {
@@ -441,7 +442,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The series count.
          */
         @Override
-        public int getSeriesCount() {
+        public /*@NonNegative*/ int getSeriesCount() {
             return this.delegateSet.getSeriesCount();
         }
 
@@ -465,7 +466,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The index.
          */
         @Override
-        public int indexOf(Comparable seriesName) {
+        public /*@GTENegativeOne*/ int indexOf(Comparable seriesName) {
             return this.delegateSet.indexOf(seriesName);
         }
 

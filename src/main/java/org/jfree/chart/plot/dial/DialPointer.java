@@ -95,7 +95,7 @@ public abstract class DialPointer extends AbstractDialLayer
      *
      * @param datasetIndex  the dataset index.
      */
-    protected DialPointer(int datasetIndex) {
+    protected DialPointer(/*@NonNegative*/ int datasetIndex) {
         this.radius = 0.9;
         this.datasetIndex = datasetIndex;
     }
@@ -236,7 +236,7 @@ public abstract class DialPointer extends AbstractDialLayer
          *
          * @param datasetIndex  the dataset index.
          */
-        public Pin(int datasetIndex) {
+        public Pin(/*@NonNegative*/ int datasetIndex) {
             super(datasetIndex);
             this.paint = Color.RED;
             this.stroke = new BasicStroke(3.0f, BasicStroke.CAP_ROUND,
@@ -429,7 +429,7 @@ public abstract class DialPointer extends AbstractDialLayer
          *
          * @param datasetIndex  the dataset index.
          */
-        public Pointer(int datasetIndex) {
+        public Pointer(/*@NonNegative*/ int datasetIndex) {
             super(datasetIndex);
             this.widthRadius = 0.05;
             this.fillPaint = Color.GRAY;

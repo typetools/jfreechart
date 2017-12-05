@@ -79,6 +79,7 @@
  */
 
 package org.jfree.data.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
@@ -344,7 +345,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      * @see #getItems()
      */
     @Override
-    public int getItemCount() {
+    public /*@NonNegative*/ int getItemCount() {
         return this.data.size();
     }
 
@@ -848,7 +849,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @return The index.
      */
-    public int indexOf(Number x) {
+    public /*@GTENegativeOne*/ int indexOf(Number x) {
         if (this.autoSort) {
             return Collections.binarySearch(this.data, new XYDataItem(x, null));
         }

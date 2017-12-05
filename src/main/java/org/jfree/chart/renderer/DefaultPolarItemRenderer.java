@@ -459,7 +459,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      *                 used if {@code area} is {@code null}).
      */
     protected void addEntity(EntityCollection entities, Shape area,
-                             XYDataset dataset, /*@NonNegative*/ int series, int item,
+                             XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item,
                              double entityX, double entityY) {
         if (!getItemCreateEntity(series, item)) {
             return;
@@ -750,7 +750,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      * @since 1.0.14
      */
     @Override
-    public XYToolTipGenerator getToolTipGenerator(/*@NonNegative*/ int series, int item) {
+    public XYToolTipGenerator getToolTipGenerator(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         XYToolTipGenerator generator
             = (XYToolTipGenerator) this.toolTipGeneratorList.get(series);
         if (generator == null) {

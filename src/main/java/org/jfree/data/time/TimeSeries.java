@@ -257,7 +257,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      * @return The item count.
      */
     @Override
-    public int getItemCount() {
+    public /*@NonNegative*/ int getItemCount() {
         return this.data.size();
     }
 
@@ -558,6 +558,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      * @return The next time period.
      */
     public RegularTimePeriod getNextTimePeriod() {
+        @SuppressWarnings("index") // I believe this is a bug TODO: patch
         RegularTimePeriod last = getTimePeriod(getItemCount() - 1);
         return last.next();
     }

@@ -229,7 +229,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getCategoryCount()
      */
     @Override
-    public int getSeriesCount() {
+    public /*@NonNegative*/ int getSeriesCount() {
         int result = 0;
         if (this.startData != null) {
             result = this.startData.length;
@@ -623,7 +623,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getRowKey(int)
      */
     @Override
-    public Comparable getColumnKey(int column) {
+    public Comparable getColumnKey(/*@NonNegative*/ int column) {
         return this.categoryKeys[column];
     }
 
@@ -686,7 +686,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getColumnKey(int)
      */
     @Override
-    public Comparable getRowKey(int row) {
+    public Comparable getRowKey(/*@NonNegative*/ int row) {
         if ((row >= getRowCount()) || (row < 0)) {
             throw new IllegalArgumentException(
                     "The 'row' argument is out of bounds.");

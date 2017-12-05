@@ -373,7 +373,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            int series, int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass) {
 
         if (pass == 0) {
             drawItemPass0(g2, dataArea, info, plot, domainAxis, rangeAxis,
@@ -410,7 +410,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
                                  ValueAxis x_rangeAxis,
                                  XYDataset x_dataset,
                                  int x_series,
-                                 int x_item,
+                                 /*@NonNegative*/ int x_item,
                                  CrosshairState x_crosshairState) {
 
         if (!((0 == x_series) && (0 == x_item))) {
@@ -868,7 +868,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
                                  ValueAxis x_rangeAxis,
                                  XYDataset x_dataset,
                                  int x_series,
-                                 int x_item,
+                                 /*@NonNegative*/ int x_item,
                                  CrosshairState x_crosshairState) {
 
         Shape l_entityArea = null;
@@ -1119,7 +1119,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
      * @return A legend item for the series.
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
         LegendItem result = null;
         XYPlot p = getPlot();
         if (p != null) {

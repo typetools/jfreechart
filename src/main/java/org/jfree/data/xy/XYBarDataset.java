@@ -126,7 +126,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    public int getSeriesCount() {
+    public /*@NonNegative*/ int getSeriesCount() {
         return this.underlying.getSeriesCount();
     }
 
@@ -151,7 +151,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    public int getItemCount(/*@NonNegative*/ int series) {
+    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
         return this.underlying.getItemCount(series);
     }
 
@@ -166,7 +166,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getXValue(int, int)
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return this.underlying.getX(series, item);
     }
 
@@ -181,7 +181,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getX(int, int)
      */
     @Override
-    public double getXValue(/*@NonNegative*/ int series, int item) {
+    public double getXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return this.underlying.getXValue(series, item);
     }
 
@@ -196,7 +196,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getYValue(int, int)
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, int item) {
+    public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return this.underlying.getY(series, item);
     }
 
@@ -211,7 +211,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getY(int, int)
      */
     @Override
-    public double getYValue(/*@NonNegative*/ int series, int item) {
+    public double getYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return this.underlying.getYValue(series, item);
     }
 
@@ -224,7 +224,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getStartX(/*@NonNegative*/ int series, int item) {
+    public Number getStartX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Number result = null;
         Number xnum = this.underlying.getX(series, item);
         if (xnum != null) {
@@ -245,7 +245,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getXValue(int, int)
      */
     @Override
-    public double getStartXValue(/*@NonNegative*/ int series, int item) {
+    public double getStartXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getXValue(series, item) - this.barWidth / 2.0;
     }
 
@@ -258,7 +258,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getEndX(/*@NonNegative*/ int series, int item) {
+    public Number getEndX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Number result = null;
         Number xnum = this.underlying.getX(series, item);
         if (xnum != null) {
@@ -279,7 +279,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getXValue(int, int)
      */
     @Override
-    public double getEndXValue(/*@NonNegative*/ int series, int item) {
+    public double getEndXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getXValue(series, item) + this.barWidth / 2.0;
     }
 
@@ -292,7 +292,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getStartY(/*@NonNegative*/ int series, int item) {
+    public Number getStartY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return this.underlying.getY(series, item);
     }
 
@@ -308,7 +308,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getYValue(int, int)
      */
     @Override
-    public double getStartYValue(/*@NonNegative*/ int series, int item) {
+    public double getStartYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getYValue(series, item);
     }
 
@@ -321,7 +321,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getEndY(/*@NonNegative*/ int series, int item) {
+    public Number getEndY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return this.underlying.getY(series, item);
     }
 
@@ -337,7 +337,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getYValue(int, int)
      */
     @Override
-    public double getEndYValue(/*@NonNegative*/ int series, int item) {
+    public double getEndYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getYValue(series, item);
     }
 

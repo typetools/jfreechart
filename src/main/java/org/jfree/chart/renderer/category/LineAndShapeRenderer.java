@@ -234,7 +234,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      *
      * @return A boolean.
      */
-    public boolean getItemLineVisible(/*@NonNegative*/ int series, int item) {
+    public boolean getItemLineVisible(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Boolean flag = getSeriesLinesVisible(series);
         if (flag != null) {
             return flag;
@@ -318,7 +318,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      *
      * @return A boolean.
      */
-    public boolean getItemShapeVisible(/*@NonNegative*/ int series, int item) {
+    public boolean getItemShapeVisible(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Boolean flag = getSeriesShapesVisible(series);
         if (flag != null) {
             return flag;
@@ -459,7 +459,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      *
      * @return A boolean.
      */
-    public boolean getItemShapeFilled(/*@NonNegative*/ int series, int item) {
+    public boolean getItemShapeFilled(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getSeriesShapesFilled(series);
     }
 
@@ -634,7 +634,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      * @return The legend item.
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
 
         CategoryPlot cp = getPlot();
         if (cp == null) {
@@ -713,7 +713,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, int row, int column,
+            ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column,
             int pass) {
 
         // do nothing if item is not visible

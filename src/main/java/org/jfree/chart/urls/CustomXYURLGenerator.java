@@ -110,7 +110,7 @@ public class CustomXYURLGenerator implements XYURLGenerator, Cloneable,
      *
      * @return The URL (possibly {@code null}).
      */
-    public String getURL(/*@NonNegative*/ int series, int item) {
+    public String getURL(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         String result = null;
         if (series < getListCount()) {
             List urls = (List) this.urlSeries.get(series);
@@ -133,7 +133,7 @@ public class CustomXYURLGenerator implements XYURLGenerator, Cloneable,
      * @return A string containing the URL (possibly {@code null}).
      */
     @Override
-    public String generateURL(XYDataset dataset, /*@NonNegative*/ int series, int item) {
+    public String generateURL(XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getURL(series, item);
     }
 

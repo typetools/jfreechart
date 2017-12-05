@@ -234,6 +234,7 @@
  */
 
 package org.jfree.chart.plot;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 /*>>>
@@ -1423,7 +1424,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @return The index or -1.
      */
-    public int indexOf(XYDataset dataset) {
+    public /*@GTENegativeOne*/ int indexOf(XYDataset dataset) {
         for (Map.Entry<Integer, XYDataset> entry: this.datasets.entrySet()) {
             if (dataset == entry.getValue()) {
                 return entry.getKey();
@@ -3375,9 +3376,9 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * 
      * @return The list of indices. 
      */
-    private List<Integer> getDatasetIndices(DatasetRenderingOrder order) {
+    private List< /*@NonNegative*/ Integer> getDatasetIndices(DatasetRenderingOrder order) {
         List<Integer> result = new ArrayList<Integer>();
-        for (Entry<Integer, XYDataset> entry : this.datasets.entrySet()) {
+        for (Entry< /*@NonNegative*/ Integer, XYDataset> entry : this.datasets.entrySet()) {
             if (entry.getValue() != null) {
                 result.add(entry.getKey());
             }
@@ -3389,9 +3390,9 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         return result;
     }
     
-    private List<Integer> getRendererIndices(DatasetRenderingOrder order) {
+    private List< /*@NonNegative*/ Integer> getRendererIndices(DatasetRenderingOrder order) {
         List<Integer> result = new ArrayList<Integer>();
-        for (Entry<Integer, XYItemRenderer> entry : this.renderers.entrySet()) {
+        for (Entry< /*@NonNegative*/ Integer, XYItemRenderer> entry : this.renderers.entrySet()) {
             if (entry.getValue() != null) {
                 result.add(entry.getKey());
             }
@@ -5238,7 +5239,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @return The series count.
      */
-    public int getSeriesCount() {
+    public /*@NonNegative*/ int getSeriesCount() {
         int result = 0;
         XYDataset dataset = getDataset();
         if (dataset != null) {

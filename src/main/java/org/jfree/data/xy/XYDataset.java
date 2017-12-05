@@ -78,7 +78,7 @@ public interface XYDataset extends SeriesDataset {
      *
      * @return The item count.
      */
-    public int getItemCount(/*@NonNegative*/ int series);
+    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series);
 
     /**
      * Returns the x-value for an item within a series.  The x-values may or
@@ -92,7 +92,7 @@ public interface XYDataset extends SeriesDataset {
      *
      * @return The x-value (never {@code null}).
      */
-    public Number getX(/*@NonNegative*/ int series, int item);
+    public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
 
     /**
      * Returns the x-value for an item within a series.
@@ -104,7 +104,7 @@ public interface XYDataset extends SeriesDataset {
      *
      * @return The x-value.
      */
-    public double getXValue(/*@NonNegative*/ int series, int item);
+    public double getXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
 
     /**
      * Returns the y-value for an item within a series.
@@ -116,7 +116,7 @@ public interface XYDataset extends SeriesDataset {
      *
      * @return The y-value (possibly {@code null}).
      */
-    public Number getY(/*@NonNegative*/ int series, int item);
+    public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
 
     /**
      * Returns the y-value (as a double primitive) for an item within a series.
@@ -128,6 +128,6 @@ public interface XYDataset extends SeriesDataset {
      *
      * @return The y-value.
      */
-    public double getYValue(/*@NonNegative*/ int series, int item);
+    public double getYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
 
 }

@@ -294,7 +294,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @return The generator (possibly {@code null}).
      */
     @Override
-    public CategoryItemLabelGenerator getItemLabelGenerator(int row,
+    public CategoryItemLabelGenerator getItemLabelGenerator(/*@NonNegative*/ int row,
             int column) {
         return getSeriesItemLabelGenerator(row);
     }
@@ -413,7 +413,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @return The generator (possibly {@code null}).
      */
     @Override
-    public CategoryToolTipGenerator getToolTipGenerator(int row, int column) {
+    public CategoryToolTipGenerator getToolTipGenerator(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
 
         CategoryToolTipGenerator result = getSeriesToolTipGenerator(row);
         if (result == null) {
@@ -526,7 +526,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @return The URL generator.
      */
     @Override
-    public CategoryURLGenerator getItemURLGenerator(int row, int column) {
+    public CategoryURLGenerator getItemURLGenerator(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return getSeriesItemURLGenerator(row);
     }
 
@@ -1250,7 +1250,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @see #getLegendItems()
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
 
         CategoryPlot p = getPlot();
         if (p == null) {
@@ -1429,7 +1429,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *                  label position).
      */
     protected void drawItemLabel(Graphics2D g2, PlotOrientation orientation,
-            CategoryDataset dataset, int row, int column,
+            CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column,
             double x, double y, boolean negative) {
 
         CategoryItemLabelGenerator generator = getItemLabelGenerator(row,
@@ -1701,7 +1701,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @param hotspot  the hotspot ({@code null} not permitted).
      */
     protected void addItemEntity(EntityCollection entities,
-            CategoryDataset dataset, int row, int column, Shape hotspot) {
+            CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column, Shape hotspot) {
         Args.nullNotPermitted(hotspot, "hotspot");
         if (!getItemCreateEntity(row, column)) {
             return;
@@ -1738,7 +1738,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @since 1.0.13
      */
     protected void addEntity(EntityCollection entities, Shape hotspot,
-                             CategoryDataset dataset, int row, int column,
+                             CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column,
                              double entityX, double entityY) {
         if (!getItemCreateEntity(row, column)) {
             return;

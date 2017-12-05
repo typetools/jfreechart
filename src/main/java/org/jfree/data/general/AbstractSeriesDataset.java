@@ -43,6 +43,7 @@
  */
 
 package org.jfree.data.general;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -98,7 +99,7 @@ public abstract class AbstractSeriesDataset extends AbstractDataset
      * @return The index.
      */
     @Override
-    public int indexOf(Comparable seriesKey) {
+    public /*@GTENegativeOne*/ int indexOf(Comparable seriesKey) {
         int seriesCount = getSeriesCount();
         for (int s = 0; s < seriesCount; s++) {
            if (getSeriesKey(s).equals(seriesKey)) {

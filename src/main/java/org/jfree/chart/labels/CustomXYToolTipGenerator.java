@@ -110,7 +110,7 @@ public class CustomXYToolTipGenerator implements XYToolTipGenerator,
      *
      * @return The tool tip text.
      */
-    public String getToolTipText(/*@NonNegative*/ int series, int item) {
+    public String getToolTipText(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
 
         String result = null;
 
@@ -145,7 +145,7 @@ public class CustomXYToolTipGenerator implements XYToolTipGenerator,
      * @return The tooltip text.
      */
     @Override
-    public String generateToolTip(XYDataset data, /*@NonNegative*/ int series, int item) {
+    public String generateToolTip(XYDataset data, /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getToolTipText(series, item);
     }
 

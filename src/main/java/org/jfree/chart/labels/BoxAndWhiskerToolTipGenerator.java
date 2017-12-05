@@ -40,6 +40,7 @@
  */
 
 package org.jfree.chart.labels;
+/*>>> import org.checkerframework.common.value.qual.MinLen; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -112,8 +113,8 @@ public class BoxAndWhiskerToolTipGenerator
      * @return The items (never {@code null}).
      */
     @Override
-    protected Object[] createItemArray(CategoryDataset dataset, /*@NonNegative*/ int series,
-                                       int item) {
+    protected Object /*@MinLen(8)*/ [] createItemArray(CategoryDataset dataset, /*@NonNegative*/ int series,
+                                       /*@NonNegative*/ int item) {
         Object[] result = new Object[8];
         result[0] = dataset.getRowKey(series);
         Number y = dataset.getValue(series, item);

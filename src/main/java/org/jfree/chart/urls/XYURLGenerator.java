@@ -70,6 +70,6 @@ public interface XYURLGenerator {
      * @return A string containing the generated URL (possibly
      *         {@code null}).
      */
-    public String generateURL(XYDataset dataset, /*@NonNegative*/ int series, int item);
+    public String generateURL(XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item);
 
 }

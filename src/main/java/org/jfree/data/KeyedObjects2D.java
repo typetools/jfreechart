@@ -44,6 +44,7 @@
  */
 
 package org.jfree.data;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -110,7 +111,7 @@ public class KeyedObjects2D implements Cloneable, Serializable {
      *
      * @see #getObject(Comparable, Comparable)
      */
-    public Object getObject(int row, int column) {
+    public Object getObject(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Object result = null;
         KeyedObjects rowData = (KeyedObjects) this.rows.get(row);
         if (rowData != null) {
@@ -134,7 +135,7 @@ public class KeyedObjects2D implements Cloneable, Serializable {
      *
      * @see #getRowIndex(Comparable)
      */
-    public Comparable getRowKey(int row) {
+    public Comparable getRowKey(/*@NonNegative*/ int row) {
         return (Comparable) this.rowKeys.get(row);
     }
 
@@ -173,7 +174,7 @@ public class KeyedObjects2D implements Cloneable, Serializable {
      *
      * @see #getColumnIndex(Comparable)
      */
-    public Comparable getColumnKey(int column) {
+    public Comparable getColumnKey(/*@NonNegative*/ int column) {
         return (Comparable) this.columnKeys.get(column);
     }
 

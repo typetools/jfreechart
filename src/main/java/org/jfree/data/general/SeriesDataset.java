@@ -42,6 +42,7 @@
  */
 
 package org.jfree.data.general;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -69,7 +70,7 @@ public interface SeriesDataset extends Dataset {
      *
      * @return The series count.
      */
-    public int getSeriesCount();
+    public /*@NonNegative*/ int getSeriesCount();
 
     /**
      * Returns the key for a series.
@@ -89,6 +90,6 @@ public interface SeriesDataset extends Dataset {
      *
      * @return The index, or -1.
      */
-    public int indexOf(Comparable seriesKey);
+    public /*@GTENegativeOne*/ int indexOf(Comparable seriesKey);
 
 }

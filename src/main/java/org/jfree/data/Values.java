@@ -54,7 +54,7 @@ public interface Values {
      *
      * @return The item count (possibly zero).
      */
-    public int getItemCount();
+    public /*@NonNegative*/ int getItemCount();
 
     /**
      * Returns the value with the specified index.

@@ -56,6 +56,7 @@
  */
 
 package org.jfree.data.general;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -107,7 +108,7 @@ public class DefaultPieDataset extends AbstractDataset
      * @return The item count.
      */
     @Override
-    public int getItemCount() {
+    public /*@NonNegative*/ int getItemCount() {
         return this.data.getItemCount();
     }
 
@@ -134,7 +135,7 @@ public class DefaultPieDataset extends AbstractDataset
      *     specified range.
      */
     @Override
-    public Comparable getKey(int item) {
+    public Comparable getKey(/*@NonNegative*/ int item) {
         return this.data.getKey(item);
     }
 
@@ -161,7 +162,7 @@ public class DefaultPieDataset extends AbstractDataset
      * @return The value (possibly {@code null}).
      */
     @Override
-    public Number getValue(int item) {
+    public Number getValue(/*@NonNegative*/ int item) {
         Number result = null;
         if (getItemCount() > item) {
             result = this.data.getValue(item);

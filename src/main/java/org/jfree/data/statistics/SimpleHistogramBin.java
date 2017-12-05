@@ -39,6 +39,7 @@
  */
 
 package org.jfree.data.statistics;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.io.Serializable;
 import org.jfree.chart.util.PublicCloneable;
@@ -127,7 +128,7 @@ public class SimpleHistogramBin implements Comparable,
      *
      * @return The item count.
      */
-    public int getItemCount() {
+    public /*@NonNegative*/ int getItemCount() {
         return this.itemCount;
     }
 

@@ -258,7 +258,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      *
      * @return A boolean.
      */
-    public boolean getItemLineVisible(/*@NonNegative*/ int series, int item) {
+    public boolean getItemLineVisible(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Boolean flag = getSeriesLinesVisible(series);
         if (flag != null) {
             return flag;
@@ -371,7 +371,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      *
      * @return A boolean.
      */
-    public boolean getItemShapeVisible(/*@NonNegative*/ int series, int item) {
+    public boolean getItemShapeVisible(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Boolean flag = getSeriesShapesVisible(series);
         if (flag != null) {
             return flag;
@@ -459,7 +459,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      *
      * @return A boolean.
      */
-    public boolean getItemShapeFilled(/*@NonNegative*/ int series, int item) {
+    public boolean getItemShapeFilled(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Boolean flag = getSeriesShapesFilled(series);
         if (flag != null) {
             return flag;
@@ -736,7 +736,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            int series, int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass) {
 
         // do nothing if item is not visible
         if (!getItemVisible(series, item)) {
@@ -903,7 +903,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      */
     protected void drawPrimaryLineAsPath(XYItemRendererState state,
             Graphics2D g2, XYPlot plot, XYDataset dataset, int pass,
-            int series, int item, ValueAxis domainAxis, ValueAxis rangeAxis,
+            /*@NonNegative*/ int series, /*@NonNegative*/ int item, ValueAxis domainAxis, ValueAxis rangeAxis,
             Rectangle2D dataArea) {
 
         RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
@@ -962,7 +962,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      * @param entities the entity collection.
      */
     protected void drawSecondaryPass(Graphics2D g2, XYPlot plot, 
-            XYDataset dataset, int pass, /*@NonNegative*/ int series, int item,
+            XYDataset dataset, int pass, /*@NonNegative*/ int series, /*@NonNegative*/ int item,
             ValueAxis domainAxis, Rectangle2D dataArea, ValueAxis rangeAxis,
             CrosshairState crosshairState, EntityCollection entities) {
 
@@ -1049,7 +1049,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      * @return A legend item for the series (possibly {@code null}).
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
         XYPlot plot = getPlot();
         if (plot == null) {
             return null;

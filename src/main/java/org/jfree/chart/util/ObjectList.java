@@ -27,6 +27,7 @@
  */
 
 package org.jfree.chart.util;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -91,7 +92,7 @@ public class ObjectList extends AbstractObjectList {
      * @return The index or -1.          
      */          
     @Override
-    public int indexOf(Object object) {    
+    public /*@GTENegativeOne*/ int indexOf(Object object) {
         return super.indexOf(object);    
     }    
          

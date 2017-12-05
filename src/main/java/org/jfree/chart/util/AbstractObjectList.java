@@ -155,7 +155,7 @@ public class AbstractObjectList implements Cloneable, Serializable {
      *
      * @return The index or -1.
      */
-    protected int indexOf(Object object) {
+    protected /*@GTENegativeOne*/ int indexOf(Object object) {
         for (int index = 0; index < this.size; index++) {
             if (this.objects[index] == object) {
                 return (index);

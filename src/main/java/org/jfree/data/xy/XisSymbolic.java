@@ -68,7 +68,7 @@ public interface XisSymbolic {
      *
      * @return The symbolic value.
      */
-    public String getXSymbolicValue(/*@NonNegative*/ int series, int item);
+    public String getXSymbolicValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
 
     /**
      * Returns the symbolic value linked with the specified {@code Integer}.

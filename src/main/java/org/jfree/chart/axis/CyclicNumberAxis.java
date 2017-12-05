@@ -52,6 +52,7 @@ package org.jfree.chart.axis;
 
 /*>>>
 import org.checkerframework.common.value.qual.ArrayLen;
+import org.checkerframework.checker.index.qual.NonNegative;
  */
 
 import java.awt.BasicStroke;
@@ -480,7 +481,9 @@ public class CyclicNumberAxis extends NumberAxis {
                         && (currentTickValue != cycleBound)) {
                     anchor = isInverted()
                         ? TextAnchor.TOP_RIGHT : TextAnchor.BOTTOM_RIGHT;
-                    result.remove(result.size() - 1);
+                    @SuppressWarnings("index") // If cycled, there must be at least one tick in the results list already
+                    /*@NonNegative*/ int lastTickIndex = result.size() - 1;
+                    result.remove(lastTickIndex);
                     result.add(new CycleBoundTick(
                         this.boundMappedToLastCycle, lastTick.getNumber(),
                         lastTick.getText(), anchor, anchor,
@@ -499,7 +502,9 @@ public class CyclicNumberAxis extends NumberAxis {
                             && (currentTickValue != cycleBound)) {
                         anchor = isInverted()
                             ? TextAnchor.BOTTOM_LEFT : TextAnchor.BOTTOM_RIGHT;
-                        result.remove(result.size() - 1);
+                        @SuppressWarnings("index") // If cycled, there must be at least one tick in the results list already
+                        /*@NonNegative*/ int lastTickIndex = result.size() - 1;
+                        result.remove(lastTickIndex);
                         result.add(new CycleBoundTick(
                             this.boundMappedToLastCycle, lastTick.getNumber(),
                             lastTick.getText(), anchor, anchor,
@@ -517,7 +522,9 @@ public class CyclicNumberAxis extends NumberAxis {
                             && (currentTickValue != cycleBound)) {
                         anchor = isInverted()
                             ? TextAnchor.TOP_LEFT : TextAnchor.TOP_RIGHT;
-                        result.remove(result.size() - 1);
+                        @SuppressWarnings("index") // If cycled, there must be at least one tick in the results list already
+                        /*@NonNegative*/ int lastTickIndex = result.size() - 1;
+                        result.remove(lastTickIndex);
                         result.add(new CycleBoundTick(
                             this.boundMappedToLastCycle, lastTick.getNumber(),
                             lastTick.getText(), anchor, anchor,
@@ -628,7 +635,9 @@ public class CyclicNumberAxis extends NumberAxis {
                             && (currentTickValue != cycleBound)) {
                         anchor = isInverted()
                             ? TextAnchor.BOTTOM_LEFT : TextAnchor.BOTTOM_RIGHT;
-                        result.remove(result.size() - 1);
+                        @SuppressWarnings("index") // If cycled, there must be at least one tick in the results list already
+                        /*@NonNegative*/ int lastTickIndex = result.size() - 1;
+                        result.remove(lastTickIndex);
                         result.add(new CycleBoundTick(
                             this.boundMappedToLastCycle, lastTick.getNumber(),
                             lastTick.getText(), anchor, anchor,
@@ -647,7 +656,9 @@ public class CyclicNumberAxis extends NumberAxis {
                             && (currentTickValue != cycleBound)) {
                         anchor = isInverted()
                             ? TextAnchor.BOTTOM_RIGHT : TextAnchor.BOTTOM_LEFT;
-                        result.remove(result.size() - 1);
+                        @SuppressWarnings("index") // If cycled, there must be at least one tick in the results list already
+                        /*@NonNegative*/ int lastTickIndex = result.size() - 1;
+                        result.remove(lastTickIndex);
                         result.add(new CycleBoundTick(
                             this.boundMappedToLastCycle, lastTick.getNumber(),
                             lastTick.getText(), anchor, anchor,
@@ -668,7 +679,9 @@ public class CyclicNumberAxis extends NumberAxis {
                             && (currentTickValue != cycleBound)) {
                         anchor = isInverted()
                             ? TextAnchor.BOTTOM_RIGHT : TextAnchor.TOP_RIGHT;
-                        result.remove(result.size() - 1);
+                        @SuppressWarnings("index") // If cycled, there must be at least one tick in the results list already
+                        /*@NonNegative*/ int lastTickIndex = result.size() - 1;
+                        result.remove(lastTickIndex);
                         result.add(new CycleBoundTick(
                             this.boundMappedToLastCycle, lastTick.getNumber(),
                             lastTick.getText(), anchor, anchor,
@@ -686,7 +699,9 @@ public class CyclicNumberAxis extends NumberAxis {
                             && (currentTickValue != cycleBound)) {
                         anchor = isInverted()
                             ? TextAnchor.BOTTOM_LEFT : TextAnchor.TOP_LEFT;
-                        result.remove(result.size() - 1);
+                        @SuppressWarnings("index") // If cycled, there must be at least one tick in the results list already
+                        /*@NonNegative*/ int lastTickIndex = result.size() - 1;
+                        result.remove(lastTickIndex);
                         result.add(new CycleBoundTick(
                             this.boundMappedToLastCycle, lastTick.getNumber(),
                             lastTick.getText(), anchor, anchor,

@@ -184,7 +184,7 @@ public class StandardXYItemLabelGenerator extends AbstractXYItemLabelGenerator
      * @return The label text (possibly {@code null}).
      */
     @Override
-    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, int item) {
+    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return generateLabelString(dataset, series, item);
     }
 

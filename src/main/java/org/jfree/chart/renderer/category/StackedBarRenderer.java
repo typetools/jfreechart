@@ -93,6 +93,7 @@
  */
 
 package org.jfree.chart.renderer.category;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -286,7 +287,7 @@ public class StackedBarRenderer extends BarRenderer
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, int row,
+            ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row,
             int column, int pass) {
 
         if (!isSeriesVisible(row)) {

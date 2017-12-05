@@ -40,6 +40,7 @@
  */
 
 package org.jfree.data;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.util.List;
 
@@ -58,7 +59,7 @@ public interface KeyedValues2D extends Values2D {
      *
      * @throws IndexOutOfBoundsException if {@code row} is out of bounds.
      */
-    public Comparable getRowKey(int row);
+    public Comparable getRowKey(/*@NonNegative*/ int row);
 
     /**
      * Returns the row index for a given key.
@@ -85,7 +86,7 @@ public interface KeyedValues2D extends Values2D {
      *
      * @throws IndexOutOfBoundsException if {@code row} is out of bounds.
      */
-    public Comparable getColumnKey(int column);
+    public Comparable getColumnKey(/*@NonNegative*/ int column);
 
     /**
      * Returns the column index for a given key.

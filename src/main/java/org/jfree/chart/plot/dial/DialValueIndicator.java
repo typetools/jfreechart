@@ -149,7 +149,7 @@ public class DialValueIndicator extends AbstractDialLayer implements DialLayer,
      *
      * @param datasetIndex  the dataset index.
      */
-    public DialValueIndicator(int datasetIndex) {
+    public DialValueIndicator(/*@NonNegative*/ int datasetIndex) {
         this.datasetIndex = datasetIndex;
         this.angle = -90.0;
         this.radius = 0.3;

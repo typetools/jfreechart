@@ -70,6 +70,6 @@ public interface XYItemLabelGenerator {
      *
      * @return The label (possibly {@code null}).
      */
-    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, int item);
+    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item);
 
 }

@@ -192,7 +192,7 @@ public class LayeredBarRenderer extends BarRenderer implements Serializable {
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset data, int row, int column,
+            ValueAxis rangeAxis, CategoryDataset data, /*@NonNegative*/ int row, /*@NonNegative*/ int column,
             int pass) {
 
         PlotOrientation orientation = plot.getOrientation();
@@ -222,7 +222,7 @@ public class LayeredBarRenderer extends BarRenderer implements Serializable {
     protected void drawHorizontalItem(Graphics2D g2,
             CategoryItemRendererState state, Rectangle2D dataArea,
             CategoryPlot plot, CategoryAxis domainAxis, ValueAxis rangeAxis,
-            CategoryDataset dataset, int row, int column) {
+            CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
 
         // nothing is drawn for null values...
         Number dataValue = dataset.getValue(row, column);
@@ -347,7 +347,7 @@ public class LayeredBarRenderer extends BarRenderer implements Serializable {
     protected void drawVerticalItem(Graphics2D g2,
             CategoryItemRendererState state, Rectangle2D dataArea,
             CategoryPlot plot, CategoryAxis domainAxis, ValueAxis rangeAxis,
-            CategoryDataset dataset, int row, int column) {
+            CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
 
         // nothing is drawn for null values...
         Number dataValue = dataset.getValue(row, column);

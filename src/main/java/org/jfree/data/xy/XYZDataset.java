@@ -61,7 +61,7 @@ public interface XYZDataset extends XYDataset {
      *
      * @return The z-value (possibly {@code null}).
      */
-    public Number getZ(/*@NonNegative*/ int series, int item);
+    public Number getZ(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
 
     /**
      * Returns the z-value (as a double primitive) for an item within a series.
@@ -71,6 +71,6 @@ public interface XYZDataset extends XYDataset {
      *
      * @return The z-value.
      */
-    public double getZValue(/*@NonNegative*/ int series, int item);
+    public double getZValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
 
 }

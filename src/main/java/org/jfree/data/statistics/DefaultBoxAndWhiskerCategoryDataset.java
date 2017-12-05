@@ -305,7 +305,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      *
      * @return The item.
      */
-    public BoxAndWhiskerItem getItem(int row, int column) {
+    public BoxAndWhiskerItem getItem(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return (BoxAndWhiskerItem) this.data.getObject(row, column);
     }
 
@@ -321,7 +321,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getValue(Comparable, Comparable)
      */
     @Override
-    public Number getValue(int row, int column) {
+    public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return getMedianValue(row, column);
     }
 
@@ -352,7 +352,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public Number getMeanValue(int row, int column) {
+    public Number getMeanValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
 
         Number result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(row,
@@ -396,7 +396,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public Number getMedianValue(int row, int column) {
+    public Number getMedianValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Number result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(row,
                 column);
@@ -438,7 +438,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public Number getQ1Value(int row, int column) {
+    public Number getQ1Value(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Number result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(
                 row, column);
@@ -480,7 +480,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public Number getQ3Value(int row, int column) {
+    public Number getQ3Value(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Number result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(
                 row, column);
@@ -535,7 +535,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getColumnIndex(Comparable)
      */
     @Override
-    public Comparable getColumnKey(int column) {
+    public Comparable getColumnKey(/*@NonNegative*/ int column) {
         return this.data.getColumnKey(column);
     }
 
@@ -576,7 +576,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getRowIndex(Comparable)
      */
     @Override
-    public Comparable getRowKey(int row) {
+    public Comparable getRowKey(/*@NonNegative*/ int row) {
         return this.data.getRowKey(row);
     }
 
@@ -670,7 +670,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public Number getMinRegularValue(int row, int column) {
+    public Number getMinRegularValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Number result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(
                 row, column);
@@ -712,7 +712,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public Number getMaxRegularValue(int row, int column) {
+    public Number getMaxRegularValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Number result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(
                 row, column);
@@ -754,7 +754,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public Number getMinOutlier(int row, int column) {
+    public Number getMinOutlier(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Number result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(
                 row, column);
@@ -796,7 +796,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public Number getMaxOutlier(int row, int column) {
+    public Number getMaxOutlier(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Number result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(
                 row, column);
@@ -838,7 +838,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public List getOutliers(int row, int column) {
+    public List getOutliers(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         List result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(
                 row, column);

@@ -166,7 +166,7 @@ public class StandardXYToolTipGenerator extends AbstractXYItemLabelGenerator
      * @return The tooltip text (possibly {@code null}).
      */
     @Override
-    public String generateToolTip(XYDataset dataset, /*@NonNegative*/ int series, int item) {
+    public String generateToolTip(XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return generateLabelString(dataset, series, item);
     }
 

@@ -87,6 +87,7 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -242,7 +243,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    public int getSeriesCount() {
+    public /*@NonNegative*/ int getSeriesCount() {
         return this.data.size();
     }
 
@@ -256,7 +257,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      *
      * @since 1.0.6
      */
-    public int indexOf(TimeSeries series) {
+    public /*@GTENegativeOne*/ int indexOf(TimeSeries series) {
         Args.nullNotPermitted(series, "series");
         return this.data.indexOf(series);
     }
@@ -402,7 +403,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    public int getItemCount(/*@NonNegative*/ int series) {
+    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
         return getSeries(series).getItemCount();
     }
 
@@ -415,7 +416,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The x-value.
      */
     @Override
-    public double getXValue(/*@NonNegative*/ int series, int item) {
+    public double getXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         TimeSeries s = (TimeSeries) this.data.get(series);
         RegularTimePeriod period = s.getTimePeriod(item);
         return getX(period);
@@ -430,7 +431,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         TimeSeries ts = (TimeSeries) this.data.get(series);
         RegularTimePeriod period = ts.getTimePeriod(item);
         return new Long(getX(period));
@@ -466,7 +467,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public synchronized Number getStartX(/*@NonNegative*/ int series, int item) {
+    public synchronized Number getStartX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         TimeSeries ts = (TimeSeries) this.data.get(series);
         return new Long(ts.getTimePeriod(item).getFirstMillisecond(
                 this.workingCalendar));
@@ -481,7 +482,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public synchronized Number getEndX(/*@NonNegative*/ int series, int item) {
+    public synchronized Number getEndX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         TimeSeries ts = (TimeSeries) this.data.get(series);
         return new Long(ts.getTimePeriod(item).getLastMillisecond(
                 this.workingCalendar));
@@ -496,7 +497,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value (possibly {@code null}).
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, int item) {
+    public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         TimeSeries ts = (TimeSeries) this.data.get(series);
         return ts.getValue(item);
     }
@@ -510,7 +511,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value (possibly {@code null}).
      */
     @Override
-    public Number getStartY(/*@NonNegative*/ int series, int item) {
+    public Number getStartY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getY(series, item);
     }
 
@@ -523,7 +524,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value (possibly {@code null}).
      */
     @Override
-    public Number getEndY(/*@NonNegative*/ int series, int item) {
+    public Number getEndY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getY(series, item);
     }
 

@@ -41,6 +41,7 @@
  */
 
 package org.jfree.data;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
@@ -129,7 +130,7 @@ public class ComparableObjectSeries extends Series
      * @return The item count.
      */
     @Override
-    public int getItemCount() {
+    public /*@NonNegative*/ int getItemCount() {
         return this.data.size();
     }
 
@@ -270,7 +271,7 @@ public class ComparableObjectSeries extends Series
      *
      * @return The index.
      */
-    public int indexOf(Comparable x) {
+    public /*@GTENegativeOne*/ int indexOf(Comparable x) {
         if (this.autoSort) {
             return Collections.binarySearch(this.data, new ComparableObjectItem(
                     x, null));

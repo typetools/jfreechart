@@ -87,7 +87,7 @@ public class XYItemEntity extends ChartEntity {
      * @param urlText  the URL text for HTML image maps.
      */
     public XYItemEntity(Shape area,
-                        XYDataset dataset, /*@NonNegative*/ int series, int item,
+                        XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item,
                         String toolTipText, String urlText) {
         super(area, toolTipText, urlText);
         this.dataset = dataset;
@@ -145,7 +145,7 @@ public class XYItemEntity extends ChartEntity {
      *
      * @param item the item index (zero-based).
      */
-    public void setItem(int item) {
+    public void setItem(/*@NonNegative*/ int item) {
         this.item = item;
     }
 

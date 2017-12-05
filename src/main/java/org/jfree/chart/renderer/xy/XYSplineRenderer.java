@@ -48,6 +48,7 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
@@ -299,7 +300,7 @@ public class XYSplineRenderer extends XYLineAndShapeRenderer {
     @Override
     protected void drawPrimaryLineAsPath(XYItemRendererState state,
             Graphics2D g2, XYPlot plot, XYDataset dataset, int pass,
-            int series, int item, ValueAxis xAxis, ValueAxis yAxis,
+            /*@NonNegative*/ int series, /*@NonNegative*/ int item, ValueAxis xAxis, ValueAxis yAxis,
             Rectangle2D dataArea) {
 
         XYSplineState s = (XYSplineState) state;

@@ -50,6 +50,8 @@
 
 package org.jfree.data.time;
 
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+
 import org.jfree.chart.util.Args;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
@@ -140,9 +142,10 @@ public class MovingAverage {
                     boolean finished = false;
 
                     while ((offset < periodCount) && (!finished)) {
-                        if ((i - offset) >= 0) {
+                        int itemIndex = i - offset;
+                        if (itemIndex >= 0) {
                             TimeSeriesDataItem item = source.getRawDataItem(
-                                    i - offset);
+                                    itemIndex);
                             RegularTimePeriod p = item.getPeriod();
                             Number v = item.getValue();
                             long currentIndex = p.getSerialIndex();
@@ -206,15 +209,16 @@ public class MovingAverage {
             // FIXME: what if value is null on next line?
             rollingSumForPeriod += current.getValue().doubleValue();
 
-            if (i > pointCount - 1) {
+            int startIndex = i - pointCount;
+            if (startIndex >= 0) {
                 // remove the point i-periodCount out of the rolling sum.
                 TimeSeriesDataItem startOfMovingAvg = source.getRawDataItem(
-                        i - pointCount);
+                        startIndex);
                 rollingSumForPeriod -= startOfMovingAvg.getValue()
                         .doubleValue();
                 result.add(period, rollingSumForPeriod / pointCount);
             }
-            else if (i == pointCount - 1) {
+            else if (startIndex == - 1) {
                 result.add(period, rollingSumForPeriod / pointCount);
             }
         }
@@ -280,7 +284,7 @@ public class MovingAverage {
      * @return The dataset.
      */
     public static XYSeries createMovingAverage(XYDataset source,
-            int series, String name, double period, double skip) {
+            /*@NonNegative*/ int series, String name, double period, double skip) {
 
         Args.nullNotPermitted(source, "source");
         if (period < Double.MIN_VALUE) {

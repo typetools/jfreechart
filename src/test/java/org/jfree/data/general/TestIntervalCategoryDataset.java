@@ -102,7 +102,7 @@ public class TestIntervalCategoryDataset extends AbstractDataset
      * @see #removeValue(Comparable, Comparable)
      */
     @Override
-    public Number getValue(int row, int column) {
+    public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         IntervalDataItem item = (IntervalDataItem) this.data.getObject(row,
                 column);
         if (item == null) {
@@ -123,7 +123,7 @@ public class TestIntervalCategoryDataset extends AbstractDataset
      * @see #getColumnKey(int)
      */
     @Override
-    public Comparable getRowKey(int row) {
+    public Comparable getRowKey(/*@NonNegative*/ int row) {
         return this.data.getRowKey(row);
     }
 
@@ -164,7 +164,7 @@ public class TestIntervalCategoryDataset extends AbstractDataset
      * @see #getColumnIndex(Comparable)
      */
     @Override
-    public Comparable getColumnKey(int column) {
+    public Comparable getColumnKey(/*@NonNegative*/ int column) {
         return this.data.getColumnKey(column);
     }
 

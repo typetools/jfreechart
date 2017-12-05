@@ -40,6 +40,7 @@
  */
 
 package org.jfree.data.category;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.util.Collections;
 import java.util.List;
@@ -188,7 +189,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      * @throws IndexOutOfBoundsException if {@code row} is out of bounds.
      */
     @Override
-    public Comparable getColumnKey(int column) {
+    public Comparable getColumnKey(/*@NonNegative*/ int column) {
         return this.underlying.getColumnKey(column + this.firstCategoryIndex);
     }
 
@@ -231,7 +232,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      * @throws IndexOutOfBoundsException if {@code row} is out of bounds.
      */
     @Override
-    public Comparable getRowKey(int row) {
+    public Comparable getRowKey(/*@NonNegative*/ int row) {
         return this.underlying.getRowKey(row);
     }
 
@@ -302,7 +303,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      * @return The value (possibly {@code null}).
      */
     @Override
-    public Number getValue(int row, int column) {
+    public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return this.underlying.getValue(row, column + this.firstCategoryIndex);
     }
 

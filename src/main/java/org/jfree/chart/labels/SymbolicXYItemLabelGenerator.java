@@ -82,7 +82,7 @@ public class SymbolicXYItemLabelGenerator implements XYItemLabelGenerator,
      * @return The tool tip text (possibly {@code null}).
      */
     @Override
-    public String generateToolTip(XYDataset data, /*@NonNegative*/ int series, int item) {
+    public String generateToolTip(XYDataset data, /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
 
         String xStr, yStr;
         if (data instanceof YisSymbolic) {

@@ -39,6 +39,7 @@
  */
 
 package org.jfree.data;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 /**
  * A general purpose interface that can be used to access a table of values.
@@ -70,6 +71,6 @@ public interface Values2D {
      * @throws IndexOutOfBoundsException if the {@code row}
      *         or {@code column} is out of bounds.
      */
-    public Number getValue(int row, int column);
+    public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
 
 }

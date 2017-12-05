@@ -47,6 +47,7 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.checker.index.qual.GTENegativeOne; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
@@ -88,22 +89,22 @@ public class TimePeriodValues extends Series implements Serializable {
     private List data;
 
     /** Index of the time period with the minimum start milliseconds. */
-    private int minStartIndex = -1;
+    private /*@GTENegativeOne*/ int minStartIndex = -1;
     
     /** Index of the time period with the maximum start milliseconds. */
-    private int maxStartIndex = -1;
+    private /*@GTENegativeOne*/ int maxStartIndex = -1;
     
     /** Index of the time period with the minimum middle milliseconds. */
-    private int minMiddleIndex = -1;
+    private /*@GTENegativeOne*/ int minMiddleIndex = -1;
     
     /** Index of the time period with the maximum middle milliseconds. */
-    private int maxMiddleIndex = -1;
+    private /*@GTENegativeOne*/ int maxMiddleIndex = -1;
     
     /** Index of the time period with the minimum end milliseconds. */
-    private int minEndIndex = -1;
+    private /*@GTENegativeOne*/ int minEndIndex = -1;
     
     /** Index of the time period with the maximum end milliseconds. */
-    private int maxEndIndex = -1;
+    private /*@GTENegativeOne*/ int maxEndIndex = -1;
 
     /**
      * Creates a new (empty) collection of time period values.
@@ -190,7 +191,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * @return The item count.
      */
     @Override
-    public int getItemCount() {
+    public /*@NonNegative*/ int getItemCount() {
         return this.data.size();
     }
 
@@ -395,7 +396,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * @param start  the index of the first period to delete.
      * @param end  the index of the last period to delete.
      */
-    public void delete(int start, int end) {
+    public void delete(/*@NonNegative*/ int start, /*@NonNegative*/ int end) {
         for (int i = 0; i <= (end - start); i++) {
             this.data.remove(start);
         }
@@ -494,7 +495,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @throws CloneNotSupportedException if there is a cloning problem.
      */
-    public TimePeriodValues createCopy(int start, int end) 
+    public TimePeriodValues createCopy(/*@NonNegative*/ int start, /*@NonNegative*/ int end)
         throws CloneNotSupportedException {
 
         TimePeriodValues copy = (TimePeriodValues) super.clone();
@@ -521,7 +522,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @return The index.
      */
-    public int getMinStartIndex() {
+    public /*@GTENegativeOne*/ int getMinStartIndex() {
         return this.minStartIndex;
     }
     
@@ -530,7 +531,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @return The index.
      */
-    public int getMaxStartIndex() {
+    public /*@GTENegativeOne*/ int getMaxStartIndex() {
         return this.maxStartIndex;
     }
 
@@ -540,7 +541,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @return The index.
      */
-    public int getMinMiddleIndex() {
+    public /*@GTENegativeOne*/ int getMinMiddleIndex() {
         return this.minMiddleIndex;
     }
     
@@ -550,7 +551,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @return The index.
      */
-    public int getMaxMiddleIndex() {
+    public /*@GTENegativeOne*/ int getMaxMiddleIndex() {
         return this.maxMiddleIndex;
     }
 
@@ -559,7 +560,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @return The index.
      */
-    public int getMinEndIndex() {
+    public /*@GTENegativeOne*/ int getMinEndIndex() {
         return this.minEndIndex;
     }
     
@@ -568,7 +569,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @return The index.
      */
-    public int getMaxEndIndex() {
+    public /*@GTENegativeOne*/ int getMaxEndIndex() {
         return this.maxEndIndex;
     }
 

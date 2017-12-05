@@ -161,7 +161,7 @@ public class XYTaskDataset extends AbstractXYDataset
      * @return The series count.
      */
     @Override
-    public int getSeriesCount() {
+    public /*@NonNegative*/ int getSeriesCount() {
         return this.underlying.getSeriesCount();
     }
 
@@ -185,7 +185,7 @@ public class XYTaskDataset extends AbstractXYDataset
      * @return The item count.
      */
     @Override
-    public int getItemCount(/*@NonNegative*/ int series) {
+    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
         return this.underlying.getSeries(series).getItemCount();
     }
 
@@ -198,7 +198,7 @@ public class XYTaskDataset extends AbstractXYDataset
      * @return The value.
      */
     @Override
-    public double getXValue(/*@NonNegative*/ int series, int item) {
+    public double getXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         if (!this.transposed) {
             return getSeriesValue(series);
         }
@@ -218,7 +218,7 @@ public class XYTaskDataset extends AbstractXYDataset
      * @return The start date/time.
      */
     @Override
-    public double getStartXValue(/*@NonNegative*/ int series, int item) {
+    public double getStartXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         if (!this.transposed) {
             return getSeriesStartValue(series);
         }
@@ -238,7 +238,7 @@ public class XYTaskDataset extends AbstractXYDataset
      * @return The end date/time.
      */
     @Override
-    public double getEndXValue(/*@NonNegative*/ int series, int item) {
+    public double getEndXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         if (!this.transposed) {
             return getSeriesEndValue(series);
         }
@@ -256,7 +256,7 @@ public class XYTaskDataset extends AbstractXYDataset
      * @return The x-value (in milliseconds).
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return new Double(getXValue(series, item));
     }
 
@@ -271,7 +271,7 @@ public class XYTaskDataset extends AbstractXYDataset
      * @return The start date/time.
      */
     @Override
-    public Number getStartX(/*@NonNegative*/ int series, int item) {
+    public Number getStartX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return new Double(getStartXValue(series, item));
     }
 
@@ -286,7 +286,7 @@ public class XYTaskDataset extends AbstractXYDataset
      * @return The end date/time.
      */
     @Override
-    public Number getEndX(/*@NonNegative*/ int series, int item) {
+    public Number getEndX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return new Double(getEndXValue(series, item));
     }
 
@@ -299,7 +299,7 @@ public class XYTaskDataset extends AbstractXYDataset
      * @return The value.
      */
     @Override
-    public double getYValue(/*@NonNegative*/ int series, int item) {
+    public double getYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         if (!this.transposed) {
             return getItemValue(series, item);
         }
@@ -318,7 +318,7 @@ public class XYTaskDataset extends AbstractXYDataset
      * @return The y-interval start.
      */
     @Override
-    public double getStartYValue(/*@NonNegative*/ int series, int item) {
+    public double getStartYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         if (!this.transposed) {
             return getItemStartValue(series, item);
         }
@@ -337,7 +337,7 @@ public class XYTaskDataset extends AbstractXYDataset
      * @return The y-interval end.
      */
     @Override
-    public double getEndYValue(/*@NonNegative*/ int series, int item) {
+    public double getEndYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         if (!this.transposed) {
             return getItemEndValue(series, item);
         }
@@ -357,7 +357,7 @@ public class XYTaskDataset extends AbstractXYDataset
      * @return The y-value.
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, int item) {
+    public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return new Double(getYValue(series, item));
     }
 
@@ -371,7 +371,7 @@ public class XYTaskDataset extends AbstractXYDataset
      * @return The y-interval start.
      */
     @Override
-    public Number getStartY(/*@NonNegative*/ int series, int item) {
+    public Number getStartY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return new Double(getStartYValue(series, item));
     }
 
@@ -385,7 +385,7 @@ public class XYTaskDataset extends AbstractXYDataset
      * @return The y-interval end.
      */
     @Override
-    public Number getEndY(/*@NonNegative*/ int series, int item) {
+    public Number getEndY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return new Double(getEndYValue(series, item));
     }
 
@@ -401,7 +401,7 @@ public class XYTaskDataset extends AbstractXYDataset
         return series + this.seriesWidth / 2.0;
     }
 
-    private double getItemValue(/*@NonNegative*/ int series, int item) {
+    private double getItemValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         TaskSeries s = this.underlying.getSeries(series);
         Task t = s.get(item);
         TimePeriod duration = t.getDuration();
@@ -410,7 +410,7 @@ public class XYTaskDataset extends AbstractXYDataset
         return (start.getTime() + end.getTime()) / 2.0;
     }
 
-    private double getItemStartValue(/*@NonNegative*/ int series, int item) {
+    private double getItemStartValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         TaskSeries s = this.underlying.getSeries(series);
         Task t = s.get(item);
         TimePeriod duration = t.getDuration();
@@ -418,7 +418,7 @@ public class XYTaskDataset extends AbstractXYDataset
         return start.getTime();
     }
 
-    private double getItemEndValue(/*@NonNegative*/ int series, int item) {
+    private double getItemEndValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         TaskSeries s = this.underlying.getSeries(series);
         Task t = s.get(item);
         TimePeriod duration = t.getDuration();

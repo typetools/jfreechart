@@ -61,6 +61,7 @@
  */
 
 package org.jfree.chart.plot;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -621,7 +622,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public int indexOf(XYDataset dataset) {
+    public /*@GTENegativeOne*/ int indexOf(XYDataset dataset) {
         int result = -1;
         for (int i = 0; i < this.datasets.size(); i++) {
             if (dataset == this.datasets.get(i)) {

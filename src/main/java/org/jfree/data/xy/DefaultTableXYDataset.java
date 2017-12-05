@@ -215,7 +215,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    public int getSeriesCount() {
+    public /*@NonNegative*/ int getSeriesCount() {
         return this.data.size();
     }
 
@@ -225,7 +225,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The number of x values in the dataset.
      */
     @Override
-    public int getItemCount() {
+    public /*@NonNegative*/ int getItemCount() {
         if (this.xPoints == null) {
             return 0;
         }
@@ -269,7 +269,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The number of items in the specified series.
      */
     @Override
-    public int getItemCount(/*@NonNegative*/ int series) {
+    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
         // check arguments...delegated
         return getSeries(series).getItemCount();
     }
@@ -283,7 +283,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The x-value for the specified series and item.
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         XYSeries s = (XYSeries) this.data.get(series);
         return s.getX(item);
 
@@ -298,7 +298,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The starting X value.
      */
     @Override
-    public Number getStartX(/*@NonNegative*/ int series, int item) {
+    public Number getStartX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return this.intervalDelegate.getStartX(series, item);
     }
 
@@ -311,7 +311,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The ending X value.
      */
     @Override
-    public Number getEndX(/*@NonNegative*/ int series, int item) {
+    public Number getEndX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return this.intervalDelegate.getEndX(series, item);
     }
 
@@ -339,7 +339,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The starting Y value.
      */
     @Override
-    public Number getStartY(/*@NonNegative*/ int series, int item) {
+    public Number getStartY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getY(series, item);
     }
 
@@ -352,7 +352,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The ending Y value.
      */
     @Override
-    public Number getEndY(/*@NonNegative*/ int series, int item) {
+    public Number getEndY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getY(series, item);
     }
 

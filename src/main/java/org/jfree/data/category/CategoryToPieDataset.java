@@ -143,7 +143,7 @@ public class CategoryToPieDataset extends AbstractDataset
      * @return The item count.
      */
     @Override
-    public int getItemCount() {
+    public /*@NonNegative*/ int getItemCount() {
         int result = 0;
         if (this.source != null) {
             if (this.extract == TableOrder.BY_ROW) {
@@ -167,7 +167,7 @@ public class CategoryToPieDataset extends AbstractDataset
      *     range {@code 0} to {@code getItemCount() -1}.
      */
     @Override
-    public Number getValue(int item) {
+    public Number getValue(/*@NonNegative*/ int item) {
         Number result = null;
         if (item < 0 || item >= getItemCount()) {
             // this will include the case where the underlying dataset is null

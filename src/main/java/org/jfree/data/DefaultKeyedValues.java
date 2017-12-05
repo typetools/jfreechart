@@ -108,7 +108,7 @@ public class DefaultKeyedValues implements KeyedValues, Cloneable,
      * @return The item count.
      */
     @Override
-    public int getItemCount() {
+    public /*@NonNegative*/ int getItemCount() {
         return this.indexMap.size();
     }
 
@@ -122,7 +122,7 @@ public class DefaultKeyedValues implements KeyedValues, Cloneable,
      * @throws IndexOutOfBoundsException if {@code item} is out of bounds.
      */
     @Override
-    public Number getValue(int item) {
+    public Number getValue(/*@NonNegative*/ int item) {
         return (Number) this.values.get(item);
     }
 

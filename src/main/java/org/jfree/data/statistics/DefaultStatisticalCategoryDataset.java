@@ -56,6 +56,7 @@
  */
 
 package org.jfree.data.statistics;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.util.List;
 import org.jfree.chart.util.PublicCloneable;
@@ -152,7 +153,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The mean value (possibly {@code null}).
      */
     @Override
-    public Number getMeanValue(int row, int column) {
+    public Number getMeanValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Number result = null;
         MeanAndStandardDeviation masd = (MeanAndStandardDeviation)
                 this.data.getObject(row, column);
@@ -172,7 +173,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The value (possibly {@code null}).
      */
     @Override
-    public Number getValue(int row, int column) {
+    public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return getMeanValue(row, column);
     }
 
@@ -218,7 +219,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The standard deviation (possibly {@code null}).
      */
     @Override
-    public Number getStdDevValue(int row, int column) {
+    public Number getStdDevValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Number result = null;
         MeanAndStandardDeviation masd = (MeanAndStandardDeviation)
                 this.data.getObject(row, column);
@@ -268,7 +269,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The column key.
      */
     @Override
-    public Comparable getColumnKey(int column) {
+    public Comparable getColumnKey(/*@NonNegative*/ int column) {
         return this.data.getColumnKey(column);
     }
 
@@ -303,7 +304,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The row key.
      */
     @Override
-    public Comparable getRowKey(int row) {
+    public Comparable getRowKey(/*@NonNegative*/ int row) {
         return this.data.getRowKey(row);
     }
 

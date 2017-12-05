@@ -48,6 +48,7 @@
  */
 
 package org.jfree.chart.renderer.category;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -196,7 +197,7 @@ public class GroupedStackedBarRenderer extends StackedBarRenderer
     protected double calculateBarW0(CategoryPlot plot, 
             PlotOrientation orientation, Rectangle2D dataArea,
             CategoryAxis domainAxis, CategoryItemRendererState state,
-            int row, int column) {
+            int row, /*@NonNegative*/ int column) {
         // calculate bar width...
         double space;
         if (orientation == PlotOrientation.HORIZONTAL) {
@@ -245,7 +246,7 @@ public class GroupedStackedBarRenderer extends StackedBarRenderer
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, int row,
+            ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row,
             int column, int pass) {
 
         // nothing is drawn for null values...

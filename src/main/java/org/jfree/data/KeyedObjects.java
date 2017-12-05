@@ -74,7 +74,7 @@ public class KeyedObjects implements Cloneable, PublicCloneable, Serializable {
      *
      * @return The item count.
      */
-    public int getItemCount() {
+    public /*@NonNegative*/ int getItemCount() {
         return this.data.size();
     }
 
@@ -87,7 +87,7 @@ public class KeyedObjects implements Cloneable, PublicCloneable, Serializable {
      *
      * @throws IndexOutOfBoundsException if {@code item} is out of bounds.
      */
-    public Object getObject(int item) {
+    public Object getObject(/*@NonNegative*/ int item) {
         Object result = null;
         KeyedObject kobj = (KeyedObject) this.data.get(item);
         if (kobj != null) {

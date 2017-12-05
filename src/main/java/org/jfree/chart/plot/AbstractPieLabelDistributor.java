@@ -90,7 +90,7 @@ public abstract class AbstractPieLabelDistributor implements Serializable {
      *
      * @return The item count.
      */
-    public int getItemCount() {
+    public /*@NonNegative*/ int getItemCount() {
         return this.labels.size();
     }
 

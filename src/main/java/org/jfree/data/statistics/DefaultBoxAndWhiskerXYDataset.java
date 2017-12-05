@@ -204,7 +204,7 @@ public class DefaultBoxAndWhiskerXYDataset extends AbstractXYDataset
      * @return The number of series.
      */
     @Override
-    public int getSeriesCount() {
+    public /*@NonNegative*/ int getSeriesCount() {
         return 1;
     }
 
@@ -216,7 +216,7 @@ public class DefaultBoxAndWhiskerXYDataset extends AbstractXYDataset
      * @return The number of items in the specified series.
      */
     @Override
-    public int getItemCount(/*@NonNegative*/ int series) {
+    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
         return this.dates.size();
     }
 
@@ -274,7 +274,7 @@ public class DefaultBoxAndWhiskerXYDataset extends AbstractXYDataset
      *
      * @return The item.
      */
-    public BoxAndWhiskerItem getItem(/*@NonNegative*/ int series, int item) {
+    public BoxAndWhiskerItem getItem(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return (BoxAndWhiskerItem) this.items.get(item);
     }
 
@@ -290,7 +290,7 @@ public class DefaultBoxAndWhiskerXYDataset extends AbstractXYDataset
      * @return The x-value.
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return new Long(((Date) this.dates.get(item)).getTime());
     }
 
@@ -304,7 +304,7 @@ public class DefaultBoxAndWhiskerXYDataset extends AbstractXYDataset
      *
      * @return The x-value as a Date.
      */
-    public Date getXDate(/*@NonNegative*/ int series, int item) {
+    public Date getXDate(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return (Date) this.dates.get(item);
     }
 
@@ -320,7 +320,7 @@ public class DefaultBoxAndWhiskerXYDataset extends AbstractXYDataset
      * @return The y-value.
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, int item) {
+    public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return getMeanValue(series, item);
     }
 
@@ -333,7 +333,7 @@ public class DefaultBoxAndWhiskerXYDataset extends AbstractXYDataset
      * @return The mean for the specified series and item.
      */
     @Override
-    public Number getMeanValue(/*@NonNegative*/ int series, int item) {
+    public Number getMeanValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Number result = null;
         BoxAndWhiskerItem stats = (BoxAndWhiskerItem) this.items.get(item);
         if (stats != null) {
@@ -351,7 +351,7 @@ public class DefaultBoxAndWhiskerXYDataset extends AbstractXYDataset
      * @return The median-value for the specified series and item.
      */
     @Override
-    public Number getMedianValue(/*@NonNegative*/ int series, int item) {
+    public Number getMedianValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Number result = null;
         BoxAndWhiskerItem stats = (BoxAndWhiskerItem) this.items.get(item);
         if (stats != null) {
@@ -369,7 +369,7 @@ public class DefaultBoxAndWhiskerXYDataset extends AbstractXYDataset
      * @return The Q1 median-value for the specified series and item.
      */
     @Override
-    public Number getQ1Value(/*@NonNegative*/ int series, int item) {
+    public Number getQ1Value(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Number result = null;
         BoxAndWhiskerItem stats = (BoxAndWhiskerItem) this.items.get(item);
         if (stats != null) {
@@ -387,7 +387,7 @@ public class DefaultBoxAndWhiskerXYDataset extends AbstractXYDataset
      * @return The Q3 median-value for the specified series and item.
      */
     @Override
-    public Number getQ3Value(/*@NonNegative*/ int series, int item) {
+    public Number getQ3Value(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Number result = null;
         BoxAndWhiskerItem stats = (BoxAndWhiskerItem) this.items.get(item);
         if (stats != null) {
@@ -405,7 +405,7 @@ public class DefaultBoxAndWhiskerXYDataset extends AbstractXYDataset
      * @return The min-value for the specified series and item.
      */
     @Override
-    public Number getMinRegularValue(/*@NonNegative*/ int series, int item) {
+    public Number getMinRegularValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Number result = null;
         BoxAndWhiskerItem stats = (BoxAndWhiskerItem) this.items.get(item);
         if (stats != null) {
@@ -423,7 +423,7 @@ public class DefaultBoxAndWhiskerXYDataset extends AbstractXYDataset
      * @return The max-value for the specified series and item.
      */
     @Override
-    public Number getMaxRegularValue(/*@NonNegative*/ int series, int item) {
+    public Number getMaxRegularValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Number result = null;
         BoxAndWhiskerItem stats = (BoxAndWhiskerItem) this.items.get(item);
         if (stats != null) {
@@ -440,7 +440,7 @@ public class DefaultBoxAndWhiskerXYDataset extends AbstractXYDataset
      * @return A {@code Number} representing the maximum non-farout value.
      */
     @Override
-    public Number getMinOutlier(/*@NonNegative*/ int series, int item) {
+    public Number getMinOutlier(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Number result = null;
         BoxAndWhiskerItem stats = (BoxAndWhiskerItem) this.items.get(item);
         if (stats != null) {
@@ -459,7 +459,7 @@ public class DefaultBoxAndWhiskerXYDataset extends AbstractXYDataset
      * @return A {@code Number} representing the maximum non-farout value.
      */
     @Override
-    public Number getMaxOutlier(/*@NonNegative*/ int series, int item) {
+    public Number getMaxOutlier(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Number result = null;
         BoxAndWhiskerItem stats = (BoxAndWhiskerItem) this.items.get(item);
         if (stats != null) {
@@ -478,7 +478,7 @@ public class DefaultBoxAndWhiskerXYDataset extends AbstractXYDataset
      *         (possibly {@code null}).
      */
     @Override
-    public List getOutliers(/*@NonNegative*/ int series, int item) {
+    public List getOutliers(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         List result = null;
         BoxAndWhiskerItem stats = (BoxAndWhiskerItem) this.items.get(item);
         if (stats != null) {

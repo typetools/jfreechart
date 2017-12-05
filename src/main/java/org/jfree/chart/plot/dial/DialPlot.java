@@ -435,7 +435,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      *
      * @return The pointer.
      */
-    public DialPointer getPointerForDataset(int datasetIndex) {
+    public DialPointer getPointerForDataset(/*@NonNegative*/ int datasetIndex) {
         DialPointer result = null;
         Iterator iterator = this.pointers.iterator();
         while (iterator.hasNext()) {
@@ -625,7 +625,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      *
      * @return The data value.
      */
-    public double getValue(int datasetIndex) {
+    public double getValue(/*@NonNegative*/ int datasetIndex) {
         double result = Double.NaN;
         ValueDataset dataset = getDataset(datasetIndex);
         if (dataset != null) {
@@ -689,7 +689,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      *
      * @return The dial scale.
      */
-    public DialScale getScaleForDataset(int datasetIndex) {
+    public DialScale getScaleForDataset(/*@NonNegative*/ int datasetIndex) {
         DialScale result = (DialScale) this.scales.get(0);
         Integer scaleIndex = (Integer) this.datasetToScaleMap.get(datasetIndex);
         if (scaleIndex != null) {

@@ -116,7 +116,7 @@ public class TaskSeries extends Series {
      * @return The item count.
      */
     @Override
-    public int getItemCount() {
+    public /*@NonNegative*/ int getItemCount() {
         return this.tasks.size();
     }
 

@@ -122,7 +122,7 @@ public class HighLowItemLabelGenerator implements XYItemLabelGenerator,
      * @return The tooltip text.
      */
     @Override
-    public String generateToolTip(XYDataset dataset, /*@NonNegative*/ int series, int item) {
+    public String generateToolTip(XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         if (!(dataset instanceof OHLCDataset)) {
             return null;
         }

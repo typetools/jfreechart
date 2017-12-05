@@ -431,7 +431,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            int series, int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass) {
 
         Shape hotspot;
         EntityCollection entities = null;
@@ -514,7 +514,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
      *
      * @return The paint.
      */
-    protected Paint getPaint(XYDataset dataset, /*@NonNegative*/ int series, int item) {
+    protected Paint getPaint(XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         Paint p;
         if (dataset instanceof XYZDataset) {
             double z = ((XYZDataset) dataset).getZValue(series, item);

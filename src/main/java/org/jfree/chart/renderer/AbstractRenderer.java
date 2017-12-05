@@ -516,7 +516,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return A boolean.
      */
-    public boolean getItemVisible(/*@NonNegative*/ int series, int item) {
+    public boolean getItemVisible(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         return isSeriesVisible(series);
     }
 
@@ -756,7 +756,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getItemPaint(int row, int column) {
+    public Paint getItemPaint(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return lookupSeriesPaint(row);
     }
 
@@ -925,7 +925,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getItemFillPaint(int row, int column) {
+    public Paint getItemFillPaint(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return lookupSeriesFillPaint(row);
     }
 
@@ -1084,7 +1084,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getItemOutlinePaint(int row, int column) {
+    public Paint getItemOutlinePaint(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return lookupSeriesOutlinePaint(row);
     }
 
@@ -1241,7 +1241,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The stroke (never {@code null}).
      */
-    public Stroke getItemStroke(int row, int column) {
+    public Stroke getItemStroke(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return lookupSeriesStroke(row);
     }
 
@@ -1411,7 +1411,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The stroke (never {@code null}).
      */
-    public Stroke getItemOutlineStroke(int row, int column) {
+    public Stroke getItemOutlineStroke(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return lookupSeriesOutlineStroke(row);
     }
 
@@ -1570,7 +1570,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The shape (never {@code null}).
      */
-    public Shape getItemShape(int row, int column) {
+    public Shape getItemShape(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return lookupSeriesShape(row);
     }
 
@@ -1723,7 +1723,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return A boolean.
      */
-    public boolean isItemLabelVisible(int row, int column) {
+    public boolean isItemLabelVisible(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return isSeriesItemLabelsVisible(row);
     }
 
@@ -1834,7 +1834,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The font (never {@code null}).
      */
-    public Font getItemLabelFont(int row, int column) {
+    public Font getItemLabelFont(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Font result = getSeriesItemLabelFont(row);
         if (result == null) {
             result = this.defaultItemLabelFont;
@@ -1938,7 +1938,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getItemLabelPaint(int row, int column) {
+    public Paint getItemLabelPaint(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Paint result = getSeriesItemLabelPaint(row);
         if (result == null) {
             result = this.defaultItemLabelPaint;

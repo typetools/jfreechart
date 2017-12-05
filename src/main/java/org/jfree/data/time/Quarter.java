@@ -61,6 +61,10 @@
 
 package org.jfree.data.time;
 
+/*>>>
+import org.checkerframework.common.value.qual.*;
+ */
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -86,13 +90,13 @@ public class Quarter extends RegularTimePeriod implements Serializable {
     public static final int LAST_QUARTER = 4;
 
     /** The first month in each quarter. */
-    public static final int[] FIRST_MONTH_IN_QUARTER = {
+    public static final int /*@ArrayLen(5)*/ [] FIRST_MONTH_IN_QUARTER = {
         0, MonthConstants.JANUARY, MonthConstants.APRIL, MonthConstants.JULY,
         MonthConstants.OCTOBER
     };
 
     /** The last month in each quarter. */
-    public static final int[] LAST_MONTH_IN_QUARTER = {
+    public static final int /*@ArrayLen(5)*/ [] LAST_MONTH_IN_QUARTER = {
         0, MonthConstants.MARCH, MonthConstants.JUNE, MonthConstants.SEPTEMBER,
         MonthConstants.DECEMBER
     };
@@ -101,7 +105,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
     private short year;
 
     /** The quarter (1-4). */
-    private byte quarter;
+    private /*@IntVal({1,2,3,4})*/ byte quarter;
 
     /** The first millisecond. */
     private long firstMillisecond;
@@ -122,7 +126,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      * @param year  the year (1900 to 9999).
      * @param quarter  the quarter (1 to 4).
      */
-    public Quarter(int quarter, int year) {
+    public Quarter(/*@IntVal({1,2,3,4})*/ int quarter, /*@IntRange(from=1900, to = 9999)*/int year) {
         if ((quarter < FIRST_QUARTER) || (quarter > LAST_QUARTER)) {
             throw new IllegalArgumentException("Quarter outside valid range.");
         }
@@ -137,7 +141,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      * @param quarter  the quarter (1 to 4).
      * @param year  the year (1900 to 9999).
      */
-    public Quarter(int quarter, Year year) {
+    public Quarter(/*@IntVal({1,2,3,4})*/ int quarter, Year year) {
         if ((quarter < FIRST_QUARTER) || (quarter > LAST_QUARTER)) {
             throw new IllegalArgumentException("Quarter outside valid range.");
         }
@@ -182,7 +186,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      *
      * @return The quarter.
      */
-    public int getQuarter() {
+    public /*@IntVal({1,2,3,4})*/ int getQuarter() {
         return this.quarter;
     }
 
@@ -202,7 +206,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.3
      */
-    public int getYearValue() {
+    public /*@IntRange(from = 1900, to = 9999)*/ int getYearValue() {
         return this.year;
     }
 

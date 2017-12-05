@@ -47,6 +47,7 @@
  */
 
 package org.jfree.data;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.util.Arrays;
 import org.jfree.chart.util.Args;
@@ -120,7 +121,7 @@ public abstract class DataUtils {
      *
      * @return The total of the values in the specified column.
      */
-    public static double calculateColumnTotal(Values2D data, int column) {
+    public static double calculateColumnTotal(Values2D data, /*@NonNegative*/ int column) {
         Args.nullNotPermitted(data, "data");
         double total = 0.0;
         int rowCount = data.getRowCount();
@@ -145,7 +146,7 @@ public abstract class DataUtils {
      *
      * @since 1.0.13
      */
-    public static double calculateColumnTotal(Values2D data, int column,
+    public static double calculateColumnTotal(Values2D data, /*@NonNegative*/ int column,
              int[] validRows) {
         Args.nullNotPermitted(data, "data");
         double total = 0.0;
@@ -171,7 +172,7 @@ public abstract class DataUtils {
      *
      * @return The total of the values in the specified row.
      */
-    public static double calculateRowTotal(Values2D data, int row) {
+    public static double calculateRowTotal(Values2D data, /*@NonNegative*/ int row) {
         Args.nullNotPermitted(data, "data");
         double total = 0.0;
         int columnCount = data.getColumnCount();
@@ -196,7 +197,7 @@ public abstract class DataUtils {
      *
      * @since 1.0.13
      */
-    public static double calculateRowTotal(Values2D data, int row,
+    public static double calculateRowTotal(Values2D data, /*@NonNegative*/ int row,
              int[] validCols) {
         Args.nullNotPermitted(data, "data");
         double total = 0.0;
