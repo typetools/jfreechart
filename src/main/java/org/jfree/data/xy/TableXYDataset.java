@@ -58,6 +58,6 @@ public interface TableXYDataset extends XYDataset {
      *
      * @return The item count.
      */
-    public /*@NonNegative*/ int getItemCount();
+    public /*@Positive*/ int getItemCount();
 
 }

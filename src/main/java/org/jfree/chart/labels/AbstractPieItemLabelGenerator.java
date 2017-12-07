@@ -134,7 +134,7 @@ public class AbstractPieItemLabelGenerator implements Serializable {
      *
      * @return The items (never {@code null}).
      */
-    protected Object[] createItemArray(PieDataset dataset, Comparable key) {
+    protected Object /*@MinLen(4)*/ [] createItemArray(PieDataset dataset, Comparable key) {
         Object[] result = new Object[4];
         double total = DatasetUtils.calculatePieDatasetTotal(dataset);
         result[0] = key.toString();

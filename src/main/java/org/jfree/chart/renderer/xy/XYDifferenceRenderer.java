@@ -439,7 +439,8 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
 
         // state
         int l_minuendItem      = 0;
-        int l_minuendItemCount = x_dataset.getItemCount(0);
+        @SuppressWarnings("index") // the call to isEitherSeriesDegenerate above guarantees this is true
+        /*@Positive*/ int l_minuendItemCount = x_dataset.getItemCount(0);
         Double l_minuendCurX   = null;
         Double l_minuendNextX  = null;
         Double l_minuendCurY   = null;
@@ -867,7 +868,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
                                  ValueAxis x_domainAxis,
                                  ValueAxis x_rangeAxis,
                                  XYDataset x_dataset,
-                                 int x_series,
+                                 /*@NonNegative*/ int x_series,
                                  /*@NonNegative*/ int x_item,
                                  CrosshairState x_crosshairState) {
 
@@ -998,12 +999,14 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
      */
     private boolean areSeriesDisjoint(XYDataset x_dataset) {
 
-        int l_minuendItemCount = x_dataset.getItemCount(0);
+        @SuppressWarnings("index") // This method can only called on XYDataset_s with at least one item. See drawItemPass0
+        /*@Positive*/ int l_minuendItemCount = x_dataset.getItemCount(0);
         double l_minuendFirst  = x_dataset.getXValue(0, 0);
         double l_minuendLast   = x_dataset.getXValue(0, l_minuendItemCount - 1);
 
         int l_subtrahendItemCount = x_dataset.getItemCount(1);
         double l_subtrahendFirst  = x_dataset.getXValue(1, 0);
+        @SuppressWarnings("index") // This method can only called on XYDataset_s with at least one item. See drawItemPass0
         double l_subtrahendLast   = x_dataset.getXValue(1,
                 l_subtrahendItemCount - 1);
 
@@ -1027,6 +1030,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
      * @param x_yValues  a linked list of the y values (expects values to be
      *                   of type Double).
      */
+    @SuppressWarnings({"Duplicates", "UnnecessaryUnboxing"})
     private void createPolygon (Graphics2D x_graphics,
                                 Rectangle2D x_dataArea,
                                 XYPlot x_plot,
@@ -1040,8 +1044,10 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
         RectangleEdge l_domainAxisLocation = x_plot.getDomainAxisEdge();
         RectangleEdge l_rangeAxisLocation  = x_plot.getRangeAxisEdge();
 
-        Object[] l_xValues = x_xValues.toArray();
-        Object[] l_yValues = x_yValues.toArray();
+        @SuppressWarnings({"index", "value"}) // This seems like a documentation bug. x_xValues should have at least 1 element
+        Object /*@MinLen(1)*/ [] l_xValues = x_xValues.toArray();
+        @SuppressWarnings({"index", "value"}) // This seems like a documentation bug. x_yValues should have at least 1 element, and the two linked lists need to be coordinated
+        Object /*@MinLen(1)*/ /*@SameLen("l_xValues")*/ [] l_yValues = x_yValues.toArray();
 
         GeneralPath l_path = new GeneralPath();
 

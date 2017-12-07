@@ -56,6 +56,7 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.common.value.qual.MinLen; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Graphics2D;
@@ -460,8 +461,8 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
      *     for all series values up to but excluding {@code series}
      *     for {@code index}.
      */
-    private double[] getStackValues(TableXYDataset dataset,
-                                    int series, /*@NonNegative*/ int index) {
+    private double /*@MinLen(2)*/ [] getStackValues(TableXYDataset dataset,
+                                    /*@NonNegative*/ int series, /*@NonNegative*/ int index) {
         double[] result = new double[2];
         for (int i = 0; i < series; i++) {
             double v = dataset.getYValue(i, index);

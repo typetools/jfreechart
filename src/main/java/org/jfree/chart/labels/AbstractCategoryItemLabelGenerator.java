@@ -213,7 +213,7 @@ public abstract class AbstractCategoryItemLabelGenerator
      * @return The label (possibly {@code null}).
      */
     protected String generateLabelString(CategoryDataset dataset,
-                                         int row, /*@NonNegative*/ int column) {
+                                         /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Args.nullNotPermitted(dataset, "dataset");
         String result;
         Object[] items = createItemArray(dataset, row, column);

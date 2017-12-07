@@ -493,8 +493,8 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
                     g2.draw(shape);
                 }
             }
-            
-            int datasetIndex = plot.indexOf(dataset);
+            @SuppressWarnings("index") // TODO: I think this is a bug. See XYDotRenderer#drawItem - this is the same problem
+            /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
             updateCrosshairValues(crosshairState, x, y, datasetIndex,
                     transX, transY, orientation);
 

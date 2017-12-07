@@ -202,7 +202,7 @@ public class BubbleXYItemLabelGenerator extends AbstractXYItemLabelGenerator
      *
      * @return The items (never {@code null}).
      */
-    protected Object[] createItemArray(XYZDataset dataset,
+    protected Object /*@MinLen(4)*/ [] createItemArray(XYZDataset dataset,
                                        /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
 
         Object[] result = new Object[4];

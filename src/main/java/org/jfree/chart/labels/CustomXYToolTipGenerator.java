@@ -81,7 +81,7 @@ public class CustomXYToolTipGenerator implements XYToolTipGenerator,
      *
      * @return The list count.
      */
-    public int getListCount() {
+    public /*@NonNegative*/ int getListCount() {
         return this.toolTipSeries.size();
     }
 
@@ -92,7 +92,7 @@ public class CustomXYToolTipGenerator implements XYToolTipGenerator,
      *
      * @return The tooltip count.
      */
-    public int getToolTipCount(int list) {
+    public /*@NonNegative*/ int getToolTipCount(/*@NonNegative*/ int list) {
 
         int result = 0;
         List tooltips = (List) this.toolTipSeries.get(list);

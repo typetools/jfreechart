@@ -127,8 +127,8 @@ public class BoxAndWhiskerXYToolTipGenerator extends StandardXYToolTipGenerator
      * @return The items (never {@code null}).
      */
     @Override
-    protected Object[] createItemArray(XYDataset dataset, /*@NonNegative*/ int series,
-                                       int item) {
+    protected Object /*@MinLen(8)*/ [] createItemArray(XYDataset dataset, /*@NonNegative*/ int series,
+                                       /*@NonNegative*/ int item) {
         Object[] result = new Object[8];
         result[0] = dataset.getSeriesKey(series).toString();
         Number x = dataset.getX(series, item);

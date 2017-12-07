@@ -175,7 +175,7 @@ public class DialValueIndicator extends AbstractDialLayer implements DialLayer,
      *
      * @see #setDatasetIndex(int)
      */
-    public int getDatasetIndex() {
+    public /*@NonNegative*/ int getDatasetIndex() {
         return this.datasetIndex;
     }
 

@@ -378,7 +378,7 @@ public class CrosshairState {
      *
      * @since 1.0.11
      */
-    public int getDatasetIndex() {
+    public /*@NonNegative*/ int getDatasetIndex() {
         return this.datasetIndex;
     }
 

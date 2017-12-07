@@ -562,7 +562,7 @@ public class LegendItem implements Cloneable, Serializable {
      * @see #setDatasetIndex(int)
      * @see #getDataset()
      */
-    public int getDatasetIndex() {
+    public /*@NonNegative*/ int getDatasetIndex() {
         return this.datasetIndex;
     }
 

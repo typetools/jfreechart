@@ -107,7 +107,7 @@ public abstract class DialPointer extends AbstractDialLayer
      *
      * @see #getDatasetIndex()
      */
-    public int getDatasetIndex() {
+    public /*@NonNegative*/ int getDatasetIndex() {
         return this.datasetIndex;
     }
 

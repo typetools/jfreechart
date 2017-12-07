@@ -593,17 +593,29 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         this.orientation = PlotOrientation.VERTICAL;
 
         // allocate storage for dataset, axes and renderers
-        this.domainAxes = new HashMap</*@NonNegative*/ Integer, CategoryAxis>();
-        this.domainAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>();
-        this.rangeAxes = new HashMap</*@NonNegative*/ Integer, ValueAxis>();
-        this.rangeAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>();
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/198
+        HashMap domainAxesTmp = new HashMap</*@NonNegative*/ Integer, CategoryAxis>();
+        this.domainAxes = domainAxesTmp;
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/198
+        HashMap domainAxisLocationsTmp = new HashMap</*@NonNegative*/ Integer, AxisLocation>();
+        this.domainAxisLocations = domainAxisLocationsTmp;
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/198
+        HashMap rangeAxesTmp = new HashMap</*@NonNegative*/ Integer, ValueAxis>();
+        this.rangeAxes = rangeAxesTmp;
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/198
+        HashMap rangeAxisLocationsTmp = new HashMap</*@NonNegative*/ Integer, AxisLocation>();
+        this.rangeAxisLocations = rangeAxisLocationsTmp;
 
         this.datasetToDomainAxesMap = new TreeMap();
         this.datasetToRangeAxesMap = new TreeMap();
 
-        this.renderers = new HashMap</*@NonNegative*/ Integer, CategoryItemRenderer>();
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/198
+        HashMap renderersTmp = new HashMap</*@NonNegative*/ Integer, CategoryItemRenderer>();
+        this.renderers = renderersTmp;
 
-        this.datasets = new HashMap</*@NonNegative*/ Integer, CategoryDataset>();
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/198
+        HashMap datasetsTmp = new HashMap</*@NonNegative*/ Integer, CategoryDataset>();
+        this.datasets = datasetsTmp;
         this.datasets.put(0, dataset);
         if (dataset != null) {
             dataset.addChangeListener(this);

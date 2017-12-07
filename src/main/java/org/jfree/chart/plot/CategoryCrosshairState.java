@@ -160,7 +160,7 @@ public class CategoryCrosshairState extends CrosshairState {
      * @param orientation  the plot orientation.
      */
     public void updateCrosshairX(Comparable rowKey, Comparable columnKey,
-            int datasetIndex, double transX, PlotOrientation orientation) {
+            /*@NonNegative*/ int datasetIndex, double transX, PlotOrientation orientation) {
 
         Point2D anchor = getAnchor();
         if (anchor != null) {

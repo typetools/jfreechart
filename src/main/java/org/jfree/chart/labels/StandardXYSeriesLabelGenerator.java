@@ -120,7 +120,7 @@ public class StandardXYSeriesLabelGenerator implements XYSeriesLabelGenerator,
      *
      * @return The items (never {@code null}).
      */
-    protected Object[] createItemArray(XYDataset dataset, /*@NonNegative*/ int series) {
+    protected Object /*@MinLen(1)*/ [] createItemArray(XYDataset dataset, /*@NonNegative*/ int series) {
         Object[] result = new Object[1];
         result[0] = dataset.getSeriesKey(series).toString();
         return result;

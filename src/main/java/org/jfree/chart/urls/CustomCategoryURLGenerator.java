@@ -73,7 +73,7 @@ public class CustomCategoryURLGenerator implements CategoryURLGenerator,
      *
      * @return The list count.
      */
-    public int getListCount() {
+    public /*@NonNegative*/ int getListCount() {
         return this.urlSeries.size();
     }
 
@@ -84,7 +84,7 @@ public class CustomCategoryURLGenerator implements CategoryURLGenerator,
      *
      * @return The URL count.
      */
-    public int getURLCount(int list) {
+    public int getURLCount(/*@NonNegative*/ int list) {
         int result = 0;
         List urls = (List) this.urlSeries.get(list);
         if (urls != null) {

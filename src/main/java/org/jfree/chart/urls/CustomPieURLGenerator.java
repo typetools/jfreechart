@@ -98,7 +98,7 @@ public class CustomPieURLGenerator implements PieURLGenerator,
      *
      * @see #addURLs(Map)
      */
-    public int getListCount() {
+    public /*@NonNegative*/ int getListCount() {
         return this.urls.size();
     }
 
@@ -112,7 +112,7 @@ public class CustomPieURLGenerator implements PieURLGenerator,
      *
      * @see #getListCount()
      */
-    public int getURLCount(int list) {
+    public int getURLCount(/*@NonNegative*/ int list) {
         int result = 0;
         Map urlMap = (Map) this.urls.get(list);
         if (urlMap != null) {

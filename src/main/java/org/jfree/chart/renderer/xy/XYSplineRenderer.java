@@ -374,7 +374,8 @@ public class XYSplineRenderer extends XYLineAndShapeRenderer {
                     s.seriesPath.lineTo(cp1.getX(), cp1.getY());
                 } else {
                     // construct spline
-                    int np = s.points.size(); // number of points
+                    @SuppressWarnings({"index", "value"}) // list/array interop; s.points is minlen 3 at this point
+                    /*@IntRange(from = 3)*/ int np = s.points.size(); // number of points
                     float[] d = new float[np]; // Newton form coefficients
                     float[] x = new float[np]; // x-coordinates of nodes
                     float y, oldy;

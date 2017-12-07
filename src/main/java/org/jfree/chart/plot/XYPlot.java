@@ -3265,8 +3265,8 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         // now draw annotations and render data items...
         boolean foundData = false;
         DatasetRenderingOrder order = getDatasetRenderingOrder();
-        List<Integer> rendererIndices = getRendererIndices(order);
-        List<Integer> datasetIndices = getDatasetIndices(order);
+        List</*@NonNegative*/ Integer> rendererIndices = getRendererIndices(order);
+        List</*@NonNegative*/ Integer> datasetIndices = getDatasetIndices(order);
 
         // draw background annotations
         for (int i : rendererIndices) {
@@ -3391,7 +3391,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
     }
     
     private List< /*@NonNegative*/ Integer> getRendererIndices(DatasetRenderingOrder order) {
-        List<Integer> result = new ArrayList<Integer>();
+        List</*@NonNegative*/ Integer> result = new ArrayList<Integer>();
         for (Entry< /*@NonNegative*/ Integer, XYItemRenderer> entry : this.renderers.entrySet()) {
             if (entry.getValue() != null) {
                 result.add(entry.getKey());
@@ -4358,7 +4358,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #getRangeAxisIndex(ValueAxis)
      */
-    public int getDomainAxisIndex(ValueAxis axis) {
+    public /*@GTENegativeOne*/ int getDomainAxisIndex(ValueAxis axis) {
         int result = findDomainAxisIndex(axis);
         if (result < 0) {
             // try the parent plot
@@ -4371,7 +4371,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         return result;
     }
     
-    private int findDomainAxisIndex(ValueAxis axis) {
+    private /*@GTENegativeOne*/ int findDomainAxisIndex(ValueAxis axis) {
         for (Map.Entry<Integer, ValueAxis> entry : this.domainAxes.entrySet()) {
             if (entry.getValue() == axis) {
                 return entry.getKey();

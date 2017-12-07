@@ -263,7 +263,10 @@ public class XYDotRenderer extends AbstractXYItemRenderer
                         this.dotHeight);
             }
 
-            int datasetIndex = plot.indexOf(dataset);
+            @SuppressWarnings("index") // TODO: I think this is a bug. This can flow to CategoryPlot#draw, where it would
+                    // fail an assert. There is nothing in this method relating the plot to the dataset, and the method
+                    // is public.
+            /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
             updateCrosshairValues(crosshairState, x, y, datasetIndex,
                     transX, transY, orientation);
         }

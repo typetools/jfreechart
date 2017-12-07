@@ -153,7 +153,7 @@ public class IntervalXYItemLabelGenerator extends AbstractXYItemLabelGenerator
      *         {@code String} objects (never {@code null}).
      */
     @Override
-    protected Object[] createItemArray(XYDataset dataset, /*@NonNegative*/ int series,
+    protected Object /*@MinLen(7)*/ [] createItemArray(XYDataset dataset, /*@NonNegative*/ int series,
                                        /*@NonNegative*/ int item) {
 
         IntervalXYDataset intervalDataset = null;

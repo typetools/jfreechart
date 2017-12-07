@@ -115,7 +115,7 @@ public class StandardCategorySeriesLabelGenerator implements
      *
      * @return The items (never {@code null}).
      */
-    protected Object[] createItemArray(CategoryDataset dataset, /*@NonNegative*/ int series) {
+    protected Object /*@MinLen(1)*/ [] createItemArray(CategoryDataset dataset, /*@NonNegative*/ int series) {
         Object[] result = new Object[1];
         result[0] = dataset.getRowKey(series).toString();
         return result;
