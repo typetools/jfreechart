@@ -256,7 +256,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The column index.
      */
     @Override
-    public int getColumnIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getColumnIndex(Comparable key) {
         // defer null argument check
         return this.data.getColumnIndex(key);
     }
@@ -291,7 +291,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The row index.
      */
     @Override
-    public int getRowIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getRowIndex(Comparable key) {
         // defer null argument check
         return this.data.getRowIndex(key);
     }
@@ -326,7 +326,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @see #getColumnCount()
      */
     @Override
-    public int getRowCount() {
+    public /*@NonNegative*/ int getRowCount() {
         return this.data.getRowCount();
     }
 
@@ -338,7 +338,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @see #getRowCount()
      */
     @Override
-    public int getColumnCount() {
+    public /*@NonNegative*/ int getColumnCount() {
         return this.data.getColumnCount();
     }
 
@@ -479,7 +479,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      *
      * @since 1.0.7
      */
-    public void removeRow(int rowIndex) {
+    public void removeRow(/*@NonNegative*/ int rowIndex) {
         this.data.removeRow(rowIndex);
         updateBounds();
         fireDatasetChanged();
@@ -511,7 +511,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      *
      * @since 1.0.7
      */
-    public void removeColumn(int columnIndex) {
+    public void removeColumn(/*@NonNegative*/ int columnIndex) {
         this.data.removeColumn(columnIndex);
         updateBounds();
         fireDatasetChanged();

@@ -104,7 +104,7 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @return The row count.
      */
     @Override
-    public int getRowCount() {
+    public /*@NonNegative*/ int getRowCount() {
         if (this.model == null) {
             return 0;
         }
@@ -117,7 +117,7 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @return The number of columns in the model.
      */
     @Override
-    public int getColumnCount() {
+    public /*@NonNegative*/ int getColumnCount() {
         if (this.model == null) {
             return 0;
         }

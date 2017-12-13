@@ -171,7 +171,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      * @return The column index, or -1 if the key is not recognised.
      */
     @Override
-    public int getColumnIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getColumnIndex(Comparable key) {
         int index = this.underlying.getColumnIndex(key);
         if (index >= this.firstCategoryIndex && index <= lastCategoryIndex()) {
             return index - this.firstCategoryIndex;
@@ -218,7 +218,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      * @return The row index, or {@code -1} if the key is unrecognised.
      */
     @Override
-    public int getRowIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getRowIndex(Comparable key) {
         return this.underlying.getRowIndex(key);
     }
 
@@ -274,7 +274,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      * @return The column count.
      */
     @Override
-    public int getColumnCount() {
+    public /*@NonNegative*/ int getColumnCount() {
         int last = lastCategoryIndex();
         if (last == -1) {
             return 0;
@@ -290,7 +290,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      * @return The row count.
      */
     @Override
-    public int getRowCount() {
+    public /*@NonNegative*/ int getRowCount() {
         return this.underlying.getRowCount();
     }
 

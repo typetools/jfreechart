@@ -74,7 +74,7 @@ public abstract class AbstractSeriesDataset extends AbstractDataset
      * @return The series count.
      */
     @Override
-    public abstract int getSeriesCount();
+    public abstract /*@NonNegative*/ int getSeriesCount();
 
     /**
      * Returns the key for a series.

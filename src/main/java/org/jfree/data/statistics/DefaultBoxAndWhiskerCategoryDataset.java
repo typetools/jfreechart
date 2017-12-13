@@ -231,7 +231,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      *
      * @since 1.0.7
      */
-    public void removeRow(int rowIndex) {
+    public void removeRow(/*@NonNegative*/ int rowIndex) {
         this.data.removeRow(rowIndex);
         updateBounds();
         fireDatasetChanged();
@@ -263,7 +263,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      *
      * @since 1.0.7
      */
-    public void removeColumn(int columnIndex) {
+    public void removeColumn(/*@NonNegative*/ int columnIndex) {
         this.data.removeColumn(columnIndex);
         updateBounds();
         fireDatasetChanged();
@@ -521,7 +521,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getColumnKey(int)
      */
     @Override
-    public int getColumnIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getColumnIndex(Comparable key) {
         return this.data.getColumnIndex(key);
     }
 
@@ -561,7 +561,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getRowKey(int)
      */
     @Override
-    public int getRowIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getRowIndex(Comparable key) {
         // defer null argument check
         return this.data.getRowIndex(key);
     }
@@ -600,7 +600,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getColumnCount()
      */
     @Override
-    public int getRowCount() {
+    public /*@NonNegative*/ int getRowCount() {
         return this.data.getRowCount();
     }
 
@@ -612,7 +612,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getRowCount()
      */
     @Override
-    public int getColumnCount() {
+    public /*@NonNegative*/ int getColumnCount() {
         return this.data.getColumnCount();
     }
 

@@ -63,7 +63,7 @@ public class MatrixSeries extends Series implements Serializable {
 
     /** Series matrix values */
     @SuppressWarnings("index") // Representation invariant
-    protected double /*@SameLen("this")*/ [] /*@SameLen("this[0]")*/ [] data;
+    protected double /*@SameLen("this")*/ [] /*@SameLen("this.data")*/ [] data;
 
     /**
      * Constructs a new matrix series.
@@ -86,7 +86,7 @@ public class MatrixSeries extends Series implements Serializable {
      *
      * @return The number of columns in this matrix series.
      */
-    public /*@LengthOf("this[0]")*/ int getColumnsCount() {
+    public /*@LengthOf("this.data")*/ int getColumnsCount() {
         return this.data[0].length;
     }
 
@@ -118,7 +118,7 @@ public class MatrixSeries extends Series implements Serializable {
      *
      * @return The column of the specified item.
      */
-    public /*@IndexFor("this[0]")*/ int getItemColumn(/*@NonNegative*/ int itemIndex) {
+    public /*@IndexFor("this.data")*/ int getItemColumn(/*@NonNegative*/ int itemIndex) {
         //assert itemIndex >= 0 && itemIndex < getItemCount();
         return itemIndex % getColumnsCount();
     }
@@ -169,7 +169,7 @@ public class MatrixSeries extends Series implements Serializable {
      * @see #getItem(int)
      * @see #update(int, int, double)
      */
-    public double get(/*@IndexFor("this")*/ int i, /*@IndexFor("this[0]")*/ int j) {
+    public double get(/*@IndexFor("this")*/ int i, /*@IndexFor("this.data")*/ int j) {
         return this.data[i][j];
     }
 
@@ -183,7 +183,7 @@ public class MatrixSeries extends Series implements Serializable {
      *
      * @see #get(int, int)
      */
-    public void update(/*@IndexFor("this")*/ int i, /*@IndexFor("this[0]")*/ int j, double mij) {
+    public void update(/*@IndexFor("this")*/ int i, /*@IndexFor("this.data")*/ int j, double mij) {
         this.data[i][j] = mij;
         fireSeriesChanged();
     }

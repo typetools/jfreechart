@@ -103,7 +103,7 @@ public class TimeSeriesTableModel extends AbstractTableModel
      * @return The column count.
      */
     @Override
-    public int getColumnCount() {
+    public /*@NonNegative*/ int getColumnCount() {
         return 2;
     }
 
@@ -159,7 +159,7 @@ public class TimeSeriesTableModel extends AbstractTableModel
      * @return The row count.
      */
     @Override
-    public int getRowCount() {
+    public /*@NonNegative*/ int getRowCount() {
         return this.series.getItemCount();
     }
 

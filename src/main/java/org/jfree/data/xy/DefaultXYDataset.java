@@ -153,15 +153,16 @@ public class DefaultXYDataset extends AbstractXYDataset
      *     specified range.
      */
     @Override
-    public /*@LengthOf({"this.seriesList.get(#1)[0]", "this.seriesList.get(#1)[1]"})*/ int getItemCount(/*@NonNegative*/ int series) {
+    public /*@LengthOf("this.getSeriesKey("#1")")*/ int getItemCount(/*@NonNegative*/ int series) {
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException("Series index out of bounds");
         }
-        @SuppressWarnings("index") // class invariant: list of 2D arrays that are 2xN, where N is the same for each array
-        double[] /*@SameLen({"this.seriesList.get(series)[0]", "this.seriesList.get(series)[1]"})*/ [] seriesArray =
-                (double[] /*@SameLen({"this.seriesList.get(series)[0]", "this.seriesList.get(series)[1]"})*/ [])
+        double /*@ArrayLen(2)*/ [][] seriesArray =
+                (double[][])
                         this.seriesList.get(series);
-        return seriesArray[0].length;
+        @SuppressWarnings("index") // The annotation on this method's return type isn't quite sensical, because there's no way to express the correct invariant here. Warnings are suppressed throughout these classes, but callers have a good interface.
+                /*@LengthOf("this.getSeriesKey("#1")")*/ int result = seriesArray[0].length;
+        return result;
     }
 
     /**
@@ -182,9 +183,11 @@ public class DefaultXYDataset extends AbstractXYDataset
      * @see #getX(int, int)
      */
     @Override
-    public double getXValue(/*@NonNegative*/ int series, /*@IndexFor("this.seriesList.get(#1)[0]")*/ int item) {
-        double[][] seriesData = (double[][]) this.seriesList.get(series);
-        return seriesData[0][item];
+    public double getXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeriesKey("#1")")*/ int item) {
+        double /*@ArrayLen(2)*/ [][] seriesData = (double[][]) this.seriesList.get(series);
+        @SuppressWarnings("index") // this.seriesList.get is equivalent to this.getSeries
+        /*@IndexFor("seriesData[0]")*/ int itemIndex = item;
+        return seriesData[0][itemIndex];
     }
 
     /**
@@ -205,7 +208,7 @@ public class DefaultXYDataset extends AbstractXYDataset
      * @see #getXValue(int, int)
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.seriesList.get(#1)[0]")*/ int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeriesKey("#1")")*/ int item) {
         return new Double(getXValue(series, item));
     }
 
@@ -227,9 +230,11 @@ public class DefaultXYDataset extends AbstractXYDataset
      * @see #getY(int, int)
      */
     @Override
-    public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.seriesList.get(#1)[1]")*/ int item) {
-        double[][] seriesData = (double[][]) this.seriesList.get(series);
-        return seriesData[1][item];
+    public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeriesKey("#1")")*/ int item) {
+        double /*@ArrayLen(2)*/ [][] seriesData = (double[][]) this.seriesList.get(series);
+        @SuppressWarnings("index") // this.seriesList.get is equivalent to this.getSeries
+        /*@IndexFor("seriesData[1]")*/ int itemIndex = item;
+        return seriesData[1][itemIndex];
     }
 
     /**
@@ -250,7 +255,7 @@ public class DefaultXYDataset extends AbstractXYDataset
      * @see #getX(int, int)
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.seriesList.get(#1)[1]")*/ int item) {
+    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeriesKey("#1")")*/ int item) {
         return new Double(getYValue(series, item));
     }
 
@@ -264,7 +269,7 @@ public class DefaultXYDataset extends AbstractXYDataset
      *     arrays of equal length, the first containing the x-values and the
      *     second containing the y-values).
      */
-    public void addSeries(Comparable seriesKey, double /*@ArrayLen(2)*/ [] /*@SameLen({"#2[0]", "#2[1]"})*/ [] data) {
+    public void addSeries(Comparable seriesKey, double /*@ArrayLen(2)*/ [][] data) {
         if (seriesKey == null) {
             throw new IllegalArgumentException(
                     "The 'seriesKey' cannot be null.");

@@ -631,7 +631,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @return The row count.
      */
-    public int getRowCount() {
+    public /*@NonNegative*/ int getRowCount() {
         return this.rowCount;
     }
 
@@ -641,7 +641,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @return The column count.
      */
-    public int getColumnCount() {
+    public /*@NonNegative*/ int getColumnCount() {
         return this.columnCount;
     }
 

@@ -637,7 +637,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getCategoryIndex(Comparable)
      */
     @Override
-    public int getColumnIndex(Comparable columnKey) {
+    public /*@GTENegativeOne*/ int getColumnIndex(Comparable columnKey) {
         Args.nullNotPermitted(columnKey, "columnKey");
         return getCategoryIndex(columnKey);
     }
@@ -652,7 +652,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getSeriesIndex(Comparable)
      */
     @Override
-    public int getRowIndex(Comparable rowKey) {
+    public /*@GTENegativeOne*/ int getRowIndex(Comparable rowKey) {
         return getSeriesIndex(rowKey);
     }
 
@@ -704,7 +704,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getRowCount()
      */
     @Override
-    public int getColumnCount() {
+    public /*@NonNegative*/ int getColumnCount() {
         return this.categoryKeys.length;
     }
 
@@ -717,7 +717,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getColumnCount()
      */
     @Override
-    public int getRowCount() {
+    public /*@NonNegative*/ int getRowCount() {
         return this.seriesKeys.length;
     }
 

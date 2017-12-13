@@ -168,7 +168,7 @@ public class CategoryItemRendererState extends RendererState {
      *
      * @since 1.0.13
      */
-    public int getVisibleSeriesIndex(int rowIndex) {
+    public int getVisibleSeriesIndex(/*@NonNegative*/ int rowIndex) {
         if (this.visibleSeries == null) {
             return rowIndex;
         }

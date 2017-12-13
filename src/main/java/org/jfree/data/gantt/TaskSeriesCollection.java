@@ -160,7 +160,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The series count.
      */
     @Override
-    public int getRowCount() {
+    public /*@NonNegative*/ int getRowCount() {
         return this.data.size();
     }
 
@@ -180,7 +180,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The column count.
      */
     @Override
-    public int getColumnCount() {
+    public /*@NonNegative*/ int getColumnCount() {
         return this.keys.size();
     }
 
@@ -214,7 +214,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The column index.
      */
     @Override
-    public int getColumnIndex(Comparable columnKey) {
+    public /*@GTENegativeOne*/ int getColumnIndex(Comparable columnKey) {
         Args.nullNotPermitted(columnKey, "columnKey");
         return this.keys.indexOf(columnKey);
     }
@@ -227,7 +227,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The index.
      */
     @Override
-    public int getRowIndex(Comparable rowKey) {
+    public /*@GTENegativeOne*/ int getRowIndex(Comparable rowKey) {
         int result = -1;
         int count = this.data.size();
         for (int i = 0; i < count; i++) {

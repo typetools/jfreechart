@@ -117,7 +117,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #getColumnCount()
      */
     @Override
-    public int getRowCount() {
+    public /*@NonNegative*/ int getRowCount() {
         return this.rowKeys.size();
     }
 
@@ -129,7 +129,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #getRowCount()
      */
     @Override
-    public int getColumnCount() {
+    public /*@NonNegative*/ int getColumnCount() {
         return this.columnKeys.size();
     }
 
@@ -185,7 +185,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #getColumnIndex(Comparable)
      */
     @Override
-    public int getRowIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getRowIndex(Comparable key) {
         Args.nullNotPermitted(key, "key");
         if (this.sortRowKeys) {
             return Collections.binarySearch(this.rowKeys, key);
@@ -234,7 +234,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #getRowIndex(Comparable)
      */
     @Override
-    public int getColumnIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getColumnIndex(Comparable key) {
         Args.nullNotPermitted(key, "key");
         return this.columnKeys.indexOf(key);
     }
@@ -412,7 +412,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #removeRow(Comparable)
      * @see #removeColumn(int)
      */
-    public void removeRow(int rowIndex) {
+    public void removeRow(/*@NonNegative*/ int rowIndex) {
         this.rowKeys.remove(rowIndex);
         this.rows.remove(rowIndex);
     }
@@ -447,7 +447,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #removeColumn(Comparable)
      * @see #removeRow(int)
      */
-    public void removeColumn(int columnIndex) {
+    public void removeColumn(/*@NonNegative*/ int columnIndex) {
         Comparable columnKey = getColumnKey(columnIndex);
         removeColumn(columnKey);
     }

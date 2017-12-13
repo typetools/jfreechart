@@ -68,7 +68,7 @@ public interface KeyedValues2D extends Values2D {
      *
      * @return The row index, or {@code -1} if the key is unrecognised.
      */
-    public int getRowIndex(Comparable key);
+    public /*@GTENegativeOne*/ int getRowIndex(Comparable key);
 
     /**
      * Returns the row keys.
@@ -95,7 +95,7 @@ public interface KeyedValues2D extends Values2D {
      *
      * @return The column index, or {@code -1} if the key is unrecognised.
      */
-    public int getColumnIndex(Comparable key);
+    public /*@GTENegativeOne*/ int getColumnIndex(Comparable key);
 
     /**
      * Returns the column keys.

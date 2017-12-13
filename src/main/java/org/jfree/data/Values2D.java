@@ -51,14 +51,14 @@ public interface Values2D {
      *
      * @return The row count.
      */
-    public int getRowCount();
+    public /*@NonNegative*/ int getRowCount();
 
     /**
      * Returns the number of columns in the table.
      *
      * @return The column count.
      */
-    public int getColumnCount();
+    public /*@NonNegative*/ int getColumnCount();
 
     /**
      * Returns a value from the table.
