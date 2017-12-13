@@ -40,7 +40,11 @@
  */
 
 package org.jfree.chart.labels;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.common.value.qual.MinLen;
+*/
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
