@@ -56,6 +56,7 @@
  */
 
 package org.jfree.data.statistics;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.util.List;

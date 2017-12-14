@@ -213,7 +213,6 @@ public class XYPolygonAnnotation extends AbstractXYAnnotation
         if (this.polygon.length < 4) {
             return;
         }
-
         PlotOrientation orientation = plot.getOrientation();
         RectangleEdge domainEdge = Plot.resolveDomainAxisLocation(
                 plot.getDomainAxisLocation(), orientation);

@@ -43,6 +43,7 @@
  */
 
 package org.jfree.data;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
@@ -125,7 +126,7 @@ public class KeyedObjects implements Cloneable, PublicCloneable, Serializable {
      *
      * @see #getKey(int)
      */
-    public int getIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getIndex(Comparable key) {
         Args.nullNotPermitted(key, "key");
         int i = 0;
         Iterator iterator = this.data.iterator();

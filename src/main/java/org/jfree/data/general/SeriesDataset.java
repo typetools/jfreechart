@@ -92,4 +92,14 @@ public interface SeriesDataset extends Dataset {
      */
     public /*@GTENegativeOne*/ int indexOf(Comparable seriesKey);
 
+    /**
+     * This is a ghost method for use in annotations. It is never called at runtime, and should never be invoked.
+     * Implementing classes should have this method throw an exception indicating that it is unimplemented.
+     * I'd rather use a default method here, but JFreeChart only compiles using Java 7.
+     *
+     * @param series a series index
+     * @return a representation of the series
+     */
+    Object[] getSeries(int series) throws Exception;
+
 }

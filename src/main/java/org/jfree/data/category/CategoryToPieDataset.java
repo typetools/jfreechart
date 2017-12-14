@@ -48,6 +48,7 @@
  */
 
 package org.jfree.data.category;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.util.Collections;
@@ -219,7 +220,7 @@ public class CategoryToPieDataset extends AbstractDataset
      * @return The index for the key, or {@code -1}.
      */
     @Override
-    public int getIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getIndex(Comparable key) {
         int result = -1;
         if (this.source != null) {
             if (this.extract == TableOrder.BY_ROW) {

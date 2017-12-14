@@ -45,13 +45,7 @@
 
 package org.jfree.data.xy;
 /*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -136,7 +130,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public /*@LengthOf("this.getSeriesKey("#1")")*/ int getItemCount(/*@NonNegative*/ int series) {
+    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException("Series index out of bounds");
         }
@@ -144,7 +138,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
                 (double[][])
                         this.seriesList.get(series);
         @SuppressWarnings("index") // The annotation on this method's return type isn't quite sensical, because there's no way to express the correct invariant here. Warnings are suppressed throughout these classes, but callers have a good interface.
-        /*@LengthOf("this.getSeriesKey("#1")")*/ int result = seriesArray[0].length;
+        /*@LengthOf("this.getSeries(#1)")*/ int result = seriesArray[0].length;
         return result;
     }
 
@@ -169,7 +163,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
     public double getXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         double /*@ArrayLen(6)*/ [][] seriesData = (double[][]) this.seriesList.get(series);
         @SuppressWarnings({"index", "value"}) // array-list interop
-        /*@IndexFor("seriesDate[0]")*/ int itemIndex = item;
+        /*@IndexFor("seriesData[0]")*/ int itemIndex = item;
         return seriesData[0][itemIndex];
     }
 
@@ -194,7 +188,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
     public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         double /*@ArrayLen(6)*/ [][] seriesData = (double[][]) this.seriesList.get(series);
         @SuppressWarnings({"index", "value"}) // array-list interop
-        /*@IndexFor("seriesDate[3]")*/ int itemIndex = item;
+        /*@IndexFor("seriesData[3]")*/ int itemIndex = item;
         return seriesData[3][itemIndex];
     }
 
@@ -244,7 +238,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
     public double getEndXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         double /*@ArrayLen(6)*/ [][] seriesData = (double[][]) this.seriesList.get(series);
         @SuppressWarnings({"index", "value"}) // array-list interop
-        /*@IndexFor("seriesDate[2]")*/ int itemIndex = item;
+        /*@IndexFor("seriesData[2]")*/ int itemIndex = item;
         return seriesData[2][itemIndex];
     }
 
@@ -269,7 +263,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
     public double getStartYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         double /*@ArrayLen(6)*/ [][] seriesData = (double[][]) this.seriesList.get(series);
         @SuppressWarnings({"index", "value"}) // array-list interop
-        /*@IndexFor("seriesDate[4]")*/ int itemIndex = item;
+        /*@IndexFor("seriesData[4]")*/ int itemIndex = item;
         return seriesData[4][itemIndex];
     }
 
@@ -294,7 +288,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
     public double getEndYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         double /*@ArrayLen(6)*/ [][] seriesData = (double[][]) this.seriesList.get(series);
         @SuppressWarnings({"index", "value"}) // array-list interop
-        /*@IndexFor("seriesDate[5]")*/ int itemIndex = item;
+        /*@IndexFor("seriesData[5]")*/ int itemIndex = item;
         return seriesData[5][itemIndex];
     }
 

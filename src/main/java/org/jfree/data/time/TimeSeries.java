@@ -90,6 +90,7 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
@@ -604,7 +605,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @return The index.
      */
-    public int getIndex(RegularTimePeriod period) {
+    public /*@GTENegativeOne*/ int getIndex(RegularTimePeriod period) {
         Args.nullNotPermitted(period, "period");
         TimeSeriesDataItem dummy = new TimeSeriesDataItem(
               period, Integer.MIN_VALUE);

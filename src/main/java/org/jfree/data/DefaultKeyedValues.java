@@ -59,6 +59,7 @@
  */
 
 package org.jfree.data;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
@@ -151,7 +152,7 @@ public class DefaultKeyedValues implements KeyedValues, Cloneable,
      *     {@code null}.
      */
     @Override
-    public int getIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getIndex(Comparable key) {
         Args.nullNotPermitted(key, "key");
         final Integer i = (Integer) this.indexMap.get(key);
         if (i == null) {
@@ -255,7 +256,7 @@ public class DefaultKeyedValues implements KeyedValues, Cloneable,
      *
      * @since 1.0.6
      */
-    public void insertValue(int position, Comparable key, double value) {
+    public void insertValue(/*@NonNegative*/ int position, Comparable key, double value) {
         insertValue(position, key, new Double(value));
     }
 
@@ -270,7 +271,7 @@ public class DefaultKeyedValues implements KeyedValues, Cloneable,
      *
      * @since 1.0.6
      */
-    public void insertValue(int position, Comparable key, Number value) {
+    public void insertValue(/*@NonNegative*/ int position, Comparable key, Number value) {
         if (position < 0 || position > getItemCount()) {
             throw new IllegalArgumentException("'position' out of bounds.");
         }

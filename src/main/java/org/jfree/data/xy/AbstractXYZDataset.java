@@ -40,6 +40,7 @@
  */
 
 package org.jfree.data.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -61,7 +62,7 @@ public abstract class AbstractXYZDataset extends AbstractXYDataset
      * @return The z-value.
      */
     @Override
-    public double getZValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getZValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         double result = Double.NaN;
         Number z = getZ(series, item);
         if (z != null) {

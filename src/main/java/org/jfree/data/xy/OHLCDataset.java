@@ -47,6 +47,7 @@
  */
 
 package org.jfree.data.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -66,7 +67,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The value.
      */
-    public Number getHigh(/*@NonNegative*/ int series, /*@IndexFor("this.getSeriesKey("#1")")*/  int item);
+    public Number getHigh(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
 
     /**
      * Returns the high-value (as a double primitive) for an item within a
@@ -77,7 +78,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The high-value.
      */
-    public double getHighValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeriesKey("#1")")*/  int item);
+    public double getHighValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
 
     /**
      * Returns the low-value for the specified series and item.
@@ -87,7 +88,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The value.
      */
-    public Number getLow(/*@NonNegative*/ int series, /*@IndexFor("this.getSeriesKey("#1")")*/  int item);
+    public Number getLow(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
 
     /**
      * Returns the low-value (as a double primitive) for an item within a
@@ -98,7 +99,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The low-value.
      */
-    public double getLowValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeriesKey("#1")")*/  int item);
+    public double getLowValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
 
     /**
      * Returns the open-value for the specified series and item.
@@ -108,7 +109,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The value.
      */
-    public Number getOpen(/*@NonNegative*/ int series, /*@IndexFor("this.getSeriesKey("#1")")*/  int item);
+    public Number getOpen(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
 
     /**
      * Returns the open-value (as a double primitive) for an item within a
@@ -119,7 +120,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The open-value.
      */
-    public double getOpenValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeriesKey("#1")")*/  int item);
+    public double getOpenValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
 
     /**
      * Returns the y-value for the specified series and item.
@@ -129,7 +130,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The value.
      */
-    public Number getClose(/*@NonNegative*/ int series, /*@IndexFor("this.getSeriesKey("#1")")*/  int item);
+    public Number getClose(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
 
     /**
      * Returns the close-value (as a double primitive) for an item within a
@@ -140,7 +141,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The close-value.
      */
-    public double getCloseValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeriesKey("#1")")*/  int item);
+    public double getCloseValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
 
     /**
      * Returns the volume for the specified series and item.
@@ -150,7 +151,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The value.
      */
-    public Number getVolume(/*@NonNegative*/ int series, /*@IndexFor("this.getSeriesKey("#1")")*/  int item);
+    public Number getVolume(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
 
     /**
      * Returns the volume-value (as a double primitive) for an item within a
@@ -161,6 +162,6 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The volume-value.
      */
-    public double getVolumeValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeriesKey("#1")")*/  int item);
+    public double getVolumeValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
 
 }

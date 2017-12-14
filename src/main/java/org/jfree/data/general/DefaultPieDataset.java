@@ -56,6 +56,7 @@
  */
 
 package org.jfree.data.general;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
@@ -150,7 +151,7 @@ public class DefaultPieDataset extends AbstractDataset
      *     {@code null}.
      */
     @Override
-    public int getIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getIndex(Comparable key) {
         return this.data.getIndex(key);
     }
 

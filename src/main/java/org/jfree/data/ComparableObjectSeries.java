@@ -66,7 +66,7 @@ public class ComparableObjectSeries extends Series
     protected List data;
 
     /** The maximum number of items for the series. */
-    private int maximumItemCount = Integer.MAX_VALUE;
+    private /*@NonNegative*/ int maximumItemCount = Integer.MAX_VALUE;
 
     /** A flag that controls whether the items are automatically sorted. */
     private boolean autoSort;
@@ -141,7 +141,7 @@ public class ComparableObjectSeries extends Series
      * @return The maximum item count.
      * @see #setMaximumItemCount(int)
      */
-    public int getMaximumItemCount() {
+    public /*@NonNegative*/ int getMaximumItemCount() {
         return this.maximumItemCount;
     }
 
@@ -340,7 +340,7 @@ public class ComparableObjectSeries extends Series
      * @param start  the start index (zero-based).
      * @param end  the end index (zero-based).
      */
-    protected void delete(int start, int end) {
+    protected void delete(/*@NonNegative*/ int start, /*@NonNegative*/ int end) {
         for (int i = start; i <= end; i++) {
             this.data.remove(start);
         }

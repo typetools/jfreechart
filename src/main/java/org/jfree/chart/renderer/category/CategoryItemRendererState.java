@@ -44,6 +44,7 @@
  */
 
 package org.jfree.chart.renderer.category;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import org.jfree.chart.plot.CategoryCrosshairState;
 import org.jfree.chart.plot.PlotRenderingInfo;
