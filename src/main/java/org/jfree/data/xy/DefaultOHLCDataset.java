@@ -320,6 +320,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The item count.
      */
     @Override
+    @SuppressWarnings("index") // this.data is the same length as the conceptual getSeries called with any argument, but no SameLen annotation can express that due to the argument needed for getSeries
     public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         return this.data.length;
     }

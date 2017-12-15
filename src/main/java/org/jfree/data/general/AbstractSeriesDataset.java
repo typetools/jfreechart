@@ -124,7 +124,7 @@ public abstract class AbstractSeriesDataset extends AbstractDataset
      * to represent the conceptual "series" that the dataset provides.
      */
     @Override
-    public Object[] getSeries(int series) throws Exception{
+    public Series getSeries(/*@NonNegative*/ int series) throws Exception{
         throw new Exception("unimplemented");
     }
 }

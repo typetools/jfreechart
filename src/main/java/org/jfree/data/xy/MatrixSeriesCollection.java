@@ -97,7 +97,8 @@ public class MatrixSeriesCollection extends AbstractXYZDataset
      * @return The number of items in the specified series.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int seriesIndex) {
+    @SuppressWarnings("index") // getSeries.getItemCount cannot be annotated correctly because some Series are mutable length
+    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int seriesIndex) {
         return getSeries(seriesIndex).getItemCount();
     }
 
@@ -154,7 +155,7 @@ public class MatrixSeriesCollection extends AbstractXYZDataset
      * @see org.jfree.data.xy.XYDataset#getXValue(int, int)
      */
     @Override
-    public Number getX(/*@NonNegative*/ int seriesIndex, /*@NonNegative*/ int itemIndex) {
+    public Number getX(/*@NonNegative*/ int seriesIndex, /*@IndexFor("this.getSeries(#1)")*/ int itemIndex) {
         MatrixSeries series = (MatrixSeries) this.seriesList.get(seriesIndex);
         int x = series.getItemColumn(itemIndex);
 
@@ -174,7 +175,7 @@ public class MatrixSeriesCollection extends AbstractXYZDataset
      * @see org.jfree.data.xy.XYDataset#getYValue(int, int)
      */
     @Override
-    public Number getY(/*@NonNegative*/ int seriesIndex, /*@NonNegative*/ int itemIndex) {
+    public Number getY(/*@NonNegative*/ int seriesIndex, /*@IndexFor("this.getSeries(#1)")*/ int itemIndex) {
         MatrixSeries series = (MatrixSeries) this.seriesList.get(seriesIndex);
         int y = series.getItemRow(itemIndex);
 
@@ -194,7 +195,7 @@ public class MatrixSeriesCollection extends AbstractXYZDataset
      * @see org.jfree.data.xy.XYZDataset#getZValue(int, int)
      */
     @Override
-    public Number getZ(/*@NonNegative*/ int seriesIndex, /*@NonNegative*/ int itemIndex) {
+    public Number getZ(/*@NonNegative*/ int seriesIndex, /*@IndexFor("this.getSeries(#1)")*/ int itemIndex) {
         MatrixSeries series = (MatrixSeries) this.seriesList.get(seriesIndex);
         Number z = series.getItem(itemIndex);
         return z;

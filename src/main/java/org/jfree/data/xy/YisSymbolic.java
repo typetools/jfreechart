@@ -44,7 +44,7 @@
 package org.jfree.data.xy;
 
 /*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.*;
  */
 
 /**

@@ -100,6 +100,6 @@ public interface SeriesDataset extends Dataset {
      * @param series a series index
      * @return a representation of the series
      */
-    Object[] getSeries(int series) throws Exception;
+    Series getSeries(/*@NonNegative*/ int series) throws Exception;
 
 }

@@ -45,6 +45,7 @@
  */
 
 package org.jfree.data.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -146,7 +147,8 @@ public class XYIntervalSeriesCollection extends AbstractIntervalXYDataset
      *     range {@code 0} to {@code getSeriesCount() - 1}.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
+    @SuppressWarnings("index") // getSeries.getItemCount cannot be annotated because some series are mutable
+    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         // defer argument checking
         return getSeries(series).getItemCount();
     }
@@ -160,7 +162,7 @@ public class XYIntervalSeriesCollection extends AbstractIntervalXYDataset
      * @return The x-value.
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         XYIntervalSeries s = (XYIntervalSeries) this.data.get(series);
         return s.getX(item);
     }
@@ -175,7 +177,7 @@ public class XYIntervalSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public double getStartXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getStartXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         XYIntervalSeries s = (XYIntervalSeries) this.data.get(series);
         return s.getXLowValue(item);
     }
@@ -190,7 +192,7 @@ public class XYIntervalSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public double getEndXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getEndXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         XYIntervalSeries s = (XYIntervalSeries) this.data.get(series);
         return s.getXHighValue(item);
     }
@@ -205,7 +207,7 @@ public class XYIntervalSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public double getYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         XYIntervalSeries s = (XYIntervalSeries) this.data.get(series);
         return s.getYValue(item);
     }
@@ -220,7 +222,7 @@ public class XYIntervalSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public double getStartYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getStartYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         XYIntervalSeries s = (XYIntervalSeries) this.data.get(series);
         return s.getYLowValue(item);
     }
@@ -235,7 +237,7 @@ public class XYIntervalSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public double getEndYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getEndYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         XYIntervalSeries s = (XYIntervalSeries) this.data.get(series);
         return s.getYHighValue(item);
     }
@@ -249,7 +251,7 @@ public class XYIntervalSeriesCollection extends AbstractIntervalXYDataset
      * @return The y-value.
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return new Double(getYValue(series, item));
     }
 
@@ -262,7 +264,7 @@ public class XYIntervalSeriesCollection extends AbstractIntervalXYDataset
      * @return The x-value.
      */
     @Override
-    public Number getStartX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getStartX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return new Double(getStartXValue(series, item));
     }
 
@@ -275,7 +277,7 @@ public class XYIntervalSeriesCollection extends AbstractIntervalXYDataset
      * @return The x-value.
      */
     @Override
-    public Number getEndX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getEndX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return new Double(getEndXValue(series, item));
     }
 
@@ -289,7 +291,7 @@ public class XYIntervalSeriesCollection extends AbstractIntervalXYDataset
      * @return The start y-value.
      */
     @Override
-    public Number getStartY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getStartY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return new Double(getStartYValue(series, item));
     }
 
@@ -303,7 +305,7 @@ public class XYIntervalSeriesCollection extends AbstractIntervalXYDataset
      * @return The end y-value.
      */
     @Override
-    public Number getEndY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getEndY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return new Double(getEndYValue(series, item));
     }
 

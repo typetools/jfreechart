@@ -154,6 +154,7 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @return The value of the specified cell.
      */
     @Override
+    @SuppressWarnings("upperbound") // row's relation to the model is dependent on the value of column
     public Object getValueAt(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         if (this.model == null) {
             return null;

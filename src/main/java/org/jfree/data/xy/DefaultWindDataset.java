@@ -46,6 +46,7 @@
  */
 
 package org.jfree.data.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -189,7 +190,8 @@ public class DefaultWindDataset extends AbstractXYDataset
      * @return The item count.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
+    @SuppressWarnings("index") // class invariant
+    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         if (series < 0 || series >= getSeriesCount()) {
             throw new IllegalArgumentException("Invalid series index: "
                     + series);
@@ -225,7 +227,7 @@ public class DefaultWindDataset extends AbstractXYDataset
      * @return The x-value for the item within the series.
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         List oneSeriesData = (List) this.allSeriesData.get(series);
         WindDataItem windItem = (WindDataItem) oneSeriesData.get(item);
         return windItem.getX();
@@ -242,7 +244,7 @@ public class DefaultWindDataset extends AbstractXYDataset
      * @return The y-value for the item within the series.
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getWindForce(series, item);
     }
 
@@ -256,7 +258,7 @@ public class DefaultWindDataset extends AbstractXYDataset
      * @return The wind direction for the item within the series.
      */
     @Override
-    public Number getWindDirection(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getWindDirection(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         List oneSeriesData = (List) this.allSeriesData.get(series);
         WindDataItem windItem = (WindDataItem) oneSeriesData.get(item);
         return windItem.getWindDirection();
@@ -272,7 +274,7 @@ public class DefaultWindDataset extends AbstractXYDataset
      * @return The wind force for the item within the series.
      */
     @Override
-    public Number getWindForce(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getWindForce(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         List oneSeriesData = (List) this.allSeriesData.get(series);
         WindDataItem windItem = (WindDataItem) oneSeriesData.get(item);
         return windItem.getWindForce();

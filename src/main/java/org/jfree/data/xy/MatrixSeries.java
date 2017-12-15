@@ -62,7 +62,6 @@ public class MatrixSeries extends Series implements Serializable {
     private static final long serialVersionUID = 7934188527308315704L;
 
     /** Series matrix values */
-    @SuppressWarnings("index") // Representation invariant
     protected double /*@SameLen("this")*/ [] /*@SameLen("this.data")*/ [] data;
 
     /**
@@ -75,6 +74,7 @@ public class MatrixSeries extends Series implements Serializable {
      * @param rows  the number of rows.
      * @param columns  the number of columns.
      */
+    @SuppressWarnings("index") // representation invariant: this.data needs to be SameLen as "this"
     public MatrixSeries(String name, /*@NonNegative*/ int rows, /*@NonNegative*/ int columns) {
         super(name);
         this.data = new double[rows][columns];
@@ -86,6 +86,7 @@ public class MatrixSeries extends Series implements Serializable {
      *
      * @return The number of columns in this matrix series.
      */
+    @SuppressWarnings("index") // this method assumes that there is at least one row, but the documentation doesn't say so. This is a documentation bug.
     public /*@LengthOf("this.data")*/ int getColumnsCount() {
         return this.data[0].length;
     }
@@ -118,6 +119,7 @@ public class MatrixSeries extends Series implements Serializable {
      *
      * @return The column of the specified item.
      */
+    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/195
     public /*@IndexFor("this.data")*/ int getItemColumn(/*@NonNegative*/ int itemIndex) {
         //assert itemIndex >= 0 && itemIndex < getItemCount();
         return itemIndex % getColumnsCount();
@@ -142,6 +144,7 @@ public class MatrixSeries extends Series implements Serializable {
      *
      * @return The row of the specified item.
      */
+    @SuppressWarnings("index") // dividing the index by the column count results in a row index
     public /*@IndexFor("this")*/ int getItemRow(/*@NonNegative*/ int itemIndex) {
         //assert itemIndex >= 0 && itemIndex < getItemCount();
         return itemIndex / getColumnsCount();
@@ -230,7 +233,9 @@ public class MatrixSeries extends Series implements Serializable {
         }
         for (int r = 0; r < getRowCount(); r++) {
             for (int c = 0; c < getColumnsCount(); c++) {
-                if (get(r, c) != that.get(r, c)) {
+                @SuppressWarnings("index") // row and column counts have to be equal, as checked above
+                boolean test = get(r, c) != that.get(r, c);
+                if (test) {
                     return false;
                 }
             }

@@ -195,7 +195,8 @@ public class VectorSeriesCollection extends AbstractXYDataset
      *     range {@code 0} to {@code getSeriesCount() - 1}.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
+    @SuppressWarnings("index") // getSeries.getItemCount cannot be annotated because some series are mutable
+    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         // defer argument checking
         return getSeries(series).getItemCount();
     }
@@ -209,7 +210,7 @@ public class VectorSeriesCollection extends AbstractXYDataset
      * @return The x-value.
      */
     @Override
-    public double getXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         VectorSeries s = (VectorSeries) this.data.get(series);
         VectorDataItem di = (VectorDataItem) s.getDataItem(item);
         return di.getXValue();
@@ -226,7 +227,7 @@ public class VectorSeriesCollection extends AbstractXYDataset
      * @return The x-value.
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return new Double(getXValue(series, item));
     }
 
@@ -239,7 +240,7 @@ public class VectorSeriesCollection extends AbstractXYDataset
      * @return The y-value.
      */
     @Override
-    public double getYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         VectorSeries s = (VectorSeries) this.data.get(series);
         VectorDataItem di = (VectorDataItem) s.getDataItem(item);
         return di.getYValue();
@@ -256,7 +257,7 @@ public class VectorSeriesCollection extends AbstractXYDataset
      * @return The y-value.
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return new Double(getYValue(series, item));
     }
 
@@ -269,7 +270,7 @@ public class VectorSeriesCollection extends AbstractXYDataset
      * @return The vector (possibly {@code null}).
      */
     @Override
-    public Vector getVector(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Vector getVector(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         VectorSeries s = (VectorSeries) this.data.get(series);
         VectorDataItem di = (VectorDataItem) s.getDataItem(item);
         return di.getVector();
@@ -284,7 +285,7 @@ public class VectorSeriesCollection extends AbstractXYDataset
      * @return The x-component of the vector.
      */
     @Override
-    public double getVectorXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getVectorXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         VectorSeries s = (VectorSeries) this.data.get(series);
         VectorDataItem di = (VectorDataItem) s.getDataItem(item);
         return di.getVectorX();
@@ -299,7 +300,7 @@ public class VectorSeriesCollection extends AbstractXYDataset
      * @return The y-component of the vector.
      */
     @Override
-    public double getVectorYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getVectorYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         VectorSeries s = (VectorSeries) this.data.get(series);
         VectorDataItem di = (VectorDataItem) s.getDataItem(item);
         return di.getVectorY();

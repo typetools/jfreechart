@@ -201,7 +201,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
     @Override
     public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         @SuppressWarnings("index") // The annotation on this method's return type isn't quite sensical, because there's no way to express the correct invariant here. Warnings are suppressed throughout these classes, but callers have a good interface.
-        int result =  getItemCount();  // all series have the same number of items in
+        /*@LengthOf("this.getSeries(#1)")*/ int result =  getItemCount();  // all series have the same number of items in
                                 // this dataset
         return result;
     }
@@ -228,6 +228,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The starting X value.
      */
     @Override
+    @SuppressWarnings("index") // interval delegate and this.getSeries have the same conceptual length
     public Number getStartX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.intervalDelegate.getStartX(series, item);
     }
@@ -241,6 +242,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The ending X value.
      */
     @Override
+    @SuppressWarnings("index") // interval delegate and this.getSeries have the same conceptual length
     public Number getEndX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.intervalDelegate.getEndX(series, item);
     }

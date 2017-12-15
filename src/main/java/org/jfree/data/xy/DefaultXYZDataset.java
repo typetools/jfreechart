@@ -45,11 +45,6 @@
 package org.jfree.data.xy;
 /*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -160,11 +155,10 @@ public class DefaultXYZDataset extends AbstractXYZDataset
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException("Series index out of bounds");
         }
-                double /*@ArrayLen(3)*/ [][] seriesArray =
-                        (double[][]) this.seriesList.get(series);
-        @SuppressWarnings("index") // The annotation on this method's return type isn't quite sensical, because there's no way to express the correct invariant here. Warnings are suppressed throughout these classes, but callers have a good interface.
-        /*@LengthOf("this.getSeries(#1)")*/ int result = seriesArray[0].length;
-        return result;
+        @SuppressWarnings("index") // class invariant: this.getSeries is the logical ghost variable representing this array
+                double /*@ArrayLen(3)*/ [] /*@SameLen("this.getSeries(#1)")*/ [] seriesArray =
+                        (double /*@ArrayLen(3)*/ [][]) this.seriesList.get(series);
+        return seriesArray[0].length;
     }
 
     /**
@@ -186,8 +180,8 @@ public class DefaultXYZDataset extends AbstractXYZDataset
      */
     @Override
     public double getXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        double /*@ArrayLen(3)*/ [][] seriesData = (double[][]) this.seriesList.get(series);
-        @SuppressWarnings("index") // array-list interop prevents precise annotation on item
+        double /*@ArrayLen(3)*/ [][] seriesData = (double /*@ArrayLen(3)*/ [][]) this.seriesList.get(series);
+        @SuppressWarnings("index") // this.seriesList.get is equivalent to this.getSeries
         /*@IndexFor("seriesData[0]")*/ int itemIndex = item;
         return seriesData[0][itemIndex];
     }
@@ -233,8 +227,8 @@ public class DefaultXYZDataset extends AbstractXYZDataset
      */
     @Override
     public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        double /*@ArrayLen(3)*/ [][] seriesData = (double[][]) this.seriesList.get(series);
-        @SuppressWarnings("index") // array-list interop prevents precise annotation on item
+        double /*@ArrayLen(3)*/ [][] seriesData = (double /*@ArrayLen(3)*/ [][]) this.seriesList.get(series);
+        @SuppressWarnings("index") // this.seriesList.get is equivalent to this.getSeries
         /*@IndexFor("seriesData[1]")*/ int itemIndex = item;
         return seriesData[1][itemIndex];
     }
@@ -280,8 +274,8 @@ public class DefaultXYZDataset extends AbstractXYZDataset
      */
     @Override
     public double getZValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        double /*@ArrayLen(3)*/ [][] seriesData = (double[][]) this.seriesList.get(series);
-        @SuppressWarnings("index") // array-list interop prevents precise annotation on item
+        double /*@ArrayLen(3)*/ [][] seriesData = (double /*@ArrayLen(3)*/ [][]) this.seriesList.get(series);
+        @SuppressWarnings("index") // this.seriesList.get is equivalent to this.getSeries
         /*@IndexFor("seriesData[2]")*/ int itemIndex = item;
         return seriesData[2][itemIndex];
     }
@@ -379,7 +373,6 @@ public class DefaultXYZDataset extends AbstractXYZDataset
      * @return A boolean.
      */
     @Override
-    @SuppressWarnings("index") // Equality test relies on well-formedness of other object, which can't be annotated perfectly because of array-list interop
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -392,8 +385,8 @@ public class DefaultXYZDataset extends AbstractXYZDataset
             return false;
         }
         for (int i = 0; i < this.seriesList.size(); i++) {
-            double[][] d1 = (double[][]) this.seriesList.get(i);
-            double[][] d2 = (double[][]) that.seriesList.get(i);
+            double[][] d1 = (double /*@ArrayLen(3)*/ [][]) this.seriesList.get(i);
+            double[][] d2 = (double /*@ArrayLen(3)*/ [][]) that.seriesList.get(i);
             double[] d1x = d1[0];
             double[] d2x = d2[0];
             if (!Arrays.equals(d1x, d2x)) {
@@ -436,13 +429,12 @@ public class DefaultXYZDataset extends AbstractXYZDataset
      *     series key).
      */
     @Override
-    @SuppressWarnings("index") // clone assumes that object is well-formed; list-index interop prevents this from being verifiable
     public Object clone() throws CloneNotSupportedException {
         DefaultXYZDataset clone = (DefaultXYZDataset) super.clone();
         clone.seriesKeys = new java.util.ArrayList(this.seriesKeys);
         clone.seriesList = new ArrayList(this.seriesList.size());
         for (int i = 0; i < this.seriesList.size(); i++) {
-            double[][] data = (double[][]) this.seriesList.get(i);
+            double[][] data = (double /*@ArrayLen(3)*/ [][]) this.seriesList.get(i);
             double[] x = data[0];
             double[] y = data[1];
             double[] z = data[2];

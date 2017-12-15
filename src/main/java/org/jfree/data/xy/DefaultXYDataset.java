@@ -161,8 +161,7 @@ public class DefaultXYDataset extends AbstractXYDataset
         double /*@ArrayLen(2)*/ [] /*@SameLen("this.getSeries(#1)")*/ [] seriesArray =
                 (double /*@ArrayLen(2)*/ [][])
                         this.seriesList.get(series);
-        int result = seriesArray[0].length;
-        return result;
+        return seriesArray[0].length;
     }
 
     /**

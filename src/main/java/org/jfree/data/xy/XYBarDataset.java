@@ -48,6 +48,7 @@
  */
 
 package org.jfree.data.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -77,6 +78,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      *     permitted).
      * @param barWidth  the width of the bars.
      */
+    @SuppressWarnings("index") // the underlying dataset is the same length as this dataset by definition
     public XYBarDataset(XYDataset underlying, double barWidth) {
         this.underlying = underlying;
         this.underlying.addChangeListener(this);
@@ -151,7 +153,8 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
+    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
+    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         return this.underlying.getItemCount(series);
     }
 
@@ -166,7 +169,8 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getXValue(int, int)
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
+    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.underlying.getX(series, item);
     }
 
@@ -181,7 +185,8 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getX(int, int)
      */
     @Override
-    public double getXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
+    public double getXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.underlying.getXValue(series, item);
     }
 
@@ -196,7 +201,8 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getYValue(int, int)
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
+    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.underlying.getY(series, item);
     }
 
@@ -211,7 +217,8 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getY(int, int)
      */
     @Override
-    public double getYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
+    public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.underlying.getYValue(series, item);
     }
 
@@ -224,7 +231,8 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getStartX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
+    public Number getStartX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         Number result = null;
         Number xnum = this.underlying.getX(series, item);
         if (xnum != null) {
@@ -245,7 +253,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getXValue(int, int)
      */
     @Override
-    public double getStartXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getStartXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getXValue(series, item) - this.barWidth / 2.0;
     }
 
@@ -258,7 +266,8 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getEndX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
+    public Number getEndX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         Number result = null;
         Number xnum = this.underlying.getX(series, item);
         if (xnum != null) {
@@ -279,7 +288,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getXValue(int, int)
      */
     @Override
-    public double getEndXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getEndXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getXValue(series, item) + this.barWidth / 2.0;
     }
 
@@ -292,7 +301,8 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getStartY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
+    public Number getStartY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.underlying.getY(series, item);
     }
 
@@ -308,7 +318,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getYValue(int, int)
      */
     @Override
-    public double getStartYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getStartYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getYValue(series, item);
     }
 
@@ -321,7 +331,8 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getEndY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
+    public Number getEndY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.underlying.getY(series, item);
     }
 
@@ -337,7 +348,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getYValue(int, int)
      */
     @Override
-    public double getEndYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getEndYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getYValue(series, item);
     }
 

@@ -113,7 +113,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
     protected List data;
 
     /** The maximum number of items for the series. */
-    private int maximumItemCount = Integer.MAX_VALUE;
+    private /*@NonNegative*/ int maximumItemCount = Integer.MAX_VALUE;
 
     /**
      * A flag that controls whether the items are automatically sorted
@@ -267,6 +267,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @since 1.0.13
      */
+    @SuppressWarnings("index") // this method is clearly assuming that item is not the last item in the series. TODO: I believe this is a bug
     private void updateBoundsForRemovedItem(XYDataItem item) {
         boolean itemContributesToXBounds = false;
         boolean itemContributesToYBounds = false;
@@ -367,7 +368,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @see #setMaximumItemCount(int)
      */
-    public int getMaximumItemCount() {
+    public /*@NonNegative*/ int getMaximumItemCount() {
         return this.maximumItemCount;
     }
 
@@ -385,7 +386,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @param maximum  the maximum number of items for the series.
      */
-    public void setMaximumItemCount(int maximum) {
+    public void setMaximumItemCount(/*@NonNegative*/ int maximum) {
         this.maximumItemCount = maximum;
         int remove = this.data.size() - maximum;
         if (remove > 0) {
@@ -511,7 +512,9 @@ public class XYSeries extends Series implements Cloneable, Serializable {
         if (this.autoSort) {
             int index = Collections.binarySearch(this.data, item);
             if (index < 0) {
-                this.data.add(-index - 1, item);
+                @SuppressWarnings("index") // searchindex for list
+                /*@NonNegative*/ int newIndex = -index - 1;
+                this.data.add(newIndex, item);
             }
             else {
                 if (this.allowDuplicateXValues) {
@@ -561,7 +564,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      * @param start  the start index (zero-based).
      * @param end  the end index (zero-based).
      */
-    public void delete(int start, int end) {
+    public void delete(/*@NonNegative*/ int start, /*@NonNegative*/ int end) {
         this.data.subList(start, end + 1).clear();
         findBoundsByIteration();
         fireSeriesChanged();
@@ -592,6 +595,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
 
      * @return The item removed.
      */
+    @SuppressWarnings("index") // this is a bug? The documentation doesn't say it, but a precondition of this method must be that x is in this XYSeries
     public XYDataItem remove(Number x) {
         return remove(indexOf(x));
     }
@@ -849,7 +853,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @return The index.
      */
-    public /*@GTENegativeOne*/ int indexOf(Number x) {
+    public int indexOf(Number x) {
         if (this.autoSort) {
             return Collections.binarySearch(this.data, new XYDataItem(x, null));
         }
@@ -871,6 +875,8 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @since 1.0.4
      */
+    @SuppressWarnings("index") // every access of the form result[0][i] or result[1][i] in this method issues an error despite
+                               // being safe, since both result[0] and result[1] have length of itemCount.
     public double[][] toArray() {
         int itemCount = getItemCount();
         double[][] result = new double[2][itemCount];
@@ -911,7 +917,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @throws CloneNotSupportedException if there is a cloning problem.
      */
-    public XYSeries createCopy(int start, int end)
+    public XYSeries createCopy(/*@NonNegative*/ int start, /*@NonNegative*/ int end)
             throws CloneNotSupportedException {
 
         XYSeries copy = (XYSeries) super.clone();

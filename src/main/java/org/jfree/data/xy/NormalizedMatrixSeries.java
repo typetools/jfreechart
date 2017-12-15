@@ -69,7 +69,7 @@ public class NormalizedMatrixSeries extends MatrixSeries {
      * @param rows  the number of rows.
      * @param columns  the number of columns.
      */
-    public NormalizedMatrixSeries(String name, int rows, int columns) {
+    public NormalizedMatrixSeries(String name, /*@NonNegative*/ int rows, /*@NonNegative*/ int columns) {
         super(name, rows, columns);
 
         /*
@@ -136,7 +136,7 @@ public class NormalizedMatrixSeries extends MatrixSeries {
      * @see #get(int, int)
      */
     @Override
-    public void update(int i, int j, double mij) {
+    public void update(/*@IndexFor("this")*/ int i, /*@IndexFor("this.data")*/ int j, double mij) {
         this.m_totalSum -= get(i, j);
         this.m_totalSum += mij;
 
