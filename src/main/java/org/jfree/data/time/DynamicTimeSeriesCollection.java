@@ -61,6 +61,9 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -108,22 +111,22 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
     public static final int END = 2;
 
     /** The maximum number of items for each series (can be overridden). */
-    private int maximumItemCount = 2000;  // an arbitrary safe default value
+    private /*@NonNegative*/ int maximumItemCount = 2000;  // an arbitrary safe default value
 
     /** The history count. */
-    protected int historyCount;
+    protected /*@IndexOrHigh("this.pointsInTime")*/ int historyCount;
 
     /** Storage for the series keys. */
-    private Comparable[] seriesKeys;
+    private Comparable /*@SameLen("this.valueHistory")*/ [] seriesKeys;
 
     /** The time period class - barely used, and could be removed (DG). */
     private Class timePeriodClass = Minute.class;   // default value;
 
     /** Storage for the x-values. */
-    protected RegularTimePeriod[] pointsInTime;
+    protected RegularTimePeriod /*@MinLen(1)*/ [] pointsInTime;
 
     /** The number of series. */
-    private int seriesCount;
+    private /*@NonNegative*/ int seriesCount;
 
     /**
      * A wrapper for a fixed array of float values.
@@ -131,7 +134,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
     protected class ValueSequence {
 
         /** Storage for the float values. */
-        float[] dataPoints;
+        float /*@SameLen("this")*/ [] dataPoints;
 
         /**
          * Default constructor:
@@ -145,7 +148,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
          *
          * @param length  the length.
          */
-        public ValueSequence(int length) {
+        public ValueSequence(/*@NonNegative*/ int length) {
             this.dataPoints = new float[length];
             for (int i = 0; i < length; i++) {
                 this.dataPoints[i] = 0.0f;
@@ -158,7 +161,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
          * @param index  the index.
          * @param value  the value.
          */
-        public void enterData(/*@NonNegative*/ int index, float value) {
+        public void enterData(/*@IndexFor("this")*/ int index, float value) {
             this.dataPoints[index] = value;
         }
 
@@ -169,13 +172,13 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
          *
          * @return The value.
          */
-        public float getData(/*@NonNegative*/ int index) {
+        public float getData(/*@IndexFor("this")*/ int index) {
             return this.dataPoints[index];
         }
     }
 
     /** An array for storing the objects that represent each series. */
-    protected ValueSequence[] valueHistory;
+    protected ValueSequence /*@SameLen("this.seriesKeys")*/ [] valueHistory;
 
     /** A working calendar (to recycle) */
     protected Calendar workingCalendar;
@@ -194,10 +197,10 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
     private boolean domainIsPointsInTime;
 
     /** index for mapping: points to the oldest valid time and data. */
-    private int oldestAt;  // as a class variable, initializes == 0
+    private /*@IndexFor("this.pointsInTime")*/ int oldestAt;  // as a class variable, initializes == 0
 
     /** Index of the newest data item. */
-    private int newestAt;
+    private /*@IndexFor("this.pointsInTime")*/ int newestAt;
 
     // cached values used for interface DomainInfo:
 
@@ -232,7 +235,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @param nSeries the number of series to be accommodated.
      * @param nMoments the number of TimePeriods to be spanned.
      */
-    public DynamicTimeSeriesCollection(int nSeries, int nMoments) {
+    public DynamicTimeSeriesCollection(/*@NonNegative*/ int nSeries, /*@Positive*/ int nMoments) {
         this(nSeries, nMoments, new Millisecond(), TimeZone.getDefault());
         this.newestAt = nMoments - 1;
     }
@@ -244,7 +247,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @param nMoments the number of TimePeriods to be spanned
      * @param zone the timezone.
      */
-    public DynamicTimeSeriesCollection(int nSeries, int nMoments,
+    public DynamicTimeSeriesCollection(/*@NonNegative*/ int nSeries, /*@Positive*/ int nMoments,
             TimeZone zone) {
         this(nSeries, nMoments, new Millisecond(), zone);
         this.newestAt = nMoments - 1;
@@ -257,7 +260,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @param nMoments  the number of items per series.
      * @param timeSample  a time period sample.
      */
-    public DynamicTimeSeriesCollection(int nSeries, int nMoments,
+    public DynamicTimeSeriesCollection(/*@NonNegative*/ int nSeries, /*@Positive*/ int nMoments,
             RegularTimePeriod timeSample) {
         this(nSeries, nMoments, timeSample, TimeZone.getDefault());
     }
@@ -270,7 +273,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @param timeSample  a time period sample.
      * @param zone  the time zone.
      */
-    public DynamicTimeSeriesCollection(int nSeries, int nMoments,
+    public DynamicTimeSeriesCollection(/*@NonNegative*/ int nSeries, /*@Positive*/ int nMoments,
             RegularTimePeriod timeSample, TimeZone zone) {
 
         // the first initialization must precede creation of the ValueSet array:
@@ -281,7 +284,6 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         for (int i = 0; i < nSeries; i++) {
             this.seriesKeys[i] = "";
         }
-        this.newestAt = nMoments - 1;
         this.valueHistory = new ValueSequence[nSeries];
         this.timePeriodClass = timeSample.getClass();
 
@@ -295,6 +297,9 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         } else if (this.timePeriodClass == Hour.class) {
             this.pointsInTime = new Hour[nMoments];
         }
+
+        this.newestAt = nMoments - 1;
+
         ///  .. etc....
         this.workingCalendar = Calendar.getInstance(zone);
         this.position = START;
@@ -321,6 +326,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         }
         long oldestL = this.pointsInTime[0].getFirstMillisecond(
                 this.workingCalendar);
+        @SuppressWarnings("index") // This seems like a bug to me. There's nothing in the docs for this class that suggests that pointsInTime must have more than 1 element
         long nextL = this.pointsInTime[1].getFirstMillisecond(
                 this.workingCalendar);
         this.deltaTime = nextL - oldestL;
@@ -377,7 +383,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * Use this as-is during setup only, or add the synchronized keyword around
      * the copy loop.
      */
-    public void addSeries(float[] values, int seriesNumber, 
+    public void addSeries(float[] values, /*@NonNegative*/ int seriesNumber,
             Comparable seriesKey) {
 
         invalidateRangeInfo();
@@ -428,7 +434,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @param seriesNumber  the series.
      * @param key  the new key.
      */
-    public void setSeriesKey(int seriesNumber, Comparable key) {
+    public void setSeriesKey(/*@IndexFor("this.seriesKeys")*/ int seriesNumber, Comparable key) {
         this.seriesKeys[seriesNumber] = key;
     }
 
@@ -439,7 +445,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @param index  ??.
      * @param value  the value.
      */
-    public void addValue(int seriesNumber, /*@NonNegative*/ int index, float value) {
+    public void addValue(/*@NonNegative*/ int seriesNumber, /*@NonNegative*/ int index, float value) {
         invalidateRangeInfo();
         if (seriesNumber >= this.valueHistory.length) {
             throw new IllegalArgumentException(
@@ -480,7 +486,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {  // all arrays equal length,
+    public /*@LengthOf("this.getSeries(#1)")"*/ int getItemCount(/*@NonNegative*/ int series) {  // all arrays equal length,
                                            // so ignore argument:
         return this.historyCount;
     }
@@ -494,7 +500,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      *
      * @return The translated index.
      */
-    protected int translateGet(int toFetch) {
+    protected /*@NonNegative*/ int translateGet(/*@NonNegative*/ int toFetch) {
         if (this.oldestAt == 0) {
             return toFetch;  // no translation needed
         }
@@ -513,7 +519,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      *
      * @return The offset.
      */
-    public int offsetFromNewest(int delta) {
+    public /*@IndexFor("this.pointsInTime")*/ int offsetFromNewest(int delta) {
         return wrapOffset(this.newestAt + delta);
     }
 
@@ -524,7 +530,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      *
      * @return The offset.
      */
-    public int offsetFromOldest(int delta) {
+    public /*@IndexFor("this.pointsInTime")*/ int offsetFromOldest(int delta) {
         return wrapOffset(this.oldestAt + delta);
     }
 
@@ -535,7 +541,8 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      *
      * @return The offset.
      */
-    protected int wrapOffset(int protoIndex) {
+    @SuppressWarnings("index") // this method assumes that protoIndex will be within an absolute value of an actual index
+    protected /*@IndexFor("this.pointsInTime")*/ int wrapOffset(int protoIndex) {
         int tmp = protoIndex;
         if (tmp >= this.historyCount) {
             tmp -= this.historyCount;

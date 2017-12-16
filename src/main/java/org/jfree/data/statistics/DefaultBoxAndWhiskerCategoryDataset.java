@@ -57,10 +57,6 @@
 package org.jfree.data.statistics;
 /*>>> import org.checkerframework.checker.index.qual.*; */
 
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
-
 import java.util.List;
 import org.jfree.chart.util.ObjectUtils;
 import org.jfree.chart.util.PublicCloneable;
@@ -85,23 +81,23 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
     private double minimumRangeValue;
 
     /** The row index for the cell that the minimum range value comes from. */
-    private int minimumRangeValueRow;
+    private /*@GTENegativeOne*/ int minimumRangeValueRow;
 
     /**
      * The column index for the cell that the minimum range value comes from.
      */
-    private int minimumRangeValueColumn;
+    private /*@GTENegativeOne*/ int minimumRangeValueColumn;
 
     /** The maximum range value. */
     private double maximumRangeValue;
 
     /** The row index for the cell that the maximum range value comes from. */
-    private int maximumRangeValueRow;
+    private /*@GTENegativeOne*/ int maximumRangeValueRow;
 
     /**
      * The column index for the cell that the maximum range value comes from.
      */
-    private int maximumRangeValueColumn;
+    private /*@GTENegativeOne*/ int maximumRangeValueColumn;
 
     /**
      * Creates a new dataset.

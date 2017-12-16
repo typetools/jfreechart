@@ -191,7 +191,7 @@ public class Task implements Cloneable, PublicCloneable, Serializable {
      *
      * @return The sub-task count.
      */
-    public int getSubtaskCount() {
+    public /*@NonNegative*/ int getSubtaskCount() {
         return this.subtasks.size();
     }
 

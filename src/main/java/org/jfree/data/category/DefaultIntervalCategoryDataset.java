@@ -96,7 +96,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @param ends  the ending values for the intervals ({@code null} not
      *                permitted).
      */
-    public DefaultIntervalCategoryDataset(double[][] starts, double[][] ends) {
+    public DefaultIntervalCategoryDataset(double /*@SameLen("#2")*/ [][] starts, double /*@SameLen("#1")*/ [][] ends) {
         this(DataUtils.createNumberArray2D(starts),
                 DataUtils.createNumberArray2D(ends));
     }
@@ -112,7 +112,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @param starts  the start values data.
      * @param ends  the end values data.
      */
-    public DefaultIntervalCategoryDataset(Number[][] starts, Number[][] ends) {
+    public DefaultIntervalCategoryDataset(Number /*@SameLen("#2")*/ [][] starts, Number /*@SameLen("#1")*/ [][] ends) {
         this(null, null, starts, ends);
     }
 
@@ -129,8 +129,8 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @param ends  the end values data, indexed as data[series][category].
      */
     public DefaultIntervalCategoryDataset(String[] seriesNames,
-                                          Number[][] starts,
-                                          Number[][] ends) {
+                                          Number /*@SameLen("#3")*/ [][] starts,
+                                          Number /*@SameLen("#2")*/ [][] ends) {
 
         this(seriesNames, null, starts, ends);
 
@@ -150,8 +150,8 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      */
     public DefaultIntervalCategoryDataset(Comparable[] seriesKeys,
                                           Comparable[] categoryKeys,
-                                          Number[][] starts,
-                                          Number[][] ends) {
+                                          Number /*@SameLen("#4")*/ [][] starts,
+                                          Number /*@SameLen("#3")*/ [][] ends) {
 
         this.startData = starts;
         this.endData = ends;
@@ -248,7 +248,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getRowIndex(Comparable)
      * @see #getSeriesKey(int)
      */
-    public int getSeriesIndex(Comparable seriesKey) {
+    public /*@GTENegativeOne*/ int getSeriesIndex(Comparable seriesKey) {
         int result = -1;
         for (int i = 0; i < this.seriesKeys.length; i++) {
             if (seriesKey.equals(this.seriesKeys[i])) {
@@ -302,7 +302,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      *
      * @see #getColumnCount()
      */
-    public int getCategoryCount() {
+    public /*@NonNegative*/ int getCategoryCount() {
         int result = 0;
         if (this.startData != null) {
             if (getSeriesCount() > 0) {
@@ -399,7 +399,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getEndValue(int, int)
      */
     @Override
-    public Number getValue(/*@NonNegative*/ int series, int category) {
+    public Number getValue(/*@NonNegative*/ int series, /*@NonNegative*/ int category) {
         return getEndValue(series, category);
     }
 
@@ -439,7 +439,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getStartValue(Comparable, Comparable)
      */
     @Override
-    public Number getStartValue(/*@NonNegative*/ int series, int category) {
+    public Number getStartValue(/*@NonNegative*/ int series, /*@NonNegative*/ int category) {
 
         // check arguments...
         if ((series < 0) || (series >= getSeriesCount())) {
@@ -493,7 +493,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getEndValue(Comparable, Comparable)
      */
     @Override
-    public Number getEndValue(/*@NonNegative*/ int series, int category) {
+    public Number getEndValue(/*@NonNegative*/ int series, /*@NonNegative*/ int category) {
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException(
                 "DefaultIntervalCategoryDataset.getValue(): "
@@ -584,7 +584,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      *
      * @see #getColumnIndex(Comparable)
      */
-    public int getCategoryIndex(Comparable category) {
+    public /*@GTENegativeOne*/ int getCategoryIndex(Comparable category) {
         int result = -1;
         for (int i = 0; i < this.categoryKeys.length; i++) {
             if (category.equals(this.categoryKeys[i])) {
@@ -604,7 +604,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      *
      * @return An array of <i>prefixN</i> with N = { 1 .. count}.
      */
-    private Comparable[] generateKeys(int count, String prefix) {
+    private Comparable[] generateKeys(/*@NonNegative*/ int count, String prefix) {
         Comparable[] result = new Comparable[count];
         String name;
         for (int i = 0; i < count; i++) {
@@ -624,6 +624,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getRowKey(int)
      */
     @Override
+    @SuppressWarnings("index") // because this underlying array isn't exposed by the interface this method is inherited from, there is no way to write an upperbound annotation on column
     public Comparable getColumnKey(/*@NonNegative*/ int column) {
         return this.categoryKeys[column];
     }
@@ -687,6 +688,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getColumnKey(int)
      */
     @Override
+    @SuppressWarnings("index") // because this underlying array isn't exposed by the interface this method is inherited from, there is no way to write an upperbound annotation on column
     public Comparable getRowKey(/*@NonNegative*/ int row) {
         if ((row >= getRowCount()) || (row < 0)) {
             throw new IllegalArgumentException(

@@ -64,6 +64,8 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -193,7 +195,7 @@ public class Day extends RegularTimePeriod implements Serializable {
      *
      * @return The year.
      */
-    public int getYear() {
+    public /*@IntRange(from=1900, to=9999)*/ int getYear() {
         return this.serialDate.getYYYY();
     }
 
@@ -202,7 +204,7 @@ public class Day extends RegularTimePeriod implements Serializable {
      *
      * @return The month.
      */
-    public int getMonth() {
+    public /*@IntRange(from=1, to=12)*/ int getMonth() {
         return this.serialDate.getMonth();
     }
 
@@ -211,7 +213,7 @@ public class Day extends RegularTimePeriod implements Serializable {
      *
      * @return The day of the month.
      */
-    public int getDayOfMonth() {
+    public /*@IntRange(from = 1, to = 31)*/ int getDayOfMonth() {
         return this.serialDate.getDayOfMonth();
     }
 

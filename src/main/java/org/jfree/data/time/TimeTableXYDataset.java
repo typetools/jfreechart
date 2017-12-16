@@ -326,7 +326,7 @@ public class TimeTableXYDataset extends AbstractIntervalXYDataset
      * @return The number of items within the series.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
+    public /*@LengthOf("this.getSeries(#1)")"*/ int getItemCount(/*@NonNegative*/ int series) {
         return getItemCount();
     }
 

@@ -48,6 +48,9 @@
  */
 
 package org.jfree.data.statistics;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -303,7 +306,7 @@ public abstract class Statistics {
      *
      * @return The standard deviation of a set of numbers.
      */
-    public static double getStdDev(Number[] data) {
+    public static double getStdDev(Number /*@MinLen(1)*/ [] data) {
         Args.nullNotPermitted(data, "data");
         if (data.length == 0) {
             throw new IllegalArgumentException("Zero length 'data' array.");
@@ -327,7 +330,7 @@ public abstract class Statistics {
      *
      * @return A double array with the intercept in [0] and the slope in [1].
      */
-    public static double[] getLinearFit(Number[] xData, Number[] yData) {
+    public static double /*@ArrayLen(2)*/ [] getLinearFit(Number /*@SameLen("#2")*/ [] xData, Number /*@SameLen("#1")*/ [] yData) {
 
         Args.nullNotPermitted(xData, "xData");
         Args.nullNotPermitted(yData, "yData");
@@ -354,7 +357,7 @@ public abstract class Statistics {
      *
      * @return The slope.
      */
-    public static double getSlope(Number[] xData, Number[] yData) {
+    public static double getSlope(Number /*@SameLen("#2")*/ [] xData, Number /*@SameLen("#1")*/ [] yData) {
         Args.nullNotPermitted(xData, "xData");
         Args.nullNotPermitted(yData, "yData");
         if (xData.length != yData.length) {
@@ -396,7 +399,7 @@ public abstract class Statistics {
      *
      * @return The correlation.
      */
-    public static double getCorrelation(Number[] data1, Number[] data2) {
+    public static double getCorrelation(Number /*@SameLen("#2")*/ [] data1, Number /*@SameLen("#1")*/ [] data2) {
         Args.nullNotPermitted(data1, "data1");
         Args.nullNotPermitted(data2, "data2");
         if (data1.length != data2.length) {
@@ -439,8 +442,8 @@ public abstract class Statistics {
      * @return A double[][] the length of the data set in the first dimension,
      *         with two doubles for x and y in the second dimension
      */
-    public static double[][] getMovingAverage(Number[] xData, Number[] yData,
-            int period) {
+    public static double[] /*@ArrayLen(2)*/ [] getMovingAverage(Number /*@SameLen("#2")*/ [] xData, Number /*@SameLen("#1")*/ [] yData,
+            /*@IndexFor("#1")*/ int period) {
 
         // check arguments...
         if (xData.length != yData.length) {

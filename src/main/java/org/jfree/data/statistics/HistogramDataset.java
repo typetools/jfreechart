@@ -61,6 +61,9 @@
  */
 
 package org.jfree.data.statistics;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -135,7 +138,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      * @param values the values ({@code null} not permitted).
      * @param bins  the number of bins (must be at least 1).
      */
-    public void addSeries(Comparable key, double[] values, int bins) {
+    public void addSeries(Comparable key, double /*@MinLen(1)*/ [] values, /*@Positive*/ int bins) {
         // defer argument checking...
         double minimum = getMinimum(values);
         double maximum = getMaximum(values);
@@ -154,7 +157,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      * @param minimum  the lower bound of the bin range.
      * @param maximum  the upper bound of the bin range.
      */
-    public void addSeries(Comparable key, double[] values, int bins,
+    public void addSeries(Comparable key, double[] values, /*@Positive*/ int bins,
             double minimum, double maximum) {
 
         Args.nullNotPermitted(key, "key");
@@ -220,7 +223,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *
      * @return The minimum value.
      */
-    private double getMinimum(double[] values) {
+    private double getMinimum(double /*@MinLen(1)*/ [] values) {
         if (values == null || values.length < 1) {
             throw new IllegalArgumentException(
                     "Null or zero length 'values' argument.");
@@ -242,7 +245,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *
      * @return The maximum value.
      */
-    private double getMaximum(double[] values) {
+    private double getMaximum(double /*@MinLen(1)*/ [] values) {
         if (values == null || values.length < 1) {
             throw new IllegalArgumentException(
                     "Null or zero length 'values' argument.");
@@ -335,7 +338,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
+    public /*@LengthOf("this.getSeries(#1)")"*/ int getItemCount(/*@NonNegative*/ int series) {
         return getBins(series).size();
     }
 
@@ -355,7 +358,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         List bins = getBins(series);
         HistogramBin bin = (HistogramBin) bins.get(item);
         double x = (bin.getStartBoundary() + bin.getEndBoundary()) / 2.;
@@ -376,7 +379,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         List bins = getBins(series);
         HistogramBin bin = (HistogramBin) bins.get(item);
         double total = getTotal(series);
@@ -409,7 +412,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getStartX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getStartX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         List bins = getBins(series);
         HistogramBin bin = (HistogramBin) bins.get(item);
         return new Double(bin.getStartBoundary());
@@ -428,7 +431,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getEndX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getEndX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         List bins = getBins(series);
         HistogramBin bin = (HistogramBin) bins.get(item);
         return new Double(bin.getEndBoundary());
@@ -449,7 +452,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getStartY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getStartY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getY(series, item);
     }
 
@@ -468,7 +471,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Number getEndY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getEndY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getY(series, item);
     }
 

@@ -485,7 +485,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The sub-interval count.
      */
     @Override
-    public int getSubIntervalCount(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public /*@NonNegative*/ int getSubIntervalCount(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Comparable rowKey = getRowKey(row);
         Comparable columnKey = getColumnKey(column);
         return getSubIntervalCount(rowKey, columnKey);
@@ -500,7 +500,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The sub-interval count.
      */
     @Override
-    public int getSubIntervalCount(Comparable rowKey, Comparable columnKey) {
+    public /*@NonNegative*/ int getSubIntervalCount(Comparable rowKey, Comparable columnKey) {
         int result = 0;
         int row = getRowIndex(rowKey);
         TaskSeries series = (TaskSeries) this.data.get(row);
@@ -521,7 +521,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The start value (possibly {@code null}).
      */
     @Override
-    public Number getStartValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column, int subinterval) {
+    public Number getStartValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column, /*@NonNegative*/ int subinterval) {
         Comparable rowKey = getRowKey(row);
         Comparable columnKey = getColumnKey(column);
         return getStartValue(rowKey, columnKey, subinterval);
@@ -538,7 +538,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      */
     @Override
     public Number getStartValue(Comparable rowKey, Comparable columnKey,
-                                int subinterval) {
+                                /*@NonNegative*/ int subinterval) {
         Number result = null;
         int row = getRowIndex(rowKey);
         TaskSeries series = (TaskSeries) this.data.get(row);
@@ -563,7 +563,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The end value (possibly {@code null}).
      */
     @Override
-    public Number getEndValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column, int subinterval) {
+    public Number getEndValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column, /*@NonNegative*/ int subinterval) {
         Comparable rowKey = getRowKey(row);
         Comparable columnKey = getColumnKey(column);
         return getEndValue(rowKey, columnKey, subinterval);
@@ -580,7 +580,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      */
     @Override
     public Number getEndValue(Comparable rowKey, Comparable columnKey,
-                              int subinterval) {
+                              /*@NonNegative*/ int subinterval) {
         Number result = null;
         int row = getRowIndex(rowKey);
         TaskSeries series = (TaskSeries) this.data.get(row);
@@ -605,7 +605,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The percent complete value (possibly {@code null}).
      */
     @Override
-    public Number getPercentComplete(/*@NonNegative*/ int row, /*@NonNegative*/ int column, int subinterval) {
+    public Number getPercentComplete(/*@NonNegative*/ int row, /*@NonNegative*/ int column, /*@NonNegative*/ int subinterval) {
         Comparable rowKey = getRowKey(row);
         Comparable columnKey = getColumnKey(column);
         return getPercentComplete(rowKey, columnKey, subinterval);
@@ -622,7 +622,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      */
     @Override
     public Number getPercentComplete(Comparable rowKey, Comparable columnKey,
-                                     int subinterval) {
+                                     /*@NonNegative*/ int subinterval) {
         Number result = null;
         int row = getRowIndex(rowKey);
         TaskSeries series = (TaskSeries) this.data.get(row);

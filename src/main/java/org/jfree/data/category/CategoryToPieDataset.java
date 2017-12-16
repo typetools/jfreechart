@@ -78,7 +78,7 @@ public class CategoryToPieDataset extends AbstractDataset
     private TableOrder extract;
 
     /** The row or column index. */
-    private int index;
+    private /*@NonNegative*/ int index;
 
     /**
      * An adaptor class that converts any {@link CategoryDataset} into a
@@ -93,7 +93,7 @@ public class CategoryToPieDataset extends AbstractDataset
      * @param index  the row or column index.
      */
     public CategoryToPieDataset(CategoryDataset source, TableOrder extract,
-            int index) {
+            /*@NonNegative*/ int index) {
         Args.nullNotPermitted(extract, "extract");
         this.source = source;
         if (this.source != null) {
@@ -133,7 +133,7 @@ public class CategoryToPieDataset extends AbstractDataset
      *
      * @since 1.0.2
      */
-    public int getExtractIndex() {
+    public /*@NonNegative*/ int getExtractIndex() {
         return this.index;
     }
 

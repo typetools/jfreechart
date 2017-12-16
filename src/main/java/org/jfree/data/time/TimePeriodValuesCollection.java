@@ -219,7 +219,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      * @return The number of items in the specified series.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
+    public /*@LengthOf("this.getSeries(#1)")"*/ int getItemCount(/*@NonNegative*/ int series) {
         return getSeries(series).getItemCount();
     }
 

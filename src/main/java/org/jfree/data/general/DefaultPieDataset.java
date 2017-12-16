@@ -228,7 +228,7 @@ public class DefaultPieDataset extends AbstractDataset
      *
      * @since 1.0.6
      */
-    public void insertValue(int position, Comparable key, double value) {
+    public void insertValue(/*@NonNegative*/ int position, Comparable key, double value) {
         insertValue(position, key, new Double(value));
     }
 
@@ -245,7 +245,7 @@ public class DefaultPieDataset extends AbstractDataset
      *
      * @since 1.0.6
      */
-    public void insertValue(int position, Comparable key, Number value) {
+    public void insertValue(/*@NonNegative*/ int position, Comparable key, Number value) {
         this.data.insertValue(position, key, value);
         fireDatasetChanged();
     }

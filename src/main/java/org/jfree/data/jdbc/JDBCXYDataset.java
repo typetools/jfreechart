@@ -424,7 +424,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      * @see XYDataset
      */
     @Override
-    public Number getX(/*@NonNegative*/ int seriesIndex, /*@NonNegative*/ int itemIndex) {
+    public Number getX(/*@NonNegative*/ int seriesIndex, /*@IndexFor("this.getSeries(#1)")*/ int itemIndex) {
         ArrayList row = (ArrayList) this.rows.get(itemIndex);
         return (Number) row.get(0);
     }
@@ -440,7 +440,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      * @see XYDataset
      */
     @Override
-    public Number getY(/*@NonNegative*/ int seriesIndex, /*@NonNegative*/ int itemIndex) {
+    public Number getY(/*@NonNegative*/ int seriesIndex, /*@IndexFor("this.getSeries(#1)")*/ int itemIndex) {
         ArrayList row = (ArrayList) this.rows.get(itemIndex);
         return (Number) row.get(seriesIndex + 1);
     }
@@ -455,7 +455,8 @@ public class JDBCXYDataset extends AbstractXYDataset
      * @see XYDataset
      */
     @Override
-    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int seriesIndex) {
+    @SuppressWarnings("index") // establish repr. invariant
+    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int seriesIndex) {
         return this.rows.size();
     }
 

@@ -66,10 +66,10 @@ public class SlidingCategoryDataset extends AbstractDataset
     private CategoryDataset underlying;
 
     /** The index of the first category to present. */
-    private int firstCategoryIndex;
+    private /*@NonNegative*/ int firstCategoryIndex;
 
     /** The maximum number of categories to present. */
-    private int maximumCategoryCount;
+    private /*@NonNegative*/ int maximumCategoryCount;
 
     /**
      * Creates a new instance.
@@ -80,8 +80,8 @@ public class SlidingCategoryDataset extends AbstractDataset
      *     underlying dataset.
      * @param maxColumns  the maximumColumnCount.
      */
-    public SlidingCategoryDataset(CategoryDataset underlying, int firstColumn,
-            int maxColumns) {
+    public SlidingCategoryDataset(CategoryDataset underlying, /*@NonNegative*/ int firstColumn,
+            /*@NonNegative*/ int maxColumns) {
         this.underlying = underlying;
         this.firstCategoryIndex = firstColumn;
         this.maximumCategoryCount = maxColumns;
@@ -103,7 +103,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      *
      * @see #setFirstCategoryIndex(int)
      */
-    public int getFirstCategoryIndex() {
+    public /*@NonNegative*/ int getFirstCategoryIndex() {
         return this.firstCategoryIndex;
     }
 
@@ -116,7 +116,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      *
      * @see #getFirstCategoryIndex()
      */
-    public void setFirstCategoryIndex(int first) {
+    public void setFirstCategoryIndex(/*@NonNegative*/ int first) {
         if (first < 0 || first >= this.underlying.getColumnCount()) {
             throw new IllegalArgumentException("Invalid index.");
         }
@@ -131,7 +131,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      *
      * @see #setMaximumCategoryCount(int)
      */
-    public int getMaximumCategoryCount() {
+    public /*@NonNegative*/ int getMaximumCategoryCount() {
         return this.maximumCategoryCount;
     }
 
@@ -143,7 +143,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      *
      * @see #getMaximumCategoryCount()
      */
-    public void setMaximumCategoryCount(int max) {
+    public void setMaximumCategoryCount(/*@NonNegative*/ int max) {
         if (max < 0) {
             throw new IllegalArgumentException("Requires 'max' >= 0.");
         }
@@ -156,7 +156,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      *
      * @return The index.
      */
-    private int lastCategoryIndex() {
+    private /*@GTENegativeOne*/ int lastCategoryIndex() {
         if (this.maximumCategoryCount == 0) {
             return -1;
         }

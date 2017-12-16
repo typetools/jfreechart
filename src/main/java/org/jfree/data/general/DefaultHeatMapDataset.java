@@ -39,6 +39,9 @@
  */
 
 package org.jfree.data.general;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.io.Serializable;
 import org.jfree.chart.util.PublicCloneable;
@@ -53,10 +56,10 @@ public class DefaultHeatMapDataset extends AbstractDataset
         implements HeatMapDataset, Cloneable, PublicCloneable, Serializable {
 
     /** The number of samples in this dataset for the x-dimension. */
-    private int xSamples;
+    private /*@Positive*/ int xSamples;
 
     /** The number of samples in this dataset for the y-dimension. */
-    private int ySamples;
+    private /*@Positive*/ int ySamples;
 
     /** The minimum x-value in the dataset. */
     private double minX;
@@ -71,7 +74,7 @@ public class DefaultHeatMapDataset extends AbstractDataset
     private double maxY;
 
     /** Storage for the z-values. */
-    private double[][] zValues;
+    private double /*@MinLen(1)*/ /*@SameLen("this.getData()")*/ [] /*@MinLen(1)*/ /*@SameLen("this.getData()[0]")*/ [] zValues;
 
     /**
      * Creates a new dataset where all the z-values are initially 0.  This is
@@ -84,7 +87,7 @@ public class DefaultHeatMapDataset extends AbstractDataset
      * @param minY  the minimum y-value in the dataset.
      * @param maxY  the maximum y-value in the dataset.
      */
-    public DefaultHeatMapDataset(int xSamples, int ySamples, double minX,
+    public DefaultHeatMapDataset(/*@Positive*/ int xSamples, /*@Positive*/ int ySamples, double minX,
             double maxX, double minY, double maxY) {
 
         if (xSamples < 1) {
@@ -112,9 +115,13 @@ public class DefaultHeatMapDataset extends AbstractDataset
         this.maxX = maxX;
         this.minY = minY;
         this.maxY = maxY;
-        this.zValues = new double[xSamples][];
+        @SuppressWarnings("index") // establish repr. invariant
+        double /*@SameLen("this.getData()")*/ [] /*@SameLen("this.getData()[0]")*/ [] zValues = new double[xSamples][];
+        this.zValues = zValues;
         for (int x = 0; x < xSamples; x++) {
-            this.zValues[x] = new double[ySamples];
+            @SuppressWarnings("index") // establish repr. invariant
+            double /*@SameLen("this.getData()[0]")*/ [] zValuesX = new double[ySamples];
+            this.zValues[x] = zValuesX;
         }
     }
 
@@ -126,7 +133,7 @@ public class DefaultHeatMapDataset extends AbstractDataset
      * @return The number of x-values (always &gt; 0).
      */
     @Override
-    public int getXSampleCount() {
+    public /*@LengthOf("this.getData()")*/ int getXSampleCount() {
         return this.xSamples;
     }
 
@@ -138,7 +145,7 @@ public class DefaultHeatMapDataset extends AbstractDataset
      * @return The number of y-values (always &gt; 0).
      */
     @Override
-    public int getYSampleCount() {
+    public /*@LengthOf("this.getData()[0]")*/ int getYSampleCount() {
         return this.ySamples;
     }
 
@@ -198,7 +205,7 @@ public class DefaultHeatMapDataset extends AbstractDataset
      * @return The x-value.
      */
     @Override
-    public double getXValue(int xIndex) {
+    public double getXValue(/*@NonNegative*/ int xIndex) {
         double x = this.minX
                 + (this.maxX - this.minX) * (xIndex / (double) this.xSamples);
         return x;
@@ -212,7 +219,7 @@ public class DefaultHeatMapDataset extends AbstractDataset
      * @return The y-value.
      */
     @Override
-    public double getYValue(int yIndex) {
+    public double getYValue(/*@NonNegative*/ int yIndex) {
         double y = this.minY
                 + (this.maxY - this.minY) * (yIndex / (double) this.ySamples);
         return y;
@@ -228,7 +235,7 @@ public class DefaultHeatMapDataset extends AbstractDataset
      * @return The z-value.
      */
     @Override
-    public double getZValue(int xIndex, int yIndex) {
+    public double getZValue(/*@IndexFor("this.getData()")*/ int xIndex, /*@IndexFor("this.getData()[0]")*/ int yIndex) {
         return this.zValues[xIndex][yIndex];
     }
 
@@ -244,8 +251,16 @@ public class DefaultHeatMapDataset extends AbstractDataset
      * @return The z-value.
      */
     @Override
-    public Number getZ(int xIndex, int yIndex) {
+    public Number getZ(/*@IndexFor("this.getData()")*/ int xIndex, /*@IndexFor("this.getData()[0]")*/ int yIndex) {
         return new Double(getZValue(xIndex, yIndex));
+    }
+
+    /**
+     * This is a ghost method. Implementations should return null.
+     */
+    @Override
+    public double /*@MinLen(1)*/ [] /*@MinLen(1)*/ [] getData() {
+        return null;
     }
 
     /**
@@ -256,7 +271,7 @@ public class DefaultHeatMapDataset extends AbstractDataset
      * @param yIndex  the y-index.
      * @param z  the new z-value.
      */
-    public void setZValue(int xIndex, int yIndex, double z) {
+    public void setZValue(/*@IndexFor("this.getData()")*/ int xIndex, /*@IndexFor("this.getData()[0]")*/ int yIndex, double z) {
         setZValue(xIndex, yIndex, z, true);
     }
 
@@ -269,7 +284,7 @@ public class DefaultHeatMapDataset extends AbstractDataset
      * @param z  the new z-value.
      * @param notify  notify listeners?
      */
-    public void setZValue(int xIndex, int yIndex, double z, boolean notify) {
+    public void setZValue(/*@IndexFor("this.getData()")*/ int xIndex, /*@IndexFor("this.getData()[0]")*/ int yIndex, double z, boolean notify) {
         this.zValues[xIndex][yIndex] = z;
         if (notify) {
             fireDatasetChanged();

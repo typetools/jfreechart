@@ -128,6 +128,9 @@
  */
 
 package org.jfree.data.general;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -231,7 +234,7 @@ public final class DatasetUtils {
      * @return A pie dataset.
      */
     public static PieDataset createPieDatasetForRow(CategoryDataset dataset,
-            int row) {
+            /*@NonNegative*/ int row) {
         DefaultPieDataset result = new DefaultPieDataset();
         int columnCount = dataset.getColumnCount();
         for (int current = 0; current < columnCount; current++) {
@@ -266,7 +269,7 @@ public final class DatasetUtils {
      * @return A pie dataset.
      */
     public static PieDataset createPieDatasetForColumn(CategoryDataset dataset,
-            int column) {
+            /*@NonNegative*/ int column) {
         DefaultPieDataset result = new DefaultPieDataset();
         int rowCount = dataset.getRowCount();
         for (int i = 0; i < rowCount; i++) {
@@ -426,8 +429,8 @@ public final class DatasetUtils {
      *
      * @return The dataset.
      */
-    public static CategoryDataset createCategoryDataset(Comparable[] rowKeys,
-            Comparable[] columnKeys, double[][] data) {
+    public static CategoryDataset createCategoryDataset(Comparable /*@SameLen("#3")*/ [] rowKeys,
+            Comparable[] columnKeys, double /*@SameLen("#1")*/ [] /*@SameLen("#2")*/ [] data) {
 
         Args.nullNotPermitted(rowKeys, "rowKeys");
         Args.nullNotPermitted(columnKeys, "columnKeys");
@@ -502,7 +505,7 @@ public final class DatasetUtils {
      * @return A dataset.
      */
     public static XYDataset sampleFunction2D(Function2D f, double start,
-            double end, int samples, Comparable seriesKey) {
+            double end, /*@Positive*/ int samples, Comparable seriesKey) {
 
         // defer argument checking
         XYSeries series = sampleFunction2DToSeries(f, start, end, samples,
@@ -527,7 +530,7 @@ public final class DatasetUtils {
      * @since 1.0.13
      */
     public static XYSeries sampleFunction2DToSeries(Function2D f,
-            double start, double end, int samples, Comparable seriesKey) {
+            double start, double end, /*@Positive*/ int samples, Comparable seriesKey) {
 
         Args.nullNotPermitted(f, "f");
         Args.nullNotPermitted(seriesKey, "seriesKey");
@@ -2186,6 +2189,7 @@ public final class DatasetUtils {
         double total = 0.0;
         int seriesCount = dataset.getSeriesCount();
         for (int s = 0; s < seriesCount; s++) {
+            @SuppressWarnings("index") // This assumes that all series in the dataset have the same number of items
             double value = dataset.getYValue(s, item);
             if (!Double.isNaN(value)) {
                 total = total + value;
@@ -2284,7 +2288,7 @@ public final class DatasetUtils {
      * 
      * @see #findYValue(org.jfree.data.xy.XYDataset, int, double) 
      */
-    public static int[] findItemIndicesForX(XYDataset dataset, /*@NonNegative*/ int series,
+    public static int /*@ArrayLen(2)*/ [] findItemIndicesForX(XYDataset dataset, /*@NonNegative*/ int series,
             double x) {
         Args.nullNotPermitted(dataset, "dataset");
         int itemCount = dataset.getItemCount(series);

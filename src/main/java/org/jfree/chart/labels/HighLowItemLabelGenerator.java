@@ -168,7 +168,7 @@ public class HighLowItemLabelGenerator implements XYItemLabelGenerator,
      * @return The label (possibly {@code null}).
      */
     @Override
-    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, int category) {
+    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int category) {
         return null;  //TODO: implement this method properly
     }
 

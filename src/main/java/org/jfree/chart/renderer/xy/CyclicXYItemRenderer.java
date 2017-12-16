@@ -66,6 +66,7 @@ import org.jfree.chart.urls.XYURLGenerator;
 import org.jfree.data.DomainOrder;
 import org.jfree.data.general.DatasetChangeListener;
 import org.jfree.data.general.DatasetGroup;
+import org.jfree.data.general.Series;
 import org.jfree.data.xy.XYDataset;
 
 /**
@@ -149,7 +150,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state, 
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
 
         if ((!getPlotLines()) || ((!(domainAxis instanceof CyclicNumberAxis))
                 && (!(rangeAxis instanceof CyclicNumberAxis))) || (item <= 0)) {
@@ -368,7 +369,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The item count.
          */
         @Override
-        public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
+        public /*@LengthOf("this.getSeries(#1)")"*/ int getItemCount(/*@NonNegative*/ int series) {
             return this.x.length;
         }
 
@@ -381,7 +382,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The x-value.
          */
         @Override
-        public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+        public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
             return this.x[item];
         }
 
@@ -395,7 +396,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The x-value.
          */
         @Override
-        public double getXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+        public double getXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
             double result = Double.NaN;
             Number xx = getX(series, item);
             if (xx != null) {
@@ -413,7 +414,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The y-value.
          */
         @Override
-        public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+        public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
             return this.y[item];
         }
 
@@ -427,7 +428,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The y-value.
          */
         @Override
-        public double getYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+        public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
             double result = Double.NaN;
             Number yy = getY(series, item);
             if (yy != null) {
@@ -509,6 +510,14 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
         @Override
         public void setGroup(DatasetGroup group) {
             // unused in parent
+        }
+
+        /**
+         * A ghost method. Do not call.
+         */
+        @Override
+        public Series getSeries(int series) {
+            return null;
         }
 
     }

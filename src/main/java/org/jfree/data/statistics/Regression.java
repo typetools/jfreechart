@@ -45,6 +45,9 @@
  */
 
 package org.jfree.data.statistics;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -67,7 +70,7 @@ public abstract class Regression {
      *
      * @return The parameters.
      */
-    public static double[] getOLSRegression(double[][] data) {
+    public static double /*@ArrayLen(2)*/ [] getOLSRegression(double /*@MinLen(2)*/ [] /*@MinLen(2)*/ [] data) {
 
         int n = data.length;
         if (n < 2) {
@@ -111,7 +114,7 @@ public abstract class Regression {
      *
      * @return The parameters.
      */
-    public static double[] getOLSRegression(XYDataset data, /*@NonNegative*/ int series) {
+    public static double /*@ArrayLen(2)*/ [] getOLSRegression(XYDataset data, /*@NonNegative*/ int series) {
 
         int n = data.getItemCount(series);
         if (n < 2) {
@@ -154,7 +157,7 @@ public abstract class Regression {
      *
      * @return The parameters.
      */
-    public static double[] getPowerRegression(double[][] data) {
+    public static double /*@ArrayLen(2)*/ [] getPowerRegression(double /*@MinLen(2)*/ [] /*@MinLen(2)*/ [] data) {
 
         int n = data.length;
         if (n < 2) {
@@ -198,7 +201,7 @@ public abstract class Regression {
      *
      * @return The parameters.
      */
-    public static double[] getPowerRegression(XYDataset data, /*@NonNegative*/ int series) {
+    public static double /*@ArrayLen(2)*/ [] getPowerRegression(XYDataset data, /*@NonNegative*/ int series) {
 
         int n = data.getItemCount(series);
         if (n < 2) {
@@ -251,8 +254,8 @@ public abstract class Regression {
      *
      * @since 1.0.14
      */
-    public static double[] getPolynomialRegression(XYDataset dataset, 
-            int series, int order) {
+    public static double[] getPolynomialRegression(XYDataset dataset,
+            /*@NonNegative*/ int series, /*@Positive*/ int order) {
         Args.nullNotPermitted(dataset, "dataset");
         int itemCount = dataset.getItemCount(series);
         if (itemCount < order + 1) {
@@ -330,7 +333,7 @@ public abstract class Regression {
      *
      * @return The new matrix.
      */
-    private static double[][] calculateSubMatrix(double[][] matrix){
+    private static double[][] calculateSubMatrix(double /*@MinLen(1)*/ [] /*@MinLen(1)*/ [] matrix){
         int equations = matrix.length;
         int coefficients = matrix[0].length;
         double[][] result = new double[equations - 1][coefficients - 1];

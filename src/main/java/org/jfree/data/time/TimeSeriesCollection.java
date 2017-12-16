@@ -403,7 +403,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount(/*@NonNegative*/ int series) {
+    public /*@LengthOf("this.getSeries(#1)")"*/ int getItemCount(/*@NonNegative*/ int series) {
         return getSeries(series).getItemCount();
     }
 
