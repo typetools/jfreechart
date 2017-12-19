@@ -186,6 +186,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #getColumnIndex(Comparable)
      */
     @Override
+    @SuppressWarnings("index") // I think this is a bug. Binary search can return a search index, inconsistent with docs on this method
     public /*@GTENegativeOne*/ int getRowIndex(Comparable key) {
         Args.nullNotPermitted(key, "key");
         if (this.sortRowKeys) {
@@ -362,7 +363,8 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
 
         // 1. check whether the row is now empty.
         boolean allNull = true;
-        int rowIndex = getRowIndex(rowKey);
+        @SuppressWarnings("index") // this method assumes that the rowKey is valid, which can't be checked b/c it's a list
+        /*@NonNegative*/ int rowIndex = getRowIndex(rowKey);
         DefaultKeyedValues row = (DefaultKeyedValues) this.rows.get(rowIndex);
 
         for (int item = 0, itemCount = row.getItemCount(); item < itemCount;

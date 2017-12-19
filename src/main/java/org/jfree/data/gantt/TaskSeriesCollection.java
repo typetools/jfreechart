@@ -375,7 +375,8 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
     @Override
     public Number getStartValue(Comparable rowKey, Comparable columnKey) {
         Number result = null;
-        int row = getRowIndex(rowKey);
+        @SuppressWarnings("index") // rowKey is being assumed to be a valid key. It should probably be checked - this is a bug
+        /*@NonNegative*/ int row = getRowIndex(rowKey);
         TaskSeries series = (TaskSeries) this.data.get(row);
         Task task = series.get(columnKey.toString());
         if (task != null) {
@@ -414,7 +415,8 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
     @Override
     public Number getEndValue(Comparable rowKey, Comparable columnKey) {
         Number result = null;
-        int row = getRowIndex(rowKey);
+        @SuppressWarnings("index") // rowKey is being assumed to be a valid key. It should probably be checked - this is a bug
+        /*@NonNegative*/ int row = getRowIndex(rowKey);
         TaskSeries series = (TaskSeries) this.data.get(row);
         Task task = series.get(columnKey.toString());
         if (task != null) {
@@ -467,7 +469,8 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
     @Override
     public Number getPercentComplete(Comparable rowKey, Comparable columnKey) {
         Number result = null;
-        int row = getRowIndex(rowKey);
+        @SuppressWarnings("index") // rowKey is being assumed to be a valid key. It should probably be checked - this is a bug
+        /*@NonNegative*/ int row = getRowIndex(rowKey);
         TaskSeries series = (TaskSeries) this.data.get(row);
         Task task = series.get(columnKey.toString());
         if (task != null) {
@@ -502,7 +505,8 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
     @Override
     public /*@NonNegative*/ int getSubIntervalCount(Comparable rowKey, Comparable columnKey) {
         int result = 0;
-        int row = getRowIndex(rowKey);
+        @SuppressWarnings("index") // rowKey is being assumed to be a valid key. It should probably be checked - this is a bug
+        /*@NonNegative*/ int row = getRowIndex(rowKey);
         TaskSeries series = (TaskSeries) this.data.get(row);
         Task task = series.get(columnKey.toString());
         if (task != null) {
@@ -540,7 +544,8 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
     public Number getStartValue(Comparable rowKey, Comparable columnKey,
                                 /*@NonNegative*/ int subinterval) {
         Number result = null;
-        int row = getRowIndex(rowKey);
+        @SuppressWarnings("index") // rowKey is being assumed to be a valid key. It should probably be checked - this is a bug
+        /*@NonNegative*/ int row = getRowIndex(rowKey);
         TaskSeries series = (TaskSeries) this.data.get(row);
         Task task = series.get(columnKey.toString());
         if (task != null) {
@@ -582,7 +587,8 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
     public Number getEndValue(Comparable rowKey, Comparable columnKey,
                               /*@NonNegative*/ int subinterval) {
         Number result = null;
-        int row = getRowIndex(rowKey);
+        @SuppressWarnings("index") // rowKey is being assumed to be a valid key. It should probably be checked - this is a bug
+        /*@NonNegative*/ int row = getRowIndex(rowKey);
         TaskSeries series = (TaskSeries) this.data.get(row);
         Task task = series.get(columnKey.toString());
         if (task != null) {
@@ -624,7 +630,8 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
     public Number getPercentComplete(Comparable rowKey, Comparable columnKey,
                                      /*@NonNegative*/ int subinterval) {
         Number result = null;
-        int row = getRowIndex(rowKey);
+        @SuppressWarnings("index") // rowKey is being assumed to be a valid key. It should probably be checked - this is a bug
+        /*@NonNegative*/ int row = getRowIndex(rowKey);
         TaskSeries series = (TaskSeries) this.data.get(row);
         Task task = series.get(columnKey.toString());
         if (task != null) {

@@ -61,6 +61,7 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.common.value.qual.*; */
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -92,7 +93,7 @@ public class Year extends RegularTimePeriod implements Serializable {
     private static final long serialVersionUID = -7659990929736074836L;
 
     /** The year. */
-    private short year;
+    private /*@IntRange(from = 1900, to = 9999)*/ short year;
 
     /** The first millisecond. */
     private long firstMillisecond;
@@ -112,7 +113,7 @@ public class Year extends RegularTimePeriod implements Serializable {
      *
      * @param year  the year.
      */
-    public Year(int year) {
+    public Year(/*@IntRange(from = 1900, to = 9999)*/ int year) {
         if ((year < Year.MINIMUM_YEAR) || (year > Year.MAXIMUM_YEAR)) {
             throw new IllegalArgumentException(
                 "Year constructor: year (" + year + ") outside valid range.");
@@ -155,7 +156,7 @@ public class Year extends RegularTimePeriod implements Serializable {
      *
      * @return The year.
      */
-    public int getYear() {
+    public /*@IntRange(from = 1900, to = 9999)*/ int getYear() {
         return this.year;
     }
 

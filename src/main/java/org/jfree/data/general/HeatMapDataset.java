@@ -59,7 +59,7 @@ public interface HeatMapDataset {
      * 
      * @return The number of x-values (always &gt; 0).
      */
-    public /*@Positive*/ int getXSampleCount();
+    public /*@Positive*/ /*@LTEqLengthOf("this.getData()")*/ int getXSampleCount();
 
     /**
      * Returns the number of y values (or samples) for the dataset.  The
@@ -68,7 +68,7 @@ public interface HeatMapDataset {
      *
      * @return The number of y-values (always &gt; 0).
      */
-    public /*@Positive*/ int getYSampleCount();
+    public /*@Positive*/ /*@LTEqLengthOf("this.getData()[0]")*/ int getYSampleCount();
 
     /**
      * Returns the lowest x-value represented in this dataset.  A requirement

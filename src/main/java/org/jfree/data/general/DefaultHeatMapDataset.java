@@ -56,10 +56,10 @@ public class DefaultHeatMapDataset extends AbstractDataset
         implements HeatMapDataset, Cloneable, PublicCloneable, Serializable {
 
     /** The number of samples in this dataset for the x-dimension. */
-    private /*@Positive*/ int xSamples;
+    private /*@Positive*/ /*@LTEqLengthOf("this.getData()")*/ int xSamples;
 
     /** The number of samples in this dataset for the y-dimension. */
-    private /*@Positive*/ int ySamples;
+    private /*@Positive*/ /*@LTEqLengthOf("this.getData()[0]")*/ int ySamples;
 
     /** The minimum x-value in the dataset. */
     private double minX;
@@ -109,14 +109,18 @@ public class DefaultHeatMapDataset extends AbstractDataset
             throw new IllegalArgumentException("'maxY' cannot be INF or NaN.");
         }
 
-        this.xSamples = xSamples;
-        this.ySamples = ySamples;
+        @SuppressWarnings("index") // establish repr invariant
+        /*@Positive*/ /*@LTEqLengthOf("this.getData()")*/ int xSamplesTmp = xSamples;
+        this.xSamples = xSamplesTmp;
+        @SuppressWarnings("index") // establish repr invariant
+        /*@Positive*/ /*@LTEqLengthOf("this.getData()[0]")*/ int ySamplesTmp = ySamples;
+        this.ySamples = ySamplesTmp;
         this.minX = minX;
         this.maxX = maxX;
         this.minY = minY;
         this.maxY = maxY;
-        @SuppressWarnings("index") // establish repr. invariant
-        double /*@SameLen("this.getData()")*/ [] /*@SameLen("this.getData()[0]")*/ [] zValues = new double[xSamples][];
+        @SuppressWarnings({"index", "value"}) // establish repr. invariant ; since ySamples is positive and will be used to create each inner array, the MinLen is true
+        double /*@SameLen("this.getData()")*/ [] /*@SameLen("this.getData()[0]")*/ /*@MinLen(1)*/ [] zValues = new double[xSamples][];
         this.zValues = zValues;
         for (int x = 0; x < xSamples; x++) {
             @SuppressWarnings("index") // establish repr. invariant
@@ -133,7 +137,7 @@ public class DefaultHeatMapDataset extends AbstractDataset
      * @return The number of x-values (always &gt; 0).
      */
     @Override
-    public /*@LengthOf("this.getData()")*/ int getXSampleCount() {
+    public /*@Positive*/ /*@LTEqLengthOf("this.getData()")*/ int getXSampleCount() {
         return this.xSamples;
     }
 
@@ -145,7 +149,7 @@ public class DefaultHeatMapDataset extends AbstractDataset
      * @return The number of y-values (always &gt; 0).
      */
     @Override
-    public /*@LengthOf("this.getData()[0]")*/ int getYSampleCount() {
+    public /*@Positive*/ /*@LTEqLengthOf("this.getData()[0]")*/ int getYSampleCount() {
         return this.ySamples;
     }
 

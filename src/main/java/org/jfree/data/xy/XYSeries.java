@@ -826,7 +826,9 @@ public class XYSeries extends Series implements Cloneable, Serializable {
             // append the value to the list...
             item = (XYDataItem) item.clone();
             if (this.autoSort) {
-                this.data.add(-index - 1, item);
+                @SuppressWarnings("index") // this is a search index iff this.autoSort is true
+                /*@NonNegative*/ int addIndex = -index - 1;
+                this.data.add(addIndex, item);
             }
             else {
                 this.data.add(item);

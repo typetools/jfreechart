@@ -396,6 +396,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * @param start  the index of the first period to delete.
      * @param end  the index of the last period to delete.
      */
+    @SuppressWarnings("index") // https://github.com/kelloggm/issues/158 end > start is precondition
     public void delete(/*@NonNegative*/ int start, /*@NonNegative*/ int end) {
         for (int i = 0; i <= (end - start); i++) {
             this.data.remove(start);

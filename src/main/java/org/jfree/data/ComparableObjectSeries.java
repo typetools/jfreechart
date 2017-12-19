@@ -159,7 +159,7 @@ public class ComparableObjectSeries extends Series
      *
      * @param maximum  the maximum number of items for the series.
      */
-    public void setMaximumItemCount(int maximum) {
+    public void setMaximumItemCount(/*@NonNegative*/ int maximum) {
         this.maximumItemCount = maximum;
         boolean dataRemoved = false;
         while (this.data.size() > maximum) {
@@ -218,7 +218,8 @@ public class ComparableObjectSeries extends Series
 
         Args.nullNotPermitted(item, "item");
         if (this.autoSort) {
-            int index = Collections.binarySearch(this.data, item);
+            @SuppressWarnings("index") // binary search on list
+            /*@SearchIndexFor("this.data")*/ int index = Collections.binarySearch(this.data, item);
             if (index < 0) {
                 this.data.add(-index - 1, item);
             }
@@ -271,7 +272,7 @@ public class ComparableObjectSeries extends Series
      *
      * @return The index.
      */
-    public /*@GTENegativeOne*/ int indexOf(Comparable x) {
+    public int indexOf(Comparable x) {
         if (this.autoSort) {
             return Collections.binarySearch(this.data, new ComparableObjectItem(
                     x, null));
@@ -382,6 +383,7 @@ public class ComparableObjectSeries extends Series
 
      * @return The item removed.
      */
+    @SuppressWarnings("index") // method precondition is that this element is in the list, so indexOf will return NN
     public ComparableObjectItem remove(Comparable x) {
         return remove(indexOf(x));
     }

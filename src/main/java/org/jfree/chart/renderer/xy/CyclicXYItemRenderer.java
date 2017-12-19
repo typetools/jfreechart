@@ -369,7 +369,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The item count.
          */
         @Override
-        public /*@LengthOf("this.getSeries(#1)")"*/ int getItemCount(/*@NonNegative*/ int series) {
+        public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
             return this.x.length;
         }
 

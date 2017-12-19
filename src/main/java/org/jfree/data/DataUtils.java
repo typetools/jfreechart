@@ -47,6 +47,7 @@
  */
 
 package org.jfree.data;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.util.Arrays;
@@ -99,7 +100,7 @@ public abstract class DataUtils {
      *
      * @since 1.0.13
      */
-    public static double[][] clone(double[][] source) {
+    public static double /*@SameLen("#1")*/ [][] clone(double[][] source) {
         Args.nullNotPermitted(source, "source");
         double[][] clone = new double[source.length][];
         for (int i = 0; i < source.length; i++) {
@@ -147,7 +148,7 @@ public abstract class DataUtils {
      * @since 1.0.13
      */
     public static double calculateColumnTotal(Values2D data, /*@NonNegative*/ int column,
-             int[] validRows) {
+             /*@NonNegative*/ int[] validRows) {
         Args.nullNotPermitted(data, "data");
         double total = 0.0;
         int rowCount = data.getRowCount();
@@ -198,7 +199,7 @@ public abstract class DataUtils {
      * @since 1.0.13
      */
     public static double calculateRowTotal(Values2D data, /*@NonNegative*/ int row,
-             int[] validCols) {
+             /*@NonNegative*/ int[] validCols) {
         Args.nullNotPermitted(data, "data");
         double total = 0.0;
         int colCount = data.getColumnCount();
@@ -239,7 +240,7 @@ public abstract class DataUtils {
      *
      * @return An array of {@code double}.
      */
-    public static Number[][] createNumberArray2D(double[][] data) {
+    public static Number /*@SameLen("#1")*/ [][] createNumberArray2D(double[][] data) {
         Args.nullNotPermitted(data, "data");
         int l1 = data.length;
         Number[][] result = new Number[l1][];

@@ -114,7 +114,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
     private /*@NonNegative*/ int maximumItemCount = 2000;  // an arbitrary safe default value
 
     /** The history count. */
-    protected /*@IndexOrHigh("this.pointsInTime")*/ int historyCount;
+    protected /*@LTEqLengthOf("this.pointsInTime")*/ /*@Positive*/ int historyCount;
 
     /** Storage for the series keys. */
     private Comparable /*@SameLen("this.valueHistory")*/ [] seriesKeys;
@@ -149,7 +149,9 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
          * @param length  the length.
          */
         public ValueSequence(/*@NonNegative*/ int length) {
-            this.dataPoints = new float[length];
+            @SuppressWarnings("index") // establish repr. invariant
+            float /*@SameLen("this")*/ [] dataPointsTmp = new float[length];
+            this.dataPoints = dataPointsTmp;
             for (int i = 0; i < length; i++) {
                 this.dataPoints[i] = 0.0f;
             }
@@ -237,7 +239,9 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      */
     public DynamicTimeSeriesCollection(/*@NonNegative*/ int nSeries, /*@Positive*/ int nMoments) {
         this(nSeries, nMoments, new Millisecond(), TimeZone.getDefault());
-        this.newestAt = nMoments - 1;
+        @SuppressWarnings("index") // nMoments is used later to populate the field this annotation refers to
+        /*@IndexFor("this.pointsInTime")*/ int newestAtTmp = nMoments - 1;
+        this.newestAt = newestAtTmp;
     }
 
     /**
@@ -250,7 +254,9 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
     public DynamicTimeSeriesCollection(/*@NonNegative*/ int nSeries, /*@Positive*/ int nMoments,
             TimeZone zone) {
         this(nSeries, nMoments, new Millisecond(), zone);
-        this.newestAt = nMoments - 1;
+        @SuppressWarnings("index") // nMoments is used later to populate the field this annotation refers to
+        /*@IndexFor("this.pointsInTime")*/ int newestAtTmp = nMoments - 1;
+        this.newestAt = newestAtTmp;
     }
 
     /**
@@ -273,6 +279,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @param timeSample  a time period sample.
      * @param zone  the time zone.
      */
+    @SuppressWarnings("index") // this constructor establishes the repr. invariants
     public DynamicTimeSeriesCollection(/*@NonNegative*/ int nSeries, /*@Positive*/ int nMoments,
             RegularTimePeriod timeSample, TimeZone zone) {
 
@@ -472,7 +479,8 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    public /*@NonNegative*/ int getSeriesCount() {
+    @SuppressWarnings("index")
+    public /*@NonNegative*/ /*@LTEqLengthOf("this.valueHistory")*/ int getSeriesCount() {
         return this.seriesCount;
     }
 
@@ -486,7 +494,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    public /*@LengthOf("this.getSeries(#1)")"*/ int getItemCount(/*@NonNegative*/ int series) {  // all arrays equal length,
+    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {  // all arrays equal length,
                                            // so ignore argument:
         return this.historyCount;
     }
@@ -593,10 +601,15 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         // Update the array of TimePeriods:
         this.pointsInTime[this.newestAt] = nextInstant;
         // Now advance "oldestAt", wrapping at end of the array
-        this.oldestAt++;
+        int newOldestAt;
         if (this.oldestAt >= this.historyCount) {
-            this.oldestAt = 0;
+            @SuppressWarnings("index") // the check right below ensures this doesn't go out of bounds for more than a few insr
+                    /*@IndexFor("this.pointsInTime")*/ int tmp = 0;
+                    newOldestAt = tmp;
+        } else {
+            newOldestAt = this.oldestAt + 1;
         }
+        this.oldestAt = newOldestAt;
         // Update the domain limits:
         long startL = this.domainStart.longValue();  //(time is kept in msec)
         this.domainStart = new Long(startL + this.deltaTime);
@@ -642,7 +655,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      *
      * @return The index.
      */
-    public int getOldestIndex() {
+    public /*@IndexFor("this.pointsInTime")*/ int getOldestIndex() {
         return this.oldestAt;
     }
 
@@ -651,7 +664,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      *
      * @return The index.
      */
-    public int getNewestIndex() {
+    public /*@IndexFor("this.pointsInTime")*/ int getNewestIndex() {
         return this.newestAt;
     }
 
@@ -737,7 +750,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
     // getXxx() ftns can ignore the "series" argument:
     // Don't synchronize this!! Instead, synchronize the loop that calls it.
     @Override
-    public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         RegularTimePeriod tp = this.pointsInTime[translateGet(item)];
         return new Long(getX(tp));
     }
@@ -751,7 +764,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public double getYValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         // Don't synchronize this!!
         // Instead, synchronize the loop that calls it.
         ValueSequence values = this.valueHistory[series];
@@ -767,7 +780,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return new Float(getYValue(series, item));
     }
 
@@ -780,7 +793,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getStartX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getStartX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         RegularTimePeriod tp = this.pointsInTime[translateGet(item)];
         return new Long(tp.getFirstMillisecond(this.workingCalendar));
     }
@@ -794,7 +807,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getEndX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getEndX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         RegularTimePeriod tp = this.pointsInTime[translateGet(item)];
         return new Long(tp.getLastMillisecond(this.workingCalendar));
     }
@@ -808,7 +821,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getStartY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getStartY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getY(series, item);
     }
 
@@ -821,7 +834,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getEndY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getEndY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getY(series, item);
     }
 

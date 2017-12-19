@@ -49,6 +49,8 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.common.value.qual.*; */
 
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
@@ -76,7 +78,7 @@ public class MovingAverage {
      * @return A collection of moving average time series.
      */
     public static TimeSeriesCollection createMovingAverage(
-            TimeSeriesCollection source, String suffix, int periodCount,
+            TimeSeriesCollection source, String suffix, /*@Positive*/ int periodCount,
             int skip) {
 
         Args.nullNotPermitted(source, "source");
@@ -110,7 +112,7 @@ public class MovingAverage {
      * @return The moving average series.
      */
     public static TimeSeries createMovingAverage(TimeSeries source,
-            String name, int periodCount, int skip) {
+            String name, /*@Positive*/ int periodCount, int skip) {
 
         Args.nullNotPermitted(source, "source");
         if (periodCount < 1) {
@@ -192,7 +194,7 @@ public class MovingAverage {
      * @return The moving average series.
      */
     public static TimeSeries createPointMovingAverage(TimeSeries source,
-            String name, int pointCount) {
+            String name, /*@Positive*/ int pointCount) {
 
         Args.nullNotPermitted(source, "source");
         if (pointCount < 2) {

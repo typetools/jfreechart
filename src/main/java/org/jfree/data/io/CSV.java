@@ -127,6 +127,7 @@ public class CSV {
             if (line.charAt(i) == this.fieldDelimiter) {
                 if (fieldIndex > 0) {  // first field is ignored, since
                                        // column 0 is for row keys
+                    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/138
                     String key = line.substring(start, i);
                     keys.add(removeStringDelimiters(key));
                 }
@@ -134,6 +135,7 @@ public class CSV {
                 fieldIndex++;
             }
         }
+        @SuppressWarnings("index") // the for loop above cannot increment start more than line.length times, so start is IOH of line
         String key = line.substring(start, line.length());
         keys.add(removeStringDelimiters(key));
         return keys;
@@ -151,11 +153,11 @@ public class CSV {
                                       List columnKeys) {
         Comparable rowKey = null;
         int fieldIndex = 0;
-        int start = 0;
+        /*@IndexOrHigh("line")*/ int start = 0;
         for (int i = 0; i < line.length(); i++) {
             if (line.charAt(i) == this.fieldDelimiter) {
                 if (fieldIndex == 0) {  // first field contains the row key
-                    String key = line.substring(start, i);
+                            String key = line.substring(start, i);
                     rowKey = removeStringDelimiters(key);
                 }
                 else {  // remaining fields contain values
@@ -167,10 +169,17 @@ public class CSV {
                         (Comparable) columnKeys.get(fieldIndex - 1)
                     );
                 }
-                start = i + 1;
+                @SuppressWarnings("index") // line is CSV formatted, so skipping is okay here
+                /*@IndexOrHigh("line")*/ int skipIndex = i + 1;
+                start = skipIndex;
                 fieldIndex++;
             }
         }
+
+        @SuppressWarnings("index") // CSV format guarantees at least one field
+        /*@Positive*/ int fieldIndexTmp = fieldIndex;
+        fieldIndex = fieldIndexTmp;
+
         Double value = Double.valueOf(
             removeStringDelimiters(line.substring(start, line.length()))
         );
@@ -188,7 +197,8 @@ public class CSV {
      * @return The key without delimiters.
      */
     private String removeStringDelimiters(String key) {
-        String k = key.trim();
+        @SuppressWarnings({"index", "value"}) // key must have a non-whitespace value is a precondition of this function
+        /*@MinLen(1)*/ String k = key.trim();
         if (k.charAt(0) == this.textDelimiter) {
             k = k.substring(1);
         }

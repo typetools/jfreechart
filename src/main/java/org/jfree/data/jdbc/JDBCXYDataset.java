@@ -243,7 +243,8 @@ public class JDBCXYDataset extends AbstractXYDataset
             resultSet = statement.executeQuery(query);
             ResultSetMetaData metaData = resultSet.getMetaData();
 
-            int numberOfColumns = metaData.getColumnCount();
+            @SuppressWarnings("index") // ResultSetMetaData#getColumnCount needs an annotation
+            /*@Positive*/ int numberOfColumns = metaData.getColumnCount();
             int numberOfValidColumns = 0;
             int [] columnTypes = new int[numberOfColumns];
             for (int column = 0; column < numberOfColumns; column++) {
@@ -287,12 +288,14 @@ public class JDBCXYDataset extends AbstractXYDataset
             /// First column is X data
             this.columnNames = new String[numberOfValidColumns - 1];
             /// Get the column names and cache them.
-            int currentColumn = 0;
+            /*@IndexFor("this.columnNames")*/ int currentColumn = 0;
             for (int column = 1; column < numberOfColumns; column++) {
                 if (columnTypes[column] != Types.NULL) {
                     this.columnNames[currentColumn]
                         = metaData.getColumnLabel(column + 1);
-                    ++currentColumn;
+                    @SuppressWarnings("index") // this update only happens when the column is valid
+                    /*@IndexFor("this.columnNames")*/ int currentColumnTmp = currentColumn + 1;
+                    currentColumn = currentColumnTmp;
                 }
             }
 

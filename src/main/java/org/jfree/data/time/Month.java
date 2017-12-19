@@ -65,6 +65,7 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.common.value.qual.*; */
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -84,10 +85,10 @@ public class Month extends RegularTimePeriod implements Serializable {
     private static final long serialVersionUID = -5090216912548722570L;
 
     /** The month (1-12). */
-    private int month;
+    private /*@IntRange(from = 1, to = 12)*/ int month;
 
     /** The year in which the month falls. */
-    private int year;
+    private /*@IntRange(from = 1900, to = 9999)*/ int year;
 
     /** The first millisecond. */
     private long firstMillisecond;
@@ -108,7 +109,7 @@ public class Month extends RegularTimePeriod implements Serializable {
      * @param month  the month (in the range 1 to 12).
      * @param year  the year.
      */
-    public Month(int month, int year) {
+    public Month(/*@IntRange(from = 1, to = 12)*/ int month, /*@IntRange(from = 1900, to = 9999)*/ int year) {
         if ((month < 1) || (month > 12)) {
             throw new IllegalArgumentException("Month outside valid range.");
         }
@@ -123,7 +124,7 @@ public class Month extends RegularTimePeriod implements Serializable {
      * @param month  the month (in the range 1 to 12).
      * @param year  the year.
      */
-    public Month(int month, Year year) {
+    public Month(/*@IntRange(from = 1, to = 12)*/ int month, Year year) {
         if ((month < 1) || (month > 12)) {
             throw new IllegalArgumentException("Month outside valid range.");
         }

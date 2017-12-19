@@ -100,7 +100,7 @@ public class KeyToGroupMap implements Cloneable, PublicCloneable, Serializable {
      *
      * @return The number of groups in the map.
      */
-    public int getGroupCount() {
+    public /*@Positive*/ int getGroupCount() {
         return this.groups.size() + 1;
     }
 

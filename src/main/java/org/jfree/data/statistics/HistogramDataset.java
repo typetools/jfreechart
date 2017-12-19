@@ -202,6 +202,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
                     binIndex = bins - 1;
                 }
             }
+            @SuppressWarnings("index") // see the comment about the known bug above
             HistogramBin bin = (HistogramBin) binList.get(binIndex);
             bin.incrementCount();
         }
@@ -338,7 +339,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public /*@LengthOf("this.getSeries(#1)")"*/ int getItemCount(/*@NonNegative*/ int series) {
+    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         return getBins(series).size();
     }
 

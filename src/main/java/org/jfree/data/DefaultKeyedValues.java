@@ -158,7 +158,9 @@ public class DefaultKeyedValues implements KeyedValues, Cloneable,
         if (i == null) {
             return -1;  // key not found
         }
-        return i.intValue();
+        @SuppressWarnings("index") // the map only contains indices, so if the value is in the map, then result is non-negative
+        /*@NonNegative*/ int result = i.intValue();
+        return result;
     }
 
     /**

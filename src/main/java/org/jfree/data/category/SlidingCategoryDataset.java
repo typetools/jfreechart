@@ -175,7 +175,9 @@ public class SlidingCategoryDataset extends AbstractDataset
     public /*@GTENegativeOne*/ int getColumnIndex(Comparable key) {
         int index = this.underlying.getColumnIndex(key);
         if (index >= this.firstCategoryIndex && index <= lastCategoryIndex()) {
-            return index - this.firstCategoryIndex;
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158 index >= this.firstCategoryIndex is a condition to this block
+            /*@NonNegative*/ int result = index - this.firstCategoryIndex;
+            return result;
         }
         return -1;  // we didn't find the key
     }
@@ -262,7 +264,9 @@ public class SlidingCategoryDataset extends AbstractDataset
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
         if (c != -1) {
-            return this.underlying.getValue(r, c + this.firstCategoryIndex);
+            @SuppressWarnings("index") // I think this is a bug. Why isn't r checked the way c is checked?
+            Number result = this.underlying.getValue(r, c + this.firstCategoryIndex);
+            return result;
         }
         else {
             throw new UnknownKeyException("Unknown columnKey: " + columnKey);

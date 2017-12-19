@@ -177,7 +177,9 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
     public /*@GTENegativeOne*/ int getColumnIndex(Comparable key) {
         int index = this.underlying.getColumnIndex(key);
         if (index >= this.firstCategoryIndex && index <= lastCategoryIndex()) {
-            return index - this.firstCategoryIndex;
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158
+            /*@NonNegative*/ int result = index - this.firstCategoryIndex;
+            return result;
         }
         return -1;  // we didn't find the key
     }
@@ -264,7 +266,9 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
         if (c != -1) {
-            return this.underlying.getValue(r, c + this.firstCategoryIndex);
+            @SuppressWarnings("index") // I think this is a bug. Why isn't r checked the same way that c is checked?
+            Number result = this.underlying.getValue(r, c + this.firstCategoryIndex);
+            return result;
         }
         else {
             throw new UnknownKeyException("Unknown columnKey: " + columnKey);
@@ -323,8 +327,10 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
         if (c != -1) {
-            return this.underlying.getPercentComplete(r,
+            @SuppressWarnings("index") // I think this is a bug. Why isn't r being checked the same way c is checked?
+            Number result = this.underlying.getPercentComplete(r,
                     c + this.firstCategoryIndex);
+            return result;
         }
         else {
             throw new UnknownKeyException("Unknown columnKey: " + columnKey);
@@ -348,8 +354,10 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
         if (c != -1) {
-            return this.underlying.getPercentComplete(r,
+            @SuppressWarnings("index") // I think this is a bug. Why isn't r being checked the same way c is checked?
+            Number result = this.underlying.getPercentComplete(r,
                     c + this.firstCategoryIndex, subinterval);
+            return result;
         }
         else {
             throw new UnknownKeyException("Unknown columnKey: " + columnKey);
@@ -373,8 +381,10 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
         if (c != -1) {
-            return this.underlying.getEndValue(r,
+            @SuppressWarnings("index") // I think this is a bug. Why isn't r being checked the same way c is checked?
+            Number result = this.underlying.getEndValue(r,
                     c + this.firstCategoryIndex, subinterval);
+            return result;
         }
         else {
             throw new UnknownKeyException("Unknown columnKey: " + columnKey);
@@ -446,8 +456,10 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
         if (c != -1) {
-            return this.underlying.getStartValue(r,
+            @SuppressWarnings("index") // I think this is a bug. Why isn't r being checked the same way c is checked?
+            Number result = this.underlying.getStartValue(r,
                     c + this.firstCategoryIndex, subinterval);
+            return result;
         }
         else {
             throw new UnknownKeyException("Unknown columnKey: " + columnKey);
@@ -486,8 +498,10 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
         if (c != -1) {
-            return this.underlying.getSubIntervalCount(r,
+            @SuppressWarnings("index") // I think this is a bug. Why isn't r being checked the same way c is checked?
+            int result = this.underlying.getSubIntervalCount(r,
                     c + this.firstCategoryIndex);
+            return result;
         }
         else {
             throw new UnknownKeyException("Unknown columnKey: " + columnKey);
@@ -525,8 +539,10 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
         if (c != -1) {
-            return this.underlying.getStartValue(r,
+            @SuppressWarnings("index") // I think this is a bug. Why isn't r being checked the same way c is checked?
+            Number result = this.underlying.getStartValue(r,
                     c + this.firstCategoryIndex);
+            return result;
         }
         else {
             throw new UnknownKeyException("Unknown columnKey: " + columnKey);
@@ -564,7 +580,9 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
         if (c != -1) {
-            return this.underlying.getEndValue(r, c + this.firstCategoryIndex);
+            @SuppressWarnings("index") // I think this is a bug. Why isn't r being checked the same way c is checked?
+            Number result = this.underlying.getEndValue(r, c + this.firstCategoryIndex);
+            return result;
         }
         else {
             throw new UnknownKeyException("Unknown columnKey: " + columnKey);

@@ -56,6 +56,8 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.common.value.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -326,7 +328,7 @@ public class TimeTableXYDataset extends AbstractIntervalXYDataset
      * @return The number of items within the series.
      */
     @Override
-    public /*@LengthOf("this.getSeries(#1)")"*/ int getItemCount(/*@NonNegative*/ int series) {
+    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         return getItemCount();
     }
 
@@ -363,7 +365,7 @@ public class TimeTableXYDataset extends AbstractIntervalXYDataset
      * @return The x-value.
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return new Double(getXValue(series, item));
     }
 
@@ -376,7 +378,7 @@ public class TimeTableXYDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public double getXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         TimePeriod period = (TimePeriod) this.values.getRowKey(item);
         return getXValue(period);
     }
@@ -392,7 +394,7 @@ public class TimeTableXYDataset extends AbstractIntervalXYDataset
      * @see #getStartXValue(int, int)
      */
     @Override
-    public Number getStartX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getStartX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return new Double(getStartXValue(series, item));
     }
 
@@ -406,7 +408,7 @@ public class TimeTableXYDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public double getStartXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getStartXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         TimePeriod period = (TimePeriod) this.values.getRowKey(item);
         return period.getStart().getTime();
     }
@@ -422,7 +424,7 @@ public class TimeTableXYDataset extends AbstractIntervalXYDataset
      * @see #getEndXValue(int, int)
      */
     @Override
-    public Number getEndX(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getEndX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return new Double(getEndXValue(series, item));
     }
 
@@ -436,7 +438,7 @@ public class TimeTableXYDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public double getEndXValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public double getEndXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         TimePeriod period = (TimePeriod) this.values.getRowKey(item);
         return period.getEnd().getTime();
     }
@@ -450,7 +452,7 @@ public class TimeTableXYDataset extends AbstractIntervalXYDataset
      * @return The y-value (possibly {@code null}).
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.values.getValue(item, series);
     }
 
@@ -463,7 +465,7 @@ public class TimeTableXYDataset extends AbstractIntervalXYDataset
      * @return The starting Y value for the specified series and item.
      */
     @Override
-    public Number getStartY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getStartY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getY(series, item);
     }
 
@@ -476,7 +478,7 @@ public class TimeTableXYDataset extends AbstractIntervalXYDataset
      * @return The ending Y value for the specified series and item.
      */
     @Override
-    public Number getEndY(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public Number getEndY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getY(series, item);
     }
 

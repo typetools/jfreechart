@@ -223,6 +223,7 @@ public abstract class Statistics {
                     }
                 }
                 else {
+                    @SuppressWarnings("index") // count is a positive even number (min. 2), so count/2 - 1 is at least zero
                     Number value1 = (Number) values.get(count / 2 - 1);
                     Number value2 = (Number) values.get(count / 2);
                     result = (value1.doubleValue() + value2.doubleValue())
@@ -260,11 +261,12 @@ public abstract class Statistics {
      *
      * @return The median.
      */
-    public static double calculateMedian(List values, int start, int end,
+    public static double calculateMedian(List values, /*@NonNegative*/ int start, /*@NonNegative*/ int end,
                                          boolean copyAndSort) {
 
         double result = Double.NaN;
         if (copyAndSort) {
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158 end > start
             List working = new ArrayList(end - start + 1);
             for (int i = start; i <= end; i++) {
                 working.add(values.get(i));
@@ -287,6 +289,7 @@ public abstract class Statistics {
                     }
                 }
                 else {
+                    @SuppressWarnings("index") // count is a positive even integer -> count >= 2 -> count / 2 - 1 is NN
                     Number value1 = (Number) values.get(start + count / 2 - 1);
                     Number value2 = (Number) values.get(start + count / 2);
                     result
@@ -455,7 +458,9 @@ public abstract class Statistics {
                 "Period can't be longer than dataset.");
         }
 
-        double[][] result = new double[xData.length - period][2];
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158 xData.length > period
+        /*@NonNegative*/ int resultLen = xData.length - period;
+        double[][] result = new double[resultLen][2];
         for (int i = 0; i < result.length; i++) {
             result[i][0] = xData[i + period].doubleValue();
             // holds the moving average sum

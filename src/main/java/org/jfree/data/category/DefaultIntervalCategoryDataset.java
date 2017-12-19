@@ -61,6 +61,7 @@ import java.util.ResourceBundle;
 import org.jfree.chart.util.Args;
 
 import org.jfree.chart.util.ResourceBundleWrapper;
+import org.jfree.data.ComparableObjectSeries;
 import org.jfree.data.DataUtils;
 import org.jfree.data.UnknownKeyException;
 import org.jfree.data.general.AbstractSeriesDataset;
@@ -172,6 +173,14 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
             }
             if (seriesCount > 0) {
 
+                @SuppressWarnings({"index", "value"}) // seriesCount is the length of starts, so checking it against zero implies minlen(1)
+                Number /*@MinLen(1)*/ [][] starts1 = starts;
+                starts = starts1;
+
+                @SuppressWarnings({"index", "value"}) // seriesCount is the length of starts, so checking it against zero implies minlen(1)
+                        Number /*@MinLen(1)*/ [][] ends1 = ends;
+                ends = ends1;
+
                 // set up the series names...
                 if (seriesKeys != null) {
 
@@ -273,7 +282,9 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
         if ((series >= getSeriesCount()) || (series < 0)) {
             throw new IllegalArgumentException("No such series : " + series);
         }
-        return this.seriesKeys[series];
+        @SuppressWarnings("index") // getSeriesCount() should be annotated as LengthOf, but because most implementations of this interface implement the series with a list it isn't
+        Comparable result = this.seriesKeys[series];
+        return result;
     }
 
     /**
@@ -306,7 +317,9 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
         int result = 0;
         if (this.startData != null) {
             if (getSeriesCount() > 0) {
-                result = this.startData[0].length;
+                @SuppressWarnings("index") // getSeriesCount is the length of startData, but can't be annotated that way b/c implementation detail
+                int newResult = this.startData[0].length;
+                result = newResult;
             }
         }
         return result;
@@ -455,8 +468,9 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
         }
 
         // fetch the value...
-        return this.startData[series][category];
-
+        @SuppressWarnings("index") // that these are indices into these arrays is an implementation detail. Most implementations of this interface are backed by a list.
+        Number result = this.startData[series][category];
+        return result;
     }
 
     /**
@@ -505,8 +519,9 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
                 "DefaultIntervalCategoryDataset.getValue(): "
                 + "category index out of range.");
         }
-
-        return this.endData[series][category];
+        @SuppressWarnings("index") // that these are indices into these arrays is an implementation detail. Most implementations of this interface are backed by a list.
+        Number result = this.endData[series][category];
+        return result;
     }
 
     /**
@@ -537,7 +552,8 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
         }
 
         // update the data...
-        this.startData[series][categoryIndex] = value;
+        @SuppressWarnings("index") // that these are indices into these arrays is an implementation detail. Most implementations of this interface are backed by a list.
+        Number tmp = (this.startData[series][categoryIndex] = value);
         fireDatasetChanged();
 
     }
@@ -570,7 +586,8 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
         }
 
         // update the data...
-        this.endData[series][categoryIndex] = value;
+        @SuppressWarnings("index") // that these are indices into these arrays is an implementation detail. Most implementations of this interface are backed by a list.
+        Number tmp = (this.endData[series][categoryIndex] = value);
         fireDatasetChanged();
 
     }

@@ -143,7 +143,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
     protected List data;
 
     /** The maximum number of items for the series. */
-    private int maximumItemCount;
+    private /*@NonNegative*/ int maximumItemCount;
 
     /**
      * The maximum age of items for the series, specified as a number of
@@ -281,7 +281,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @see #setMaximumItemCount(int)
      */
-    public int getMaximumItemCount() {
+    public /*@NonNegative*/ int getMaximumItemCount() {
         return this.maximumItemCount;
     }
 
@@ -296,7 +296,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @see #getMaximumItemCount()
      */
-    public void setMaximumItemCount(int maximum) {
+    public void setMaximumItemCount(/*@NonNegative*/ int maximum) {
         if (maximum < 0) {
             throw new IllegalArgumentException("Negative 'maximum' argument.");
         }
@@ -605,7 +605,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @return The index.
      */
-    public /*@GTENegativeOne*/ int getIndex(RegularTimePeriod period) {
+    public int getIndex(RegularTimePeriod period) {
         Args.nullNotPermitted(period, "period");
         TimeSeriesDataItem dummy = new TimeSeriesDataItem(
               period, Integer.MIN_VALUE);
@@ -1076,7 +1076,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      * @param start  the index of the first period to delete.
      * @param end  the index of the last period to delete.
      */
-    public void delete(int start, int end) {
+    public void delete(/*@NonNegative*/ int start, /*@NonNegative*/ int end) {
         delete(start, end, true);
     }
 
@@ -1089,7 +1089,8 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @since 1.0.14
      */
-    public void delete(int start, int end, boolean notify) {
+    @SuppressWarnings("index") // https://github.com/kelloggm/issues/158 end > start is precondition
+    public void delete(/*@NonNegative*/ int start, /*@NonNegative*/ int end, boolean notify) {
         if (end < start) {
             throw new IllegalArgumentException("Requires start <= end.");
         }
@@ -1139,7 +1140,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @throws CloneNotSupportedException if there is a cloning problem.
      */
-    public TimeSeries createCopy(int start, int end)
+    public TimeSeries createCopy(/*@NonNegative*/ int start, /*@NonNegative*/ int end)
             throws CloneNotSupportedException {
         if (start < 0) {
             throw new IllegalArgumentException("Requires start >= 0.");

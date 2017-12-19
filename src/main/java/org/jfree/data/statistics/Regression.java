@@ -261,22 +261,25 @@ public abstract class Regression {
         if (itemCount < order + 1) {
             throw new IllegalArgumentException("Not enough data.");
         }
-        int validItems = 0;
         double[][] data = new double[2][itemCount];
+        @SuppressWarnings("index") // validItems will only be used as a index if there is at least one item
+        /*@IndexFor(value={"data[0]","data[1]"}, offset={"0","0"})*/ int validItems = 0;
         for(int item = 0; item < itemCount; item++){
             double x = dataset.getXValue(series, item);
             double y = dataset.getYValue(series, item);
             if (!Double.isNaN(x) && !Double.isNaN(y)){
                 data[0][validItems] = x;
                 data[1][validItems] = y;
-                validItems++;
+                @SuppressWarnings("index") // validItems is incremented at most as often as item, which is a valid index
+                /*@IndexFor(value={"data[0]","data[1]"}, offset={"0","0"})*/ int validItemsTmp = validItems + 1;
+                validItems = validItemsTmp;
             }
         }
         if (validItems < order + 1) {
             throw new IllegalArgumentException("Not enough data.");
         }
-        int equations = order + 1;
-        int coefficients = order + 2;
+        /*@Positive*/ int equations = order + 1;
+        /*@Positive*/ int coefficients = order + 2;
         double[] result = new double[equations + 1];
         double[][] matrix = new double[equations][coefficients];
         double sumX = 0.0;
@@ -286,7 +289,7 @@ public abstract class Regression {
             sumX += data[0][item];
             sumY += data[1][item];
             for(int eq = 0; eq < equations; eq++){
-                for(int coe = 0; coe < coefficients - 1; coe++){
+                for(int coe = 0; coe < matrix[eq].length - 1; coe++){
                     matrix[eq][coe] += Math.pow(data[0][item],eq + coe);
                 }
                 matrix[eq][coefficients - 1] += data[1][item]
@@ -334,8 +337,8 @@ public abstract class Regression {
      * @return The new matrix.
      */
     private static double[][] calculateSubMatrix(double /*@MinLen(1)*/ [] /*@MinLen(1)*/ [] matrix){
-        int equations = matrix.length;
-        int coefficients = matrix[0].length;
+        /*@Positive*/ int equations = matrix.length;
+        /*@Positive*/ int coefficients = matrix[0].length;
         double[][] result = new double[equations - 1][coefficients - 1];
         for (int eq = 1; eq < equations; eq++) {
             double factor = matrix[0][0] / matrix[eq][0];

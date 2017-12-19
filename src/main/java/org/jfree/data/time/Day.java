@@ -128,7 +128,7 @@ public class Day extends RegularTimePeriod implements Serializable {
      * @param month  the month (1 to 12).
      * @param year  the year (1900 &lt;= year &lt;= 9999).
      */
-    public Day(int day, int month, int year) {
+    public Day(/*@IntRange(from = 1, to = 31)*/ int day, /*@IntRange(from = 1, to = 12)*/ int month, /*@IntRange(from = 1900, to = 9999)*/ int year) {
         this.serialDate = SerialDate.createInstance(day, month, year);
         peg(Calendar.getInstance());
     }
@@ -173,7 +173,9 @@ public class Day extends RegularTimePeriod implements Serializable {
         int d = calendar.get(Calendar.DAY_OF_MONTH);
         int m = calendar.get(Calendar.MONTH) + 1;
         int y = calendar.get(Calendar.YEAR);
-        this.serialDate = SerialDate.createInstance(d, m, y);
+        @SuppressWarnings("index") // Calendar needs index annotations
+        SerialDate tmpDate = SerialDate.createInstance(d, m, y);
+        this.serialDate = tmpDate;
         peg(calendar);
     }
 

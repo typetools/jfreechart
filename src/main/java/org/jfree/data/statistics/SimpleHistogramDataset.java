@@ -168,7 +168,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      */
     @Override
     @SuppressWarnings("index") // establish repr. invariant
-    public /*@LengthOf("this.getSeries(#1)")"*/ int getItemCount(/*@NonNegative*/ int series) {
+    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         return this.bins.size();
     }
 
