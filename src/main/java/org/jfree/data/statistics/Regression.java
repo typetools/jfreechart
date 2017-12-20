@@ -281,7 +281,7 @@ public abstract class Regression {
         /*@Positive*/ int equations = order + 1;
         /*@Positive*/ int coefficients = order + 2;
         double[] result = new double[equations + 1];
-        double[][] matrix = new double[equations][coefficients];
+        double[] /*@MinLen(1)*/ [] matrix = new double[equations][coefficients];
         double sumX = 0.0;
         double sumY = 0.0;
 
@@ -292,23 +292,31 @@ public abstract class Regression {
                 for(int coe = 0; coe < matrix[eq].length - 1; coe++){
                     matrix[eq][coe] += Math.pow(data[0][item],eq + coe);
                 }
-                matrix[eq][coefficients - 1] += data[1][item]
+                @SuppressWarnings("index") // coefficients is positive, and matrix's subarrays are all exactly `coefficients` long
+                /*@IndexFor("matrix[eq]")*/ int coe1 = coefficients - 1;
+                matrix[eq][coe1] += data[1][item]
                         * Math.pow(data[0][item],eq);
             }
         }
         double[][] subMatrix = calculateSubMatrix(matrix);
         for (int eq = 1; eq < equations; eq++) {
             matrix[eq][0] = 0;
-            for (int coe = 1; coe < coefficients; coe++) {
-                matrix[eq][coe] = subMatrix[eq - 1][coe - 1];
+            for (int coe = 1; coe < matrix[eq].length; coe++) {
+                @SuppressWarnings("index") // subMatrix is a reduced version of matrix, with rows and columns shifted so that subtracting one is always safe
+                double subMatrixEntry = subMatrix[eq - 1][coe - 1];
+                matrix[eq][coe] = subMatrixEntry;
             }
         }
         for (int eq = equations - 1; eq > -1; eq--) {
-            double value = matrix[eq][coefficients - 1];
-            for (int coe = eq; coe < coefficients -1; coe++) {
-                value -= matrix[eq][coe] * result[coe];
+            double value = matrix[eq][matrix[eq].length - 1];
+            for (int coe = eq; coe < matrix[eq].length -1; coe++) {
+                @SuppressWarnings("index") // coe is LTOM for matrix[eq], which means that it is LTL for result[eq], which is one smaller in each dimension
+                double resultCoefficient = result[coe];
+                value -= matrix[eq][coe] * resultCoefficient;
             }
-            result[eq] = value / matrix[eq][eq];
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158 equations < coeffecients (equations = order + 1, coeffecients = order + 2)
+            double diag = matrix[eq][eq];
+            result[eq] = value / diag;
         }
         double meanY = sumY / validItems;
         double yObsSquare = 0.0;
@@ -342,24 +350,35 @@ public abstract class Regression {
         double[][] result = new double[equations - 1][coefficients - 1];
         for (int eq = 1; eq < equations; eq++) {
             double factor = matrix[0][0] / matrix[eq][0];
-            for (int coe = 1; coe < coefficients; coe++) {
-                result[eq - 1][coe -1] = matrix[0][coe] - matrix[eq][coe]
+            // I added the second condition here - matrix is rectangular, and this is the easiest way to guarantee this typechecks
+            for (int coe = 1; coe < matrix[eq].length && coe < matrix[0].length; coe++) {
+                int resultEq = eq - 1;
+                @SuppressWarnings("index") // result is one smaller in both dimensions than matrix, and coe is an index for matrix. Also note the use of a temporary here: the Index Checker's java expression parser chokes on "result[eq - 1]"
+                /*@IndexFor("result[resultEq]")*/ int resultCoe = coe -1;
+                result[resultEq][resultCoe] = matrix[0][coe] - matrix[eq][coe]
                         * factor;
             }
         }
         if (equations == 1) {
             return result;
         }
+        @SuppressWarnings({"value", "index"}) // equations != 1 -> equations >= 2 -> result is minlen(1)
+        double /*@MinLen(1)*/ [] /*@MinLen(1)*/ [] result1 = result;
+
         // check for zero pivot element
-        if (result[0][0] == 0) {
+        if (result1[0][0] == 0) {
             boolean found = false;
-            for (int i = 0; i < result.length; i ++) {
-                if (result[i][0] != 0) {
+            for (int i = 0; i < result1.length; i ++) {
+                if (result1[i][0] != 0) {
                     found = true;
-                    double[] temp = result[0];
-                    System.arraycopy(result[i], 0, result[0], 0, 
-                            result[i].length);
-                    System.arraycopy(temp, 0, result[i], 0, temp.length);
+                    double[] temp = result1[0];
+                    @SuppressWarnings("index") // result1 is a rectangular array
+                    /*@IndexOrHigh({"result1[i]", "result1[0]"})*/ int result1ILength = result1[i].length;
+                    System.arraycopy(result1[i], 0, result1[0], 0, 
+                            result1ILength);
+                    @SuppressWarnings("index") // result1 is a rectangular array
+                    /*@IndexOrHigh({"result1[i]", "temp", "result1[0]"})*/ int tempLen = temp.length;
+                    System.arraycopy(temp, 0, result1[i], 0, tempLen);
                     break;
                 }
             }
@@ -368,14 +387,16 @@ public abstract class Regression {
                 return new double[equations - 1][coefficients - 1];
             }
         }
-        double[][] subMatrix = calculateSubMatrix(result);
+        double[][] subMatrix = calculateSubMatrix(result1);
         for (int eq = 1; eq < equations -  1; eq++) {
-            result[eq][0] = 0;
-            for (int coe = 1; coe < coefficients - 1; coe++) {
-                result[eq][coe] = subMatrix[eq - 1][coe - 1];
+            result1[eq][0] = 0;
+            for (int coe = 1; coe < result1[eq].length; coe++) {
+                @SuppressWarnings("index") // subMatrix is always one smaller than result1
+                double submatrixresult1 = subMatrix[eq - 1][coe - 1];
+                result1[eq][coe] = submatrixresult1;
             }
         }
-        return result;
+        return result1;
     }
 
 }

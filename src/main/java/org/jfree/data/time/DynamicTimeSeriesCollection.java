@@ -429,7 +429,9 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         }
         if (fillNeeded) {
             for (i = copyLength; i < this.historyCount; i++) {
-                this.valueHistory[seriesNumber].enterData(i, 0.0f);
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+                /*@LTLengthOf("this.valueHistory[seriesNumber]")*/ int i0 = i;
+                this.valueHistory[seriesNumber].enterData(i0, 0.0f);
             }
         }
       //}
@@ -473,7 +475,9 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         // But if that series array already exists, just overwrite its contents
         //synchronized(this)
         //{
-            this.valueHistory[seriesNumber].enterData(index, value);
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+                /*@LTLengthOf("this.valueHistory[seriesNumber]")*/ int index0 = index;
+            this.valueHistory[seriesNumber].enterData(index0, value);
         //}
         fireSeriesChanged();
     }
@@ -591,7 +595,9 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
             oldMax = this.maxValue.floatValue();
         }
         for (int s = 0; s < getSeriesCount(); s++) {
-            if (this.valueHistory[s].getData(this.oldestAt) == oldMax) {
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+                /*@LTLengthOf("this.valueHistory[s]")*/ int oldestAt = this.oldestAt;
+            if (this.valueHistory[s].getData(oldestAt) == oldMax) {
                 extremaChanged = true;
             }
             if (extremaChanged) {
@@ -604,7 +610,9 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         //  wipe the next (about to be used) set of data slots
         float wiper = (float) 0.0;
         for (int s = 0; s < getSeriesCount(); s++) {
-            this.valueHistory[s].enterData(this.newestAt, wiper);
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+                /*@LTLengthOf("this.valueHistory[s]")*/ int newestAt = this.newestAt;
+            this.valueHistory[s].enterData(newestAt, wiper);
         }
         // Update the array of TimePeriods:
         this.pointsInTime[this.newestAt] = nextInstant;
@@ -647,7 +655,9 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         double max = 0.0f;
         for (int s = 0; s < getSeriesCount(); s++) {
             for (int i = 0; i < this.historyCount; i++) {
-                double tmp = getYValue(s, i);
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+                /*@LTLengthOf("this.getSeries(s)")*/ int i0 = i;
+                double tmp = getYValue(s, i0);
                 if (tmp > max) {
                     max = tmp;
                 }
@@ -698,7 +708,9 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
                 /*@SameLen("this.pointsInTime")*/ ValueSequence valueSequence = new ValueSequence(this.historyCount);
                 this.valueHistory[s] = valueSequence;
             }
-            this.valueHistory[s].enterData(this.newestAt, newData[s]);
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+                /*@LTLengthOf("this.valueHistory[s]")*/ int newestAt = this.newestAt;
+            this.valueHistory[s].enterData(newestAt, newData[s]);
         }
         fireSeriesChanged();
     }
@@ -711,7 +723,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @param  refresh  value of n in "refresh the display on every nth call"
      *                 (ignored if &lt;= 0 )
      */
-    public void appendData(float[] newData, /*@IndexFor("this.pointsInTime")*/ int insertionIndex, int refresh) {
+    public void appendData(float[] newData, final /*@IndexFor("this.pointsInTime")*/ int insertionIndex, int refresh) {
         int nDataPoints = newData.length;
         if (nDataPoints > this.valueHistory.length) {
             throw new IllegalArgumentException(
@@ -723,11 +735,13 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
                 /*@SameLen("this.pointsInTime")*/ ValueSequence valueSequence = new ValueSequence(this.historyCount);
                 this.valueHistory[s] = valueSequence;
             }
-            this.valueHistory[s].enterData(insertionIndex, newData[s]);
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+                /*@LTLengthOf("this.valueHistory[s]")*/ int insertionIndex0 = insertionIndex;
+            this.valueHistory[s].enterData(insertionIndex0, newData[s]);
         }
         if (refresh > 0) {
-            insertionIndex++;
-            if (insertionIndex % refresh == 0) {
+            int insertionIndexPlus = insertionIndex + 1;
+            if (insertionIndexPlus % refresh == 0) {
                 fireSeriesChanged();
             }
         }

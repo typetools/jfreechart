@@ -129,7 +129,7 @@ public class Week extends RegularTimePeriod implements Serializable {
      * @param week  the week (1 to 53).
      * @param year  the year (1900 to 9999).
      */
-    public Week(/*@IntRange(from = 1, to = 53)*/ int week, /*@IntRange(from = 1900, to = 9999)*/ int year) {
+    public Week(/*@IntRange(from = 1, to = 53)*/ int week, /*@IntRange(from = -9999, to = 9999)*/ int year) {
         if ((week < FIRST_WEEK_IN_YEAR) && (week > LAST_WEEK_IN_YEAR)) {
             throw new IllegalArgumentException(
                     "The 'week' argument must be in the range 1 - 53.");
@@ -225,7 +225,7 @@ public class Week extends RegularTimePeriod implements Serializable {
      *
      * @return The year.
      */
-    public /*@IntRange(from = 1900, to = 9999)*/ int getYearValue() {
+    public /*@IntRange(from = -9999, to = 9999)*/ int getYearValue() {
         return this.year;
     }
 
@@ -336,7 +336,7 @@ public class Week extends RegularTimePeriod implements Serializable {
             Calendar calendar = Calendar.getInstance();
             calendar.set(this.year, Calendar.DECEMBER, 31);
             @SuppressWarnings({"index", "value"}) // Calendar.WEEKOFYEAR needs an annotation
-                    /*@IntRange(from = 52, to = 54)*/ int actualMaxWeek
+                    /*@IntRange(from = 52, to = 53)*/ int actualMaxWeek
                 = calendar.getActualMaximum(Calendar.WEEK_OF_YEAR);
             if (this.week < actualMaxWeek) {
                 result = new Week(this.week + 1, this.year);

@@ -126,7 +126,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      * @param year  the year (1900 to 9999).
      * @param quarter  the quarter (1 to 4).
      */
-    public Quarter(/*@IntVal({1,2,3,4})*/ int quarter, /*@IntRange(from=1900, to = 9999)*/int year) {
+    public Quarter(/*@IntVal({1,2,3,4})*/ int quarter, /*@IntRange(from=-9999, to = 9999)*/int year) {
         if ((quarter < FIRST_QUARTER) || (quarter > LAST_QUARTER)) {
             throw new IllegalArgumentException("Quarter outside valid range.");
         }
@@ -207,7 +207,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.3
      */
-    public /*@IntRange(from = 1900, to = 9999)*/ int getYearValue() {
+    public /*@IntRange(from = -9999, to = 9999)*/ int getYearValue() {
         return this.year;
     }
 

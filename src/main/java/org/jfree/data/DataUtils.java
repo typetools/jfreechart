@@ -47,6 +47,7 @@
  */
 
 package org.jfree.data;
+/*>>> import org.checkerframework.common.value.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
@@ -240,7 +241,8 @@ public abstract class DataUtils {
      *
      * @return An array of {@code double}.
      */
-    public static Number /*@SameLen("#1")*/ /*@PolyLength*/ [][] createNumberArray2D(double /*@PolyLength*/ [][] data) {
+    @SuppressWarnings("value") // the result array is manifestly the same size as the parameter
+    public static Number /*@SameLen("#1")*/ /*@PolyValue*/ [][] createNumberArray2D(double /*@PolyValue*/ [][] data) {
         Args.nullNotPermitted(data, "data");
         int l1 = data.length;
         Number[][] result = new Number[data.length][];

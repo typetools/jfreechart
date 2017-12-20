@@ -95,7 +95,8 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @param ends  the ending values for the intervals ({@code null} not
      *                permitted).
      */
-    public DefaultIntervalCategoryDataset(double /*@SameLen("#2")*/ [][] starts, double /*@SameLen("#1")*/ [][] ends) {
+    @SuppressWarnings("index") // results of DataUtils.createNumberArray should have the same length as their inputs, but SameLens don't propagate correctly :(
+    public DefaultIntervalCategoryDataset(double /*@SameLen({"#1", "#2"})*/ [][] starts, double /*@SameLen({"#1", "#2"})*/ [][] ends) {
         this(DataUtils.createNumberArray2D(starts),
                 DataUtils.createNumberArray2D(ends));
     }
@@ -111,7 +112,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @param starts  the start values data.
      * @param ends  the end values data.
      */
-    public DefaultIntervalCategoryDataset(Number /*@SameLen("#2")*/ [][] starts, Number /*@SameLen("#1")*/ [][] ends) {
+    public DefaultIntervalCategoryDataset(Number /*@SameLen({"#1", "#2"})*/ [][] starts, Number /*@SameLen({"#1", "#2"})*/ [][] ends) {
         this(null, null, starts, ends);
     }
 
@@ -128,8 +129,8 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @param ends  the end values data, indexed as data[series][category].
      */
     public DefaultIntervalCategoryDataset(String[] seriesNames,
-                                          Number /*@SameLen("#3")*/ [][] starts,
-                                          Number /*@SameLen("#2")*/ [][] ends) {
+                                          Number /*@SameLen({"#2", "#3"})*/ [][] starts,
+                                          Number /*@SameLen({"#2", "#3"})*/ [][] ends) {
 
         this(seriesNames, null, starts, ends);
 

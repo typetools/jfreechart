@@ -2040,21 +2040,20 @@ public final class DatasetUtils {
         for (int item = 0; item < categoryCount; item++) {
             double[] positive = new double[groupCount];
             double[] negative = new double[groupCount];
-            @SuppressWarnings("index") // group indices are all <= group count by definition
-            /*@IndexFor({"positive", "negative", "maximum", "minimum"})*/ int[] groupIndexTmp = groupIndex;
-            groupIndex = groupIndexTmp;
             for (int series = 0; series < rowCount; series++) {
                 Number number = dataset.getValue(series, item);
                 if (number != null) {
                     hasValidData = true;
                     double value = number.doubleValue();
+                    @SuppressWarnings("index") // group indices are all <= group count by definition
+                    /*@IndexFor({"positive", "negative", "maximum", "minimum"})*/ int groupIndexTmp = groupIndex[series];
                     if (value > 0.0) {
-                        positive[groupIndex[series]]
-                                 = positive[groupIndex[series]] + value;
+                        positive[groupIndexTmp]
+                                 = positive[groupIndexTmp] + value;
                     }
                     if (value < 0.0) {
-                        negative[groupIndex[series]]
-                                 = negative[groupIndex[series]] + value;
+                        negative[groupIndexTmp]
+                                 = negative[groupIndexTmp] + value;
                                  // '+', remember value is negative
                     }
                 }
@@ -2288,13 +2287,20 @@ public final class DatasetUtils {
         if (indices[0] == -1) {
             return Double.NaN;
         }
-        if (indices[0] == indices[1]) {
-            return dataset.getYValue(series, indices[0]);
+
+        @SuppressWarnings("index") // the check above is sufficient to establish that no entries in indices are negative, since the values are correlated.
+        /*@IndexFor("dataset.getSeries(series)")*/ int indices0 = indices[0];
+
+        @SuppressWarnings("index") // the check above is sufficient to establish that no entries in indices are negative, since the values are correlated.
+        /*@IndexFor("dataset.getSeries(series)")*/ int indices1 = indices[1];
+
+        if (indices0 == indices1) {
+            return dataset.getYValue(series, indices0);
         }
-        double x0 = dataset.getXValue(series, indices[0]);
-        double x1 = dataset.getXValue(series, indices[1]);
-        double y0 = dataset.getYValue(series, indices[0]);
-        double y1 = dataset.getYValue(series, indices[1]);
+        double x0 = dataset.getXValue(series, indices0);
+        double x1 = dataset.getXValue(series, indices1);
+        double y0 = dataset.getYValue(series, indices0);
+        double y1 = dataset.getYValue(series, indices1);
         return y0 + (y1 - y0) * (x - x0) / (x1 - x0);
     }
     

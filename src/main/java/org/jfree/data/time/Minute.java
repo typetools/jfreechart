@@ -148,6 +148,7 @@ public class Minute extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.13
      */
+    @SuppressWarnings({"index", "value"}) // calendar needs index annotations
     public Minute(Date time, TimeZone zone, Locale locale) {
         Args.nullNotPermitted(time, "time");
         Args.nullNotPermitted(zone, "zone");

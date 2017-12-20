@@ -47,6 +47,8 @@
 
 package org.jfree.data.statistics;
 
+/*>>> import org.checkerframework.checker.index.qual.*; */
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
