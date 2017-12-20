@@ -50,6 +50,7 @@
  */
 
 package org.jfree.data.gantt;
+/*>>> import org.checkerframework.dataflow.qual.Pure; */
 /*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
@@ -181,6 +182,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The column count.
      */
     @Override
+    /*@Pure*/
     public /*@NonNegative*/ int getColumnCount() {
         return this.keys.size();
     }
@@ -359,6 +361,7 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
      * @return The start value.
      */
     @Override
+    /*@Pure*/
     public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return getStartValue(row, column);
     }

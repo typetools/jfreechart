@@ -57,6 +57,7 @@
  */
 
 package org.jfree.data;
+/*>>> import org.checkerframework.dataflow.qual.Pure; */
 /*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
@@ -130,6 +131,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #getRowCount()
      */
     @Override
+    /*@Pure*/
     public /*@NonNegative*/ int getColumnCount() {
         return this.columnKeys.size();
     }
@@ -145,6 +147,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #getValue(Comparable, Comparable)
      */
     @Override
+    /*@Pure*/
     public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Number result = null;
         DefaultKeyedValues rowData = (DefaultKeyedValues) this.rows.get(row);

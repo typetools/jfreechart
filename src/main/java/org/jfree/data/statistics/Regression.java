@@ -263,7 +263,7 @@ public abstract class Regression {
         }
         double[][] data = new double[2][itemCount];
         @SuppressWarnings("index") // validItems will only be used as a index if there is at least one item
-        /*@IndexFor(value={"data[0]","data[1]"}, offset={"0","0"})*/ int validItems = 0;
+        /*@LTLengthOf(value={"data[0]","data[1]"}, offset={"0","0"})*/ /*@NonNegative*/ int validItems = 0;
         for(int item = 0; item < itemCount; item++){
             double x = dataset.getXValue(series, item);
             double y = dataset.getYValue(series, item);
@@ -271,7 +271,7 @@ public abstract class Regression {
                 data[0][validItems] = x;
                 data[1][validItems] = y;
                 @SuppressWarnings("index") // validItems is incremented at most as often as item, which is a valid index
-                /*@IndexFor(value={"data[0]","data[1]"}, offset={"0","0"})*/ int validItemsTmp = validItems + 1;
+                /*@LTLengthOf(value={"data[0]","data[1]"}, offset={"0","0"})*/ /*@NonNegative*/ int validItemsTmp = validItems + 1;
                 validItems = validItemsTmp;
             }
         }

@@ -218,10 +218,11 @@ public class ComparableObjectSeries extends Series
 
         Args.nullNotPermitted(item, "item");
         if (this.autoSort) {
-            @SuppressWarnings("index") // binary search on list
-            /*@SearchIndexFor("this.data")*/ int index = Collections.binarySearch(this.data, item);
+            int index = Collections.binarySearch(this.data, item);
             if (index < 0) {
-                this.data.add(-index - 1, item);
+                @SuppressWarnings("index") // binary search on list
+                /*@NonNegative*/ int reverseIndex = -index - 1;
+                this.data.add(reverseIndex, item);
             }
             else {
                 if (this.allowDuplicateXValues) {

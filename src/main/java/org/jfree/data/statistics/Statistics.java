@@ -244,7 +244,7 @@ public abstract class Statistics {
      *
      * @return The median.
      */
-    public static double calculateMedian(List values, int start, int end) {
+    public static double calculateMedian(List values, /*@NonNegative*/ int start, /*@NonNegative*/ int end) {
         return calculateMedian(values, start, end, true);
     }
 
@@ -460,13 +460,17 @@ public abstract class Statistics {
 
         @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158 xData.length > period
         /*@NonNegative*/ int resultLen = xData.length - period;
-        double[][] result = new double[resultLen][2];
+        double[] /*@ArrayLen(2)*/ [] result = new double[resultLen][2];
         for (int i = 0; i < result.length; i++) {
-            result[i][0] = xData[i + period].doubleValue();
+            @SuppressWarnings("index") // result's length is exactly xData.length - period, so adding period to an index for result is always an index for xData
+            /*@IndexFor("xData")*/ int iPeriod = i + period;
+            result[i][0] = xData[iPeriod].doubleValue();
             // holds the moving average sum
             double sum = 0.0;
             for (int j = 0; j < period; j++) {
-                sum += yData[i + j].doubleValue();
+                @SuppressWarnings("index") // result's length is exactly yData.length - period, so adding a nonnegative value less than period to an index for result is always an index for yData
+                /*@IndexFor("yData")*/ int ij = i + j;
+                sum += yData[ij].doubleValue();
             }
             sum = sum / period;
             result[i][1] = sum;

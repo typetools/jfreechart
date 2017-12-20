@@ -303,7 +303,9 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
         this.maximumItemCount = maximum;
         int count = this.data.size();
         if (count > maximum) {
-            delete(0, count - maximum - 1);
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158
+            /*@NonNegative*/ int deleteIndex = count - maximum - 1;
+            delete(0, deleteIndex);
         }
     }
 
@@ -682,7 +684,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
             added = true;
         }
         else {
-            RegularTimePeriod last = getTimePeriod(getItemCount() - 1);
+            RegularTimePeriod last = getTimePeriod(count - 1);
             if (item.getPeriod().compareTo(last) > 0) {
                 this.data.add(item);
                 added = true;
@@ -690,7 +692,9 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
             else {
                 int index = Collections.binarySearch(this.data, item);
                 if (index < 0) {
-                    this.data.add(-index - 1, item);
+                    @SuppressWarnings("index") // binary search on list
+                    /*@NonNegative*/ int index1 = -index - 1;
+                    this.data.add(index1, item);
                     added = true;
                 }
                 else {
@@ -939,7 +943,9 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
         }
         else {
             item = (TimeSeriesDataItem) item.clone();
-            this.data.add(-index - 1, item);
+            @SuppressWarnings("index") // binary search on list
+            /*@NonNegative*/ int index1 = -index - 1;
+            this.data.add(index1, item);
             updateBoundsForAddedItem(item);
 
             // check if this addition will exceed the maximum item count...
@@ -967,8 +973,9 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
     public void removeAgedItems(boolean notify) {
         // check if there are any values earlier than specified by the history
         // count...
-        if (getItemCount() > 1) {
-            long latest = getTimePeriod(getItemCount() - 1).getSerialIndex();
+        int count = getItemCount();
+        if (count > 1) {
+            long latest = getTimePeriod(count - 1).getSerialIndex();
             boolean removed = false;
             while ((latest - getTimePeriod(0).getSerialIndex())
                     > this.maximumItemAge) {
@@ -1211,6 +1218,10 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
             copy.data = new java.util.ArrayList();
             return copy;
         }
+        @SuppressWarnings("index") // if endIndex < 0, emptyRange is true, so the function returns before we get here.
+        /*@NonNegative*/ int endIndex1 = endIndex;
+        endIndex = endIndex1;
+
         return createCopy(startIndex, endIndex);
     }
 

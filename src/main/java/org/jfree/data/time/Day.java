@@ -173,7 +173,7 @@ public class Day extends RegularTimePeriod implements Serializable {
         int d = calendar.get(Calendar.DAY_OF_MONTH);
         int m = calendar.get(Calendar.MONTH) + 1;
         int y = calendar.get(Calendar.YEAR);
-        @SuppressWarnings("index") // Calendar needs index annotations
+        @SuppressWarnings({"index", "value"}) // Calendar needs index annotations
         SerialDate tmpDate = SerialDate.createInstance(d, m, y);
         this.serialDate = tmpDate;
         peg(calendar);

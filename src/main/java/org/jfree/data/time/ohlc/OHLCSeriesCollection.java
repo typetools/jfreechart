@@ -179,6 +179,7 @@ public class OHLCSeriesCollection extends AbstractXYDataset
      *     range {@code 0} to {@code getSeriesCount() - 1}.
      */
     @Override
+    @SuppressWarnings("index") // establish repr. invariant
     public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         // defer argument checking
         return getSeries(series).getItemCount();

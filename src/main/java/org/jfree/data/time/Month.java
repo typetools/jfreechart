@@ -88,7 +88,7 @@ public class Month extends RegularTimePeriod implements Serializable {
     private /*@IntRange(from = 1, to = 12)*/ int month;
 
     /** The year in which the month falls. */
-    private /*@IntRange(from = 1900, to = 9999)*/ int year;
+    private /*@IntRange(from = -9999, to = 9999)*/ int year;
 
     /** The first millisecond. */
     private long firstMillisecond;
@@ -155,6 +155,7 @@ public class Month extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.12
      */
+    @SuppressWarnings({"index", "value"}) // Calendar needs index annotations
     public Month(Date time, TimeZone zone, Locale locale) {
         Calendar calendar = Calendar.getInstance(zone, locale);
         calendar.setTime(time);
@@ -440,6 +441,7 @@ public class Month extends RegularTimePeriod implements Serializable {
      * @return {@code null} if the string is not parseable, the month
      *         otherwise.
      */
+    @SuppressWarnings({"value", "index"}) // This method repeatedly assumes properties of the String s, especially that it is "wellformed" according to the documentation (i.e. either YYYY-MM or MM-YYYY)
     public static Month parseMonth(String s) {
         Month result = null;
         if (s == null) {

@@ -40,6 +40,7 @@
  */
 
 package org.jfree.data.category;
+/*>>> import org.checkerframework.dataflow.qual.Pure; */
 /*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
@@ -279,6 +280,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      * @return The column count.
      */
     @Override
+    /*@Pure*/
     public /*@NonNegative*/ int getColumnCount() {
         int last = lastCategoryIndex();
         if (last == -1) {
@@ -308,6 +310,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      * @return The value (possibly {@code null}).
      */
     @Override
+    /*@Pure*/
     public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return this.underlying.getValue(row, column + this.firstCategoryIndex);
     }

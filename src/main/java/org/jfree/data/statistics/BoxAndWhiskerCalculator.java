@@ -193,7 +193,9 @@ public abstract class BoxAndWhiskerCalculator {
                 }
             }
             else {
-                result = Statistics.calculateMedian(values, 0, count / 2 - 1);
+                @SuppressWarnings("index") // since count is a nonnegative even number, this expression is >= 0
+                /*@NonNegative*/ int count1 = count / 2 - 1;
+                result = Statistics.calculateMedian(values, 0, count1);
             }
 
         }

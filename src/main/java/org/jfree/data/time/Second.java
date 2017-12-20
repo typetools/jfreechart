@@ -89,13 +89,13 @@ public class Second extends RegularTimePeriod implements Serializable {
     private Day day;
 
     /** The hour of the day. */
-    private byte hour;
+    /*@IntRange(from = 0, to = 23)*/ private byte hour;
 
     /** The minute. */
-    private byte minute;
+    /*@IntRange(from = 0, to = 59)*/ private byte minute;
 
     /** The second. */
-    private byte second;
+    /*@IntRange(from = 0, to = 59)*/ private byte second;
 
     /**
      * The first millisecond.  We don't store the last millisecond, because it
@@ -163,6 +163,7 @@ public class Second extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.13
      */
+    @SuppressWarnings({"value", "index"}) // calendar needs index annotations
     public Second(Date time, TimeZone zone, Locale locale) {
         Calendar calendar = Calendar.getInstance(zone, locale);
         calendar.setTime(time);
@@ -178,7 +179,7 @@ public class Second extends RegularTimePeriod implements Serializable {
      *
      * @return The second (0 - 59).
      */
-    public int getSecond() {
+    public /*@IntRange(from = 0, to = 59)*/ int getSecond() {
         return this.second;
     }
 

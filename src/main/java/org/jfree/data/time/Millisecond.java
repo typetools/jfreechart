@@ -86,16 +86,16 @@ public class Millisecond extends RegularTimePeriod implements Serializable {
     private Day day;
 
     /** The hour in the day. */
-    private byte hour;
+    /*@IntRange(from = 0, to = 23)*/ private byte hour;
 
     /** The minute. */
-    private byte minute;
+    /*@IntRange(from = 0, to = 59)*/ private byte minute;
 
     /** The second. */
-    private byte second;
+    /*@IntRange(from = 0, to = 59)*/ private byte second;
 
     /** The millisecond. */
-    private int millisecond;
+    /*@IntRange(from = 0, to = 999)*/ private int millisecond;
 
     /**
      * The pegged millisecond.
@@ -162,6 +162,7 @@ public class Millisecond extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.13
      */
+    @SuppressWarnings({"value", "index"}) // calendar needs index annotations
     public Millisecond(Date time, TimeZone zone, Locale locale) {
         Calendar calendar = Calendar.getInstance(zone, locale);
         calendar.setTime(time);

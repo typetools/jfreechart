@@ -240,10 +240,10 @@ public abstract class DataUtils {
      *
      * @return An array of {@code double}.
      */
-    public static Number /*@SameLen("#1")*/ [][] createNumberArray2D(double[][] data) {
+    public static Number /*@SameLen("#1")*/ /*@PolyLength*/ [][] createNumberArray2D(double /*@PolyLength*/ [][] data) {
         Args.nullNotPermitted(data, "data");
         int l1 = data.length;
-        Number[][] result = new Number[l1][];
+        Number[][] result = new Number[data.length][];
         for (int i = 0; i < l1; i++) {
             result[i] = createNumberArray(data[i]);
         }

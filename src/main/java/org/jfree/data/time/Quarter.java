@@ -96,13 +96,13 @@ public class Quarter extends RegularTimePeriod implements Serializable {
     };
 
     /** The last month in each quarter. */
-    public static final int /*@ArrayLen(5)*/ [] LAST_MONTH_IN_QUARTER = {
+    public static final /*@IntRange(from = 0, to = 12)*/ int /*@ArrayLen(5)*/ [] LAST_MONTH_IN_QUARTER = {
         0, MonthConstants.MARCH, MonthConstants.JUNE, MonthConstants.SEPTEMBER,
         MonthConstants.DECEMBER
     };
 
     /** The year in which the quarter falls. */
-    private short year;
+    /*@IntRange(from = -9999, to = 9999)*/ private short year;
 
     /** The quarter (1-4). */
     private /*@IntVal({1,2,3,4})*/ byte quarter;
@@ -172,6 +172,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.12
      */
+    @SuppressWarnings({"index", "value"}) // Calendar needs index annotations
     public Quarter(Date time, TimeZone zone, Locale locale) {
         Calendar calendar = Calendar.getInstance(zone, locale);
         calendar.setTime(time);
@@ -441,7 +442,8 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      */
     @Override
     public long getLastMillisecond(Calendar calendar) {
-        int month = Quarter.LAST_MONTH_IN_QUARTER[this.quarter];
+        @SuppressWarnings({"index", "value"}) // this.quarter is always 1, 2, 3, or 4 - and only the 0th element of this array is out of the range 1-12
+        /*@IntRange(from = 1, to = 12)*/ int month = Quarter.LAST_MONTH_IN_QUARTER[this.quarter];
         int eom = SerialDate.lastDayOfMonth(month, this.year);
         calendar.set(this.year, month - 1, eom, 23, 59, 59);
         calendar.set(Calendar.MILLISECOND, 999);
@@ -457,6 +459,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      *
      * @return The quarter.
      */
+    @SuppressWarnings({"index", "value"}) // parse method relies on string being properly formatted
     public static Quarter parseQuarter(String s) {
 
         // find the Q and the integer following it (remove both from the

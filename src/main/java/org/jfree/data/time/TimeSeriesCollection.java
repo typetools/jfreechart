@@ -1,3 +1,4 @@
+
 /* ===========================================================
  * JFreeChart : a free chart library for the Java(tm) platform
  * ===========================================================
@@ -543,8 +544,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      */
     public int /*@ArrayLen(2)*/ [] getSurroundingItems(/*@NonNegative*/ int series, long milliseconds) {
         int[] result = new int[] {-1, -1};
-        TimeSeries timeSeries = getSeries(series);
-        for (int i = 0; i < timeSeries.getItemCount(); i++) {
+        for (int i = 0; i < this.getItemCount(series); i++) {
             Number x = getX(series, i);
             long m = x.longValue();
             if (m <= milliseconds) {

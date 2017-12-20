@@ -1752,6 +1752,7 @@ public final class DatasetUtils {
                         IntervalCategoryDataset icd
                                 = (IntervalCategoryDataset) dataset;
                         Number valueTmp = icd.getStartValue(series, item);
+                        value = valueTmp;
                     }
                     else {
                         value = dataset.getValue(series, item);
@@ -2039,6 +2040,9 @@ public final class DatasetUtils {
         for (int item = 0; item < categoryCount; item++) {
             double[] positive = new double[groupCount];
             double[] negative = new double[groupCount];
+            @SuppressWarnings("index") // group indices are all <= group count by definition
+            /*@IndexFor({"positive", "negative", "maximum", "minimum"})*/ int[] groupIndexTmp = groupIndex;
+            groupIndex = groupIndexTmp;
             for (int series = 0; series < rowCount; series++) {
                 Number number = dataset.getValue(series, item);
                 if (number != null) {
@@ -2280,7 +2284,7 @@ public final class DatasetUtils {
      */
     public static double findYValue(XYDataset dataset, /*@NonNegative*/ int series, double x) {
         // delegate null check on dataset
-        int[] indices = findItemIndicesForX(dataset, series, x);
+        /*@IndexOrLow("dataset.getSeries(series)")*/ int[] indices = findItemIndicesForX(dataset, series, x);
         if (indices[0] == -1) {
             return Double.NaN;
         }
@@ -2324,9 +2328,10 @@ public final class DatasetUtils {
         }
         if (itemCount == 1) {
             @SuppressWarnings("index") // 0 is a valid index, because itemCount is at least 1
-            double xValue = dataset.getXValue(series, 0);
+            /*@IndexFor("dataset.getSeries(series)")*/ int zero = 0;
+            double xValue = dataset.getXValue(series, zero);
             if (x == xValue) {
-                return new int[] {0, 0};
+                return new int[] {zero, zero};
             } else {
                 return new int[] {-1, -1};
             }
@@ -2399,10 +2404,11 @@ public final class DatasetUtils {
             // we don't know anything about the ordering of the x-values,
             // so we iterate until we find the first crossing of x (if any)
             // we know there are at least 2 items in the series at this point
-            @SuppressWarnings("index") // 0 is an index because itemCount > 1
-            double prev = dataset.getXValue(series, 0);
+            @SuppressWarnings("index") // 0 is a valid index, because itemCount is at least 1
+            /*@IndexFor("dataset.getSeries(series)")*/ int zero = 0;
+            double prev = dataset.getXValue(series, zero);
             if (x == prev) {
-                return new int[] {0, 0}; // exact match on first item
+                return new int[] {zero, zero}; // exact match on first item
             }
             for (int i = 1; i < itemCount; i++) {
                 double next = dataset.getXValue(series, i);

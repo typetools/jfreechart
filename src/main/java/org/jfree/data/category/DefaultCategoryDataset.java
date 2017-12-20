@@ -47,6 +47,7 @@
  */
 
 package org.jfree.data.category;
+/*>>> import org.checkerframework.dataflow.qual.Pure; */
 /*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
@@ -98,6 +99,7 @@ public class DefaultCategoryDataset extends AbstractDataset
      * @see #getRowCount()
      */
     @Override
+    /*@Pure*/
     public /*@NonNegative*/ int getColumnCount() {
         return this.data.getColumnCount();
     }
@@ -114,6 +116,7 @@ public class DefaultCategoryDataset extends AbstractDataset
      * @see #removeValue(Comparable, Comparable)
      */
     @Override
+    /*@Pure*/
     public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return this.data.getValue(row, column);
     }

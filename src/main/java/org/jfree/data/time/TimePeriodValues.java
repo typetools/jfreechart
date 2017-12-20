@@ -47,6 +47,7 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.dataflow.qual.Pure; */
 /*>>> import org.checkerframework.checker.index.qual.GTENegativeOne; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
@@ -203,6 +204,7 @@ public class TimePeriodValues extends Series implements Serializable {
      *
      * @return One data item for the series.
      */
+    /*@Pure*/
     public TimePeriodValue getDataItem(/*@NonNegative*/ int index) {
         return (TimePeriodValue) this.data.get(index);
     }
@@ -244,7 +246,9 @@ public class TimePeriodValues extends Series implements Serializable {
     public void add(TimePeriodValue item) {
         Args.nullNotPermitted(item, "item");
         this.data.add(item);
-        updateBounds(item.getPeriod(), this.data.size() - 1);
+        @SuppressWarnings("index") // data.size is positive because we just added an item to data on the previous line
+        /*@NonNegative*/ int lastIndex = this.data.size() - 1;
+        updateBounds(item.getPeriod(), lastIndex);
         fireSeriesChanged();
     }
     
@@ -281,11 +285,13 @@ public class TimePeriodValues extends Series implements Serializable {
         else {
             this.maxStartIndex = index;
         }
-        
-        if (this.minMiddleIndex >= 0) {
-            long s = getDataItem(this.minMiddleIndex).getPeriod().getStart()
+
+        // don't use field directly to satisfy typechecker that field is not side-effected
+        int minMiddleIndex = this.minMiddleIndex;
+        if (minMiddleIndex >= 0) {
+            long s = getDataItem(minMiddleIndex).getPeriod().getStart()
                 .getTime();
-            long e = getDataItem(this.minMiddleIndex).getPeriod().getEnd()
+            long e = getDataItem(minMiddleIndex).getPeriod().getEnd()
                 .getTime();
             long minMiddle = s + (e - s) / 2;
             if (middle < minMiddle) {
@@ -295,11 +301,13 @@ public class TimePeriodValues extends Series implements Serializable {
         else {
             this.minMiddleIndex = index;
         }
-        
-        if (this.maxMiddleIndex >= 0) {
-            long s = getDataItem(this.maxMiddleIndex).getPeriod().getStart()
+
+        // don't use field directly to satisfy typechecker that field is not side-effected
+        int maxMiddleIndex = this.maxMiddleIndex;
+        if (maxMiddleIndex >= 0) {
+            long s = getDataItem(maxMiddleIndex).getPeriod().getStart()
                 .getTime();
-            long e = getDataItem(this.maxMiddleIndex).getPeriod().getEnd()
+            long e = getDataItem(maxMiddleIndex).getPeriod().getEnd()
                 .getTime();
             long maxMiddle = s + (e - s) / 2;
             if (middle > maxMiddle) {
@@ -496,7 +504,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @throws CloneNotSupportedException if there is a cloning problem.
      */
-    public TimePeriodValues createCopy(/*@NonNegative*/ int start, /*@NonNegative*/ int end)
+    public TimePeriodValues createCopy(/*@NonNegative*/ int start, /*@GTENegativeOne*/ int end)
         throws CloneNotSupportedException {
 
         TimePeriodValues copy = (TimePeriodValues) super.clone();

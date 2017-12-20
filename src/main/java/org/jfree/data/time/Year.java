@@ -80,20 +80,20 @@ public class Year extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.11
      */
-    public static final int MINIMUM_YEAR = -9999;
+    public static final /*@IntVal(-9999)*/ int MINIMUM_YEAR = -9999;
 
     /**
      * The maximum year value.
      *
      * @since 1.0.11
      */
-    public static final int MAXIMUM_YEAR = 9999;
+    public static final /*@IntVal(9999)*/ int MAXIMUM_YEAR = 9999;
 
     /** For serialization. */
     private static final long serialVersionUID = -7659990929736074836L;
 
     /** The year. */
-    private /*@IntRange(from = 1900, to = 9999)*/ short year;
+    private /*@IntRange(from = -9999, to = 9999)*/ short year;
 
     /** The first millisecond. */
     private long firstMillisecond;
@@ -113,7 +113,7 @@ public class Year extends RegularTimePeriod implements Serializable {
      *
      * @param year  the year.
      */
-    public Year(/*@IntRange(from = 1900, to = 9999)*/ int year) {
+    public Year(/*@IntRange(from = -9999, to = 9999)*/ int year) {
         if ((year < Year.MINIMUM_YEAR) || (year > Year.MAXIMUM_YEAR)) {
             throw new IllegalArgumentException(
                 "Year constructor: year (" + year + ") outside valid range.");
@@ -144,6 +144,7 @@ public class Year extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.12
      */
+    @SuppressWarnings({"index", "value"}) // Calendar needs index annotations
     public Year(Date time, TimeZone zone, Locale locale) {
         Calendar calendar = Calendar.getInstance(zone, locale);
         calendar.setTime(time);
@@ -156,7 +157,7 @@ public class Year extends RegularTimePeriod implements Serializable {
      *
      * @return The year.
      */
-    public /*@IntRange(from = 1900, to = 9999)*/ int getYear() {
+    public /*@IntRange(from = -9999, to = 9999)*/ int getYear() {
         return this.year;
     }
 
@@ -384,6 +385,7 @@ public class Year extends RegularTimePeriod implements Serializable {
      * @return {@code null} if the string is not parseable, the year
      *         otherwise.
      */
+    @SuppressWarnings({"index", "value"}) // parsing method is intended to throw an exception if the year isn't valid
     public static Year parseYear(String s) {
 
         // parse the string...

@@ -40,6 +40,9 @@
 
 package org.jfree.data.io;
 
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -196,9 +199,9 @@ public class CSV {
      *
      * @return The key without delimiters.
      */
+    @SuppressWarnings({"index", "value"}) // I manually audited this. It relies on several properties of the passed String that I can't express: that removing whitespace leaves a MinLen(1) string, that if the first character of the trimmed string is a delimiter, there is another character, that if the last character is a delimiter, it isn't the only character
     private String removeStringDelimiters(String key) {
-        @SuppressWarnings({"index", "value"}) // key must have a non-whitespace value is a precondition of this function
-        /*@MinLen(1)*/ String k = key.trim();
+        String k = key.trim();
         if (k.charAt(0) == this.textDelimiter) {
             k = k.substring(1);
         }

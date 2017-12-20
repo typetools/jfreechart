@@ -85,6 +85,7 @@ public class TestIntervalCategoryDataset extends AbstractDataset
      *
      * @see #getRowCount()
      */
+    /*@Pure*/
     @Override
     public /*@NonNegative*/ int getColumnCount() {
         return this.data.getColumnCount();
@@ -102,6 +103,7 @@ public class TestIntervalCategoryDataset extends AbstractDataset
      * @see #removeValue(Comparable, Comparable)
      */
     @Override
+    /*@Pure*/
     public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         IntervalDataItem item = (IntervalDataItem) this.data.getObject(row,
                 column);

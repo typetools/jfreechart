@@ -55,6 +55,7 @@
  */
 
 package org.jfree.data.statistics;
+/*>>> import org.checkerframework.dataflow.qual.Pure; */
 /*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.util.List;
@@ -318,6 +319,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getValue(Comparable, Comparable)
      */
     @Override
+    /*@Pure*/
     public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return getMedianValue(row, column);
     }
@@ -609,6 +611,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getRowCount()
      */
     @Override
+    /*@Pure*/
     public /*@NonNegative*/ int getColumnCount() {
         return this.data.getColumnCount();
     }

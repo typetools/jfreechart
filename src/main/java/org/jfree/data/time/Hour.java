@@ -93,7 +93,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
     private Day day;
 
     /** The hour. */
-    private byte hour;
+    /*@IntRange(from = 0, to = 23)*/ private byte hour;
 
     /** The first millisecond. */
     private long firstMillisecond;
@@ -156,6 +156,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.13
      */
+    @SuppressWarnings({"value", "index"}) // calendar needs index annotations
     public Hour(Date time, TimeZone zone, Locale locale) {
         Args.nullNotPermitted(time, "time");
         Args.nullNotPermitted(zone, "zone");

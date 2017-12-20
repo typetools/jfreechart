@@ -41,6 +41,7 @@
  */
 
 package org.jfree.data.statistics;
+/*>>> import org.checkerframework.dataflow.qual.Pure; */
 /*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.util.ArrayList;
@@ -227,6 +228,7 @@ public class DefaultMultiValueCategoryDataset extends AbstractDataset
      * @return The average value.
      */
     @Override
+    /*@Pure*/
     public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         List l = (List) this.data.getObject(row, column);
         double average = 0.0d;
@@ -331,6 +333,7 @@ public class DefaultMultiValueCategoryDataset extends AbstractDataset
      * @return The column count.
      */
     @Override
+    /*@Pure*/
     public /*@NonNegative*/ int getColumnCount() {
         return this.data.getColumnCount();
     }

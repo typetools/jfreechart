@@ -39,6 +39,7 @@
  */
 
 package org.jfree.data;
+/*>>> import org.checkerframework.dataflow.qual.Pure; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 /**
@@ -58,6 +59,7 @@ public interface Values2D {
      *
      * @return The column count.
      */
+    /*@Pure*/
     public /*@NonNegative*/ int getColumnCount();
 
     /**
@@ -71,6 +73,7 @@ public interface Values2D {
      * @throws IndexOutOfBoundsException if the {@code row}
      *         or {@code column} is out of bounds.
      */
+    /*@Pure*/
     public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
 
 }

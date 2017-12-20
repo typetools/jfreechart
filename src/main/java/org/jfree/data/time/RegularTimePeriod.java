@@ -53,6 +53,7 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.dataflow.qual.Pure; */
 
 import java.lang.reflect.Constructor;
 import java.util.Calendar;
@@ -177,6 +178,7 @@ public abstract class RegularTimePeriod implements TimePeriod, Comparable,
      * @see #getFirstMillisecond()
      */
     @Override
+    /*@Pure*/
     public Date getStart() {
         return new Date(getFirstMillisecond());
     }

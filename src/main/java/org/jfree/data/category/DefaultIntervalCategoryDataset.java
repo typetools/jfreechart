@@ -47,11 +47,9 @@
  */
 
 package org.jfree.data.category;
+/*>>> import org.checkerframework.dataflow.qual.Pure; */
 /*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
+/*>>> import org.checkerframework.common.value.qual.*; */
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -412,6 +410,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getEndValue(int, int)
      */
     @Override
+    /*@Pure*/
     public Number getValue(/*@NonNegative*/ int series, /*@NonNegative*/ int category) {
         return getEndValue(series, category);
     }
@@ -724,6 +723,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getRowCount()
      */
     @Override
+    /*@Pure*/
     public /*@NonNegative*/ int getColumnCount() {
         return this.categoryKeys.length;
     }

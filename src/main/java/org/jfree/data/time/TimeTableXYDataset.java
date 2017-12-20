@@ -328,6 +328,7 @@ public class TimeTableXYDataset extends AbstractIntervalXYDataset
      * @return The number of items within the series.
      */
     @Override
+    @SuppressWarnings("index") // establish repr. invariant
     public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         return getItemCount();
     }
@@ -557,7 +558,9 @@ public class TimeTableXYDataset extends AbstractIntervalXYDataset
         }
 
         TimePeriod first = (TimePeriod) keys.get(0);
-        TimePeriod last = (TimePeriod) keys.get(keys.size() - 1);
+        @SuppressWarnings("index") // keys.isEmpty() call above establishes that this is safe
+        /*@NonNegative*/ int lastIndex = keys.size() - 1;
+        TimePeriod last = (TimePeriod) keys.get(lastIndex);
 
         if (!includeInterval || this.domainIsPointsInTime) {
             return new Range(getXValue(first), getXValue(last));

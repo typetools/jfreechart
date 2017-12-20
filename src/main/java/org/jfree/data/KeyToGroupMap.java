@@ -44,6 +44,7 @@
  */
 
 package org.jfree.data;
+/*>>> import org.checkerframework.dataflow.qual.Pure; */
 /*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.io.Serializable;
@@ -100,6 +101,7 @@ public class KeyToGroupMap implements Cloneable, PublicCloneable, Serializable {
      *
      * @return The number of groups in the map.
      */
+    /*@Pure*/
     public /*@Positive*/ int getGroupCount() {
         return this.groups.size() + 1;
     }

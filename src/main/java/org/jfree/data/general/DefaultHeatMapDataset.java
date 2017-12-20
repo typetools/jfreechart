@@ -41,7 +41,6 @@
 package org.jfree.data.general;
 /*>>> import org.checkerframework.common.value.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.io.Serializable;
 import org.jfree.chart.util.PublicCloneable;
@@ -345,6 +344,7 @@ public class DefaultHeatMapDataset extends AbstractDataset
      *         cloning.
      */
     @Override
+    @SuppressWarnings({"index", "value"}) // clone's internal state and this object's internal state are the same. Not inferred by SameLen Checker.
     public Object clone() throws CloneNotSupportedException {
         DefaultHeatMapDataset clone = (DefaultHeatMapDataset) super.clone();
         clone.zValues = DataUtils.clone(this.zValues);

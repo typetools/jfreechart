@@ -302,6 +302,7 @@ public class MovingAverage {
 
             // if the initial averaging period is to be excluded, then
             // calculate the lowest x-value to have an average calculated...
+            @SuppressWarnings("index") // item count was checked just above to be greater than zero, so zero is an index
             double first = source.getXValue(series, 0) + skip;
 
             for (int i = source.getItemCount(series) - 1; i >= 0; i--) {
@@ -318,9 +319,10 @@ public class MovingAverage {
                     boolean finished = false;
 
                     while (!finished) {
-                        if ((i - offset) >= 0) {
-                            double xx = source.getXValue(series, i - offset);
-                            Number yy = source.getY(series, i - offset);
+                        int ioff = i - offset;
+                        if (ioff >= 0) {
+                            double xx = source.getXValue(series, ioff);
+                            Number yy = source.getY(series, ioff);
                             if (xx > limit) {
                                 if (yy != null) {
                                     sum = sum + yy.doubleValue();

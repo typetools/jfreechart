@@ -94,10 +94,10 @@ public class Minute extends RegularTimePeriod implements Serializable {
     private Day day;
 
     /** The hour in which the minute falls. */
-    private byte hour;
+    /*@IntRange(from = 0, to = 23)*/ private byte hour;
 
     /** The minute. */
-    private byte minute;
+    /*@IntRange(from = 0, to = 59)*/ private byte minute;
 
     /** The first millisecond. */
     private long firstMillisecond;
@@ -201,7 +201,7 @@ public class Minute extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.3
      */
-    public int getHourValue() {
+    public /*@IntRange(from = 0, to = 23)*/ int getHourValue() {
         return this.hour;
     }
 
@@ -210,7 +210,7 @@ public class Minute extends RegularTimePeriod implements Serializable {
      *
      * @return The minute.
      */
-    public int getMinute() {
+    public /*@IntRange(from = 0, to = 59)*/ int getMinute() {
         return this.minute;
     }
 
