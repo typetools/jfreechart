@@ -39,6 +39,7 @@
  */
 
 package org.jfree.chart.labels;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.common.value.qual.MinLen; */
 
 /*>>>
@@ -152,7 +153,7 @@ public class IntervalXYToolTipGenerator extends AbstractXYItemLabelGenerator
      */
     @Override
     protected Object/*@MinLen(7)*/ [] createItemArray(XYDataset dataset, /*@NonNegative*/ int series,
-            /*@NonNegative*/ int item) {
+            /*@IndexFor("#1.getSeries(#2)")*/ int item) {
         IntervalXYDataset intervalDataset = null;
         if (dataset instanceof IntervalXYDataset) {
             intervalDataset = (IntervalXYDataset) dataset;

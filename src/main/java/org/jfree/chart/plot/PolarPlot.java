@@ -1308,8 +1308,9 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
                 new Integer(index));
         if (axisIndices != null) {
             // the first axis in the list is used for data <--> Java2D
-            Integer axisIndex = (Integer) axisIndices.get(0);
-            valueAxis = getAxis(axisIndex.intValue());
+            @SuppressWarnings("index") // axesIndices[0] is always NN
+            /*@NonNegative*/ int axisIndex = ((Integer) axisIndices.get(0)).intValue();
+            valueAxis = getAxis(axisIndex);
         }
         else {
             valueAxis = getAxis(0);

@@ -90,7 +90,7 @@ public class CrosshairState {
      *
      * @since 1.0.11
      */
-    private int datasetIndex;
+    private /*@NonNegative*/ int datasetIndex;
 
     /**
      * The smallest distance (so far) between the anchor point and a data

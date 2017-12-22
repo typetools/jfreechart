@@ -157,11 +157,13 @@ public class IntervalXYItemLabelGenerator extends AbstractXYItemLabelGenerator
      */
     @Override
     protected Object /*@MinLen(7)*/ [] createItemArray(XYDataset dataset, /*@NonNegative*/ int series,
-                                       /*@NonNegative*/ int item) {
+                                       /*@IndexFor("#1.getSeries(#2)")*/ int item) {
 
-        IntervalXYDataset intervalDataset = null;
+        /*@SameLen("dataset")*/ IntervalXYDataset intervalDataset = null;
         if (dataset instanceof IntervalXYDataset) {
-            intervalDataset = (IntervalXYDataset) dataset;
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
+            /*@SameLen("dataset")*/ IntervalXYDataset intervalDataset1 = (IntervalXYDataset) dataset;
+            intervalDataset = intervalDataset1;
         }
         Object[] result = new Object[7];
         result[0] = dataset.getSeriesKey(series).toString();

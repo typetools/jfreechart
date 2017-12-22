@@ -51,6 +51,7 @@
  */
 
 package org.jfree.chart.labels;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -122,12 +123,13 @@ public class HighLowItemLabelGenerator implements XYItemLabelGenerator,
      * @return The tooltip text.
      */
     @Override
-    public String generateToolTip(XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public String generateToolTip(XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#1.getSeries(#2)")*/ int item) {
         if (!(dataset instanceof OHLCDataset)) {
             return null;
         }
         StringBuilder sb = new StringBuilder();
-        OHLCDataset d = (OHLCDataset) dataset;
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
+        /*@SameLen("dataset")*/ OHLCDataset d = (OHLCDataset) dataset;
         Number high = d.getHigh(series, item);
         Number low = d.getLow(series, item);
         Number open = d.getOpen(series, item);
@@ -168,7 +170,7 @@ public class HighLowItemLabelGenerator implements XYItemLabelGenerator,
      * @return The label (possibly {@code null}).
      */
     @Override
-    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int category) {
+    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#1.getSeries(#2)")*/ int category) {
         return null;  //TODO: implement this method properly
     }
 

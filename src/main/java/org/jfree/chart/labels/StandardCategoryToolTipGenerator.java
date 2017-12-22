@@ -108,7 +108,7 @@ public class StandardCategoryToolTipGenerator
      */
     @Override
     public String generateToolTip(CategoryDataset dataset,
-                                  int row, /*@NonNegative*/ int column) {
+                                  /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return generateLabelString(dataset, row, column);
     }
 

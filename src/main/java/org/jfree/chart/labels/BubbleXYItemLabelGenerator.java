@@ -168,7 +168,7 @@ public class BubbleXYItemLabelGenerator extends AbstractXYItemLabelGenerator
      * @return The item label (possibly {@code null}).
      */
     @Override
-    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#1.getSeries(#2)")*/ int item) {
         return generateLabelString(dataset, series, item);
     }
 
@@ -182,7 +182,7 @@ public class BubbleXYItemLabelGenerator extends AbstractXYItemLabelGenerator
      * @return The label (possibly {@code null}).
      */
     @Override
-    public String generateLabelString(XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public String generateLabelString(XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#1.getSeries(#2)")*/ int item) {
         String result;
         Object[] items;
         if (dataset instanceof XYZDataset) {
@@ -206,7 +206,7 @@ public class BubbleXYItemLabelGenerator extends AbstractXYItemLabelGenerator
      * @return The items (never {@code null}).
      */
     protected Object /*@MinLen(4)*/ [] createItemArray(XYZDataset dataset,
-                                       /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+                                       /*@NonNegative*/ int series, /*@IndexFor("#1.getSeries(#2)")*/ int item) {
 
         Object[] result = new Object[4];
         result[0] = dataset.getSeriesKey(series).toString();

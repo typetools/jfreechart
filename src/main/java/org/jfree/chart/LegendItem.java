@@ -119,7 +119,7 @@ public class LegendItem implements Cloneable, Serializable {
     private Comparable seriesKey;
 
     /** The dataset index. */
-    private int datasetIndex;
+    private /*@NonNegative*/ int datasetIndex;
 
     /** The series index. */
     private /*@NonNegative*/ int series;

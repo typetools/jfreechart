@@ -131,7 +131,7 @@ public class BoxAndWhiskerXYToolTipGenerator extends StandardXYToolTipGenerator
      */
     @Override
     protected Object /*@MinLen(8)*/ [] createItemArray(XYDataset dataset, /*@NonNegative*/ int series,
-                                       /*@NonNegative*/ int item) {
+                                       /*@IndexFor("#1.getSeries(#2)")*/ int item) {
         Object[] result = new Object[8];
         result[0] = dataset.getSeriesKey(series).toString();
         Number x = dataset.getX(series, item);
@@ -144,7 +144,8 @@ public class BoxAndWhiskerXYToolTipGenerator extends StandardXYToolTipGenerator
         NumberFormat formatter = getYFormat();
 
         if (dataset instanceof BoxAndWhiskerXYDataset) {
-            BoxAndWhiskerXYDataset d = (BoxAndWhiskerXYDataset) dataset;
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
+            /*@SameLen("dataset")*/ BoxAndWhiskerXYDataset d = (BoxAndWhiskerXYDataset) dataset;
             result[2] = formatter.format(d.getMeanValue(series, item));
             result[3] = formatter.format(d.getMedianValue(series, item));
             result[4] = formatter.format(d.getMinRegularValue(series, item));

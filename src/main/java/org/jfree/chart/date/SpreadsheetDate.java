@@ -31,6 +31,7 @@ package org.jfree.chart.date;
 /*>>>
 import org.checkerframework.common.value.qual.ArrayLen;
 import org.checkerframework.common.value.qual.IntRange;
+import org.checkerframework.checker.index.qual.*;
  */
 
 import java.util.Calendar;
@@ -130,26 +131,32 @@ public class SpreadsheetDate extends SerialDate {
         // get the year from the serial date
         final int days = this.serial - SERIAL_LOWER_BOUND;
         // overestimated because we ignored leap days
-        final int overestimatedYYYY = 1900 + (days / 365);
+        @SuppressWarnings({"index", "value"}) // not really true, but gets this to typecheck. Safety is assured by checks later in this method
+        final /*@IntRange(from = 1900, to = 9999)*/ int overestimatedYYYY = 1900 + (days / 365);
         final int leaps = SerialDate.leapYearCount(overestimatedYYYY);
         final int nonleapdays = days - leaps;
         // underestimated because we overestimated years
-        int underestimatedYYYY = 1900 + (nonleapdays / 365);
+        @SuppressWarnings({"index", "value"}) // not really true, but gets this to typecheck. Safety is assured by checks later in this method
+        /*@IntRange(from = 1900, to = 9999)*/ int underestimatedYYYY = 1900 + (nonleapdays / 365);
 
         if (underestimatedYYYY == overestimatedYYYY) {
             this.year = underestimatedYYYY;
         } else {
             int ss1 = calcSerial(1, 1, underestimatedYYYY);
+            @SuppressWarnings({"index", "value"}) // Necessary for typechecking the modified code below.
+            /*@IntRange(from = 1901, to = 10000)*/ int underestimatedYYYY2 = underestimatedYYYY;
             while (ss1 <= this.serial) {
-                underestimatedYYYY = underestimatedYYYY + 1;
-                ss1 = calcSerial(1, 1, underestimatedYYYY);
+                @SuppressWarnings({"index", "value"}) // This code rolls the year up to one higher than the correct one.
+                /*@IntRange(from = 1901, to = 10000)*/ int underestimatedYYYYTmp = underestimatedYYYY2 + 1;
+                underestimatedYYYY2 = underestimatedYYYYTmp;
+                ss1 = calcSerial(1, 1, underestimatedYYYY2);
             }
-            this.year = underestimatedYYYY - 1;
+            this.year = underestimatedYYYY2 - 1;
         }
 
         final int ss2 = calcSerial(1, 1, this.year);
 
-        int /*@ArrayLen(14)*/ [] daysToEndOfPrecedingMonth
+        /*@IntRange(from = 0, to = 365)*/ int /*@ArrayLen(14)*/ [] daysToEndOfPrecedingMonth
                 = AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH;
 
         if (isLeapYear(this.year)) {
@@ -166,11 +173,15 @@ public class SpreadsheetDate extends SerialDate {
             mm = mm1;
             sss = ss2 + daysToEndOfPrecedingMonth[mm] - 1;
         }
-        this.month = mm - 1;
+        @SuppressWarnings("index") // previous loop always goes around at least once
+        /*@Positive*/ int newMonth = mm - 1;
+        this.month = newMonth;
 
         // what's left is d(+1);
-        this.day = this.serial - ss2 
+        @SuppressWarnings({"index", "value"}) // date math
+        /*@IntRange(from = 1, to = 31)*/ int newDay = this.serial - ss2
                  - daysToEndOfPrecedingMonth[this.month] + 1;
+        this.day = newDay;
 
     }
 
@@ -439,7 +450,9 @@ public class SpreadsheetDate extends SerialDate {
         /*@IntRange(from = 0, to = 336)*/ int mm = SerialDate.AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH[m];
         if (m > MonthConstants.FEBRUARY) {
             if (SerialDate.isLeapYear(y)) {
-                mm = mm + 1;
+                @SuppressWarnings({"index", "value"}) // Adding leap day doesn't change this value's range
+                /*@IntRange(from = 0, to = 336)*/ int mm1 = mm + 1;
+                mm = mm1;
             }
         }
         int dd = d;
