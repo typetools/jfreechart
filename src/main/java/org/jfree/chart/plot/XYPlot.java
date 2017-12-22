@@ -1423,7 +1423,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * @return The index or -1.
      */
     public /*@GTENegativeOne*/ int indexOf(XYDataset dataset) {
-        for (Map.Entry<Integer, XYDataset> entry: this.datasets.entrySet()) {
+        for (Map.Entry</*@NonNegative*/ Integer, XYDataset> entry: this.datasets.entrySet()) {
             if (dataset == entry.getValue()) {
                 return entry.getKey();
             }
@@ -1459,7 +1459,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
     public void mapDatasetToDomainAxes(/*@NonNegative*/ int index, List<Integer> axisIndices) {
         Args.requireNonNegative(index, "index");
         checkAxisIndices(axisIndices);
-        Integer key = new Integer(index);
+        /*@NonNegative*/ Integer key = new Integer(index);
         this.datasetToDomainAxesMap.put(key, new ArrayList<Integer>(axisIndices));
         // fake a dataset change event to update axes...
         datasetChanged(new DatasetChangeEvent(this, getDataset(index)));
@@ -1493,7 +1493,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
     public void mapDatasetToRangeAxes(/*@NonNegative*/ int index, List<Integer> axisIndices) {
         Args.requireNonNegative(index, "index");
         checkAxisIndices(axisIndices);
-        Integer key = new Integer(index);
+        /*@NonNegative*/ Integer key = new Integer(index);
         this.datasetToRangeAxesMap.put(key, new ArrayList<Integer>(axisIndices));
         // fake a dataset change event to update axes...
         datasetChanged(new DatasetChangeEvent(this, getDataset(index)));

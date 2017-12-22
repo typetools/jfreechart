@@ -62,6 +62,7 @@
  */
 
 package org.jfree.chart.renderer;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -459,7 +460,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      *                 used if {@code area} is {@code null}).
      */
     protected void addEntity(EntityCollection entities, Shape area,
-                             XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item,
+                             XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#3.getSeries(#4)")*/ int item,
                              double entityX, double entityY) {
         if (!getItemCreateEntity(series, item)) {
             return;
@@ -502,13 +503,14 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
     @Override
     public void drawSeries(Graphics2D g2, Rectangle2D dataArea,
             PlotRenderingInfo info, PolarPlot plot, XYDataset dataset,
-            int seriesIndex) {
+            /*@NonNegative*/ int seriesIndex) {
 
         final int numPoints = dataset.getItemCount(seriesIndex);
         if (numPoints == 0) {
             return;
         }
         GeneralPath poly = null;
+        @SuppressWarnings("index") // This would fail if the dataset passed to this function was not associated with this plot. Maybe a bug?
         ValueAxis axis = plot.getAxisForDataset(plot.indexOf(dataset));
         for (int i = 0; i < numPoints; i++) {
             double theta = dataset.getXValue(seriesIndex, i);
@@ -694,6 +696,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
         if (plot == null) {
             return null;
         }
+        @SuppressWarnings("index") // this renderer belongs to the plot, so plot.getIndexOf returns a non negative
         XYDataset dataset = plot.getDataset(plot.getIndexOf(this));
         if (dataset == null) {
             return null;

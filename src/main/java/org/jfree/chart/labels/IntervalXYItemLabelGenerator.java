@@ -159,11 +159,11 @@ public class IntervalXYItemLabelGenerator extends AbstractXYItemLabelGenerator
     protected Object /*@MinLen(7)*/ [] createItemArray(XYDataset dataset, /*@NonNegative*/ int series,
                                        /*@IndexFor("#1.getSeries(#2)")*/ int item) {
 
-        /*@SameLen("dataset")*/ IntervalXYDataset intervalDataset = null;
+        IntervalXYDataset intervalDataset = null;
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
+        /*@IndexFor("intervalDataset.getSeries(series)")*/ int itemIntervalDataset = item;
         if (dataset instanceof IntervalXYDataset) {
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
-            /*@SameLen("dataset")*/ IntervalXYDataset intervalDataset1 = (IntervalXYDataset) dataset;
-            intervalDataset = intervalDataset1;
+            intervalDataset = (IntervalXYDataset) dataset;
         }
         Object[] result = new Object[7];
         result[0] = dataset.getSeriesKey(series).toString();
@@ -175,10 +175,10 @@ public class IntervalXYItemLabelGenerator extends AbstractXYItemLabelGenerator
         double ys = y;
         double ye = y;
         if (intervalDataset != null) {
-            xs = intervalDataset.getStartXValue(series, item);
-            xe = intervalDataset.getEndXValue(series, item);
-            ys = intervalDataset.getStartYValue(series, item);
-            ye = intervalDataset.getEndYValue(series, item);
+            xs = intervalDataset.getStartXValue(series, itemIntervalDataset);
+            xe = intervalDataset.getEndXValue(series, itemIntervalDataset);
+            ys = intervalDataset.getStartYValue(series, itemIntervalDataset);
+            ye = intervalDataset.getEndYValue(series, itemIntervalDataset);
         }
 
         DateFormat xdf = getXDateFormat();
@@ -208,7 +208,7 @@ public class IntervalXYItemLabelGenerator extends AbstractXYItemLabelGenerator
             }
         }
         if (Double.isNaN(ys) && intervalDataset != null
-                && intervalDataset.getStartY(series, item) == null) {
+                && intervalDataset.getStartY(series, itemIntervalDataset) == null) {
             result[5] = getNullYString();
         }
         else {
@@ -220,7 +220,7 @@ public class IntervalXYItemLabelGenerator extends AbstractXYItemLabelGenerator
             }
         }
         if (Double.isNaN(ye) && intervalDataset != null
-                && intervalDataset.getEndY(series, item) == null) {
+                && intervalDataset.getEndY(series, itemIntervalDataset) == null) {
             result[6] = getNullYString();
         }
         else {
@@ -244,7 +244,7 @@ public class IntervalXYItemLabelGenerator extends AbstractXYItemLabelGenerator
      * @return The label text (possibly {@code null}).
      */
     @Override
-    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#1.getSeries(#2)")*/ int item) {
         return generateLabelString(dataset, series, item);
     }
 

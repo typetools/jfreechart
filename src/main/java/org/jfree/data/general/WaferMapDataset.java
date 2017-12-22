@@ -188,7 +188,7 @@ public class WaferMapDataset extends AbstractDataset {
      *
      * @return The data value.
      */
-    public Number getChipValue(/*@NonNegative*/ int chipx, /*@NonNegative*/ int chipy) {
+    public Number getChipValue(int chipx, int chipy) {
         return getChipValue(new Integer(chipx), new Integer(chipy));
     }
 

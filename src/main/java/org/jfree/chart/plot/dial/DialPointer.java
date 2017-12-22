@@ -81,7 +81,7 @@ public abstract class DialPointer extends AbstractDialLayer
     /**
      * The dataset index for the needle.
      */
-    int datasetIndex;
+    /*@NonNegative*/ int datasetIndex;
 
     /**
      * Creates a new {@code DialPointer} instance.

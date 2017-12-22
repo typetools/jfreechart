@@ -1072,7 +1072,7 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot, Pannable,
      *                                    not support cloning.
      */
     @Override
-    @SuppressWarnings("index") // clone always results in the same types
+    @SuppressWarnings({"index", "value"}) // clone always results in the same types
     public Object clone() throws CloneNotSupportedException {
 
         FastScatterPlot clone = (FastScatterPlot) super.clone();

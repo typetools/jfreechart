@@ -558,8 +558,15 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
 
             ValueDataset[] a = this.datasets;
             MeterNeedle[] b = this.seriesNeedle;
-            this.datasets = t;
-            this.seriesNeedle = p;
+
+            @SuppressWarnings({"index", "value"}) // these two values are being changed together, but they go out of sync as the change occurs
+            ValueDataset /*@MinLen(1)*/ /*@SameLen("this.seriesNeedle")*/ [] t0 = t;
+
+            @SuppressWarnings({"index", "value"}) // these two values are being changed together, but they go out of sync as the change occurs
+            MeterNeedle /*@MinLen(1)*/ /*@SameLen("this.datasets")*/ [] p0 = p;
+
+            this.datasets = t0;
+            this.seriesNeedle = p0;
 
             for (--i; i >= 0; --i) {
                 a[i] = null;

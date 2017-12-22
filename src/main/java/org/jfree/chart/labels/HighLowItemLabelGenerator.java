@@ -128,13 +128,14 @@ public class HighLowItemLabelGenerator implements XYItemLabelGenerator,
             return null;
         }
         StringBuilder sb = new StringBuilder();
+        OHLCDataset d = (OHLCDataset) dataset;
         @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
-        /*@SameLen("dataset")*/ OHLCDataset d = (OHLCDataset) dataset;
-        Number high = d.getHigh(series, item);
-        Number low = d.getLow(series, item);
-        Number open = d.getOpen(series, item);
-        Number close = d.getClose(series, item);
-        Number x = d.getX(series, item);
+        /*@IndexFor("d.getSeries(series)")*/ int itemD = item;
+        Number high = d.getHigh(series, itemD);
+        Number low = d.getLow(series, itemD);
+        Number open = d.getOpen(series, itemD);
+        Number close = d.getClose(series, itemD);
+        Number x = d.getX(series, itemD);
         sb.append(d.getSeriesKey(series).toString());
         if (x != null) {
             Date date = new Date(x.longValue());

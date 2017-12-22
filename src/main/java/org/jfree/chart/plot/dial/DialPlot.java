@@ -371,6 +371,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      *
      * @param layer  the layer ({@code null} not permitted).
      */
+    @SuppressWarnings("index") // This method's documentation specifically states that it is unsafe
     public void removeLayer(DialLayer layer) {
         // defer argument checking
         removeLayer(getLayerIndex(layer));
@@ -422,6 +423,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      *
      * @param pointer  the pointer ({@code null} not permitted).
      */
+    @SuppressWarnings("index") // This method's documentation specifically states that it is unsafe
     public void removePointer(DialPointer pointer) {
         // defer argument checking
         removeLayer(getPointerIndex(pointer));
@@ -691,7 +693,8 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
      */
     public DialScale getScaleForDataset(/*@NonNegative*/ int datasetIndex) {
         DialScale result = (DialScale) this.scales.get(0);
-        Integer scaleIndex = (Integer) this.datasetToScaleMap.get(datasetIndex);
+        @SuppressWarnings("index") // all scale indices are nonnegative
+        /*@NonNEgative*/ Integer scaleIndex = (Integer) this.datasetToScaleMap.get(datasetIndex);
         if (scaleIndex != null) {
             result = getScale(scaleIndex.intValue());
         }

@@ -87,7 +87,7 @@ public class DialValueIndicator extends AbstractDialLayer implements DialLayer,
     static final long serialVersionUID = 803094354130942585L;
 
     /** The dataset index. */
-    private int datasetIndex;
+    private /*@NonNegative*/ int datasetIndex;
 
     /** The angle that defines the anchor point. */
     private double angle;

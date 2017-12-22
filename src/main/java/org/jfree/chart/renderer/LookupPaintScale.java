@@ -295,10 +295,11 @@ public class LookupPaintScale
         }
 
         // for value in bounds, do the lookup...
-        int low = 0;
-        int high = this.lookupTable.size() - 1;
+        /*@NonNegative*/ int low = 0;
+        @SuppressWarnings("index") // lookupTable always has at least one element
+        /*@NonNegative*/ int high = this.lookupTable.size() - 1;
         while (high - low > 1) {
-            int current = (low + high) / 2;
+            /*@NonNegative*/ int current = (low + high) / 2;
             item = (PaintItem) this.lookupTable.get(current);
             if (value >= item.value) {
                 low = current;

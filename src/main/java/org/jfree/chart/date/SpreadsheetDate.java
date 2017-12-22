@@ -149,14 +149,16 @@ public class SpreadsheetDate extends SerialDate {
                 @SuppressWarnings({"index", "value"}) // This code rolls the year up to one higher than the correct one.
                 /*@IntRange(from = 1901, to = 10000)*/ int underestimatedYYYYTmp = underestimatedYYYY2 + 1;
                 underestimatedYYYY2 = underestimatedYYYYTmp;
-                ss1 = calcSerial(1, 1, underestimatedYYYY2);
+                @SuppressWarnings({"index", "value"}) // this call to calcSerial could technically happen with a year that's 10000. The result would still be correct.
+                int ss1tmp = calcSerial(1, 1, underestimatedYYYY2);
+                ss1 = ss1tmp;
             }
             this.year = underestimatedYYYY2 - 1;
         }
 
         final int ss2 = calcSerial(1, 1, this.year);
 
-        /*@IntRange(from = 0, to = 365)*/ int /*@ArrayLen(14)*/ [] daysToEndOfPrecedingMonth
+        /*@IntRange(from = 0, to = 366)*/ int /*@ArrayLen(14)*/ [] daysToEndOfPrecedingMonth
                 = AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH;
 
         if (isLeapYear(this.year)) {
@@ -173,8 +175,8 @@ public class SpreadsheetDate extends SerialDate {
             mm = mm1;
             sss = ss2 + daysToEndOfPrecedingMonth[mm] - 1;
         }
-        @SuppressWarnings("index") // previous loop always goes around at least once
-        /*@Positive*/ int newMonth = mm - 1;
+        @SuppressWarnings({"index", "value"}) // previous loop always goes around at least once
+        /*@IntRange(from = 1, to = 12)*/ int newMonth = mm - 1;
         this.month = newMonth;
 
         // what's left is d(+1);

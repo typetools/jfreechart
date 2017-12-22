@@ -1260,7 +1260,7 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
                                  Rectangle2D plotArea,
                                  Point2D centre,
                                  PlotRenderingInfo info,
-                                 int series, int catCount,
+                                 /*@NonNegative*/ int series, int catCount,
                                  double headH, double headW) {
 
         Polygon polygon = new Polygon();
@@ -1383,7 +1383,7 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
      *
      * @see #getDataExtractOrder()
      */
-    protected Number getPlotValue(/*@NonNegative*/ int series, int cat) {
+    protected Number getPlotValue(/*@NonNegative*/ int series, /*@NonNegative*/ int cat) {
         Number value = null;
         if (this.dataExtractOrder == TableOrder.BY_ROW) {
             value = this.dataset.getValue(series, cat);
@@ -1405,7 +1405,7 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
      * @param extent  the extent of the arc.
      */
     protected void drawLabel(Graphics2D g2, Rectangle2D plotArea, double value,
-                             int cat, double startAngle, double extent) {
+                             /*@NonNegative*/ int cat, double startAngle, double extent) {
         FontRenderContext frc = g2.getFontRenderContext();
 
         String label;

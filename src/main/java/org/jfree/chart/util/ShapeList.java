@@ -149,6 +149,7 @@ public class ShapeList extends AbstractObjectList {
      * @throws IOException  if there is an I/O error.
      * @throws ClassNotFoundException  if there is a classpath problem.
      */
+    @SuppressWarnings("index") // readObject assumes that the object read is actually an object of this class
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
 
         stream.defaultReadObject();

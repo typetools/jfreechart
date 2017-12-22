@@ -129,7 +129,7 @@ public abstract class SerialDate implements Comparable, Serializable,
     /** 
      * The number of days in a leap year up to the end of the preceding month. 
      */
-    static final int /*@ArrayLen(14)*/ []
+    static final /*@IntRange(from = 0, to = 366)*/ int /*@ArrayLen(14)*/ []
         LEAP_YEAR_AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH =
             {0, 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366};
 

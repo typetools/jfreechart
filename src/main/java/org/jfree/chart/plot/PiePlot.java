@@ -2539,7 +2539,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
      * @param state  state information for one chart.
      * @param currentPass  the current pass index.
      */
-    protected void drawItem(Graphics2D g2, int section, Rectangle2D dataArea,
+    protected void drawItem(Graphics2D g2, /*@NonNegative*/ int section, Rectangle2D dataArea,
                             PiePlotState state, int currentPass) {
 
         Number n = this.dataset.getValue(section);
@@ -2966,7 +2966,9 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
                             false,          // line not visible
                             new Line2D.Float(), new BasicStroke(), Color.BLACK);
                     item.setDataset(getDataset());
-                    item.setSeriesIndex(this.dataset.getIndex(key));
+                    @SuppressWarnings("index") // key came from the list of keys for this dataset, so getIndex has to return non-negative
+                    /*@NonNegative*/ int newSeriesIndex = this.dataset.getIndex(key);
+                    item.setSeriesIndex(newSeriesIndex);
                     item.setSeriesKey(key);
                     result.add(item);
                 }

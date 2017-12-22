@@ -145,13 +145,14 @@ public class BoxAndWhiskerXYToolTipGenerator extends StandardXYToolTipGenerator
 
         if (dataset instanceof BoxAndWhiskerXYDataset) {
             @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
-            /*@SameLen("dataset")*/ BoxAndWhiskerXYDataset d = (BoxAndWhiskerXYDataset) dataset;
-            result[2] = formatter.format(d.getMeanValue(series, item));
-            result[3] = formatter.format(d.getMedianValue(series, item));
-            result[4] = formatter.format(d.getMinRegularValue(series, item));
-            result[5] = formatter.format(d.getMaxRegularValue(series, item));
-            result[6] = formatter.format(d.getQ1Value(series, item));
-            result[7] = formatter.format(d.getQ3Value(series, item));
+            /*@IndexFor("d.getSeries(series)")*/ int itemD = item;
+                    BoxAndWhiskerXYDataset d = (BoxAndWhiskerXYDataset) dataset;
+            result[2] = formatter.format(d.getMeanValue(series, itemD));
+            result[3] = formatter.format(d.getMedianValue(series, itemD));
+            result[4] = formatter.format(d.getMinRegularValue(series, itemD));
+            result[5] = formatter.format(d.getMaxRegularValue(series, itemD));
+            result[6] = formatter.format(d.getQ1Value(series, itemD));
+            result[7] = formatter.format(d.getQ3Value(series, itemD));
         }
         return result;
     }
