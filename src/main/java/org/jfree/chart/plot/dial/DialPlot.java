@@ -694,7 +694,7 @@ public class DialPlot extends Plot implements DialLayerChangeListener {
     public DialScale getScaleForDataset(/*@NonNegative*/ int datasetIndex) {
         DialScale result = (DialScale) this.scales.get(0);
         @SuppressWarnings("index") // all scale indices are nonnegative
-        /*@NonNEgative*/ Integer scaleIndex = (Integer) this.datasetToScaleMap.get(datasetIndex);
+        /*@NonNegative*/ Integer scaleIndex = (Integer) this.datasetToScaleMap.get(datasetIndex);
         if (scaleIndex != null) {
             result = getScale(scaleIndex.intValue());
         }

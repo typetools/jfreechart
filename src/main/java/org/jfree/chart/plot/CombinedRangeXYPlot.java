@@ -564,7 +564,8 @@ public class CombinedRangeXYPlot extends XYPlot
         if (!subplot.isDomainPannable()) {
             return;
         }
-        PlotRenderingInfo subplotInfo = info.getSubplotInfo(
+        @SuppressWarnings({"value", "index"}) // this function would already have returned if the subplot was not actually a subplot of this plot
+                PlotRenderingInfo subplotInfo = info.getSubplotInfo(
                 info.getSubplotIndex(source));
         if (subplotInfo == null) {
             return;

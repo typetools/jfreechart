@@ -187,7 +187,7 @@
 
 package org.jfree.chart.plot;
 /*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+/*>>> import org.checkerframework.common.value.qual.*; */
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -2401,7 +2401,8 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
                     new Integer(index));
             if (markers == null) {
                 markers = new java.util.ArrayList();
-                this.foregroundDomainMarkers.put(new Integer(index), markers);
+                /*@NonNegative*/ Integer i = index;
+                this.foregroundDomainMarkers.put(i, markers);
             }
             markers.add(marker);
         } else if (layer == Layer.BACKGROUND) {
@@ -2427,19 +2428,23 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      */
     public void clearDomainMarkers() {
         if (this.backgroundDomainMarkers != null) {
-            Set</*@NonNegative*/ Integer> keys = this.backgroundDomainMarkers.keySet();
+            @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+                    Set</*@NonNegative*/ Integer> keys = this.backgroundDomainMarkers.keySet();
             Iterator iterator = keys.iterator();
             while (iterator.hasNext()) {
-                /*@NonNegative*/ Integer key = (/*@NonNegative*/ Integer) iterator.next();
+                @SuppressWarnings({"index", "value"}) // iterator over a set of nonnegative integers always returns a nonnegative integer?
+                /*@NonNegative*/ Integer key = (Integer) iterator.next();
                 clearDomainMarkers(key.intValue());
             }
             this.backgroundDomainMarkers.clear();
         }
         if (this.foregroundDomainMarkers != null) {
+            @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
             Set</*@NonNegative*/ Integer> keys = this.foregroundDomainMarkers.keySet();
             Iterator iterator = keys.iterator();
             while (iterator.hasNext()) {
-                /*@NonNegative*/ Integer key = (/*@NonNegative*/ Integer) iterator.next();
+                @SuppressWarnings({"index", "value"}) // iterator over a set of nonnegative integers always returns a nonnegative integer?
+                /*@NonNegative*/ Integer key = (Integer) iterator.next();
                 clearDomainMarkers(key.intValue());
             }
             this.foregroundDomainMarkers.clear();
@@ -2697,19 +2702,23 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      */
     public void clearRangeMarkers() {
         if (this.backgroundRangeMarkers != null) {
-            Set</*@NonNegative*/ Integer> keys = this.backgroundRangeMarkers.keySet();
+            @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+                    Set</*@NonNegative*/ Integer> keys = this.backgroundRangeMarkers.keySet();
             Iterator iterator = keys.iterator();
             while (iterator.hasNext()) {
-                /*@NonNegative*/ Integer key = (/*@NonNegative*/ Integer) iterator.next();
+                @SuppressWarnings({"index", "value"}) // iterator over a set of nonnegative integers always returns a nonnegative integer?
+                /*@NonNegative*/ Integer key = (Integer) iterator.next();
                 clearRangeMarkers(key.intValue());
             }
             this.backgroundRangeMarkers.clear();
         }
         if (this.foregroundRangeMarkers != null) {
-            Set</*@NonNegative*/ Integer> keys = this.foregroundRangeMarkers.keySet();
+            @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+                    Set</*@NonNegative*/ Integer> keys = this.foregroundRangeMarkers.keySet();
             Iterator iterator = keys.iterator();
             while (iterator.hasNext()) {
-                /*@NonNegative*/ Integer key = (/*@NonNegative*/ Integer) iterator.next();
+                @SuppressWarnings({"index", "value"}) // iterator over a set of nonnegative integers always returns a nonnegative integer?
+                /*@NonNegative*/ Integer key = (Integer) iterator.next();
                 clearRangeMarkers(key.intValue());
             }
             this.foregroundRangeMarkers.clear();
@@ -3617,7 +3626,8 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
             drawDomainMarkers(g2, dataArea, i, Layer.BACKGROUND);
         }
         for (CategoryItemRenderer renderer : this.renderers.values()) {
-            int i = getIndexOf(renderer);
+            @SuppressWarnings("index") // renderer is one of the renderers of this object, so getIndexOf must return nonnegative
+            /*@NonNegative*/ int i = getIndexOf(renderer);
             drawRangeMarkers(g2, dataArea, i, Layer.BACKGROUND);
         }
 
@@ -3724,8 +3734,9 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * 
      * @return The list of indices. 
      */
+    @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186, 3 instances in this method
     private List</*@NonNegative*/ Integer> getDatasetIndices(DatasetRenderingOrder order) {
-        List</*@NonNegative*/ Integer> result = new ArrayList</*@NonNegative*/ Integer>();
+                List</*@NonNegative*/ /*@UnknownVal*/ Integer> result = new ArrayList</*@NonNegative*/ Integer>();
         for (Map.Entry</*@NonNegative*/ Integer, CategoryDataset> entry :
                 this.datasets.entrySet()) {
             if (entry.getValue() != null) {
@@ -3747,8 +3758,9 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * 
      * @return A list of indices.
      */
+    @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186, 3 instances in this method
     private List</*@NonNegative*/ Integer> getRendererIndices(DatasetRenderingOrder order) {
-        List</*@NonNegative*/ Integer> result = new ArrayList</*@NonNegative*/ Integer>();
+                List</*@NonNegative*/ /*@UnknownVal*/ Integer> result = new ArrayList</*@NonNegative*/ Integer>();
         for (Map.Entry</*@NonNegative*/ Integer, CategoryItemRenderer> entry:
                 this.renderers.entrySet()) {
             if (entry.getValue() != null) {
@@ -5003,12 +5015,18 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         }
 
         // AxisLocation is immutable, so we can just copy the maps
-        clone.domainAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>(
+        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+                HashMap clonedomainAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>(
                 this.domainAxisLocations);
-        clone.rangeAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>(
+        clone.domainAxisLocations = clonedomainAxisLocations;
+        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+        HashMap clonerangeAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>(
                 this.rangeAxisLocations);
+        clone.rangeAxisLocations = clonerangeAxisLocations;
 
-        clone.datasets = new HashMap</*@NonNegative*/ Integer, CategoryDataset>(this.datasets);
+        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+                HashMap clonedatasets = new HashMap</*@NonNegative*/ Integer, CategoryDataset>(this.datasets);
+        clone.datasets = clonedatasets;
         for (CategoryDataset dataset : clone.datasets.values()) {
             if (dataset != null) {
                 dataset.addChangeListener(clone);

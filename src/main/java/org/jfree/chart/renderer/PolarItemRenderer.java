@@ -77,7 +77,7 @@ public interface PolarItemRenderer {
      */
     public void drawSeries(Graphics2D g2, Rectangle2D dataArea,
             PlotRenderingInfo info, PolarPlot plot, XYDataset dataset,
-            int seriesIndex);
+            /*@NonNegative*/ int seriesIndex);
 
     /**
      * Draw the angular gridlines - the spokes.

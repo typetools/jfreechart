@@ -236,7 +236,7 @@
 package org.jfree.chart.plot;
 /*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>>
-import org.checkerframework.common.value.qual.ArrayLen;
+import org.checkerframework.common.value.qual.*;
 import org.checkerframework.dataflow.qual.Pure;
 */
 
@@ -639,18 +639,31 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         this.axisOffset = RectangleInsets.ZERO_INSETS;
 
         // allocate storage for datasets, axes and renderers (all optional)
-        this.domainAxes = new HashMap</*@NonNegative*/ Integer, ValueAxis>();
-        this.domainAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>();
+        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+        HashMap domainAxes = new HashMap</*@NonNegative*/ Integer, ValueAxis>();
+        this.domainAxes = domainAxes;
+        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+        HashMap domainAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>();
+        this.domainAxisLocations = domainAxisLocations;
         this.foregroundDomainMarkers = new HashMap();
         this.backgroundDomainMarkers = new HashMap();
 
-        this.rangeAxes = new HashMap</*@NonNegative*/ Integer, ValueAxis>();
-        this.rangeAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>();
+        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+        HashMap rangeAxes = new HashMap</*@NonNegative*/ Integer, ValueAxis>();
+        this.rangeAxes = rangeAxes;
+        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+        HashMap rangeAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>();
+        this.rangeAxisLocations = rangeAxisLocations;
         this.foregroundRangeMarkers = new HashMap();
         this.backgroundRangeMarkers = new HashMap();
 
-        this.datasets = new HashMap</*@NonNegative*/ Integer, XYDataset>();
-        this.renderers = new HashMap</*@NonNegative*/ Integer, XYItemRenderer>();
+        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+                HashMap datasets = new HashMap</*@NonNegative*/ Integer, XYDataset>();
+        this.datasets = datasets;
+
+        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+        HashMap renderers = new HashMap</*@NonNegative*/ Integer, XYItemRenderer>();
+        this.renderers = renderers;
 
         this.datasetToDomainAxesMap = new TreeMap();
         this.datasetToRangeAxesMap = new TreeMap();
@@ -2434,7 +2447,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      */
     public void clearDomainMarkers() {
         if (this.backgroundDomainMarkers != null) {
-            @SuppressWarnings("index") // keys in backgroundDomainMarkers are non negative?
+            @SuppressWarnings({"index", "value"}) // keys in backgroundDomainMarkers are non negative? also kelloggm#186
             Set</*@NonNegative*/ Integer> keys = this.backgroundDomainMarkers.keySet();
             for (Integer key : keys) {
                 clearDomainMarkers(key);
@@ -2442,7 +2455,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
             this.backgroundDomainMarkers.clear();
         }
         if (this.foregroundDomainMarkers != null) {
-            @SuppressWarnings("index") // keys in foregroundDomainMarkers are non negative?
+            @SuppressWarnings({"index", "value"}) // keys in foregroundDomainMarkers are non negative? also kelloggm#186
                     Set</*@NonNegative*/ Integer> keys = this.foregroundDomainMarkers.keySet();
             for (Integer key : keys) {
                 clearDomainMarkers(key);
@@ -2674,14 +2687,16 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      */
     public void clearRangeMarkers() {
         if (this.backgroundRangeMarkers != null) {
-            Set<Integer> keys = this.backgroundRangeMarkers.keySet();
+            @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+                    Set</*@NonNegative*/ Integer> keys = this.backgroundRangeMarkers.keySet();
             for (Integer key : keys) {
                 clearRangeMarkers(key);
             }
             this.backgroundRangeMarkers.clear();
         }
         if (this.foregroundRangeMarkers != null) {
-            Set<Integer> keys = this.foregroundRangeMarkers.keySet();
+            @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+                    Set</*@NonNegative*/ Integer> keys = this.foregroundRangeMarkers.keySet();
             for (Integer key : keys) {
                 clearRangeMarkers(key);
             }
@@ -3256,11 +3271,13 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
 
         // draw the markers that are associated with a specific dataset...
         for (XYDataset dataset: this.datasets.values()) {
-            int datasetIndex = indexOf(dataset);
+            @SuppressWarnings("index") // dataset is definitely a valid dataset, so its index will be nonnegative
+            /*@NonNegative*/ int datasetIndex = indexOf(dataset);
             drawDomainMarkers(g2, dataArea, datasetIndex, Layer.BACKGROUND);
         }
         for (XYDataset dataset: this.datasets.values()) {
-            int datasetIndex = indexOf(dataset);
+            @SuppressWarnings("index") // dataset is definitely a valid dataset, so its index will be nonnegative
+                    /*@NonNegative*/ int datasetIndex = indexOf(dataset);
             drawRangeMarkers(g2, dataArea, datasetIndex, Layer.BACKGROUND);
         }
 
@@ -3383,7 +3400,8 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * @return The list of indices. 
      */
     private List< /*@NonNegative*/ Integer> getDatasetIndices(DatasetRenderingOrder order) {
-        List</*@NonNegative*/ Integer> result = new ArrayList</*@NonNegative*/ Integer>();
+        @SuppressWarnings({"value", "index"}) // https://github.com/kelloggm/checker-framework/issues/186
+                List</*@NonNegative*/ /*@UnknownVal*/ Integer> result = new ArrayList</*@NonNegative*/ /*@UnknownVal*/ Integer>();
         for (Entry< /*@NonNegative*/ Integer, XYDataset> entry : this.datasets.entrySet()) {
             if (entry.getValue() != null) {
                 result.add(entry.getKey());
@@ -3397,7 +3415,8 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
     }
     
     private List< /*@NonNegative*/ Integer> getRendererIndices(DatasetRenderingOrder order) {
-        List</*@NonNegative*/ Integer> result = new ArrayList</*@NonNegative*/ Integer>();
+        @SuppressWarnings({"value", "index"}) // https://github.com/kelloggm/checker-framework/issues/186
+                List</*@NonNegative*/ /*@UnknownVal*/ Integer> result = new ArrayList</*@NonNegative*/ /*@UnknownVal*/ Integer>();
         for (Entry< /*@NonNegative*/ Integer, XYItemRenderer> entry : this.renderers.entrySet()) {
             if (entry.getValue() != null) {
                 result.add(entry.getKey());
@@ -5547,6 +5566,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *         the plot cannot be cloned.
      */
     @Override
+    @SuppressWarnings("value") // https://github.com/kelloggm/checker-framework/issues/186, 3 instances
     public Object clone() throws CloneNotSupportedException {
         XYPlot clone = (XYPlot) super.clone();
         clone.domainAxes = CloneUtils.cloneMapValues(this.domainAxes);

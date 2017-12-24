@@ -144,9 +144,9 @@ public class BoxAndWhiskerXYToolTipGenerator extends StandardXYToolTipGenerator
         NumberFormat formatter = getYFormat();
 
         if (dataset instanceof BoxAndWhiskerXYDataset) {
+            BoxAndWhiskerXYDataset d = (BoxAndWhiskerXYDataset) dataset;
             @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
             /*@IndexFor("d.getSeries(series)")*/ int itemD = item;
-                    BoxAndWhiskerXYDataset d = (BoxAndWhiskerXYDataset) dataset;
             result[2] = formatter.format(d.getMeanValue(series, itemD));
             result[3] = formatter.format(d.getMedianValue(series, itemD));
             result[4] = formatter.format(d.getMinRegularValue(series, itemD));
