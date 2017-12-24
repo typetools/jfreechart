@@ -458,7 +458,9 @@ public class SpreadsheetDate extends SerialDate {
             }
         }
         int dd = d;
-        return yy + mm + dd + 1;
+        @SuppressWarnings("value") // Imprecision due to presence or absence of leap days (checker thinks it may be two higher)
+        /*@IntRange(from = 2, to = 2958465)*/ int result = yy + mm + dd + 1;
+        return result;
     }
 
 }

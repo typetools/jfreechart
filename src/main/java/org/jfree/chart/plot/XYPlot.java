@@ -1472,7 +1472,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
     public void mapDatasetToDomainAxes(/*@NonNegative*/ int index, List<Integer> axisIndices) {
         Args.requireNonNegative(index, "index");
         checkAxisIndices(axisIndices);
-        /*@NonNegative*/ Integer key = new Integer(index);
+        /*@NonNegative*/ Integer key = index;
         this.datasetToDomainAxesMap.put(key, new ArrayList<Integer>(axisIndices));
         // fake a dataset change event to update axes...
         datasetChanged(new DatasetChangeEvent(this, getDataset(index)));
@@ -1506,7 +1506,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
     public void mapDatasetToRangeAxes(/*@NonNegative*/ int index, List<Integer> axisIndices) {
         Args.requireNonNegative(index, "index");
         checkAxisIndices(axisIndices);
-        /*@NonNegative*/ Integer key = new Integer(index);
+        /*@NonNegative*/ Integer key = index;
         this.datasetToRangeAxesMap.put(key, new ArrayList<Integer>(axisIndices));
         // fake a dataset change event to update axes...
         datasetChanged(new DatasetChangeEvent(this, getDataset(index)));
@@ -2546,7 +2546,8 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
                     new Integer(index));
             if (markers == null) {
                 markers = new java.util.ArrayList();
-                this.foregroundDomainMarkers.put(new Integer(index), markers);
+                                /*@NonNegative*/ Integer i = index;
+                this.foregroundDomainMarkers.put(i, markers);
             }
             markers.add(marker);
         }
@@ -2555,7 +2556,8 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
                     new Integer(index));
             if (markers == null) {
                 markers = new java.util.ArrayList();
-                this.backgroundDomainMarkers.put(new Integer(index), markers);
+                                /*@NonNegative*/ Integer i = index;
+                this.backgroundDomainMarkers.put(i, markers);
             }
             markers.add(marker);
         }
@@ -2745,7 +2747,8 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
                     new Integer(index));
             if (markers == null) {
                 markers = new java.util.ArrayList();
-                this.foregroundRangeMarkers.put(new Integer(index), markers);
+                                /*@NonNegative*/ Integer i = index;
+                this.foregroundRangeMarkers.put(i, markers);
             }
             markers.add(marker);
         }
@@ -2754,7 +2757,8 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
                     new Integer(index));
             if (markers == null) {
                 markers = new java.util.ArrayList();
-                this.backgroundRangeMarkers.put(new Integer(index), markers);
+                                /*@NonNegative*/ Integer i = index;
+                this.backgroundRangeMarkers.put(i, markers);
             }
             markers.add(marker);
         }
@@ -3399,8 +3403,8 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * 
      * @return The list of indices. 
      */
+    @SuppressWarnings({"value", "index"}) // https://github.com/kelloggm/checker-framework/issues/186, 3 instances
     private List< /*@NonNegative*/ Integer> getDatasetIndices(DatasetRenderingOrder order) {
-        @SuppressWarnings({"value", "index"}) // https://github.com/kelloggm/checker-framework/issues/186
                 List</*@NonNegative*/ /*@UnknownVal*/ Integer> result = new ArrayList</*@NonNegative*/ /*@UnknownVal*/ Integer>();
         for (Entry< /*@NonNegative*/ Integer, XYDataset> entry : this.datasets.entrySet()) {
             if (entry.getValue() != null) {
@@ -3413,9 +3417,9 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         }
         return result;
     }
-    
+
+    @SuppressWarnings({"value", "index"}) // https://github.com/kelloggm/checker-framework/issues/186, 3 instances
     private List< /*@NonNegative*/ Integer> getRendererIndices(DatasetRenderingOrder order) {
-        @SuppressWarnings({"value", "index"}) // https://github.com/kelloggm/checker-framework/issues/186
                 List</*@NonNegative*/ /*@UnknownVal*/ Integer> result = new ArrayList</*@NonNegative*/ /*@UnknownVal*/ Integer>();
         for (Entry< /*@NonNegative*/ Integer, XYItemRenderer> entry : this.renderers.entrySet()) {
             if (entry.getValue() != null) {

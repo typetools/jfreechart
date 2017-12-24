@@ -2410,7 +2410,8 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
                     new Integer(index));
             if (markers == null) {
                 markers = new java.util.ArrayList();
-                this.backgroundDomainMarkers.put(new Integer(index), markers);
+                /*@NonNegative*/ Integer i = index;
+                this.backgroundDomainMarkers.put(i, markers);
             }
             markers.add(marker);
         }
@@ -2676,7 +2677,8 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
                     new Integer(index));
             if (markers == null) {
                 markers = new java.util.ArrayList();
-                this.foregroundRangeMarkers.put(new Integer(index), markers);
+                                /*@NonNegative*/ Integer i = index;
+                this.foregroundRangeMarkers.put(i, markers);
             }
             markers.add(marker);
         } else if (layer == Layer.BACKGROUND) {
@@ -2684,7 +2686,8 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
                     new Integer(index));
             if (markers == null) {
                 markers = new java.util.ArrayList();
-                this.backgroundRangeMarkers.put(new Integer(index), markers);
+                                /*@NonNegative*/ Integer i = index;
+                this.backgroundRangeMarkers.put(i, markers);
             }
             markers.add(marker);
         }
