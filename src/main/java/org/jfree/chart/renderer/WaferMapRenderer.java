@@ -329,7 +329,7 @@ public class WaferMapRenderer extends AbstractRenderer {
                         Shape shape = new Rectangle2D.Double(1d, 1d, 1d, 1d);
                         @SuppressWarnings("index") // paint indices are always nonnegative
                                 Paint paint = getSeriesPaint(
-                            ((/*@NonNegative*/ Integer) entry.getValue()).intValue()
+                            ((Integer) entry.getValue()).intValue()
                         );
                         Paint outlinePaint = Color.BLACK;
                         Stroke outlineStroke = DEFAULT_STROKE;

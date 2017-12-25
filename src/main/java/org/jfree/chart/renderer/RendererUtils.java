@@ -87,8 +87,10 @@ public class RendererUtils {
         if (dataset.getDomainOrder() == DomainOrder.ASCENDING) {
             // for data in ascending order by x-value, we are (broadly) looking
             // for the index of the highest x-value that is less than xLow
-            int low = 0;
-            int high = itemCount - 1;
+            @SuppressWarnings("index") // 0 is an index, because the item count is checked above and the function returns if there isn't at least one item
+            /*@IndexFor("dataset.getSeries(series)")*/ int low = 0;
+            @SuppressWarnings("index") // itemCount - 1 is an index, because the item count is checked above and the function returns if there isn't at least one item
+            /*@IndexFor("dataset.getSeries(series)")*/ int high = itemCount - 1;
             double lowValue = dataset.getXValue(series, low);
             if (lowValue >= xLow) {
                 // special case where the lowest x-value is >= xLow
@@ -114,8 +116,10 @@ public class RendererUtils {
         else if (dataset.getDomainOrder() == DomainOrder.DESCENDING) {
             // when the x-values are sorted in descending order, the lower
             // bound is found by calculating relative to the xHigh value
-            int low = 0;
-            int high = itemCount - 1;
+            @SuppressWarnings("index") // 0 is an index, because the item count is checked above and the function returns if there isn't at least one item
+            /*@IndexFor("dataset.getSeries(series)")*/ int low = 0;
+            @SuppressWarnings("index") // itemCount - 1 is an index, because the item count is checked above and the function returns if there isn't at least one item
+            /*@IndexFor("dataset.getSeries(series)")*/ int high = itemCount - 1;
             double lowValue = dataset.getXValue(series, low);
             if (lowValue <= xHigh) {
                 return low;
@@ -140,7 +144,8 @@ public class RendererUtils {
             // we don't know anything about the ordering of the x-values,
             // but we can still skip any initial values that fall outside the
             // range...
-            int index = 0;
+            @SuppressWarnings("index") // 0 is an index, because the item count is checked above and the function returns if there isn't at least one item
+            /*@IndexFor("dataset.getSeries(series)")*/ int index = 0;
             // skip any items that don't need including...
             double x = dataset.getXValue(series, index);
             while (index < itemCount && x < xLow) {
@@ -179,8 +184,10 @@ public class RendererUtils {
             return 0;
         }
         if (dataset.getDomainOrder() == DomainOrder.ASCENDING) {
-            int low = 0;
-            int high = itemCount - 1;
+            @SuppressWarnings("index") // 0 is an index, because the item count is checked above and the function returns if there isn't at least one item
+            /*@IndexFor("dataset.getSeries(series)")*/ int low = 0;
+            @SuppressWarnings("index") // itemCount - 1 is an index, because the item count is checked above and the function returns if there isn't at least one item
+            /*@IndexFor("dataset.getSeries(series)")*/ int high = itemCount - 1;
             double lowValue = dataset.getXValue(series, low);
             if (lowValue > xHigh) {
                 return low;
@@ -205,8 +212,10 @@ public class RendererUtils {
         else if (dataset.getDomainOrder() == DomainOrder.DESCENDING) {
             // when the x-values are descending, the upper bound is found by
             // comparing against xLow
-            int low = 0;
-            int high = itemCount - 1;
+            @SuppressWarnings("index") // 0 is an index, because the item count is checked above and the function returns if there isn't at least one item
+            /*@IndexFor("dataset.getSeries(series)")*/ int low = 0;
+            @SuppressWarnings("index") // itemCount - 1 is an index, because the item count is checked above and the function returns if there isn't at least one item
+            /*@IndexFor("dataset.getSeries(series)")*/ int high = itemCount - 1;
             int mid = (low + high) / 2;
             double lowValue = dataset.getXValue(series, low);
             if (lowValue < xLow) {
@@ -232,8 +241,8 @@ public class RendererUtils {
             // we don't know anything about the ordering of the x-values,
             // but we can still skip any trailing values that fall outside the
             // range...
-            int index = itemCount - 1;
-            // skip any items that don't need including...
+            @SuppressWarnings("index") // itemCount - 1 is an index, because the item count is checked above and the function returns if there isn't at least one item
+            /*@IndexFor("dataset.getSeries(series)")*/ int index = itemCount - 1;            // skip any items that don't need including...
             double x = dataset.getXValue(series, index);
             while (index >= 0 && x > xHigh) {
                 index--;

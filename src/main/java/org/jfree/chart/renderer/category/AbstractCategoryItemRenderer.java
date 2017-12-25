@@ -217,10 +217,10 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
     private CategorySeriesLabelGenerator legendItemURLGenerator;
 
     /** The number of rows in the dataset (temporary record). */
-    private transient int rowCount;
+    private transient /*@NonNegative*/ int rowCount;
 
     /** The number of columns in the dataset (temporary record). */
-    private transient int columnCount;
+    private transient /*@NonNegative*/ int columnCount;
 
     /**
      * Creates a new renderer with no tool tip generator and no URL generator.
@@ -678,7 +678,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      */
     @Override
     public CategoryItemRendererState initialise(Graphics2D g2,
-            Rectangle2D dataArea, CategoryPlot plot, int rendererIndex,
+            Rectangle2D dataArea, CategoryPlot plot, /*@NonNegative*/ int rendererIndex,
             PlotRenderingInfo info) {
 
         setPlot(plot);
@@ -692,9 +692,10 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         }
         CategoryItemRendererState state = createState(info);
         state.setElementHinting(plot.fetchElementHintingFlag());
-        int[] visibleSeriesTemp = new int[this.rowCount];
+        int rowCount = this.rowCount;
+        int[] visibleSeriesTemp = new int[rowCount];
         int visibleSeriesCount = 0;
-        for (int row = 0; row < this.rowCount; row++) {
+        for (int row = 0; row < rowCount; row++) {
             if (isSeriesVisible(row)) {
                 visibleSeriesTemp[visibleSeriesCount] = row;
                 visibleSeriesCount++;
@@ -931,6 +932,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
             CategoryAxis axis, CategoryMarker marker, Rectangle2D dataArea) {
 
         Comparable category = marker.getKey();
+        @SuppressWarnings("index") // this will fail if this renderer is not associated with the given plot. A bug?
         CategoryDataset dataset = plot.getDataset(plot.getIndexOf(this));
         int columnIndex = dataset.getColumnIndex(category);
         if (columnIndex < 0) {
@@ -1397,7 +1399,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      */
     protected void updateCrosshairValues(CategoryCrosshairState crosshairState,
             Comparable rowKey, Comparable columnKey, double value,
-            int datasetIndex,
+            /*@NonNegative*/ int datasetIndex,
             double transX, double transY, PlotOrientation orientation) {
 
         Args.nullNotPermitted(orientation, "orientation");
@@ -1586,7 +1588,8 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         if (this.plot == null) {
             return result;
         }
-        int index = this.plot.getIndexOf(this);
+        @SuppressWarnings("index") // class invariant: this.plot.getIndexOf(this) is always non negative, since this.plot is the plot associated with the renderer
+        /*@NonNegative*/ int index = this.plot.getIndexOf(this);
         CategoryDataset dataset = this.plot.getDataset(index);
         if (dataset == null) {
             return result;

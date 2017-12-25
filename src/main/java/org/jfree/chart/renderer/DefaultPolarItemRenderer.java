@@ -589,7 +589,9 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
                 // data area...
                 if (entities != null && ShapeUtils.isPointInRect(dataArea, x, 
                         y)) {
-                    addEntity(entities, shape, dataset, seriesIndex, i-1, x, y);
+                    @SuppressWarnings("index") // i - 1 is an index because the i increases once on each iteration of this while loop, and the loop condition is equivalent to the length of this series
+                    /*@IndexFor("dataset.getSeries(seriesIndex)")*/ int i1 = i - 1;
+                    addEntity(entities, shape, dataset, seriesIndex, i1, x, y);
                 }
             }
         }
