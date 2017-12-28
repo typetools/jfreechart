@@ -345,7 +345,7 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
      * @return 2.
      */
     @Override
-    public int getPassCount() {
+    public /*@NonNegative*/ int getPassCount() {
         return 2;
     }
 

@@ -112,7 +112,7 @@
 package org.jfree.chart.renderer.category;
 
 /*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.*;
  */
 
 import java.awt.AlphaComposite;
@@ -247,7 +247,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @return The pass count.
      */
     @Override
-    public int getPassCount() {
+    public /*@NonNegative*/ int getPassCount() {
         return 1;
     }
 
@@ -697,13 +697,17 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         int visibleSeriesCount = 0;
         for (int row = 0; row < rowCount; row++) {
             if (isSeriesVisible(row)) {
-                visibleSeriesTemp[visibleSeriesCount] = row;
+                @SuppressWarnings("index") // visibleSeriesCount is incremented at most as many times as row, which is an index
+                /*@IndexFor("visibleSeriesTemp")*/ int visibleSeriesCountTemp = visibleSeriesCount;
+                visibleSeriesTemp[visibleSeriesCountTemp] = row;
                 visibleSeriesCount++;
             }
         }
-        int[] visibleSeries = new int[visibleSeriesCount];
+        /*@NonNegative*/ int[] visibleSeries = new int[visibleSeriesCount];
+        @SuppressWarnings("index") // visibleSeriesCount is incremented at most as many times as row, which is an index
+                /*@IndexOrHigh({"visibleSeriesTemp", "visibleSeries"})*/ int visibleSeriesCountTemp = visibleSeriesCount;
         System.arraycopy(visibleSeriesTemp, 0, visibleSeries, 0,
-                visibleSeriesCount);
+                visibleSeriesCountTemp);
         state.setVisibleSeriesArray(visibleSeries);
         return state;
     }

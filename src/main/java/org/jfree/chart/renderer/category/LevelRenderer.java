@@ -184,7 +184,7 @@ public class LevelRenderer extends AbstractCategoryItemRenderer
      */
     @Override
     public CategoryItemRendererState initialise(Graphics2D g2,
-            Rectangle2D dataArea, CategoryPlot plot, int rendererIndex,
+            Rectangle2D dataArea, CategoryPlot plot, /*@NonNegative*/ int rendererIndex,
             PlotRenderingInfo info) {
         CategoryItemRendererState state = super.initialise(g2, dataArea, plot,
                 rendererIndex, info);
@@ -201,7 +201,7 @@ public class LevelRenderer extends AbstractCategoryItemRenderer
      * @param state  the renderer state.
      */
     protected void calculateItemWidth(CategoryPlot plot,
-            Rectangle2D dataArea, int rendererIndex,
+            Rectangle2D dataArea, /*@NonNegative*/ int rendererIndex,
             CategoryItemRendererState state) {
 
         CategoryAxis domainAxis = getDomainAxis(plot, rendererIndex);
@@ -363,7 +363,8 @@ public class LevelRenderer extends AbstractCategoryItemRenderer
         }
 
         // submit the current data point as a crosshair candidate
-        int datasetIndex = plot.indexOf(dataset);
+        @SuppressWarnings("index") // dataset is assumed to be associated with plot. Is there any guarantee that they are associated? I'm not sure. Maybe a bug?
+        /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
         updateCrosshairValues(state.getCrosshairState(),
                 dataset.getRowKey(row), dataset.getColumnKey(column), value,
                 datasetIndex, barW0, barL, orientation);

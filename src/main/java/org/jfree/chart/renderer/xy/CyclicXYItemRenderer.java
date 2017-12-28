@@ -226,12 +226,16 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
                 ny[1] = ycycleBound;
                 nx[1] = (x[1] - x[0]) * (ycycleBound - y[0])
                         / (y[1] - y[0]) + x[0];
+
                 if (x.length == 3) {
-                    nx[3] = x[2]; ny[3] = y[2];
+                    @SuppressWarnings("index") // x's length is exactly one less than both nx and ny; x and y's lengths are the same
+                    double dead = (nx[3] = x[2]);
+                    @SuppressWarnings("index") // x's length is exactly one less than both nx and ny; x and y's lengths are the same
+                    double dead2 = (ny[3] = y[2]);
                 }
                 x = nx; y = ny;
             }
-            else if ((x.length == 3) && (y[1] != y[2]) && ((ycycleBound >= y[1])
+            else if ((x.length == 3) && (y.length == 3) && (y[1] != y[2]) && ((ycycleBound >= y[1])
                     && (ycycleBound <= y[2])
                     || (ycycleBound >= y[2]) && (ycycleBound <= y[1]))) {
                 double[] nx = new double[4];
@@ -294,7 +298,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
         super.drawItem(g2, state, dataArea, info, plot, domainAxis, rangeAxis,
                 newset, series, 2, crosshairState, pass);
 
-        if (x.length == 4) {
+        if (x.length == 4 && y.length == 4) {
             if (cnax != null) {
                 if (xcycleBound == x[2]) {
                     cnax.setBoundMappedToLastCycle(x[3] <= xcycleBound);
@@ -341,7 +345,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @param y  the y values.
          * @param delegateSet  the dataset.
          */
-        public OverwriteDataSet(double [] x, double[] y,
+        public OverwriteDataSet(double /*@SameLen("#2")*/ [] x, double /*@SameLen("#1")*/ [] y,
                                 XYDataset delegateSet) {
             this.delegateSet = delegateSet;
             this.x = new Double[x.length]; this.y = new Double[y.length];
@@ -369,6 +373,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The item count.
          */
         @Override
+        @SuppressWarnings("index") // establish repr. invariant
         public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
             return this.x.length;
         }

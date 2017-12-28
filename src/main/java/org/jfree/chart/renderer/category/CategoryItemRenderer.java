@@ -152,7 +152,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return The pass count.
      */
-    public int getPassCount();
+    public /*@NonNegative*/ int getPassCount();
 
     /**
      * Returns the plot that the renderer has been assigned to (where
@@ -223,7 +223,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
     public CategoryItemRendererState initialise(Graphics2D g2,
                                                 Rectangle2D dataArea,
                                                 CategoryPlot plot,
-                                                int rendererIndex,
+                                                /*@NonNegative*/ int rendererIndex,
                                                 PlotRenderingInfo info);
 
     /**

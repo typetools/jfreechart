@@ -214,7 +214,7 @@ public class DeviationRenderer extends XYLineAndShapeRenderer {
      * @return {@code 3}.
      */
     @Override
-    public int getPassCount() {
+    public /*@NonNegative*/ int getPassCount() {
         return 3;
     }
 

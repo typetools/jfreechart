@@ -85,6 +85,7 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -145,7 +146,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The pass count.
      */
-    public int getPassCount();
+    public /*@NonNegative*/ int getPassCount();
 
     /**
      * Returns the lower and upper bounds (range) of the x-values in the
@@ -1297,7 +1298,7 @@ public interface XYItemRenderer extends LegendItemSource {
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass);
+            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass);
 
     /**
      * Fills a band between two values on the axis.  This can be used to color

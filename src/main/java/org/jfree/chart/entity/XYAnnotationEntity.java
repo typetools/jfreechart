@@ -65,7 +65,7 @@ public class XYAnnotationEntity extends ChartEntity
      * @param toolTipText  the tool tip text.
      * @param urlText  the URL text for HTML image maps.
      */
-    public XYAnnotationEntity(Shape hotspot, int rendererIndex,
+    public XYAnnotationEntity(Shape hotspot, /*@NonNegative*/ int rendererIndex,
                               String toolTipText, String urlText) {
         super(hotspot, toolTipText, urlText);
         this.rendererIndex = rendererIndex;

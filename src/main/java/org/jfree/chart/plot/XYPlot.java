@@ -1709,8 +1709,8 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @return The renderer index.
      */
-    public int getIndexOf(XYItemRenderer renderer) {
-        for (Map.Entry<Integer, XYItemRenderer> entry 
+    public /*@GTENegativeOne*/ int getIndexOf(XYItemRenderer renderer) {
+        for (Map.Entry</*@NonNegative*/ Integer, XYItemRenderer> entry
                 : this.renderers.entrySet()) {
             if (entry.getValue() == renderer) {
                 return entry.getKey();

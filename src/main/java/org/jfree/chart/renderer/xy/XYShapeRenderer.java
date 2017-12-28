@@ -407,7 +407,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
      * @return {@code 2}.
      */
     @Override
-    public int getPassCount() {
+    public /*@NonNegative*/ int getPassCount() {
         return 2;
     }
 

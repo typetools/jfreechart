@@ -83,7 +83,7 @@ public class StandardBarPainter implements BarPainter, Serializable {
      */
     @Override
     public void paintBar(Graphics2D g2, BarRenderer renderer, /*@NonNegative*/ int row,
-            int column, RectangularShape bar, RectangleEdge base) {
+            /*@NonNegative*/ int column, RectangularShape bar, RectangleEdge base) {
 
         Paint itemPaint = renderer.getItemPaint(row, column);
         GradientPaintTransformer t = renderer.getGradientPaintTransformer();
@@ -121,7 +121,7 @@ public class StandardBarPainter implements BarPainter, Serializable {
      */
     @Override
     public void paintBarShadow(Graphics2D g2, BarRenderer renderer, /*@NonNegative*/ int row,
-            int column, RectangularShape bar, RectangleEdge base,
+            /*@NonNegative*/ int column, RectangularShape bar, RectangleEdge base,
             boolean pegShadow) {
 
         // handle a special case - if the bar colour has alpha == 0, it is

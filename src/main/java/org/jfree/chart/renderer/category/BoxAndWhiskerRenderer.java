@@ -527,7 +527,7 @@ public class BoxAndWhiskerRenderer extends AbstractCategoryItemRenderer
      */
     @Override
     public CategoryItemRendererState initialise(Graphics2D g2, 
-            Rectangle2D dataArea, CategoryPlot plot, int rendererIndex,
+            Rectangle2D dataArea, CategoryPlot plot, /*@NonNegative*/ int rendererIndex,
             PlotRenderingInfo info) {
 
         CategoryItemRendererState state = super.initialise(g2, dataArea, plot,

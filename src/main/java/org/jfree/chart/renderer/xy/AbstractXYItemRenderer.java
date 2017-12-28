@@ -128,6 +128,8 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.common.value.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -270,7 +272,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @return The pass count.
      */
     @Override
-    public int getPassCount() {
+    public /*@NonNegative*/ int getPassCount() {
         return 1;
     }
 
@@ -330,7 +332,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @since 1.0.20
      */
     protected void beginElementGroup(Graphics2D g2, Comparable seriesKey,
-            int itemIndex) {
+            /*@NonNegative*/ int itemIndex) {
         beginElementGroup(g2, new XYItemKey(seriesKey, itemIndex));    
     }
 
@@ -814,7 +816,8 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
             return new LegendItemCollection();
         }
         LegendItemCollection result = new LegendItemCollection();
-        int index = this.plot.getIndexOf(this);
+        @SuppressWarnings("index") // this is guaranteed to be a renderer for this.plot, so indexOf will return nonnegative
+        /*@NonNegative*/ int index = this.plot.getIndexOf(this);
         XYDataset dataset = this.plot.getDataset(index);
         if (dataset != null) {
             int seriesCount = dataset.getSeriesCount();
@@ -1628,7 +1631,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      *                  label position).
      */
     protected void drawItemLabel(Graphics2D g2, PlotOrientation orientation,
-            XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item, double x, double y,
+            XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#3.getSeries(#4)")*/ int item, double x, double y,
             boolean negative) {
 
         XYItemLabelGenerator generator = getItemLabelGenerator(series, item);
@@ -1687,7 +1690,8 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
         }
         while (iterator.hasNext()) {
             XYAnnotation annotation = (XYAnnotation) iterator.next();
-            int index = this.plot.getIndexOf(this);
+            @SuppressWarnings("index") // this is a renderer of this.plot by definition, so indexOf will return nonnegative
+            /*@NonNegative*/ int index = this.plot.getIndexOf(this);
             annotation.draw(g2, this.plot, dataArea, domainAxis, rangeAxis,
                     index, info);
         }
@@ -1712,7 +1716,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      *         {@code hotspot} is {@code null}).
      */
     protected void addEntity(EntityCollection entities, Shape hotspot,
-            XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item, double entityX,
+            XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#3.getSeries(#4)")*/ int item, double entityX,
             double entityY) {
         
         if (!getItemCreateEntity(series, item)) {

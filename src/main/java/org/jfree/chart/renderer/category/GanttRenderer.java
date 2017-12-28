@@ -244,7 +244,7 @@ public class GanttRenderer extends IntervalBarRenderer
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
             ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row,
-            int column, int pass) {
+            /*@NonNegative*/ int column, int pass) {
 
          if (dataset instanceof GanttCategoryDataset) {
              GanttCategoryDataset gcd = (GanttCategoryDataset) dataset;
@@ -278,8 +278,8 @@ public class GanttRenderer extends IntervalBarRenderer
                              CategoryAxis domainAxis,
                              ValueAxis rangeAxis,
                              GanttCategoryDataset dataset,
-                             int row,
-                             int column) {
+                             /*@NonNegative*/ int row,
+                             /*@NonNegative*/ int column) {
 
         int count = dataset.getSubIntervalCount(row, column);
         if (count == 0) {
@@ -384,7 +384,8 @@ public class GanttRenderer extends IntervalBarRenderer
 
             if (subinterval == count - 1) {
                 // submit the current data point as a crosshair candidate
-                int datasetIndex = plot.indexOf(dataset);
+                @SuppressWarnings("index") // dataset is assumed to be associated with plot. Is there any guarantee that they are associated? I'm not sure. Maybe a bug?
+                /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
                 Comparable columnKey = dataset.getColumnKey(column);
                 Comparable rowKey = dataset.getRowKey(row);
                 double xx = domainAxis.getCategorySeriesMiddle(columnKey,
@@ -426,8 +427,8 @@ public class GanttRenderer extends IntervalBarRenderer
                             CategoryAxis domainAxis,
                             ValueAxis rangeAxis,
                             GanttCategoryDataset dataset,
-                            int row,
-                            int column) {
+                            /*@NonNegative*/ int row,
+                            /*@NonNegative*/ int column) {
 
         PlotOrientation orientation = plot.getOrientation();
         RectangleEdge rangeAxisLocation = plot.getRangeAxisEdge();
@@ -534,7 +535,8 @@ public class GanttRenderer extends IntervalBarRenderer
         }
 
         // submit the current data point as a crosshair candidate
-        int datasetIndex = plot.indexOf(dataset);
+        @SuppressWarnings("index") // dataset is assumed to be associated with plot. Is there any guarantee that they are associated? I'm not sure. Maybe a bug?
+        /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
         Comparable columnKey = dataset.getColumnKey(column);
         Comparable rowKey = dataset.getRowKey(row);
         double xx = domainAxis.getCategorySeriesMiddle(columnKey, rowKey,

@@ -41,6 +41,8 @@
  */
 
 package org.jfree.chart.renderer.category;
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.common.value.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Color;
@@ -105,7 +107,7 @@ public class GradientBarPainter implements BarPainter, Serializable {
      */
     @Override
     public void paintBar(Graphics2D g2, BarRenderer renderer, /*@NonNegative*/ int row,
-            int column, RectangularShape bar, RectangleEdge base) {
+            /*@NonNegative*/ int column, RectangularShape bar, RectangleEdge base) {
 
         Paint itemPaint = renderer.getItemPaint(row, column);
 
@@ -207,7 +209,7 @@ public class GradientBarPainter implements BarPainter, Serializable {
      */
     @Override
     public void paintBarShadow(Graphics2D g2, BarRenderer renderer, /*@NonNegative*/ int row,
-            int column, RectangularShape bar, RectangleEdge base,
+            /*@NonNegative*/ int column, RectangularShape bar, RectangleEdge base,
             boolean pegShadow) {
 
         // handle a special case - if the bar colour has alpha == 0, it is
@@ -290,7 +292,7 @@ public class GradientBarPainter implements BarPainter, Serializable {
      *
      * @return An array containing four subregions.
      */
-    private Rectangle2D[] splitVerticalBar(RectangularShape bar, double a,
+    private Rectangle2D /*@ArrayLen(4)*/ [] splitVerticalBar(RectangularShape bar, double a,
             double b, double c) {
         Rectangle2D[] result = new Rectangle2D[4];
         double x0 = bar.getMinX();
@@ -319,7 +321,7 @@ public class GradientBarPainter implements BarPainter, Serializable {
      *
      * @return An array containing four subregions.
      */
-    private Rectangle2D[] splitHorizontalBar(RectangularShape bar, double a,
+    private Rectangle2D /*@ArrayLen(4)*/ [] splitHorizontalBar(RectangularShape bar, double a,
             double b, double c) {
         Rectangle2D[] result = new Rectangle2D[4];
         double y0 = bar.getMinY();

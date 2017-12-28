@@ -105,6 +105,7 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -717,6 +718,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
             XYPlot plot, XYDataset dataset, PlotRenderingInfo info) {
 
         XYBarRendererState state = new XYBarRendererState(info);
+        @SuppressWarnings("index") // dataset is assumed to be associated with plot, but isn't checked. A bug?
         ValueAxis rangeAxis = plot.getRangeAxisForDataset(plot.indexOf(
                 dataset));
         state.setG2Base(rangeAxis.valueToJava2D(this.base, dataArea,
@@ -807,21 +809,24 @@ public class XYBarRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
 
         if (!getItemVisible(series, item)) {
             return;
         }
         IntervalXYDataset intervalDataset = (IntervalXYDataset) dataset;
 
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
+        /*@IndexFor("intervalDataset.getSeries(series)")*/ int intervalItem = item;
+
         double value0;
         double value1;
         if (this.useYInterval) {
-            value0 = intervalDataset.getStartYValue(series, item);
-            value1 = intervalDataset.getEndYValue(series, item);
+            value0 = intervalDataset.getStartYValue(series, intervalItem);
+            value1 = intervalDataset.getEndYValue(series, intervalItem);
         } else {
             value0 = this.base;
-            value1 = intervalDataset.getYValue(series, item);
+            value1 = intervalDataset.getYValue(series, intervalItem);
         }
         if (Double.isNaN(value0) || Double.isNaN(value1)) {
             return;
@@ -843,11 +848,11 @@ public class XYBarRenderer extends AbstractXYItemRenderer
         double bottom = Math.min(translatedValue0, translatedValue1);
         double top = Math.max(translatedValue0, translatedValue1);
 
-        double startX = intervalDataset.getStartXValue(series, item);
+        double startX = intervalDataset.getStartXValue(series, intervalItem);
         if (Double.isNaN(startX)) {
             return;
         }
-        double endX = intervalDataset.getEndXValue(series, item);
+        double endX = intervalDataset.getEndXValue(series, intervalItem);
         if (Double.isNaN(endX)) {
             return;
         }
@@ -863,7 +868,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
 
         // is there an alignment adjustment to be made?
         if (this.barAlignmentFactor >= 0.0 && this.barAlignmentFactor <= 1.0) {
-            double x = intervalDataset.getXValue(series, item);
+            double x = intervalDataset.getXValue(series, intervalItem);
             double interval = endX - startX;
             startX = x - interval * this.barAlignmentFactor;
             endX = startX + interval;
@@ -943,7 +948,8 @@ public class XYBarRenderer extends AbstractXYItemRenderer
         double transX1 = domainAxis.valueToJava2D(x1, dataArea, location);
         double transY1 = rangeAxis.valueToJava2D(y1, dataArea,
                 plot.getRangeAxisEdge());
-        int datasetIndex = plot.indexOf(dataset);
+        @SuppressWarnings("index") // plot and dataset must be associated with each other. This is assumed but not checked. A bug?
+        /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
         updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
                 transX1, transY1, plot.getOrientation());
 
@@ -971,7 +977,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
      * @param negative  a flag indicating a negative value.
      */
     protected void drawItemLabel(Graphics2D g2, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@NonNegative*/ int item, XYPlot plot, XYItemLabelGenerator generator,
+            /*@NonNegative*/ int series, /*@IndexFor("#2.getSeries(#3)")*/ int item, XYPlot plot, XYItemLabelGenerator generator,
             Rectangle2D bar, boolean negative) {
 
         if (generator == null) {

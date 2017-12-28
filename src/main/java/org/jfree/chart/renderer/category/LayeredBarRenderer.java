@@ -139,7 +139,7 @@ public class LayeredBarRenderer extends BarRenderer implements Serializable {
      */
     @Override
     protected void calculateBarWidth(CategoryPlot plot, Rectangle2D dataArea,
-            int rendererIndex, CategoryItemRendererState state) {
+            /*@NonNegative*/ int rendererIndex, CategoryItemRendererState state) {
 
         // calculate the bar width - this calculation differs from the
         // BarRenderer calculation because the bars are layered on top of one

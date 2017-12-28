@@ -104,7 +104,7 @@ public class SamplingXYLineRenderer extends AbstractXYItemRenderer
      * @return The pass count.
      */
     @Override
-    public int getPassCount() {
+    public /*@NonNegative*/ int getPassCount() {
         return 1;
     }
 

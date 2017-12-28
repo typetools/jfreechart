@@ -167,7 +167,7 @@ public class StackedXYBarRenderer extends XYBarRenderer {
      * @return {@code 2}.
      */
     @Override
-    public int getPassCount() {
+    public /*@NonNegative*/ int getPassCount() {
         return 3;
     }
 

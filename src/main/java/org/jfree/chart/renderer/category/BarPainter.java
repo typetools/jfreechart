@@ -73,7 +73,7 @@ public interface BarPainter {
      * @param base  the base of the bar.
      */
     public void paintBar(Graphics2D g2, BarRenderer renderer,
-            int row, /*@NonNegative*/ int column, RectangularShape bar, RectangleEdge base);
+            /*@NonNegative*/ int row, /*@NonNegative*/ int column, RectangularShape bar, RectangleEdge base);
 
     /**
      * Paints the shadow for a single bar on behalf of a renderer.
@@ -87,7 +87,7 @@ public interface BarPainter {
      * @param pegShadow  peg the shadow to the base of the bar?
      */
     public void paintBarShadow(Graphics2D g2, BarRenderer renderer,
-            int row, /*@NonNegative*/ int column, RectangularShape bar, RectangleEdge base,
+            /*@NonNegative*/ int row, /*@NonNegative*/ int column, RectangularShape bar, RectangleEdge base,
             boolean pegShadow);
 
 }

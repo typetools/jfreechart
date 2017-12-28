@@ -266,9 +266,9 @@ public class StatisticalBarRenderer extends BarRenderer
                                       CategoryAxis domainAxis,
                                       ValueAxis rangeAxis,
                                       StatisticalCategoryDataset dataset,
-                                      int visibleRow,
-                                      int row,
-                                      int column) {
+                                      /*@NonNegative*/ int visibleRow,
+                                      /*@NonNegative*/ int row,
+                                      /*@NonNegative*/ int column) {
 
         // BAR Y
         double rectY = calculateBarW0(plot, PlotOrientation.HORIZONTAL, 
@@ -413,9 +413,9 @@ public class StatisticalBarRenderer extends BarRenderer
                                     CategoryAxis domainAxis,
                                     ValueAxis rangeAxis,
                                     StatisticalCategoryDataset dataset,
-                                    int visibleRow,
-                                    int row,
-                                    int column) {
+                                    /*@NonNegative*/ int visibleRow,
+                                    /*@NonNegative*/ int row,
+                                    /*@NonNegative*/ int column) {
 
         // BAR X
         double rectX = calculateBarW0(plot, PlotOrientation.VERTICAL, dataArea,

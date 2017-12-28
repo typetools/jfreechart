@@ -243,7 +243,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      * @return The pass count.
      */
     @Override
-    public int getPassCount() {
+    public /*@NonNegative*/ int getPassCount() {
         return 2;
     }
 

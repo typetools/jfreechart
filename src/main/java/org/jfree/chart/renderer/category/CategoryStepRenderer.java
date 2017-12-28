@@ -278,7 +278,7 @@ public class CategoryStepRenderer extends AbstractCategoryItemRenderer
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
             ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row,
-            int column, int pass) {
+            /*@NonNegative*/ int column, int pass) {
 
         // do nothing if item is not visible
         if (!getItemVisible(row, column)) {

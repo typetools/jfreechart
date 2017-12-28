@@ -168,7 +168,7 @@ public class IntervalBarRenderer extends BarRenderer {
      protected void drawInterval(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
             ValueAxis rangeAxis, IntervalCategoryDataset dataset, /*@NonNegative*/ int row,
-                                 int column) {
+                                 /*@NonNegative*/ int column) {
 
         int visibleRow = state.getVisibleSeriesIndex(row);
         if (visibleRow < 0) {
