@@ -94,7 +94,7 @@ public class DefaultShadowGenerator implements ShadowGenerator, Serializable {
      * @param distance  the shadow offset distance.
      * @param angle  the shadow offset angle (in radians).
      */
-    public DefaultShadowGenerator(int size, Color color, float opacity,
+    public DefaultShadowGenerator(/*@NonNegative*/ int size, Color color, float opacity,
             int distance, double angle) {
         Args.nullNotPermitted(color, "color");
         this.shadowSize = size;
@@ -225,7 +225,8 @@ public class DefaultShadowGenerator implements ShadowGenerator, Serializable {
         for (int y = 0, bufferOffset = 0; y < dstHeight; y++, bufferOffset = y * dstWidth) {
             aSum = 0;
             historyIdx = 0;
-            for (int x = 0; x < this.shadowSize; x++, bufferOffset++) {
+            for (int x = 0; x < aHistory.length; x++, bufferOffset++) {
+                @SuppressWarnings("index") // dataBuffer has an internal structure: it's divided into dstHeight sections of dstWidth. We iterate through dstHeight with y, and bufferOffset moves through the width
                 int a = dataBuffer[bufferOffset] >>> 24;
                 aHistory[x] = a;
                 aSum += a;
@@ -235,14 +236,20 @@ public class DefaultShadowGenerator implements ShadowGenerator, Serializable {
 
             for (int x = xStart; x < xStop; x++, bufferOffset++) {
                 int a = (int) (aSum * sumDivider);
-                dataBuffer[bufferOffset] = a << 24 | shadowRgb;
+                @SuppressWarnings("index") // dataBuffer has an internal structure: it's divided into dstHeight sections of dstWidth. We iterate through dstHeight with y, and bufferOffset moves through the width
+                int dead = (dataBuffer[bufferOffset] = a << 24 | shadowRgb);
+
+                @SuppressWarnings("index") // historyIdx is always less than this.shadowSize, which is the length of aHistory
+                /*@IndexFor("aHistory")*/ int historyIdx1 = historyIdx;
 
                 // substract the oldest pixel from the sum
-                aSum -= aHistory[historyIdx];
+                aSum -= aHistory[historyIdx1];
 
                 // get the lastest pixel
-                a = dataBuffer[bufferOffset + right] >>> 24;
-                aHistory[historyIdx] = a;
+                @SuppressWarnings("index") // dataBuffer has an internal structure: it's divided into dstHeight sections of dstWidth. We iterate through dstHeight with y, and bufferOffset moves through the width
+                        int aTmp = dataBuffer[bufferOffset + right] >>> 24;
+                a = aTmp;
+                aHistory[historyIdx1] = a;
                 aSum += a;
 
                 if (++historyIdx >= this.shadowSize) {
@@ -255,9 +262,10 @@ public class DefaultShadowGenerator implements ShadowGenerator, Serializable {
         for (int x = 0, bufferOffset = 0; x < dstWidth; x++, bufferOffset = x) {
             aSum = 0;
             historyIdx = 0;
-            for (int y = 0; y < this.shadowSize; y++,
+            for (int y = 0; y < aHistory.length; y++,
                     bufferOffset += dstWidth) {
-                int a = dataBuffer[bufferOffset] >>> 24;
+                @SuppressWarnings("index") // dataBuffer has an internal structure: it's divided into dstHeight sections of dstWidth. We iterate through dstWidth with x, and bufferOffset moves through the height
+                        int a = dataBuffer[bufferOffset] >>> 24;
                 aHistory[y] = a;
                 aSum += a;
             }
@@ -266,14 +274,20 @@ public class DefaultShadowGenerator implements ShadowGenerator, Serializable {
 
             for (int y = yStart; y < yStop; y++, bufferOffset += dstWidth) {
                 int a = (int) (aSum * sumDivider);
-                dataBuffer[bufferOffset] = a << 24 | shadowRgb;
+                @SuppressWarnings("index") // dataBuffer has an internal structure: it's divided into dstHeight sections of dstWidth. We iterate through dstWidth with x, and bufferOffset moves through the height
+                        int dead = (dataBuffer[bufferOffset] = a << 24 | shadowRgb);
+
+                @SuppressWarnings("index") // historyIdx is always less than this.shadowSize, which is the length of aHistory
+                /*@IndexFor("aHistory")*/ int historyIdx1 = historyIdx;
 
                 // substract the oldest pixel from the sum
-                aSum -= aHistory[historyIdx];
+                aSum -= aHistory[historyIdx1];
 
                 // get the lastest pixel
-                a = dataBuffer[bufferOffset + lastPixelOffset] >>> 24;
-                aHistory[historyIdx] = a;
+                @SuppressWarnings("index") // dataBuffer has an internal structure: it's divided into dstHeight sections of dstWidth. We iterate through dstWidth with x, and bufferOffset moves through the height
+                        int aTmp = dataBuffer[bufferOffset + lastPixelOffset] >>> 24;
+                a = aTmp;
+                aHistory[historyIdx1] = a;
                 aSum += a;
 
                 if (++historyIdx >= this.shadowSize) {

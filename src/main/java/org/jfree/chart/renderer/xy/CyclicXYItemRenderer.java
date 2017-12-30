@@ -285,7 +285,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
 
         if (x.length < 3 || y.length < 3) {
             // dead code, necessary for typechecking. x and y have correlated lengths
-            assert false;
+            return;
         }
 
         if (cnax != null) {

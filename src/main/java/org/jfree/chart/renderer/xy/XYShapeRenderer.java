@@ -516,9 +516,10 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
      *
      * @return The paint.
      */
-    protected Paint getPaint(XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    protected Paint getPaint(XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#1.getSeries(#2)")*/ int item) {
         Paint p;
         if (dataset instanceof XYZDataset) {
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
             double z = ((XYZDataset) dataset).getZValue(series, item);
             p = this.paintScale.getPaint(z);
         } else {

@@ -522,9 +522,9 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
         @SuppressWarnings("index") // itemCount needs to be at least 1 if we have an index (which we do - item).
         /*@Positive*/ int itemCount = dataset.getItemCount(series);
         @SuppressWarnings("index") // itemCount is at least one, so zero is an index
-        /*@IndexFor("dataset.getSeries(series)")*/ int zero = 0;
-        double x0 = dataset.getXValue(series, Math.max(item - 1, zero));
-        double y0 = dataset.getYValue(series, Math.max(item - 1, zero));
+        /*@IndexFor("dataset.getSeries(series)")*/ int zero_const = 0;
+        double x0 = dataset.getXValue(series, Math.max(item - 1, zero_const));
+        double y0 = dataset.getYValue(series, Math.max(item - 1, zero_const));
         if (Double.isNaN(y0)) {
             y0 = 0.0;
         }

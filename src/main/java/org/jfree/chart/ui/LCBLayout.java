@@ -91,7 +91,8 @@ public class LCBLayout implements LayoutManager, Serializable {
         synchronized (parent.getTreeLock()) {
             Insets insets = parent.getInsets();
             int ncomponents = parent.getComponentCount();
-            int nrows = ncomponents / COLUMNS;
+            @SuppressWarnings("index") // (parent's components / COLUMNS) must be less than the max rows for this LCBLayout, or this will crash. I believe this is by design, but it's not good code.
+            /*@IndexOrHigh("this.rowHeight")*/ int nrows = ncomponents / COLUMNS;
             for (int c = 0; c < COLUMNS; c++) {
                 for (int r = 0; r < nrows; r++) {
                     Component component = parent.getComponent(r * COLUMNS + c);
@@ -132,7 +133,8 @@ public class LCBLayout implements LayoutManager, Serializable {
         synchronized (parent.getTreeLock()) {
             Insets insets = parent.getInsets();
             int ncomponents = parent.getComponentCount();
-            int nrows = ncomponents / COLUMNS;
+            @SuppressWarnings("index") // (parent's components / COLUMNS) must be less than the max rows for this LCBLayout, or this will crash. I believe this is by design, but it's not good code.
+            /*@IndexOrHigh("this.rowHeight")*/ int nrows = ncomponents / COLUMNS;
             for (int c = 0; c < COLUMNS; c++) {
                 for (int r = 0; r < nrows; r++) {
                     Component component = parent.getComponent(r * COLUMNS + c);
@@ -171,7 +173,8 @@ public class LCBLayout implements LayoutManager, Serializable {
         synchronized (parent.getTreeLock()) {
             Insets insets = parent.getInsets();
             int ncomponents = parent.getComponentCount();
-            int nrows = ncomponents / COLUMNS;
+            @SuppressWarnings("index") // (parent's components / COLUMNS) must be less than the max rows for this LCBLayout, or this will crash. I believe this is by design, but it's not good code.
+            /*@IndexOrHigh("this.rowHeight")*/ int nrows = ncomponents / COLUMNS;
             for (int c = 0; c < COLUMNS; c++) {
                 for (int r = 0; r < nrows; r++) {
                     Component component = parent.getComponent(r * COLUMNS + c);

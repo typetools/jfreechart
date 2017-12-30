@@ -132,6 +132,7 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @return The column name.
      */
     @Override
+    @SuppressWarnings("index") // AbstractTableModel needs index annotations
     public String getColumnName(/*@NonNegative*/ int column) {
         if (this.model == null) {
             return super.getColumnName(column);
@@ -154,7 +155,7 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @return The value of the specified cell.
      */
     @Override
-    @SuppressWarnings("upperbound") // row's relation to the model is dependent on the value of column
+    @SuppressWarnings("index") // AbstractTableModel needs index annotations
     public Object getValueAt(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         if (this.model == null) {
             return null;
@@ -188,6 +189,7 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @return {@code true} if the specified cell is editable.
      */
     @Override
+    @SuppressWarnings("index") // AbstractTableModel needs index annotations
     public boolean isCellEditable(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return false;
    }
@@ -200,6 +202,7 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @param column  the column.
      */
     @Override
+    @SuppressWarnings("index") // AbstractTableModel needs index annotations
     public void setValueAt(Object value, /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         if (isCellEditable(row, column)) {
             // XYDataset only provides methods for reading a dataset...

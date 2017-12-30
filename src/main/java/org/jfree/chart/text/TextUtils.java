@@ -177,7 +177,11 @@ public class TextUtils {
             } else if (next == current) {
                 next++; // we must take one more character or we'll loop forever
             }
-            result.addLine(text.substring(current, next), font, paint);
+
+            @SuppressWarnings("index") // next is either < current < text.length, or next = current + 1 <= text.length
+            /*@IndexOrHigh("text")*/ int next1 = next;
+
+            result.addLine(text.substring(current, next1), font, paint);
             lines++;
             current = next;
             while (current < text.length()&& text.charAt(current) == '\n') {
@@ -214,7 +218,8 @@ public class TextUtils {
      *
      * @return The index of the next line break.
      */
-    private static /*@NonNegative*/ int nextLineBreak(String text, /*@IndexOrHigh("#1")*/ int start, float width,
+    @SuppressWarnings("index") // java.text.BreakIterator needs annotations
+    private static /*@GTENegativeOne*/ int nextLineBreak(String text, /*@IndexOrHigh("#1")*/ int start, float width,
             BreakIterator iterator, TextMeasurer measurer) {
 
         // this method is (loosely) based on code in JFreeReport's

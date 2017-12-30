@@ -677,7 +677,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
          *
          * @return The series index for the current path.
          */
-        public /*@NonNegative*/ int getSeriesIndex() {
+        public /*@GTENegativeOne*/ int getSeriesIndex() {
             return this.seriesIndex;
         }
 

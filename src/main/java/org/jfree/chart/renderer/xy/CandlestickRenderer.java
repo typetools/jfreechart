@@ -729,15 +729,15 @@ public class CandlestickRenderer extends AbstractXYItemRenderer
                     break;
 
                 case WIDTHMETHOD_INTERVALDATA:
-                    IntervalXYDataset intervalXYData
+                    IntervalXYDataset intervalDataset
                             = (IntervalXYDataset) dataset;
                     @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
-                    /*@IndexFor("intervalXYData.getSeries(series)")*/ int intervalXYItem = item;
+                    /*@IndexFor("intervalDataset.getSeries(series)")*/ int intervalXYItem = item;
                     double startPos = domainAxis.valueToJava2D(
-                            intervalXYData.getStartXValue(series, intervalXYItem),
+                            intervalDataset.getStartXValue(series, intervalXYItem),
                             dataArea, plot.getDomainAxisEdge());
                     double endPos = domainAxis.valueToJava2D(
-                            intervalXYData.getEndXValue(series, intervalXYItem),
+                            intervalDataset.getEndXValue(series, intervalXYItem),
                             dataArea, plot.getDomainAxisEdge());
                     xxWidth = Math.abs(endPos - startPos);
                     break;

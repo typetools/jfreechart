@@ -43,6 +43,9 @@
 
 package org.jfree.chart.util;
 
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.LinearGradientPaint;
@@ -316,11 +319,16 @@ public class PaintAlpha {
 
                 pix = ras.getPixels(miX, y, wid, 1, pix);
 
-                for (int p = 0; p < pix.length;) {
-                    pix[p] = (int)(pix[p++] * FACTOR); // Red
-                    pix[p] = (int)(pix[p++] * FACTOR); // Green
-                    pix[p] = (int)(pix[p++] * FACTOR); // Blue
-                    /* Ignore alpha-channel -> */p++;
+                for (int p = 0; p < pix.length; p++) {
+                    switch(p % 4) {
+                        case 0: // Red
+                        case 1: // Green
+                        case 2: // Blue
+                            pix[p] = (int)(pix[p] * FACTOR);
+                            break;
+                        case 3:
+                            /* Ignore alpha-channel -> */continue;
+                    }
                 }
                 /**/  ras.setPixels(miX, y, wid, 1, pix);
             }

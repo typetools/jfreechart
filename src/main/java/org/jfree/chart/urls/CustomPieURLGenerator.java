@@ -93,7 +93,7 @@ public class CustomPieURLGenerator implements PieURLGenerator,
      */
     @Override
     public String generateURL(PieDataset dataset, Comparable key,
-                              int pieIndex) {
+                              /*@NonNegative*/ int pieIndex) {
         return getURL(key, pieIndex);
     }
 
