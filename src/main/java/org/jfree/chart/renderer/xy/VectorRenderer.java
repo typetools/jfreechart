@@ -232,8 +232,11 @@ public class VectorRenderer extends AbstractXYItemRenderer
         double dx = 0.0;
         double dy = 0.0;
         if (dataset instanceof VectorXYDataset) {
-            dx = ((VectorXYDataset) dataset).getVectorXValue(series, item);
-            dy = ((VectorXYDataset) dataset).getVectorYValue(series, item);
+            VectorXYDataset vectorXYDataset = (VectorXYDataset) dataset;
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
+            /*@IndexFor("vectorXYDataset.getSeries(series)")*/ int vectorXYItem = item;
+            dx = vectorXYDataset.getVectorXValue(series, vectorXYItem);
+            dy = vectorXYDataset.getVectorYValue(series, vectorXYItem);
         }
         double xx0 = domainAxis.valueToJava2D(x, dataArea,
                 plot.getDomainAxisEdge());

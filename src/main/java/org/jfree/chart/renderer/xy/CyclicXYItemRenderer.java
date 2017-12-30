@@ -283,6 +283,11 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
             newset, series, one, crosshairState, pass
         );
 
+        if (x.length < 3 || y.length < 3) {
+            // dead code, necessary for typechecking. x and y have correlated lengths
+            assert false;
+        }
+
         if (cnax != null) {
             if (xcycleBound == x[1]) {
                 cnax.setBoundMappedToLastCycle(x[2] <= xcycleBound);

@@ -319,7 +319,7 @@ public class GradientXYBarPainter implements XYBarPainter, Serializable {
      *
      * @return An array containing four subregions.
      */
-    private Rectangle2D[] splitHorizontalBar(RectangularShape bar, double a,
+    private Rectangle2D /*@ArrayLen(4)*/ [] splitHorizontalBar(RectangularShape bar, double a,
             double b, double c) {
         Rectangle2D[] result = new Rectangle2D[4];
         double y0 = bar.getMinY();

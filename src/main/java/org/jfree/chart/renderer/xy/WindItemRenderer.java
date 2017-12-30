@@ -124,6 +124,8 @@ public class WindItemRenderer extends AbstractXYItemRenderer
             /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
 
         WindDataset windData = (WindDataset) dataset;
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
+            /*@IndexFor("windData.getSeries(series)")*/ int windItem = item;
 
         Paint seriesPaint = getItemPaint(series, item);
         Stroke seriesStroke = getItemStroke(series, item);
@@ -132,9 +134,9 @@ public class WindItemRenderer extends AbstractXYItemRenderer
 
         // get the data point...
 
-        Number x = windData.getX(series, item);
-        Number windDir = windData.getWindDirection(series, item);
-        Number wforce = windData.getWindForce(series, item);
+        Number x = windData.getX(series, windItem);
+        Number windDir = windData.getWindDirection(series, windItem);
+        Number wforce = windData.getWindForce(series, windItem);
         double windForce = wforce.doubleValue();
 
         double wdirt = Math.toRadians(windDir.doubleValue() * (-30.0) - 90.0);

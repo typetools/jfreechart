@@ -462,7 +462,9 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
         if (b_impliedZeroSubtrahend) {
             l_subtrahendItem      = 0;
             l_subtrahendItemCount = 2;
-            l_subtrahendCurX      = new Double(x_dataset.getXValue(0, 0));
+            @SuppressWarnings("index") // itemCount is positive for series zero, so zero is an index into that series
+                    /*@IndexFor("x_dataset.getSeries(0)")*/ int zero = 0;
+            l_subtrahendCurX      = new Double(x_dataset.getXValue(0, zero));
             l_subtrahendNextX     = new Double(x_dataset.getXValue(0,
                     (l_minuendItemCount - 1)));
             l_subtrahendCurY      = new Double(0.0);

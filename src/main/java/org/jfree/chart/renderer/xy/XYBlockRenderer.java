@@ -358,7 +358,10 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
         double y = dataset.getYValue(series, item);
         double z = 0.0;
         if (dataset instanceof XYZDataset) {
-            z = ((XYZDataset) dataset).getZValue(series, item);
+            XYZDataset xyzDataset = ((XYZDataset) dataset);
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
+            /*@IndexFor("xyzDataset.getSeries(series)")*/ int xyzItem = item;
+            z = xyzDataset.getZValue(series, xyzItem);
         }
 
         Paint p = this.paintScale.getPaint(z);

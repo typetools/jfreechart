@@ -380,7 +380,7 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
     public void drawHorizontalItem(Graphics2D g2, Rectangle2D dataArea,
             PlotRenderingInfo info, XYPlot plot, ValueAxis domainAxis,
             ValueAxis rangeAxis, XYDataset dataset, /*@NonNegative*/ int series,
-            /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            /*@IndexFor("#7.getSeries(#8)")*/ int item, CrosshairState crosshairState, int pass) {
 
         // setup for collecting optional entity info...
         EntityCollection entities = null;

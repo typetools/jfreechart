@@ -284,11 +284,15 @@ public class DeviationRenderer extends XYLineAndShapeRenderer {
         // first pass draws the shading
         if (pass == 0) {
             IntervalXYDataset intervalDataset = (IntervalXYDataset) dataset;
+
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
+            /*@IndexFor("intervalDataset.getSeries(series)")*/ int intervalXYItem = item;
+
             State drState = (State) state;
 
-            double x = intervalDataset.getXValue(series, item);
-            double yLow = intervalDataset.getStartYValue(series, item);
-            double yHigh  = intervalDataset.getEndYValue(series, item);
+            double x = intervalDataset.getXValue(series, intervalXYItem);
+            double yLow = intervalDataset.getStartYValue(series, intervalXYItem);
+            double yHigh  = intervalDataset.getEndYValue(series, intervalXYItem);
 
             RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
             RectangleEdge yAxisLocation = plot.getRangeAxisEdge();

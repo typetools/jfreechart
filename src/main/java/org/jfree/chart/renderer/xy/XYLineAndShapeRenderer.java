@@ -685,7 +685,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
          */
         @Override
         public void startSeriesPass(XYDataset dataset, /*@NonNegative*/ int series,
-                int firstItem, int lastItem, int pass, int passCount) {
+                /*@IndexFor("#1.getSeries(#2)")*/ int firstItem, /*@IndexFor("#1.getSeries(#2)")*/ int lastItem, int pass, int passCount) {
             this.seriesPath.reset();
             this.lastPointGood = false;
             super.startSeriesPass(dataset, series, firstItem, lastItem, pass,
@@ -738,7 +738,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
 
         // do nothing if item is not visible
         if (!getItemVisible(series, item)) {
@@ -1030,7 +1030,8 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
                     (y1 < 0.0));
         }
 
-        int datasetIndex = plot.indexOf(dataset);
+        @SuppressWarnings("index") // dataset is assumed to be associated with plot. Is there any guarantee that they are associated? I'm not sure. Maybe a bug?
+        /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
         updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
                 transX1, transY1, orientation);
 

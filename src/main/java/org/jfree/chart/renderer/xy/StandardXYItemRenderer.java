@@ -635,7 +635,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
         public GeneralPath seriesPath;
 
         /** The series index. */
-        private /*@NonNegative*/ int seriesIndex;
+        private /*@GTENegativeOne*/ int seriesIndex;
 
         /**
          * A flag that indicates if the last (x, y) point was 'good'
@@ -821,7 +821,9 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
                         // previous data point is within the threshold
                         @SuppressWarnings("index") // item is an index, but it's not equal to zero. This implies that there must be at least two items.
                         /*@Positive*/ int numX = dataset.getItemCount(series);
-                        double minX = dataset.getXValue(series, 0);
+                        @SuppressWarnings("index") // zero is an index, because itemCount >= 2
+                        /*@IndexFor("dataset.getSeries(series)")*/ int zero = 0;
+                        double minX = dataset.getXValue(series, zero);
                         double maxX = dataset.getXValue(series, numX - 1);
                         if (this.gapThresholdType == UnitType.ABSOLUTE) {
                             drawLine = Math.abs(x1 - x0) <= this.gapThreshold;

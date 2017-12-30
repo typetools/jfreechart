@@ -266,7 +266,9 @@ public class StackedXYBarRenderer extends XYBarRenderer {
         }
 
         IntervalXYDataset intervalDataset = (IntervalXYDataset) dataset;
-        double value = intervalDataset.getYValue(series, item);
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
+            /*@IndexFor("intervalDataset.getSeries(series)")*/ int intervalXYItem = item;
+        double value = intervalDataset.getYValue(series, intervalXYItem);
         if (Double.isNaN(value)) {
             return;
         }
@@ -289,6 +291,7 @@ public class StackedXYBarRenderer extends XYBarRenderer {
         double negativeBase = 0.0;
 
         for (int i = 0; i < series; i++) {
+            @SuppressWarnings("index") // this code assumes that item is an index into every series in the dataset preceding the series, not just the series. This isn't an intrinsic property of xydatasets, so I think this may be a bug?
             double v = dataset.getYValue(i, item);
             if (!Double.isNaN(v) && isSeriesVisible(i)) {
                 if (this.renderAsPercentages) {
@@ -320,14 +323,14 @@ public class StackedXYBarRenderer extends XYBarRenderer {
         }
 
         RectangleEdge edgeD = plot.getDomainAxisEdge();
-        double startX = intervalDataset.getStartXValue(series, item);
+        double startX = intervalDataset.getStartXValue(series, intervalXYItem);
         if (Double.isNaN(startX)) {
             return;
         }
         double translatedStartX = domainAxis.valueToJava2D(startX, dataArea,
                 edgeD);
 
-        double endX = intervalDataset.getEndXValue(series, item);
+        double endX = intervalDataset.getEndXValue(series, intervalXYItem);
         if (Double.isNaN(endX)) {
             return;
         }
