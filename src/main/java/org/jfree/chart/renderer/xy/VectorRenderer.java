@@ -46,6 +46,8 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Graphics2D;
@@ -113,7 +115,7 @@ public class VectorRenderer extends AbstractXYItemRenderer
         if (dataset instanceof VectorXYDataset) {
             VectorXYDataset vdataset = (VectorXYDataset) dataset;
             for (int series = 0; series < seriesCount; series++) {
-                int itemCount = dataset.getItemCount(series);
+                int itemCount = vdataset.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
                     double delta = vdataset.getVectorXValue(series, item);
                     if (delta < 0.0) {
@@ -168,7 +170,7 @@ public class VectorRenderer extends AbstractXYItemRenderer
         if (dataset instanceof VectorXYDataset) {
             VectorXYDataset vdataset = (VectorXYDataset) dataset;
             for (int series = 0; series < seriesCount; series++) {
-                int itemCount = dataset.getItemCount(series);
+                int itemCount = vdataset.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
                     double delta = vdataset.getVectorYValue(series, item);
                     if (delta < 0.0) {
@@ -223,7 +225,7 @@ public class VectorRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
 
         double x = dataset.getXValue(series, item);
         double y = dataset.getYValue(series, item);

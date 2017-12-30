@@ -56,6 +56,10 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.common.value.qual.MinLen; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
@@ -218,7 +222,7 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
 
         // setup for collecting optional entity info...
         EntityCollection entities = null;
@@ -247,7 +251,8 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
         double[] stack0 = getStackValues(tdataset, series, Math.max(item - 1,
                 0));
 
-        int itemCount = dataset.getItemCount(series);
+        @SuppressWarnings("index") // itemCount must be positive if we have an index, which we do (item)
+        /*@Positive*/ int itemCount = dataset.getItemCount(series);
         double x2 = dataset.getXValue(series, Math.min(item + 1,
                 itemCount - 1));
         double y2 = dataset.getYValue(series, Math.min(item + 1,
@@ -465,7 +470,9 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
                                     /*@NonNegative*/ int series, /*@NonNegative*/ int index) {
         double[] result = new double[2];
         for (int i = 0; i < series; i++) {
-            double v = dataset.getYValue(i, index);
+            @SuppressWarnings("index") // index must be an index into all series < series is a precondition of this function
+            /*@IndexFor("dataset.getSeries(i)")*/ int iIndex = index;
+            double v = dataset.getYValue(i, iIndex);
             if (!Double.isNaN(v)) {
                 if (v >= 0.0) {
                     result[1] += v;
@@ -487,7 +494,7 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
      *
      * @return A pair of average stack values.
      */
-    private double[] averageStackValues(double[] stack1, double[] stack2) {
+    private double /*@ArrayLen(2)*/ [] averageStackValues(double /*@MinLen(2)*/ [] stack1, double /*@MinLen(2)*/ [] stack2) {
         double[] result = new double[2];
         result[0] = (stack1[0] + stack2[0]) / 2.0;
         result[1] = (stack1[1] + stack2[1]) / 2.0;
@@ -504,7 +511,7 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
      *
      * @return A pair of average stack values.
      */
-    private double[] adjustedStackValues(double[] stack1, double[] stack2) {
+    private double /*@ArrayLen(2)*/ [] adjustedStackValues(double /*@MinLen(2)*/ [] stack1, double /*@MinLen(2)*/ [] stack2) {
         double[] result = new double[2];
         if (stack1[0] == 0.0 || stack2[0] == 0.0) {
             result[0] = 0.0;

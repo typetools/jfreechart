@@ -47,6 +47,8 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -69,14 +71,14 @@ public class XYItemRendererState extends RendererState {
      *
      * @since 1.0.11
      */
-    private int firstItemIndex;
+    private /*@NonNegative*/ int firstItemIndex;
 
     /**
      * The last item in the current series that will be displayed.
      *
      * @since 1.0.11
      */
-    private int lastItemIndex;
+    private /*@NonNegative*/ int lastItemIndex;
 
     /**
      * A line object that the renderer can reuse to save instantiating a lot
@@ -171,8 +173,8 @@ public class XYItemRendererState extends RendererState {
      *
      * @since 1.0.11
      */
-    public void startSeriesPass(XYDataset dataset, /*@NonNegative*/ int series, int firstItem,
-            int lastItem, int pass, int passCount) {
+    public void startSeriesPass(XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#1.getSeries(#2)")*/ int firstItem,
+            /*@IndexFor("#1.getSeries(#2)")*/ int lastItem, int pass, int passCount) {
         this.firstItemIndex = firstItem;
         this.lastItemIndex = lastItem;
     }

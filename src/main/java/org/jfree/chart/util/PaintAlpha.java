@@ -250,7 +250,10 @@ public class PaintAlpha {
 
         final int   wid = ras.getWidth();
 
-        /**/  int[] pix = new int[wid * img.getSampleModel().getNumBands()];
+        @SuppressWarnings("index") // wid is NN, as is img.getSampleModel().getNumBands(). Both require JDK annotations on classes in java.awt.image
+        /*@NonNegative*/ int pixLength = wid * img.getSampleModel().getNumBands();
+
+        /**/  int[] pix = new int[pixLength];
         /* (pix-buffer is large enough for all pixels of one row) */
 
         /**
@@ -281,7 +284,8 @@ public class PaintAlpha {
                 pix = ras.getPixels(miX, y, wid, 1, pix);
 
                 for (int p = 0; p < pix.length; p++) {
-                    nco    =  img.getColorModel().getComponents(pix[p], nco, 0);
+                    @SuppressWarnings({"index", "value"}) // needs annotations on java.awt.image.ColorModel - getComponents returns same length as the array passed in
+                    int /*@ArrayLen(4)*/ [] nco2    =  img.getColorModel().getComponents(pix[p], nco, 0);
                     nco[0] *= FACTOR; // Red
                     nco[1] *= FACTOR; // Green
                     nco[2] *= FACTOR; // Blue. Now map computed colour to

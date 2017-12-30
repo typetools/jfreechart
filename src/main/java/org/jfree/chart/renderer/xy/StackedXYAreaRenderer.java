@@ -70,6 +70,8 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Graphics2D;
@@ -397,7 +399,7 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
 
         PlotOrientation orientation = plot.getOrientation();
         StackedXYAreaRendererState areaState
@@ -535,7 +537,8 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
                 }
             }
 
-            int datasetIndex = plot.indexOf(dataset);
+            @SuppressWarnings("index") // dataset is assumed to be associated with plot. Is there any guarantee that they are associated? I'm not sure. Maybe a bug?
+            /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
             updateCrosshairValues(crosshairState, x1, ph1 + y1, datasetIndex,
                     transX1, transY1, orientation);
 
@@ -628,7 +631,9 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
                                        int series, /*@NonNegative*/ int index) {
         double result = 0.0;
         for (int i = 0; i < series; i++) {
-            double value = dataset.getYValue(i, index);
+            @SuppressWarnings("index") // precondition of this function is that index is an index into every series up to series
+            /*@IndexFor("dataset.getSeries(i)")*/ int iIndex = index;
+            double value = dataset.getYValue(i, iIndex);
             if (!Double.isNaN(value)) {
                 result += value;
             }

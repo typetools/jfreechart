@@ -635,7 +635,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
         public GeneralPath seriesPath;
 
         /** The series index. */
-        private int seriesIndex;
+        private /*@NonNegative*/ int seriesIndex;
 
         /**
          * A flag that indicates if the last (x, y) point was 'good'
@@ -819,7 +819,8 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
                     if (getPlotDiscontinuous()) {
                         // only draw a line if the gap between the current and
                         // previous data point is within the threshold
-                        int numX = dataset.getItemCount(series);
+                        @SuppressWarnings("index") // item is an index, but it's not equal to zero. This implies that there must be at least two items.
+                        /*@Positive*/ int numX = dataset.getItemCount(series);
                         double minX = dataset.getXValue(series, 0);
                         double maxX = dataset.getXValue(series, numX - 1);
                         if (this.gapThresholdType == UnitType.ABSOLUTE) {
@@ -916,7 +917,8 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
                     (y1 < 0.0));
         }
 
-        int datasetIndex = plot.indexOf(dataset);
+        @SuppressWarnings("index") // dataset is assumed to be associated with plot. Is there any guarantee that they are associated? I'm not sure. Maybe a bug?
+        /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
         updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
                 transX1, transY1, orientation);
 

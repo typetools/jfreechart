@@ -72,6 +72,8 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -815,8 +817,8 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
                                    XYPlot plot,
                                    XYDataset dataset,
                                    int pass,
-                                   int series,
-                                   int item,
+                                   /*@NonNegative*/ int series,
+                                   /*@IndexFor("#4.getSeries(#6)")*/ int item,
                                    ValueAxis domainAxis,
                                    ValueAxis rangeAxis,
                                    Rectangle2D dataArea) {
@@ -876,7 +878,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      * @param shape  the shape.
      */
     protected void drawFirstPassShape(Graphics2D g2, int pass, /*@NonNegative*/ int series,
-                                      int item, Shape shape) {
+                                      /*@NonNegative*/ int item, Shape shape) {
         g2.setStroke(getItemStroke(series, item));
         g2.setPaint(getItemPaint(series, item));
         g2.draw(shape);
@@ -903,7 +905,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      */
     protected void drawPrimaryLineAsPath(XYItemRendererState state,
             Graphics2D g2, XYPlot plot, XYDataset dataset, int pass,
-            /*@NonNegative*/ int series, /*@NonNegative*/ int item, ValueAxis domainAxis, ValueAxis rangeAxis,
+            /*@NonNegative*/ int series, /*@IndexFor("#4.getSeries(#6)")*/ int item, ValueAxis domainAxis, ValueAxis rangeAxis,
             Rectangle2D dataArea) {
 
         RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
@@ -962,7 +964,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      * @param entities the entity collection.
      */
     protected void drawSecondaryPass(Graphics2D g2, XYPlot plot, 
-            XYDataset dataset, int pass, /*@NonNegative*/ int series, /*@NonNegative*/ int item,
+            XYDataset dataset, int pass, /*@NonNegative*/ int series, /*@IndexFor("#3.getSeries(#5)")*/ int item,
             ValueAxis domainAxis, Rectangle2D dataArea, ValueAxis rangeAxis,
             CrosshairState crosshairState, EntityCollection entities) {
 

@@ -135,7 +135,7 @@ public class CustomPieURLGenerator implements PieURLGenerator,
      *
      * @return The URL.
      */
-    public String getURL(Comparable key, int mapIndex) {
+    public String getURL(Comparable key, /*@NonNegative*/ int mapIndex) {
         String result = null;
         if (mapIndex < getListCount()) {
             Map urlMap = (Map) this.urls.get(mapIndex);

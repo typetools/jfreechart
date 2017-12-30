@@ -77,6 +77,6 @@ public interface CategoryURLGenerator {
      * @return A string containing the URL.
      */
     public String generateURL(CategoryDataset dataset, /*@NonNegative*/ int series,
-            int category);
+            /*@NonNegative*/ int category);
 
 }

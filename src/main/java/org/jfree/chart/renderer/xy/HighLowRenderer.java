@@ -67,6 +67,8 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Graphics2D;
@@ -321,7 +323,7 @@ public class HighLowRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
 
         double x = dataset.getXValue(series, item);
         if (!domainAxis.getRange().contains(x)) {
@@ -348,8 +350,11 @@ public class HighLowRenderer extends AbstractXYItemRenderer
         if (dataset instanceof OHLCDataset) {
             OHLCDataset hld = (OHLCDataset) dataset;
 
-            double yHigh = hld.getHighValue(series, item);
-            double yLow = hld.getLowValue(series, item);
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/209
+            /*@IndexFor("hld.getSeries(series)")*/ int hldItem = item;
+
+            double yHigh = hld.getHighValue(series, hldItem);
+            double yLow = hld.getLowValue(series, hldItem);
             if (!Double.isNaN(yHigh) && !Double.isNaN(yLow)) {
                 double yyHigh = rangeAxis.valueToJava2D(yHigh, dataArea,
                         location);
@@ -373,7 +378,7 @@ public class HighLowRenderer extends AbstractXYItemRenderer
                 delta = -delta;
             }
             if (getDrawOpenTicks()) {
-                double yOpen = hld.getOpenValue(series, item);
+                double yOpen = hld.getOpenValue(series, hldItem);
                 if (!Double.isNaN(yOpen)) {
                     double yyOpen = rangeAxis.valueToJava2D(yOpen, dataArea,
                             location);
@@ -395,7 +400,7 @@ public class HighLowRenderer extends AbstractXYItemRenderer
             }
 
             if (getDrawCloseTicks()) {
-                double yClose = hld.getCloseValue(series, item);
+                double yClose = hld.getCloseValue(series, hldItem);
                 if (!Double.isNaN(yClose)) {
                     double yyClose = rangeAxis.valueToJava2D(
                         yClose, dataArea, location);

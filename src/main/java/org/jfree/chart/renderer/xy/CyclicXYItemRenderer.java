@@ -250,12 +250,13 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
         }
 
         // If the line is not wrapping, then parent is OK
-        if (x.length == 2) {
+        if (x.length == 2 && y.length == 2) {
             super.drawItem(g2, state, dataArea, info, plot, domainAxis,
                     rangeAxis, dataset, series, item, crosshairState, pass);
             return;
         }
 
+        @SuppressWarnings("index") // x and y always have the same length here
         OverwriteDataSet newset = new OverwriteDataSet(x, y, dataset);
 
         if (cnax != null) {
@@ -274,9 +275,12 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
                 cnay.setBoundMappedToLastCycle(y[0] <= ycycleBound);
             }
         }
+
+        @SuppressWarnings("index") // newset is created from x and y, which are both arrays with at least two elements. So one is always a valid index to either
+        /*@LTLengthOf("newset.getSeries(series)")*/ int one = 1;
         super.drawItem(
             g2, state, dataArea, info, plot, domainAxis, rangeAxis,
-            newset, series, 1, crosshairState, pass
+            newset, series, one, crosshairState, pass
         );
 
         if (cnax != null) {
@@ -295,8 +299,12 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
                 cnay.setBoundMappedToLastCycle(y[1] <= ycycleBound);
             }
         }
+
+        @SuppressWarnings("index") // newset is created from x and y, which are both arrays with at least two elements. But, if x and y were of length two we already returned. So, two is a valid index into newset.
+        /*@LTLengthOf("newset.getSeries(series)")*/ int two = 2;
+
         super.drawItem(g2, state, dataArea, info, plot, domainAxis, rangeAxis,
-                newset, series, 2, crosshairState, pass);
+                newset, series, two, crosshairState, pass);
 
         if (x.length == 4 && y.length == 4) {
             if (cnax != null) {
@@ -315,8 +323,12 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
                     cnay.setBoundMappedToLastCycle(y[2] <= ycycleBound);
                 }
             }
+
+            @SuppressWarnings("index") // newset is created from x and y, which are both arrays with exactly four elements.
+            /*@LTLengthOf("newset.getSeries(series)")*/ int three = 3;
+
             super.drawItem(g2, state, dataArea, info, plot, domainAxis,
-                    rangeAxis, newset, series, 3, crosshairState, pass);
+                    rangeAxis, newset, series, three, crosshairState, pass);
         }
 
         if (cnax != null) {
@@ -387,6 +399,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The x-value.
          */
         @Override
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/209
         public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
             return this.x[item];
         }
@@ -419,6 +432,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The y-value.
          */
         @Override
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/209
         public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
             return this.y[item];
         }
@@ -521,7 +535,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * A ghost method. Do not call.
          */
         @Override
-        public Series getSeries(int series) {
+        public Series getSeries(/*@NonNegative*/ int series) {
             return null;
         }
 

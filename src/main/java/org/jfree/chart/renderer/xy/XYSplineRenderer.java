@@ -48,7 +48,8 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.common.value.qual.*; */
 
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;

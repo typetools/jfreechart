@@ -41,6 +41,8 @@
  */
 
 package org.jfree.chart.util;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -62,7 +64,7 @@ public class DefaultShadowGenerator implements ShadowGenerator, Serializable {
     private static final long serialVersionUID = 2732993885591386064L;
 
     /** The shadow size. */
-    private int shadowSize;
+    private /*@NonNegative*/ int shadowSize;
 
     /** The shadow color. */
     private Color shadowColor;

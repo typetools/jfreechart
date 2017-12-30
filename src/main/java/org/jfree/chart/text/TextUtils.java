@@ -27,6 +27,10 @@
  */
 
 package org.jfree.chart.text;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -161,7 +165,7 @@ public class TextUtils {
         TextBlock result = new TextBlock();
         BreakIterator iterator = BreakIterator.getLineInstance();
         iterator.setText(text);
-        int current = 0;
+        /*@NonNegative*/ int current = 0;
         int lines = 0;
         int length = text.length();
         while (current < length && lines < maxLines) {
@@ -210,7 +214,7 @@ public class TextUtils {
      *
      * @return The index of the next line break.
      */
-    private static int nextLineBreak(String text, int start, float width, 
+    private static /*@NonNegative*/ int nextLineBreak(String text, /*@IndexOrHigh("#1")*/ int start, float width,
             BreakIterator iterator, TextMeasurer measurer) {
 
         // this method is (loosely) based on code in JFreeReport's
@@ -359,7 +363,7 @@ public class TextUtils {
      *
      * @return  The offsets.
      */
-    private static float[] deriveTextBoundsAnchorOffsets(Graphics2D g2,
+    private static float /*@ArrayLen(3)*/ [] deriveTextBoundsAnchorOffsets(Graphics2D g2,
             String text, TextAnchor anchor, Rectangle2D textBounds) {
 
         float[] result = new float[3];
@@ -580,7 +584,7 @@ public class TextUtils {
      *
      * @return  The offsets.
      */
-    private static float[] deriveTextBoundsAnchorOffsets(Graphics2D g2,
+    private static float /*@ArrayLen(2)*/ [] deriveTextBoundsAnchorOffsets(Graphics2D g2,
             String text, TextAnchor anchor) {
 
         float[] result = new float[2];
@@ -635,7 +639,7 @@ public class TextUtils {
      *
      * @return The offsets.
      */
-    private static float[] deriveRotationAnchorOffsets(Graphics2D g2,
+    private static float /*@ArrayLen(2)*/ [] deriveRotationAnchorOffsets(Graphics2D g2,
             String text, TextAnchor anchor) {
 
         float[] result = new float[2];

@@ -85,6 +85,8 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 /*>>>
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -291,7 +293,7 @@ public class XYAreaRenderer2 extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
          Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
          ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-         /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass) {
+         /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
 
         if (!getItemVisible(series, item)) {
             return;
@@ -320,7 +322,8 @@ public class XYAreaRenderer2 extends AbstractXYItemRenderer
         double transY0 = rangeAxis.valueToJava2D(y0, dataArea,
                 plot.getRangeAxisEdge());
 
-        int itemCount = dataset.getItemCount(series);
+        @SuppressWarnings("index") // itemCount must be positive, since we have an index (item)
+        /*@Positive*/ int itemCount = dataset.getItemCount(series);
         double x2 = dataset.getXValue(series, Math.min(item + 1,
                 itemCount - 1));
         double y2 = dataset.getYValue(series, Math.min(item + 1,
@@ -372,7 +375,9 @@ public class XYAreaRenderer2 extends AbstractXYItemRenderer
             g2.setPaint(lookupSeriesOutlinePaint(series));
             g2.draw(hotspot);
         }
-        int datasetIndex = plot.indexOf(dataset);
+
+        @SuppressWarnings("index") // dataset is assumed to be associated with plot. Is there any guarantee that they are associated? I'm not sure. Maybe a bug?
+        /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
         updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
                 transX1, transY1, orientation);
 

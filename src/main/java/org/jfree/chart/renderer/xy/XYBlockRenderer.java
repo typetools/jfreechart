@@ -46,6 +46,8 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.BasicStroke;
@@ -350,7 +352,7 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@NonNegative*/ int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
 
         double x = dataset.getXValue(series, item);
         double y = dataset.getYValue(series, item);
@@ -390,7 +392,8 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
                     block.getCenterX(), block.getCenterY(), y < 0.0);
         }
 
-        int datasetIndex = plot.indexOf(dataset);
+        @SuppressWarnings("index") // dataset is assumed to be associated with plot. Is there any guarantee that they are associated? I'm not sure. Maybe a bug?
+        /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
         double transX = domainAxis.valueToJava2D(x, dataArea,
                 plot.getDomainAxisEdge());
         double transY = rangeAxis.valueToJava2D(y, dataArea,
