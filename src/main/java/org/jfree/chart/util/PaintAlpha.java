@@ -287,8 +287,7 @@ public class PaintAlpha {
                 pix = ras.getPixels(miX, y, wid, 1, pix);
 
                 for (int p = 0; p < pix.length; p++) {
-                    @SuppressWarnings({"index", "value"}) // needs annotations on java.awt.image.ColorModel - getComponents returns same length as the array passed in
-                    int /*@ArrayLen(4)*/ [] nco2    =  img.getColorModel().getComponents(pix[p], nco, 0);
+                    nco = img.getColorModel().getComponents(pix[p], nco, 0);
                     nco[0] *= FACTOR; // Red
                     nco[1] *= FACTOR; // Green
                     nco[2] *= FACTOR; // Blue. Now map computed colour to

@@ -159,7 +159,7 @@ public class QuarterDateFormat extends DateFormat
                                FieldPosition fieldPosition) {
         this.calendar.setTime(date);
         int year = this.calendar.get(Calendar.YEAR);
-        @SuppressWarnings({"index", "value"}) // Calendar needs index annotations
+        @SuppressWarnings({"index", "value"}) // calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
         /*@IntRange(from=0, to=11)*/ int month = this.calendar.get(Calendar.MONTH);
         int quarter = month / 3;
         if (this.quarterFirst) {

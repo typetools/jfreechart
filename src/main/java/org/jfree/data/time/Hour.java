@@ -156,7 +156,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.13
      */
-    @SuppressWarnings({"value", "index"}) // calendar needs index annotations
+    @SuppressWarnings({"index", "value"}) // calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
     public Hour(Date time, TimeZone zone, Locale locale) {
         Args.nullNotPermitted(time, "time");
         Args.nullNotPermitted(zone, "zone");

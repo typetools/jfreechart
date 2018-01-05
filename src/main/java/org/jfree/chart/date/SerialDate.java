@@ -225,7 +225,7 @@ public abstract class SerialDate implements Comparable, Serializable,
 
         final String[] shortWeekdayNames 
             = DATE_FORMAT_SYMBOLS.getShortWeekdays();
-        @SuppressWarnings("index") // java.text.DateFormatSymbols needs index annotations
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/179
         final String /*@SameLen("shortWeekdayNames")*/ [] weekDayNames = DATE_FORMAT_SYMBOLS.getWeekdays();
 
         int result = -1;
@@ -254,7 +254,6 @@ public abstract class SerialDate implements Comparable, Serializable,
      * @return a string representing the supplied day-of-the-week.
      */
     public static String weekdayCodeToString(/*@IntRange(from=0, to=7)*/ int weekday) {
-        @SuppressWarnings({"index", "value"}) // java.text.DateFormatSymbols needs index annotations
         final String /*@ArrayLen(8)*/ [] weekdays = DATE_FORMAT_SYMBOLS.getWeekdays();
         return weekdays[weekday];
     }
@@ -382,13 +381,11 @@ public abstract class SerialDate implements Comparable, Serializable,
         final String /*@ArrayLen(13)*/ [] months;
 
         if (shortened) {
-            @SuppressWarnings({"index", "value"}) // java.text.DateFormatSymbols needs index annotations
-            final String /*@ArrayLen(13)*/ [] monthsTmp = DATE_FORMAT_SYMBOLS.getShortMonths();
+            final String[] monthsTmp = DATE_FORMAT_SYMBOLS.getShortMonths();
             months = monthsTmp;
         }
         else {
-            @SuppressWarnings({"index", "value"}) // java.text.DateFormatSymbols needs index annotations
-            final String /*@ArrayLen(13)*/ [] monthsTmp = DATE_FORMAT_SYMBOLS.getMonths();
+            final String[] monthsTmp = DATE_FORMAT_SYMBOLS.getMonths();
             months = monthsTmp;
         }
 
@@ -558,7 +555,7 @@ public abstract class SerialDate implements Comparable, Serializable,
      *
      * @return a new date.
      */
-    @SuppressWarnings({"index", "value"}) // I believe there is an error in this function. TODO: Update this note to explain the error
+    @SuppressWarnings({"index", "value"}) // True positive, fixed upstream
     public static SerialDate addMonths(int months, SerialDate base) {
         int yy = (12 * base.getYYYY() + base.getMonth() + months - 1) / 12;
         int mm = (12 * base.getYYYY() + base.getMonth() + months - 1) % 12 + 1;
@@ -771,7 +768,7 @@ public abstract class SerialDate implements Comparable, Serializable,
      *
      * @return a instance of SerialDate.
      */
-    @SuppressWarnings({"index", "value"}) // Gregorian Calendar needs index annotations
+    @SuppressWarnings({"index", "value"}) // calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
     public static SerialDate createInstance(java.util.Date date) {
 
         GregorianCalendar calendar = new GregorianCalendar();

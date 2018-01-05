@@ -218,7 +218,6 @@ public class TextUtils {
      *
      * @return The index of the next line break.
      */
-    @SuppressWarnings("index") // java.text.BreakIterator needs annotations
     private static /*@GTENegativeOne*/ int nextLineBreak(String text, /*@IndexOrHigh("#1")*/ int start, float width,
             BreakIterator iterator, TextMeasurer measurer) {
 
@@ -233,14 +232,19 @@ public class TextUtils {
             newline = Integer.MAX_VALUE;
         }
         while (((end = iterator.following(current)) != BreakIterator.DONE)) {
-            x += measurer.getStringWidth(text, current, end);
+            @SuppressWarnings("index") // an assumption of this method is that the BreakIterator is associated with text
+            float dx = measurer.getStringWidth(text, current, end);
+            x += dx;
             if (x > width) {
                 if (firstWord) {
-                    while (measurer.getStringWidth(text, start, end) > width) {
+                    while (dx > width) {
                         end--;
                         if (end <= start) {
                             return end;
                         }
+                        @SuppressWarnings("index") // an assumption of this method is that the BreakIterator is associated with text
+                                float dxNew = measurer.getStringWidth(text, start, end);
+                        dx = dxNew;
                     }
                     return end;
                 }

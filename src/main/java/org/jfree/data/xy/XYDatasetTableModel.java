@@ -132,7 +132,6 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @return The column name.
      */
     @Override
-    @SuppressWarnings("index") // AbstractTableModel needs index annotations
     public String getColumnName(/*@NonNegative*/ int column) {
         if (this.model == null) {
             return super.getColumnName(column);
@@ -155,7 +154,7 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @return The value of the specified cell.
      */
     @Override
-    @SuppressWarnings("index") // AbstractTableModel needs index annotations
+    @SuppressWarnings("index") // this method relies on row being an index into a particular data series in the underlying dataset. The annotations can't neatly express that fact (not all implementations of this interface would even have an underlying dataset...), so I'm not sure how I'd verify this.
     public Object getValueAt(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         if (this.model == null) {
             return null;
@@ -189,7 +188,6 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @return {@code true} if the specified cell is editable.
      */
     @Override
-    @SuppressWarnings("index") // AbstractTableModel needs index annotations
     public boolean isCellEditable(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return false;
    }
@@ -202,7 +200,6 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @param column  the column.
      */
     @Override
-    @SuppressWarnings("index") // AbstractTableModel needs index annotations
     public void setValueAt(Object value, /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         if (isCellEditable(row, column)) {
             // XYDataset only provides methods for reading a dataset...

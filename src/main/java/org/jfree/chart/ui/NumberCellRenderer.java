@@ -64,7 +64,7 @@ public class NumberCellRenderer extends DefaultTableCellRenderer {
      * @return the component that can render the contents of the cell.
      */
     @Override
-    @SuppressWarnings("index") // DefaultTableCellRenderer needs index annotations
+    // @SuppressWarnings("index") // DefaultTableCellRenderer needs index annotations
     public Component getTableCellRendererComponent(JTable table, 
             Object value, boolean isSelected, 
             boolean hasFocus, /*@NonNegative*/ int row, /*@NonNegative*/ int column) {

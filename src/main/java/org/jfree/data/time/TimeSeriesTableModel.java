@@ -115,7 +115,6 @@ public class TimeSeriesTableModel extends AbstractTableModel
      * @return The column class in the table model.
      */
     @Override
-    @SuppressWarnings("index") // AbstractTableModel needs index annotations
     public Class getColumnClass(/*@NonNegative*/ int column) {
         if (column == 0) {
             return String.class;
@@ -138,7 +137,6 @@ public class TimeSeriesTableModel extends AbstractTableModel
      * @return The name of a column.
      */
     @Override
-    @SuppressWarnings("index") // AbstractTableModel needs index annotations
     public String getColumnName(/*@NonNegative*/ int column) {
 
         if (column == 0) {
@@ -174,7 +172,6 @@ public class TimeSeriesTableModel extends AbstractTableModel
      * @return The data value for a cell in the table model.
      */
     @Override
-    @SuppressWarnings("index") // AbstractTableModel needs index annotations
     public Object getValueAt(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
 
         if (row < this.series.getItemCount()) {
@@ -215,7 +212,6 @@ public class TimeSeriesTableModel extends AbstractTableModel
      * @return {@code true} if the specified cell is editable.
      */
     @Override
-    @SuppressWarnings("index") // AbstractTableModel needs index annotations
     public boolean isCellEditable(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         if (this.editable) {
             if ((column == 0) || (column == 1)) {
@@ -238,7 +234,6 @@ public class TimeSeriesTableModel extends AbstractTableModel
      * @param column  the column.
      */
     @Override
-    @SuppressWarnings("index") // AbstractTableModel needs index annotations
     public void setValueAt(Object value, /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
 
         if (row < this.series.getItemCount()) {

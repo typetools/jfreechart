@@ -171,8 +171,7 @@ public class MonthDateFormat extends DateFormat {
                            boolean /*@ArrayLen(13)*/ [] showYear, DateFormat yearFormatter) {
         Args.nullNotPermitted(locale, "locale");
         DateFormatSymbols dfs = new DateFormatSymbols(locale);
-        @SuppressWarnings({"value", "index"}) // DateFormatSymbols needs annotations
-        String /*@ArrayLen(12)*/ [] monthsFromLocale = dfs.getMonths();
+        String[] monthsFromLocale = dfs.getMonths();
         this.months = new String[12];
         for (int i = 0; i < 12; i++) {
             @SuppressWarnings({"index", "value"}) // https://github.com/typetools/checker-framework/issues/1669
@@ -208,7 +207,7 @@ public class MonthDateFormat extends DateFormat {
     public StringBuffer format(Date date, StringBuffer toAppendTo,
                                FieldPosition fieldPosition) {
         this.calendar.setTime(date);
-        @SuppressWarnings({"index", "value"}) // Calendar needs index annotations
+        @SuppressWarnings({"index", "value"}) // calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
         /*@IntRange(from=0, to=11)*/ int month = this.calendar.get(Calendar.MONTH);
         toAppendTo.append(this.months[month]);
         if (this.showYear[month]) {
