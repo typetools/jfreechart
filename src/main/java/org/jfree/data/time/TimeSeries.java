@@ -561,7 +561,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      * @return The next time period.
      */
     public RegularTimePeriod getNextTimePeriod() {
-        @SuppressWarnings("index") // I believe this is a bug TODO: patch
+        @SuppressWarnings("index") // bug: requires there to be at least one time period, but documentation doesn't state it
         RegularTimePeriod last = getTimePeriod(getItemCount() - 1);
         return last.next();
     }

@@ -267,7 +267,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @since 1.0.13
      */
-    @SuppressWarnings("index") // this method is clearly assuming that item is not the last item in the series. TODO: I believe this is a bug
+    @SuppressWarnings("index") // documentation bug: this method cannot be called unless there is at least one more item beyond the parameter in this dataset: I believe this is a bug
     private void updateBoundsForRemovedItem(XYDataItem item) {
         boolean itemContributesToXBounds = false;
         boolean itemContributesToYBounds = false;

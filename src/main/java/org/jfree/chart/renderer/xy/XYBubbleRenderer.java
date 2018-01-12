@@ -197,7 +197,7 @@ public class XYBubbleRenderer extends AbstractXYItemRenderer
         if (dataset instanceof XYZDataset) {
             XYZDataset xyzData = (XYZDataset) dataset;
 
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/? FIXME
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
             /*@IndexFor("xyzData.getSeries(series)")*/ int xyzItem = item;
             z = xyzData.getZValue(series, xyzItem);
         }
@@ -278,7 +278,7 @@ public class XYBubbleRenderer extends AbstractXYItemRenderer
                 }
             }
 
-            @SuppressWarnings("index") // dataset is assumed to be associated with plot. Is there any guarantee that they are associated? I'm not sure. Maybe a bug?
+            @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
             /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
             updateCrosshairValues(crosshairState, x, y, datasetIndex,
                     transX, transY, orientation);

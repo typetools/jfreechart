@@ -384,7 +384,7 @@ public class GanttRenderer extends IntervalBarRenderer
 
             if (subinterval == count - 1) {
                 // submit the current data point as a crosshair candidate
-                @SuppressWarnings("index") // dataset is assumed to be associated with plot. Is there any guarantee that they are associated? I'm not sure. Maybe a bug?
+                @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
                 /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
                 Comparable columnKey = dataset.getColumnKey(column);
                 Comparable rowKey = dataset.getRowKey(row);
@@ -535,7 +535,7 @@ public class GanttRenderer extends IntervalBarRenderer
         }
 
         // submit the current data point as a crosshair candidate
-        @SuppressWarnings("index") // dataset is assumed to be associated with plot. Is there any guarantee that they are associated? I'm not sure. Maybe a bug?
+        @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
         /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
         Comparable columnKey = dataset.getColumnKey(column);
         Comparable rowKey = dataset.getRowKey(row);

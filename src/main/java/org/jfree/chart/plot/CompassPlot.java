@@ -453,7 +453,7 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
             case 0:
                 setSeriesNeedle(index, new ArrowNeedle(true));
                 setSeriesPaint(index, Color.RED);
-                @SuppressWarnings("index") // I believe this is a bug TODO: explain why and/or verify this
+                @SuppressWarnings("index") // documentation says this is okay
                 MeterNeedle seriesNeedOfIndex = this.seriesNeedle[index];
                 seriesNeedOfIndex.setHighlightPaint(Color.WHITE);
                 break;

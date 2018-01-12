@@ -495,7 +495,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
                     g2.draw(shape);
                 }
             }
-            @SuppressWarnings("index") // TODO: I think this is a bug. See XYDotRenderer#drawItem - this is the same problem
+            @SuppressWarnings("index") documentation bug: dataset is assumed to be associated with plot See XYDotRenderer#drawItem - this is the same problem
             /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
             updateCrosshairValues(crosshairState, x, y, datasetIndex,
                     transX, transY, orientation);

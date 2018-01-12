@@ -960,7 +960,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
                           x_item, l_x1, l_y1, (l_y1 < 0.0));
         }
 
-        @SuppressWarnings("index") // dataset is assumed to be associated with plot. Is there any guarantee that they are associated? I'm not sure. Maybe a bug?
+        @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
         /*@NonNegative*/ int datasetIndex = x_plot.indexOf(x_dataset);
         updateCrosshairValues(x_crosshairState, l_x0, l_y0, datasetIndex,
                               l_x1, l_y1, l_orientation);

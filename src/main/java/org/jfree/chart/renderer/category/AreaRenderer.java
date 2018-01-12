@@ -324,7 +324,7 @@ public class AreaRenderer extends AbstractCategoryItemRenderer
         }
 
         // submit the current data point as a crosshair candidate
-        @SuppressWarnings("index") // dataset is assumed to be associated with plot. Is there any guarantee that they are associated? I'm not sure. Maybe a bug?
+        @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
         /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
         updateCrosshairValues(state.getCrosshairState(), 
                 dataset.getRowKey(row), dataset.getColumnKey(column), yy1,

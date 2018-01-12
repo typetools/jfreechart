@@ -1030,7 +1030,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
                     (y1 < 0.0));
         }
 
-        @SuppressWarnings("index") // dataset is assumed to be associated with plot. Is there any guarantee that they are associated? I'm not sure. Maybe a bug?
+        @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
         /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
         updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
                 transX1, transY1, orientation);

@@ -1640,7 +1640,7 @@ public final class DatasetUtils {
                     if (dataset instanceof IntervalXYDataset) {
                         IntervalXYDataset intervalXYData
                             = (IntervalXYDataset) dataset;
-                        @SuppressWarnings("index") // intervalXyData and dataset are the same object
+                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
                         double valueTmp = intervalXYData.getStartXValue(series, item);
                         value = valueTmp;
                     }
@@ -1697,7 +1697,7 @@ public final class DatasetUtils {
                     if (dataset instanceof IntervalXYDataset) {
                         IntervalXYDataset intervalXYData
                             = (IntervalXYDataset) dataset;
-                        @SuppressWarnings("index") // intervalXyData and dataset are the same object
+                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
                         double valueTmp = intervalXYData.getEndXValue(series, item);
                         value = valueTmp;
                     }
@@ -1806,13 +1806,13 @@ public final class DatasetUtils {
                     if (dataset instanceof IntervalXYDataset) {
                         IntervalXYDataset intervalXYData
                                 = (IntervalXYDataset) dataset;
-                        @SuppressWarnings("index") // intervalXyData and dataset are the same object
+                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
                                 double valueTmp = intervalXYData.getStartYValue(series, item);
                         value = valueTmp;
                     }
                     else if (dataset instanceof OHLCDataset) {
                         OHLCDataset highLowData = (OHLCDataset) dataset;
-                        @SuppressWarnings("index") // highlowdata and dataset are the same object
+                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
                         double valueTmp = highLowData.getLowValue(series, item);
                         value = valueTmp;
                     }
@@ -1923,13 +1923,13 @@ public final class DatasetUtils {
                     if (dataset instanceof IntervalXYDataset) {
                         IntervalXYDataset intervalXYData
                                 = (IntervalXYDataset) dataset;
-                        @SuppressWarnings("index") // intervalXyData and dataset are the same object
+                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
                                double valueTmp = intervalXYData.getEndYValue(series, item);
                         value = valueTmp;
                     }
                     else if (dataset instanceof OHLCDataset) {
                         OHLCDataset highLowData = (OHLCDataset) dataset;
-                        @SuppressWarnings("index") // highlowdata and dataset are the same object
+                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
                                double valueTmp = highLowData.getHighValue(series, item);
                         value = valueTmp;
                     }
