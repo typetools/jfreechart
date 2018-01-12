@@ -555,7 +555,7 @@ public abstract class SerialDate implements Comparable, Serializable,
      *
      * @return a new date.
      */
-    @SuppressWarnings({"index", "value"}) // True positive, fixed upstream
+    @SuppressWarnings({"index", "value"}) // True positive, fixed upstream BUG
     public static SerialDate addMonths(int months, SerialDate base) {
         int yy = (12 * base.getYYYY() + base.getMonth() + months - 1) / 12;
         int mm = (12 * base.getYYYY() + base.getMonth() + months - 1) % 12 + 1;
@@ -575,7 +575,7 @@ public abstract class SerialDate implements Comparable, Serializable,
      *
      * @return A new date.
      */
-    @SuppressWarnings({"index", "value"}) // I believe there is an error in this function. TODO: Update this note to explain the error
+    @SuppressWarnings({"index", "value"}) // True positive, fixed upstream BUG
     public static SerialDate addYears(int years, SerialDate base) {
         int baseY = base.getYYYY();
         int baseM = base.getMonth();
