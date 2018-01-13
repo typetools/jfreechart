@@ -104,7 +104,7 @@ public class Week extends RegularTimePeriod implements Serializable {
     public static final int LAST_WEEK_IN_YEAR = 53;
 
     /** The year in which the week falls. */
-    private /*@IntRange(from = -9999, to = 9999)*/ short year;
+    private /*@IntRange(from = 0, to = 9999)*/ short year;
 
     /** The week (1-53). */
     private /*@IntRange(from = 1, to = 53)*/ byte week;
@@ -129,7 +129,7 @@ public class Week extends RegularTimePeriod implements Serializable {
      * @param week  the week (1 to 53).
      * @param year  the year (1900 to 9999).
      */
-    public Week(/*@IntRange(from = 1, to = 53)*/ int week, /*@IntRange(from = -9999, to = 9999)*/ int year) {
+    public Week(/*@IntRange(from = 1, to = 53)*/ int week, /*@IntRange(from = 0, to = 9999)*/ int year) {
         if ((week < FIRST_WEEK_IN_YEAR) && (week > LAST_WEEK_IN_YEAR)) {
             throw new IllegalArgumentException(
                     "The 'week' argument must be in the range 1 - 53.");

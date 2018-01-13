@@ -157,7 +157,8 @@ public class Year extends RegularTimePeriod implements Serializable {
      *
      * @return The year.
      */
-    public /*@IntRange(from = -9999, to = 9999)*/ int getYear() {
+    @SuppressWarnings({"index", "value"}) // this is a bug. The calendar API which this interacts with expects years to be nonnegative (it uses an era field to represent AD/BC)
+    public /*@IntRange(from = 0, to = 9999)*/ int getYear() {
         return this.year;
     }
 
@@ -261,6 +262,7 @@ public class Year extends RegularTimePeriod implements Serializable {
      *     {@code null}.
      */
     @Override
+    @SuppressWarnings({"index", "value"}) // this is a bug in this class. Years cannot be negative from a Calendar's perspective
     public long getFirstMillisecond(Calendar calendar) {
         calendar.set(this.year, Calendar.JANUARY, 1, 0, 0, 0);
         calendar.set(Calendar.MILLISECOND, 0);
@@ -279,6 +281,7 @@ public class Year extends RegularTimePeriod implements Serializable {
      *     {@code null}.
      */
     @Override
+    @SuppressWarnings({"index", "value"}) // this is a bug in this class. Years cannot be negative from a Calendar's perspective
     public long getLastMillisecond(Calendar calendar) {
         calendar.set(this.year, Calendar.DECEMBER, 31, 23, 59, 59);
         calendar.set(Calendar.MILLISECOND, 999);

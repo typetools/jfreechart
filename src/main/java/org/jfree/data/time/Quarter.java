@@ -63,6 +63,7 @@ package org.jfree.data.time;
 
 /*>>>
 import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
  */
 
 import java.io.Serializable;
@@ -102,7 +103,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
     };
 
     /** The year in which the quarter falls. */
-    /*@IntRange(from = -9999, to = 9999)*/ private short year;
+    /*@IntRange(from = 0, to = 9999)*/ private short year;
 
     /** The quarter (1-4). */
     private /*@IntVal({1,2,3,4})*/ byte quarter;
@@ -126,7 +127,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      * @param year  the year (1900 to 9999).
      * @param quarter  the quarter (1 to 4).
      */
-    public Quarter(/*@IntVal({1,2,3,4})*/ int quarter, /*@IntRange(from=-9999, to = 9999)*/int year) {
+    public Quarter(/*@IntVal({1,2,3,4})*/ int quarter, /*@IntRange(from=0, to = 9999)*/int year) {
         if ((quarter < FIRST_QUARTER) || (quarter > LAST_QUARTER)) {
             throw new IllegalArgumentException("Quarter outside valid range.");
         }
@@ -423,7 +424,8 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      */
     @Override
     public long getFirstMillisecond(Calendar calendar) {
-        int month = Quarter.FIRST_MONTH_IN_QUARTER[this.quarter];
+        @SuppressWarnings("index") // month >= 1, since months are 1 to 12. this.quarter is 1 to 4, so it can't access the 0th value in FIRST_MONTH_IN_QUARTER, which is the only non positive value
+        /*@Positive*/ int month = Quarter.FIRST_MONTH_IN_QUARTER[this.quarter];
         calendar.set(this.year, month - 1, 1, 0, 0, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTimeInMillis();

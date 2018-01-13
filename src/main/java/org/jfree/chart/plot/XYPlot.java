@@ -3771,13 +3771,15 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
                             continue;
                         }
                         if (state.getProcessVisibleItemsOnly()) {
-                            int[] itemBounds = RendererUtils.findLiveItems(
+                            /*@NonNegative*/ int[] itemBounds = RendererUtils.findLiveItems(
                                     dataset, series, xAxis.getLowerBound(),
                                     xAxis.getUpperBound());
                             firstItem = Math.max(itemBounds[0] - 1, 0);
                             lastItem = Math.min(itemBounds[1] + 1, lastItem);
                         }
-                        state.startSeriesPass(dataset, series, firstItem,
+                        @SuppressWarnings("index") // if 0 weren't a valid index, then this loop iteration is skipped above
+                        /*@IndexFor("dataset.getSeries(series)")*/ int firstItemTmp = firstItem;
+                        state.startSeriesPass(dataset, series, firstItemTmp,
                                 lastItem, pass, passCount);
                         for (int item = firstItem; item <= lastItem; item++) {
                             renderer.drawItem(g2, state, dataArea, info,
@@ -3797,14 +3799,20 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
                         int firstItem = 0;
                         int lastItem = dataset.getItemCount(series) - 1;
                         if (state.getProcessVisibleItemsOnly()) {
-                            int[] itemBounds = RendererUtils.findLiveItems(
+                            /*@NonNegative*/ int[] itemBounds = RendererUtils.findLiveItems(
                                     dataset, series, xAxis.getLowerBound(),
                                     xAxis.getUpperBound());
                             firstItem = Math.max(itemBounds[0] - 1, 0);
                             lastItem = Math.min(itemBounds[1] + 1, lastItem);
                         }
-                        state.startSeriesPass(dataset, series, firstItem,
-                                lastItem, pass, passCount);
+                        @SuppressWarnings("index") // if 0 weren't a valid index, then this loop iteration is skipped above
+                        /*@IndexFor("dataset.getSeries(series)")*/ int firstItemTmp = firstItem;
+
+                        @SuppressWarnings("index") // I think this is a bug, as lastItem is checked in the parallel code above to not be -1, but that check is elided here.
+                        /*@NonNegative*/ int lastItemTmp = lastItem;
+
+                        state.startSeriesPass(dataset, series, firstItemTmp,
+                                lastItemTmp, pass, passCount);
                         for (int item = firstItem; item <= lastItem; item++) {
                             renderer.drawItem(g2, state, dataArea, info,
                                     this, xAxis, yAxis, dataset, series, item,

@@ -88,7 +88,7 @@ public class Month extends RegularTimePeriod implements Serializable {
     private /*@IntRange(from = 1, to = 12)*/ int month;
 
     /** The year in which the month falls. */
-    private /*@IntRange(from = -9999, to = 9999)*/ int year;
+    private /*@IntRange(from = 0, to = 9999)*/ int year;
 
     /** The first millisecond. */
     private long firstMillisecond;
@@ -109,7 +109,7 @@ public class Month extends RegularTimePeriod implements Serializable {
      * @param month  the month (in the range 1 to 12).
      * @param year  the year.
      */
-    public Month(/*@IntRange(from = 1, to = 12)*/ int month, /*@IntRange(from = -9999, to = 9999)*/ int year) {
+    public Month(/*@IntRange(from = 1, to = 12)*/ int month, /*@IntRange(from = 0, to = 9999)*/ int year) {
         if ((month < 1) || (month > 12)) {
             throw new IllegalArgumentException("Month outside valid range.");
         }

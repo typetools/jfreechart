@@ -303,7 +303,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
     private PieDataset dataset;
 
     /** The pie index (used by the {@link MultiplePiePlot} class). */
-    private int pieIndex;
+    private /*@NonNegative*/ int pieIndex;
 
     /**
      * The amount of space left around the outside of the pie plot, expressed
@@ -662,7 +662,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
      *
      * @see #setPieIndex(int)
      */
-    public int getPieIndex() {
+    public /*@NonNegative*/ int getPieIndex() {
         return this.pieIndex;
     }
 

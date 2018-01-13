@@ -41,6 +41,7 @@
  */
 
 package org.jfree.chart.block;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -58,10 +59,10 @@ public class GridArrangement implements Arrangement, Serializable {
     private static final long serialVersionUID = -2563758090144655938L;
 
     /** The rows. */
-    private int rows;
+    private /*@NonNegative*/ int rows;
 
     /** The columns. */
-    private int columns;
+    private /*@NonNegative*/ int columns;
 
     /**
      * Creates a new grid arrangement.
@@ -69,7 +70,7 @@ public class GridArrangement implements Arrangement, Serializable {
      * @param rows  the row count.
      * @param columns  the column count.
      */
-    public GridArrangement(int rows, int columns) {
+    public GridArrangement(/*@NonNegative*/ int rows, /*@NonNegative*/ int columns) {
         this.rows = rows;
         this.columns = columns;
     }
