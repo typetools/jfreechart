@@ -639,29 +639,29 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         this.axisOffset = RectangleInsets.ZERO_INSETS;
 
         // allocate storage for datasets, axes and renderers (all optional)
-        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+        // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
         HashMap domainAxes = new HashMap</*@NonNegative*/ Integer, ValueAxis>();
         this.domainAxes = domainAxes;
-        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+        // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
         HashMap domainAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>();
         this.domainAxisLocations = domainAxisLocations;
         this.foregroundDomainMarkers = new HashMap();
         this.backgroundDomainMarkers = new HashMap();
 
-        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+        // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
         HashMap rangeAxes = new HashMap</*@NonNegative*/ Integer, ValueAxis>();
         this.rangeAxes = rangeAxes;
-        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+        // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
         HashMap rangeAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>();
         this.rangeAxisLocations = rangeAxisLocations;
         this.foregroundRangeMarkers = new HashMap();
         this.backgroundRangeMarkers = new HashMap();
 
-        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+        // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
                 HashMap datasets = new HashMap</*@NonNegative*/ Integer, XYDataset>();
         this.datasets = datasets;
 
-        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+        // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
         HashMap renderers = new HashMap</*@NonNegative*/ Integer, XYItemRenderer>();
         this.renderers = renderers;
 
@@ -2689,7 +2689,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      */
     public void clearRangeMarkers() {
         if (this.backgroundRangeMarkers != null) {
-            @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+            // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
                     Set</*@NonNegative*/ Integer> keys = this.backgroundRangeMarkers.keySet();
             for (Integer key : keys) {
                 clearRangeMarkers(key);
@@ -2697,7 +2697,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
             this.backgroundRangeMarkers.clear();
         }
         if (this.foregroundRangeMarkers != null) {
-            @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+            // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
                     Set</*@NonNegative*/ Integer> keys = this.foregroundRangeMarkers.keySet();
             for (Integer key : keys) {
                 clearRangeMarkers(key);

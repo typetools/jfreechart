@@ -127,7 +127,7 @@
                source="${src.version}"
                target="${target.version}"
                includeantruntime="false">
-            <compilerarg line="-processor org.checkerframework.checker.index.IndexChecker"/>
+          <compilerarg line="-processor org.checkerframework.checker.index.IndexChecker"/>
             <compilerarg line="-Xmaxerrs 10000"/>
 	    <compilerarg line="-Xbootclasspath/p:${checkerframework}/checker/dist/jdk8.jar"/>
             <classpath refid="build.classpath" />

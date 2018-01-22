@@ -382,7 +382,7 @@ public abstract class Statistics {
             sx = sx + xData[counter].doubleValue();
             sxx = sxx + Math.pow(xData[counter].doubleValue(), 2);
             sxy = sxy + yData[counter].doubleValue()
-                      * xData[counter].doubleValue();
+                    * xData[counter].doubleValue();
             sy = sy + yData[counter].doubleValue();
         }
         return (sxy - (sx * sy) / counter) / (sxx - (sx * sx) / counter);
