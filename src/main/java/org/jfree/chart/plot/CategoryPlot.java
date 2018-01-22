@@ -2429,7 +2429,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      */
     public void clearDomainMarkers() {
         if (this.backgroundDomainMarkers != null) {
-            // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+            
                     Set</*@NonNegative*/ Integer> keys = this.backgroundDomainMarkers.keySet();
             Iterator iterator = keys.iterator();
             while (iterator.hasNext()) {
@@ -2440,7 +2440,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
             this.backgroundDomainMarkers.clear();
         }
         if (this.foregroundDomainMarkers != null) {
-            // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+
             Set</*@NonNegative*/ Integer> keys = this.foregroundDomainMarkers.keySet();
             Iterator iterator = keys.iterator();
             while (iterator.hasNext()) {
@@ -2705,7 +2705,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      */
     public void clearRangeMarkers() {
         if (this.backgroundRangeMarkers != null) {
-            // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+
                     Set</*@NonNegative*/ Integer> keys = this.backgroundRangeMarkers.keySet();
             Iterator iterator = keys.iterator();
             while (iterator.hasNext()) {
@@ -2716,7 +2716,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
             this.backgroundRangeMarkers.clear();
         }
         if (this.foregroundRangeMarkers != null) {
-            // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+
                     Set</*@NonNegative*/ Integer> keys = this.foregroundRangeMarkers.keySet();
             Iterator iterator = keys.iterator();
             while (iterator.hasNext()) {
@@ -3737,7 +3737,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * 
      * @return The list of indices. 
      */
-    // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186, 3 instances in this method
+    , 3 instances in this method
     private List</*@NonNegative*/ Integer> getDatasetIndices(DatasetRenderingOrder order) {
                 List</*@NonNegative*/ /*@UnknownVal*/ Integer> result = new ArrayList</*@NonNegative*/ Integer>();
         for (Map.Entry</*@NonNegative*/ Integer, CategoryDataset> entry :
@@ -3761,7 +3761,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * 
      * @return A list of indices.
      */
-    // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186, 3 instances in this method
+    , 3 instances in this method
     private List</*@NonNegative*/ Integer> getRendererIndices(DatasetRenderingOrder order) {
                 List</*@NonNegative*/ /*@UnknownVal*/ Integer> result = new ArrayList</*@NonNegative*/ Integer>();
         for (Map.Entry</*@NonNegative*/ Integer, CategoryItemRenderer> entry:
@@ -5018,16 +5018,16 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         }
 
         // AxisLocation is immutable, so we can just copy the maps
-        // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+
                 HashMap clonedomainAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>(
                 this.domainAxisLocations);
         clone.domainAxisLocations = clonedomainAxisLocations;
-        // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+
         HashMap clonerangeAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>(
                 this.rangeAxisLocations);
         clone.rangeAxisLocations = clonerangeAxisLocations;
 
-        // @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/186
+
                 HashMap clonedatasets = new HashMap</*@NonNegative*/ Integer, CategoryDataset>(this.datasets);
         clone.datasets = clonedatasets;
         for (CategoryDataset dataset : clone.datasets.values()) {
