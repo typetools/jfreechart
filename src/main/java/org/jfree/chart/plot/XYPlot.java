@@ -2447,7 +2447,6 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      */
     public void clearDomainMarkers() {
         if (this.backgroundDomainMarkers != null) {
-            @SuppressWarnings({"index", "value"}) // keys in backgroundDomainMarkers are non negative? also kelloggm#186
             Set</*@NonNegative*/ Integer> keys = this.backgroundDomainMarkers.keySet();
             for (Integer key : keys) {
                 clearDomainMarkers(key);
@@ -2455,7 +2454,6 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
             this.backgroundDomainMarkers.clear();
         }
         if (this.foregroundDomainMarkers != null) {
-            @SuppressWarnings({"index", "value"}) // keys in foregroundDomainMarkers are non negative? also kelloggm#186
                     Set</*@NonNegative*/ Integer> keys = this.foregroundDomainMarkers.keySet();
             for (Integer key : keys) {
                 clearDomainMarkers(key);
@@ -3288,9 +3286,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         // now draw annotations and render data items...
         boolean foundData = false;
         DatasetRenderingOrder order = getDatasetRenderingOrder();
-        @SuppressWarnings("value") // https://github.com/kelloggm/checker-framework/issues/186
         List</*@NonNegative*/ Integer> rendererIndices = getRendererIndices(order);
-        @SuppressWarnings("value") // https://github.com/kelloggm/checker-framework/issues/186
         List</*@NonNegative*/ Integer> datasetIndices = getDatasetIndices(order);
 
         // draw background annotations
@@ -3403,7 +3399,6 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * 
      * @return The list of indices. 
      */
-    @SuppressWarnings({"value", "index"}) // https://github.com/kelloggm/checker-framework/issues/186, 3 instances
     private List< /*@NonNegative*/ Integer> getDatasetIndices(DatasetRenderingOrder order) {
                 List</*@NonNegative*/ /*@UnknownVal*/ Integer> result = new ArrayList</*@NonNegative*/ /*@UnknownVal*/ Integer>();
         for (Entry< /*@NonNegative*/ Integer, XYDataset> entry : this.datasets.entrySet()) {
@@ -3418,7 +3413,6 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         return result;
     }
 
-    @SuppressWarnings({"value", "index"}) // https://github.com/kelloggm/checker-framework/issues/186, 3 instances
     private List< /*@NonNegative*/ Integer> getRendererIndices(DatasetRenderingOrder order) {
                 List</*@NonNegative*/ /*@UnknownVal*/ Integer> result = new ArrayList</*@NonNegative*/ /*@UnknownVal*/ Integer>();
         for (Entry< /*@NonNegative*/ Integer, XYItemRenderer> entry : this.renderers.entrySet()) {
@@ -5578,7 +5572,6 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *         the plot cannot be cloned.
      */
     @Override
-    @SuppressWarnings("value") // https://github.com/kelloggm/checker-framework/issues/186, 3 instances
     public Object clone() throws CloneNotSupportedException {
         XYPlot clone = (XYPlot) super.clone();
         clone.domainAxes = CloneUtils.cloneMapValues(this.domainAxes);

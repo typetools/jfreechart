@@ -593,27 +593,21 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         this.orientation = PlotOrientation.VERTICAL;
 
         // allocate storage for dataset, axes and renderers
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/198
         HashMap domainAxesTmp = new HashMap</*@NonNegative*/ Integer, CategoryAxis>();
         this.domainAxes = domainAxesTmp;
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/198
         HashMap domainAxisLocationsTmp = new HashMap</*@NonNegative*/ Integer, AxisLocation>();
         this.domainAxisLocations = domainAxisLocationsTmp;
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/198
         HashMap rangeAxesTmp = new HashMap</*@NonNegative*/ Integer, ValueAxis>();
         this.rangeAxes = rangeAxesTmp;
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/198
         HashMap rangeAxisLocationsTmp = new HashMap</*@NonNegative*/ Integer, AxisLocation>();
         this.rangeAxisLocations = rangeAxisLocationsTmp;
 
         this.datasetToDomainAxesMap = new TreeMap();
         this.datasetToRangeAxesMap = new TreeMap();
 
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/198
         HashMap renderersTmp = new HashMap</*@NonNegative*/ Integer, CategoryItemRenderer>();
         this.renderers = renderersTmp;
 
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/198
         HashMap datasetsTmp = new HashMap</*@NonNegative*/ Integer, CategoryDataset>();
         this.datasets = datasetsTmp;
         this.datasets.put(0, dataset);
@@ -3643,7 +3637,6 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
                 AlphaComposite.SRC_OVER, getForegroundAlpha()));
 
         DatasetRenderingOrder order = getDatasetRenderingOrder();
-        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/198
         List</*@NonNegative*/ Integer> datasetIndices = getDatasetIndices(order);
         for (int i : datasetIndices) {
             foundData = render(g2, dataArea, i, state, crosshairState)
@@ -3651,8 +3644,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         }
 
         // draw the foreground markers...
-        @SuppressWarnings({"index", "value"}) // https://github.com/kelloggm/checker-framework/issues/198
-                List</*@NonNegative*/ Integer> rendererIndices = getRendererIndices(order);
+        List</*@NonNegative*/ Integer> rendererIndices = getRendererIndices(order);
         for (int i : rendererIndices) {
             drawDomainMarkers(g2, dataArea, i, Layer.FOREGROUND);
         }
@@ -3737,7 +3729,6 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * 
      * @return The list of indices. 
      */
-    , 3 instances in this method
     private List</*@NonNegative*/ Integer> getDatasetIndices(DatasetRenderingOrder order) {
                 List</*@NonNegative*/ /*@UnknownVal*/ Integer> result = new ArrayList</*@NonNegative*/ Integer>();
         for (Map.Entry</*@NonNegative*/ Integer, CategoryDataset> entry :
@@ -3761,7 +3752,6 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * 
      * @return A list of indices.
      */
-    , 3 instances in this method
     private List</*@NonNegative*/ Integer> getRendererIndices(DatasetRenderingOrder order) {
                 List</*@NonNegative*/ /*@UnknownVal*/ Integer> result = new ArrayList</*@NonNegative*/ Integer>();
         for (Map.Entry</*@NonNegative*/ Integer, CategoryItemRenderer> entry:
