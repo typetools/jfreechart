@@ -114,7 +114,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
     private /*@NonNegative*/ int maximumItemCount = 2000;  // an arbitrary safe default value
 
     /** The history count. */
-    protected /*@LengthOf("this.pointsInTime")*/ /*@Positive*/ int historyCount;
+    protected /*@LTEqLengthOf("this.pointsInTime")*/ /*@Positive*/ int historyCount;
 
     /** Storage for the series keys. */
     private Comparable /*@SameLen("this.valueHistory")*/ [] seriesKeys;
