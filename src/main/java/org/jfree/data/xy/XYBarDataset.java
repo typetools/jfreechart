@@ -66,7 +66,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
         implements IntervalXYDataset, DatasetChangeListener, PublicCloneable {
 
     /** The underlying dataset. */
-    private XYDataset underlying;
+    private /*@SameLen("this")*/ XYDataset underlying;
 
     /** The bar width. */
     private double barWidth;
@@ -78,7 +78,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      *     permitted).
      * @param barWidth  the width of the bars.
      */
-    @SuppressWarnings("index") // the underlying dataset is the same length as this dataset by definition
+    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/213
     public XYBarDataset(XYDataset underlying, double barWidth) {
         this.underlying = underlying;
         this.underlying.addChangeListener(this);
@@ -153,7 +153,6 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
     public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         return this.underlying.getItemCount(series);
     }
@@ -169,7 +168,6 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getXValue(int, int)
      */
     @Override
-    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
     public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.underlying.getX(series, item);
     }
@@ -185,7 +183,6 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getX(int, int)
      */
     @Override
-    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
     public double getXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.underlying.getXValue(series, item);
     }
@@ -201,7 +198,6 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getYValue(int, int)
      */
     @Override
-    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
     public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.underlying.getY(series, item);
     }
@@ -217,7 +213,6 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getY(int, int)
      */
     @Override
-    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
     public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.underlying.getYValue(series, item);
     }
@@ -231,7 +226,6 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
     public Number getStartX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         Number result = null;
         Number xnum = this.underlying.getX(series, item);
@@ -266,7 +260,6 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
     public Number getEndX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         Number result = null;
         Number xnum = this.underlying.getX(series, item);
@@ -301,7 +294,6 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
     public Number getStartY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.underlying.getY(series, item);
     }
@@ -331,7 +323,6 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    @SuppressWarnings("index") // this and this.underlying have the same conceptual length
     public Number getEndY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.underlying.getY(series, item);
     }

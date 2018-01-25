@@ -108,21 +108,21 @@ public class DefaultHeatMapDataset extends AbstractDataset
             throw new IllegalArgumentException("'maxY' cannot be INF or NaN.");
         }
 
-        @SuppressWarnings("index") // establish repr invariant
+        @SuppressWarnings("index") // establishing invariant of a ghost method
         /*@Positive*/ /*@LTEqLengthOf("this.getData()")*/ int xSamplesTmp = xSamples;
         this.xSamples = xSamplesTmp;
-        @SuppressWarnings("index") // establish repr invariant
+        @SuppressWarnings("index") // establishing invariant of a ghost method
         /*@Positive*/ /*@LTEqLengthOf("this.getData()[0]")*/ int ySamplesTmp = ySamples;
         this.ySamples = ySamplesTmp;
         this.minX = minX;
         this.maxX = maxX;
         this.minY = minY;
         this.maxY = maxY;
-        @SuppressWarnings({"index", "value"}) // establish repr. invariant ; since ySamples is positive and will be used to create each inner array, the MinLen is true
+        @SuppressWarnings({"index", "value"}) // establishing invariant of a ghost method: since ySamples is positive and will be used to create each inner array, the MinLen is true
         double /*@SameLen("this.getData()")*/ [] /*@SameLen("this.getData()[0]")*/ /*@MinLen(1)*/ [] zValues = new double[xSamples][];
         this.zValues = zValues;
         for (int x = 0; x < xSamples; x++) {
-            @SuppressWarnings("index") // establish repr. invariant
+            @SuppressWarnings("index") // establishing invariant of a ghost method
             double /*@SameLen("this.getData()[0]")*/ [] zValuesX = new double[ySamples];
             this.zValues[x] = zValuesX;
         }

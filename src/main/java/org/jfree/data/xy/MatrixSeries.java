@@ -74,7 +74,7 @@ public class MatrixSeries extends Series implements Serializable {
      * @param rows  the number of rows.
      * @param columns  the number of columns.
      */
-    @SuppressWarnings("index") // representation invariant: this.data needs to be SameLen as "this"
+    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/213
     public MatrixSeries(String name, /*@NonNegative*/ int rows, /*@NonNegative*/ int columns) {
         super(name);
         this.data = new double[rows][columns];

@@ -328,7 +328,7 @@ public class TimeTableXYDataset extends AbstractIntervalXYDataset
      * @return The number of items within the series.
      */
     @Override
-    @SuppressWarnings("index") // establish repr. invariant
+    @SuppressWarnings("index") // array-list interop: series is ignored and the underlying rep here is a list
     public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         return getItemCount();
     }

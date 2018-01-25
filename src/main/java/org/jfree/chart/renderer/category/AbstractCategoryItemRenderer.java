@@ -1592,7 +1592,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         if (this.plot == null) {
             return result;
         }
-        @SuppressWarnings("index") // class invariant: this.plot.getIndexOf(this) is always non negative, since this.plot is the plot associated with the renderer
+        @SuppressWarnings("index") // this.plot.getIndexOf(this) is always non negative, since this.plot is the plot associated with the renderer
         /*@NonNegative*/ int index = this.plot.getIndexOf(this);
         CategoryDataset dataset = this.plot.getDataset(index);
         if (dataset == null) {

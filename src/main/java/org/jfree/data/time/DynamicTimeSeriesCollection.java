@@ -149,7 +149,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
          * @param length  the length.
          */
         public ValueSequence(/*@NonNegative*/ int length) {
-            @SuppressWarnings("index") // establish repr. invariant
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/213
             float /*@SameLen("this")*/ [] dataPointsTmp = new float[length];
             this.dataPoints = dataPointsTmp;
             for (int i = 0; i < length; i++) {
@@ -503,7 +503,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    @SuppressWarnings("index") // establish repr. invariant
+    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/209: I'd like to write SameLen on this.pointsInTime
     public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {  // all arrays equal length,
                                            // so ignore argument:
         return this.historyCount;

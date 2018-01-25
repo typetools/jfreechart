@@ -458,7 +458,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      * @see XYDataset
      */
     @Override
-    @SuppressWarnings("index") // establish repr. invariant
+    @SuppressWarnings("index") // array-list interop: getItemCount needs to have this type for the other implementations
     public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int seriesIndex) {
         return this.rows.size();
     }

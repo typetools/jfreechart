@@ -157,7 +157,7 @@ public class DefaultXYDataset extends AbstractXYDataset
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException("Series index out of bounds");
         }
-        @SuppressWarnings("index") // class invariant: this.getSeries is the logical ghost variable representing this array
+        @SuppressWarnings("index") //array-list interop: this.getSeries is the logical ghost variable representing this array
         double /*@ArrayLen(2)*/ [] /*@SameLen("this.getSeries(#1)")*/ [] seriesArray =
                 (double /*@ArrayLen(2)*/ [][])
                         this.seriesList.get(series);

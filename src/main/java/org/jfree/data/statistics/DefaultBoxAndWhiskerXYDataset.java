@@ -217,7 +217,7 @@ public class DefaultBoxAndWhiskerXYDataset extends AbstractXYDataset
      * @return The number of items in the specified series.
      */
     @Override
-    @SuppressWarnings("index") // establish repr. invariant
+    @SuppressWarnings("index") // array-list interop: the underlying data structure here is a list, but this method's annotation expects an array
     public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         return this.dates.size();
     }

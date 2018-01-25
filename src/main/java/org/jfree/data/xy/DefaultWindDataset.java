@@ -190,7 +190,7 @@ public class DefaultWindDataset extends AbstractXYDataset
      * @return The item count.
      */
     @Override
-    @SuppressWarnings("index") // class invariant
+    @SuppressWarnings("index") // array-list interop: the annotation here expects this to be backed by a list of arrays, but its backed by a list of lists
     public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         if (series < 0 || series >= getSeriesCount()) {
             throw new IllegalArgumentException("Invalid series index: "
