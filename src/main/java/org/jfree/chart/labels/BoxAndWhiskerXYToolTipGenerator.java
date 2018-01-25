@@ -145,7 +145,7 @@ public class BoxAndWhiskerXYToolTipGenerator extends StandardXYToolTipGenerator
 
         if (dataset instanceof BoxAndWhiskerXYDataset) {
             BoxAndWhiskerXYDataset d = (BoxAndWhiskerXYDataset) dataset;
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
             /*@IndexFor("d.getSeries(series)")*/ int itemD = item;
             result[2] = formatter.format(d.getMeanValue(series, itemD));
             result[3] = formatter.format(d.getMedianValue(series, itemD));

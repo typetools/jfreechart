@@ -816,7 +816,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
         }
         IntervalXYDataset intervalDataset = (IntervalXYDataset) dataset;
 
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
         /*@IndexFor("intervalDataset.getSeries(series)")*/ int intervalItem = item;
 
         double value0;

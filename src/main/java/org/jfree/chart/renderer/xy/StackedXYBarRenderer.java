@@ -266,7 +266,7 @@ public class StackedXYBarRenderer extends XYBarRenderer {
         }
 
         IntervalXYDataset intervalDataset = (IntervalXYDataset) dataset;
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
             /*@IndexFor("intervalDataset.getSeries(series)")*/ int intervalXYItem = item;
         double value = intervalDataset.getYValue(series, intervalXYItem);
         if (Double.isNaN(value)) {

@@ -160,7 +160,7 @@ public class IntervalXYItemLabelGenerator extends AbstractXYItemLabelGenerator
                                        /*@IndexFor("#1.getSeries(#2)")*/ int item) {
 
         IntervalXYDataset intervalDataset = null;
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
         /*@IndexFor("intervalDataset.getSeries(series)")*/ int itemIntervalDataset = item;
         if (dataset instanceof IntervalXYDataset) {
             intervalDataset = (IntervalXYDataset) dataset;

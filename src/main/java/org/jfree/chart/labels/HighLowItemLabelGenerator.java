@@ -129,7 +129,7 @@ public class HighLowItemLabelGenerator implements XYItemLabelGenerator,
         }
         StringBuilder sb = new StringBuilder();
         OHLCDataset d = (OHLCDataset) dataset;
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
         /*@IndexFor("d.getSeries(series)")*/ int itemD = item;
         Number high = d.getHigh(series, itemD);
         Number low = d.getLow(series, itemD);

@@ -179,7 +179,7 @@ public class StandardXYZToolTipGenerator extends StandardXYToolTipGenerator
     @Override
     public String generateLabelString(XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#1.getSeries(#2)")*/ int item) {
         String result;
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
         Object[] items = createItemArray((XYZDataset) dataset, series, item);
         result = MessageFormat.format(getFormatString(), items);
         return result;
