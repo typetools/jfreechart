@@ -732,7 +732,7 @@ public class CandlestickRenderer extends AbstractXYItemRenderer
                     IntervalXYDataset intervalDataset
                             = (IntervalXYDataset) dataset;
                     @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-                    /*@IndexFor("intervalDataset.getSeries(series)")*/ int intervalXYItem = item;
+                    /*@NonNegative*/ /*@UpperBoundBottom*/ int intervalXYItem = item;
                     double startPos = domainAxis.valueToJava2D(
                             intervalDataset.getStartXValue(series, intervalXYItem),
                             dataArea, plot.getDomainAxisEdge());
