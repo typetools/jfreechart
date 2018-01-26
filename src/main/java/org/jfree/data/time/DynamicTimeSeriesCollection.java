@@ -404,7 +404,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
                 + "cannot add more series than specified in c'tor");
         }
         if (this.valueHistory[seriesNumber] == null) {
-            // @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194 this.historyCount is the length of this.pointsInTime
+            @SuppressWarnings("index") // this.historyCount is the length of this.pointsInTime
             /*@SameLen("this.pointsInTime")*/ ValueSequence valueSequence = new ValueSequence(this.historyCount);
             this.valueHistory[seriesNumber] = valueSequence;
             this.seriesCount++;
@@ -467,7 +467,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
             );
         }
         if (this.valueHistory[seriesNumber] == null) {
-            // @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194 this.historyCount is the length of this.pointsInTime
+            @SuppressWarnings("index") // this.historyCount is the length of this.pointsInTime
             /*@SameLen("this.pointsInTime")*/ ValueSequence valueSequence = new ValueSequence(this.historyCount);
             this.valueHistory[seriesNumber] = valueSequence;
             this.seriesCount++;
@@ -704,7 +704,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
             // check whether the "valueHistory" array member exists; if not,
             // create them:
             if (this.valueHistory[s] == null) {
-                // @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194 this.historyCount is the length of this.pointsInTime
+                @SuppressWarnings("index") // this.historyCount is the length of this.pointsInTime
                 /*@SameLen("this.pointsInTime")*/ ValueSequence valueSequence = new ValueSequence(this.historyCount);
                 this.valueHistory[s] = valueSequence;
             }
@@ -731,7 +731,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         }
         for (int s = 0; s < nDataPoints; s++) {
             if (this.valueHistory[s] == null) {
-                // @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/194 this.historyCount is the length of this.pointsInTime
+                @SuppressWarnings("index") // this.historyCount is the length of this.pointsInTime
                 /*@SameLen("this.pointsInTime")*/ ValueSequence valueSequence = new ValueSequence(this.historyCount);
                 this.valueHistory[s] = valueSequence;
             }
