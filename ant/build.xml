@@ -118,7 +118,7 @@
         <mkdir dir="${basedir}/build" />
 
 	<echo message="[checkerframework]: ${checkerframework}"/>
-	
+
         <!-- type-check the source -->
         <jsr308.javac srcdir="${basedir}/src/main/java"
                destdir="${basedir}/build"
@@ -127,7 +127,8 @@
                source="${src.version}"
                target="${target.version}"
                includeantruntime="false">
-          <compilerarg line="-processor org.checkerframework.checker.index.IndexChecker"/>
+          <compilerarg line="-processor org.checkerframework.checker.index.IndexChecker,org.checkerframework.common.util.count.AnnotationStatistics,org.checkerframework.common.util.count.JavaCodeStatistics"/>
+            <compilerarg line="-Anolocations"/>
             <compilerarg line="-Xmaxerrs 10000"/>
 	    <compilerarg line="-Xbootclasspath/p:${checkerframework}/checker/dist/jdk8.jar"/>
             <classpath refid="build.classpath" />
