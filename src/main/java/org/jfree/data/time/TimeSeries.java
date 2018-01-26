@@ -91,6 +91,7 @@
 
 package org.jfree.data.time;
 /*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.common.value.qual.*; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
@@ -303,8 +304,10 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
         this.maximumItemCount = maximum;
         int count = this.data.size();
         if (count > maximum) {
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158
-            /*@NonNegative*/ int deleteIndex = count - maximum - 1;
+            @SuppressWarnings({"index","value"}) // https://github.com/kelloggm/checker-framework/issues/158
+            /*@IntRange(from=0)*/ int deleteIndex = count - maximum - 1;
+            // Extra assignment to kill the dataflow refinement.
+            deleteIndex = deleteIndex;
             delete(0, deleteIndex);
         }
     }
@@ -1083,7 +1086,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      * @param start  the index of the first period to delete.
      * @param end  the index of the last period to delete.
      */
-    public void delete(/*@NonNegative*/ int start, /*@NonNegative*/ int end) {
+    public void delete(/*@NonNegative*/ /*@LessThan("#2 + 1")*/ int start, /*@NonNegative*/ int end) {
         delete(start, end, true);
     }
 
@@ -1096,8 +1099,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @since 1.0.14
      */
-    @SuppressWarnings("index") // https://github.com/kelloggm/issues/158 end > start is precondition
-    public void delete(/*@NonNegative*/ int start, /*@NonNegative*/ int end, boolean notify) {
+    public void delete(/*@NonNegative*/ /*@LessThan("#2 + 1")*/ int start, /*@NonNegative*/ int end, boolean notify) {
         if (end < start) {
             throw new IllegalArgumentException("Requires start <= end.");
         }

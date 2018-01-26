@@ -157,6 +157,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      *
      * @return The index.
      */
+    /*@Pure*/
     private /*@GTENegativeOne*/ int lastCategoryIndex() {
         if (this.maximumCategoryCount == 0) {
             return -1;
@@ -176,7 +177,6 @@ public class SlidingCategoryDataset extends AbstractDataset
     public /*@GTENegativeOne*/ int getColumnIndex(Comparable key) {
         int index = this.underlying.getColumnIndex(key);
         if (index >= this.firstCategoryIndex && index <= lastCategoryIndex()) {
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158 index >= this.firstCategoryIndex is a condition to this block
             /*@NonNegative*/ int result = index - this.firstCategoryIndex;
             return result;
         }

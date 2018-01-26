@@ -244,7 +244,7 @@ public abstract class Statistics {
      *
      * @return The median.
      */
-    public static double calculateMedian(List values, /*@NonNegative*/ int start, /*@NonNegative*/ int end) {
+    public static double calculateMedian(List values, /*@NonNegative*/  /*@LessThan("#3 + 1")*/ int start, /*@NonNegative*/ int end) {
         return calculateMedian(values, start, end, true);
     }
 
@@ -261,12 +261,11 @@ public abstract class Statistics {
      *
      * @return The median.
      */
-    public static double calculateMedian(List values, /*@NonNegative*/ int start, /*@NonNegative*/ int end,
+    public static double calculateMedian(List values, /*@NonNegative*/ /*@LessThan("#3 + 1")*/ int start, /*@NonNegative*/ int end,
                                          boolean copyAndSort) {
 
         double result = Double.NaN;
         if (copyAndSort) {
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158 end > start
             List working = new ArrayList(end - start + 1);
             for (int i = start; i <= end; i++) {
                 working.add(values.get(i));
@@ -458,7 +457,6 @@ public abstract class Statistics {
                 "Period can't be longer than dataset.");
         }
 
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158 xData.length > period
         /*@NonNegative*/ int resultLen = xData.length - period;
         double[] /*@ArrayLen(2)*/ [] result = new double[resultLen][2];
         for (int i = 0; i < result.length; i++) {

@@ -50,6 +50,7 @@ package org.jfree.data.time;
 /*>>> import org.checkerframework.dataflow.qual.Pure; */
 /*>>> import org.checkerframework.checker.index.qual.GTENegativeOne; */
 /*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+/*>>> import org.checkerframework.checker.index.qual.LessThan; */
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -404,8 +405,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * @param start  the index of the first period to delete.
      * @param end  the index of the last period to delete.
      */
-    @SuppressWarnings("index") // https://github.com/kelloggm/issues/158 end > start is precondition
-    public void delete(/*@NonNegative*/ int start, /*@NonNegative*/ int end) {
+    public void delete(/*@NonNegative*/ /*@LessThan("#2 + 1")*/ int start, /*@NonNegative*/ int end) {
         for (int i = 0; i <= (end - start); i++) {
             this.data.remove(start);
         }
