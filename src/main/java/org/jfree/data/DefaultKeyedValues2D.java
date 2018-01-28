@@ -366,7 +366,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
 
         // 1. check whether the row is now empty.
         boolean allNull = true;
-        @SuppressWarnings("index") // this method assumes that the rowKey is valid, which can't be checked b/c it's a list
+        @SuppressWarnings("index") // array-list interop: this method assumes that the rowKey is valid, which can't be checked b/c it's a list
         /*@NonNegative*/ int rowIndex = getRowIndex(rowKey);
         DefaultKeyedValues row = (DefaultKeyedValues) this.rows.get(rowIndex);
 

@@ -384,7 +384,7 @@ public class ComparableObjectSeries extends Series
 
      * @return The item removed.
      */
-    @SuppressWarnings("index") // method precondition is that this element is in the list, so indexOf will return NN
+    @SuppressWarnings("index") // guaranteed index: method precondition is that this element is in the list, so indexOf will return NN
     public ComparableObjectItem remove(Comparable x) {
         return remove(indexOf(x));
     }

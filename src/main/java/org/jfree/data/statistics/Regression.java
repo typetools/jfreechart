@@ -353,7 +353,7 @@ public abstract class Regression {
             // I added the second condition here - matrix is rectangular, and this is the easiest way to guarantee this typechecks
             for (int coe = 1; coe < matrix[eq].length && coe < matrix[0].length; coe++) {
                 int resultEq = eq - 1;
-                @SuppressWarnings("index") // result is one smaller in both dimensions than matrix, and coe is an index for matrix. Also note the use of a temporary here: the Index Checker's java expression parser chokes on "result[eq - 1]"
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/202: result is one smaller in both dimensions than matrix, and coe is an index for matrix. Also note the use of a temporary here: the Index Checker's java expression parser chokes on "result[eq - 1]"
                 /*@IndexFor("result[resultEq]")*/ int resultCoe = coe -1;
                 result[resultEq][resultCoe] = matrix[0][coe] - matrix[eq][coe]
                         * factor;

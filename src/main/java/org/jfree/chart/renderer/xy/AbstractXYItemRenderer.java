@@ -816,7 +816,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
             return new LegendItemCollection();
         }
         LegendItemCollection result = new LegendItemCollection();
-        @SuppressWarnings("index") // this is guaranteed to be a renderer for this.plot, so indexOf will return nonnegative
+        @SuppressWarnings("index") // guaranteed index: this is guaranteed to be a renderer for this.plot, so indexOf will return nonnegative
         /*@NonNegative*/ int index = this.plot.getIndexOf(this);
         XYDataset dataset = this.plot.getDataset(index);
         if (dataset != null) {
@@ -1690,7 +1690,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
         }
         while (iterator.hasNext()) {
             XYAnnotation annotation = (XYAnnotation) iterator.next();
-            @SuppressWarnings("index") // this is a renderer of this.plot by definition, so indexOf will return nonnegative
+            @SuppressWarnings("index") // guaranteed index: this is a renderer of this.plot by definition, so indexOf will return nonnegative
             /*@NonNegative*/ int index = this.plot.getIndexOf(this);
             annotation.draw(g2, this.plot, dataArea, domainAxis, rangeAxis,
                     index, info);

@@ -2966,7 +2966,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
                             false,          // line not visible
                             new Line2D.Float(), new BasicStroke(), Color.BLACK);
                     item.setDataset(getDataset());
-                    @SuppressWarnings("index") // key came from the list of keys for this dataset, so getIndex has to return non-negative
+                    @SuppressWarnings("index") // guaranteed index: key came from the list of keys for this dataset, so getIndex has to return non-negative
                     /*@NonNegative*/ int newSeriesIndex = this.dataset.getIndex(key);
                     item.setSeriesIndex(newSeriesIndex);
                     item.setSeriesKey(key);

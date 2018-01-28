@@ -86,7 +86,7 @@ public class MatrixSeries extends Series implements Serializable {
      *
      * @return The number of columns in this matrix series.
      */
-    @SuppressWarnings("index") // this method assumes that there is at least one row, but the documentation doesn't say so. This is a documentation bug.
+    @SuppressWarnings("index") // documentation bug: this method assumes that there is at least one row, but the documentation doesn't say so. This is a documentation bug.
     public /*@LengthOf("this.data")*/ int getColumnsCount() {
         return this.data[0].length;
     }

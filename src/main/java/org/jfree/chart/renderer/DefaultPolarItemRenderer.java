@@ -589,7 +589,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
                 // data area...
                 if (entities != null && ShapeUtils.isPointInRect(dataArea, x, 
                         y)) {
-                    @SuppressWarnings("index") // i - 1 is an index because the i increases once on each iteration of this while loop, and the loop condition is equivalent to the length of this series
+                    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/219: i - 1 is an index because the i increases once on each iteration of this while loop, and the loop condition is equivalent to the length of this series
                     /*@IndexFor("dataset.getSeries(seriesIndex)")*/ int i1 = i - 1;
                     addEntity(entities, shape, dataset, seriesIndex, i1, x, y);
                 }
@@ -698,7 +698,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
         if (plot == null) {
             return null;
         }
-        @SuppressWarnings("index") // this renderer belongs to the plot, so plot.getIndexOf returns a non negative
+        @SuppressWarnings("index") // guaranteed index: this renderer belongs to the plot, so plot.getIndexOf returns a non negative
         XYDataset dataset = plot.getDataset(plot.getIndexOf(this));
         if (dataset == null) {
             return null;

@@ -281,7 +281,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
         if ((series >= getSeriesCount()) || (series < 0)) {
             throw new IllegalArgumentException("No such series : " + series);
         }
-        @SuppressWarnings("index") // getSeriesCount() should be annotated as LengthOf, but because most implementations of this interface implement the series with a list it isn't
+        @SuppressWarnings("index") // array-list interop: getSeriesCount() should be annotated as LengthOf, but because most implementations of this interface implement the series with a list it isn't
         Comparable result = this.seriesKeys[series];
         return result;
     }
@@ -316,7 +316,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
         int result = 0;
         if (this.startData != null) {
             if (getSeriesCount() > 0) {
-                @SuppressWarnings("index") // getSeriesCount is the length of startData, but can't be annotated that way b/c implementation detail
+                @SuppressWarnings("index") // array-list interop: getSeriesCount is the length of startData, but can't be annotated that way b/c implementation detail
                 int newResult = this.startData[0].length;
                 result = newResult;
             }

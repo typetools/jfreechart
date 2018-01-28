@@ -138,7 +138,7 @@ public class CSV {
                 fieldIndex++;
             }
         }
-        @SuppressWarnings("index") // the for loop above cannot increment start more than line.length times, so start is IOH of line
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/219: the for loop above cannot increment start more than line.length times, so start is IOH of line
         String key = line.substring(start, line.length());
         keys.add(removeStringDelimiters(key));
         return keys;

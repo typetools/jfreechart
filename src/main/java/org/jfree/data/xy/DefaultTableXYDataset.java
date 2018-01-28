@@ -451,7 +451,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      *
      * @return A boolean.
      */
-    @SuppressWarnings("index") // this method assumes that x is in the dataset. This is a documentation bug.
+    @SuppressWarnings("index") // documentation bug: this method assumes that x is in the dataset. This is a documentation bug.
     protected boolean canPrune(Number x) {
         for (int s = 0; s < this.data.size(); s++) {
             XYSeries series = (XYSeries) this.data.get(s);

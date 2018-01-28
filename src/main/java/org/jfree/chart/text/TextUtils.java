@@ -178,7 +178,7 @@ public class TextUtils {
                 next++; // we must take one more character or we'll loop forever
             }
 
-            @SuppressWarnings("index") // next is either < current < text.length, or next = current + 1 <= text.length
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158: next is either < current < text.length, or next = current + 1 <= text.length
             /*@IndexOrHigh("text")*/ int next1 = next;
 
             result.addLine(text.substring(current, next1), font, paint);

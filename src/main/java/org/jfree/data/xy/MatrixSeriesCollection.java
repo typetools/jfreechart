@@ -97,7 +97,7 @@ public class MatrixSeriesCollection extends AbstractXYZDataset
      * @return The number of items in the specified series.
      */
     @Override
-    @SuppressWarnings("index") // getSeries.getItemCount cannot be annotated correctly because some Series are mutable length
+    @SuppressWarnings("index") // array-list interop: getSeries.getItemCount cannot be annotated correctly because some Series are mutable length
     public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int seriesIndex) {
         return getSeries(seriesIndex).getItemCount();
     }

@@ -154,7 +154,7 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @return The value of the specified cell.
      */
     @Override
-    @SuppressWarnings("index") // this method relies on row being an index into a particular data series in the underlying dataset. The annotations can't neatly express that fact (not all implementations of this interface would even have an underlying dataset...), so I'm not sure how I'd verify this.
+    @SuppressWarnings("index") // array-list interop: this method relies on row being an index into a particular data series in the underlying dataset. The annotations can't neatly express that fact (not all implementations of this interface would even have an underlying dataset...), so I'm not sure how I'd verify this.
     public Object getValueAt(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         if (this.model == null) {
             return null;

@@ -2192,7 +2192,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         // get the legend items for the datasets...
         for (CategoryDataset dataset: this.datasets.values()) {
             if (dataset != null) {
-                @SuppressWarnings("index") // indexOf cannot return -1 here because we're looking up the indexOf an element we already know is in the dataset
+                @SuppressWarnings("index") // guaranteed index: indexOf cannot return -1 here because we're looking up the indexOf an element we already know is in the dataset
                 /*@NonNegative*/ int datasetIndex = indexOf(dataset);
                 CategoryItemRenderer renderer = getRenderer(datasetIndex);
                 if (renderer != null) {

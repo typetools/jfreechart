@@ -616,7 +616,7 @@ public class CombinedDomainXYPlot extends XYPlot
         if (!subplot.isRangePannable()) {
             return;
         }
-        @SuppressWarnings("index") // getSubplotIndex is guaranteed to return non-negative because if the subplot isn't found, then subplot would have been null above and the function would have returned.
+        @SuppressWarnings("index") // guaranteed index: getSubplotIndex is guaranteed to return non-negative because if the subplot isn't found, then subplot would have been null above and the function would have returned.
         PlotRenderingInfo subplotInfo = info.getSubplotInfo(
                 info.getSubplotIndex(source));
         if (subplotInfo == null) {

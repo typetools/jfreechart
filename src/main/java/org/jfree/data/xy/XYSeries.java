@@ -512,7 +512,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
         if (this.autoSort) {
             int index = Collections.binarySearch(this.data, item);
             if (index < 0) {
-                @SuppressWarnings("index") // searchindex for list
+                @SuppressWarnings("index") // binary search on list
                 /*@NonNegative*/ int newIndex = -index - 1;
                 this.data.add(newIndex, item);
             }
@@ -826,7 +826,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
             // append the value to the list...
             item = (XYDataItem) item.clone();
             if (this.autoSort) {
-                @SuppressWarnings("index") // this is a search index iff this.autoSort is true
+                @SuppressWarnings("index") // binary search on list
                 /*@NonNegative*/ int addIndex = -index - 1;
                 this.data.add(addIndex, item);
             }
