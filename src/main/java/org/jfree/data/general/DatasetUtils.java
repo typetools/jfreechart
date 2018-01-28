@@ -1029,7 +1029,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed to be an index since getRowIndex called on a key known to be in the dataset
+                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
                 /*@NonNegative*/ int series = dataset.getRowIndex(seriesKey);
                 int itemCount = dataset.getColumnCount();
                 for (int item = 0; item < itemCount; item++) {
@@ -1059,7 +1059,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed to be an index since getRowIndex called on a key known to be in the dataset
+                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
                 /*@NonNegative*/ int series = dataset.getRowIndex(seriesKey);
                 for (int column = 0; column < columnCount; column++) {
                     lvalue = icd.getStartValue(series, column);
@@ -1082,7 +1082,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed to be an index since getRowIndex called on a key known to be in the dataset
+                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
                 /*@NonNegative*/ int series = dataset.getRowIndex(seriesKey);
                 for (int column = 0; column < columnCount; column++) {
                     List values = mvcd.getValues(series, column);
@@ -1109,7 +1109,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed to be an index since getRowIndex called on a key known to be in the dataset
+                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
                  /*@NonNegative*/ int series = dataset.getRowIndex(seriesKey);
                 for (int column = 0; column < columnCount; column++) {
                     Number meanN = scd.getMeanValue(series, column);
@@ -1136,7 +1136,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed to be an index since getRowIndex called on a key known to be in the dataset
+                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
                 /*@NonNegative*/ int series = dataset.getRowIndex(seriesKey);
                 for (int column = 0; column < columnCount; column++) {
                     Number value = dataset.getValue(series, column);
@@ -1384,7 +1384,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed to be an index since getRowIndex called on a key known to be in the dataset
+                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
                 /*@NonNegative*/ int series = dataset.indexOf(seriesKey);
                 int itemCount = ixyd.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
@@ -1408,7 +1408,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed to be an index since getRowIndex called on a key known to be in the dataset
+                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
                 /*@NonNegative*/ int series = dataset.indexOf(seriesKey);
                 int itemCount = dataset.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
@@ -1462,7 +1462,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed to be an index since getRowIndex called on a key known to be in the dataset
+                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
                 /*@NonNegative*/ int series = dataset.indexOf(seriesKey);
                 int itemCount = ohlc.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
@@ -1486,7 +1486,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed to be an index since getRowIndex called on a key known to be in the dataset
+                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
                 /*@NonNegative*/ int series = dataset.indexOf(seriesKey);
                 int itemCount = bx.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
@@ -1510,7 +1510,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed to be an index since getRowIndex called on a key known to be in the dataset
+                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
                 /*@NonNegative*/ int series = dataset.indexOf(seriesKey);
                 int itemCount = ixyd.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
@@ -1537,7 +1537,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed to be an index since getRowIndex called on a key known to be in the dataset
+                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
                 /*@NonNegative*/ int series = dataset.indexOf(seriesKey);
                 int itemCount = dataset.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
@@ -1586,7 +1586,7 @@ public final class DatasetUtils {
         Iterator iterator = visibleSeriesKeys.iterator();
         while (iterator.hasNext()) {
             Comparable seriesKey = (Comparable) iterator.next();
-            @SuppressWarnings("index") // guaranteed to be an index since getRowIndex called on a key known to be in the dataset
+            @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
             /*@NonNegative*/ int series = dataset.indexOf(seriesKey);
             int itemCount = dataset.getItemCount(series);
             for (int item = 0; item < itemCount; item++) {

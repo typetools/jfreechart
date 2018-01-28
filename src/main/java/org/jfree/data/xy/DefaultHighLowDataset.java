@@ -148,7 +148,7 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      */
     @Override
     public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        @SuppressWarnings("index") // the annotation on this method cannot expose the implementation detail of this class being backed by an array
+        @SuppressWarnings("index") // array-list interop: the annotation on this method cannot expose the implementation detail of this class being backed by an array
                 Number result =  new Long(this.date[item].getTime());
         return result;
     }
@@ -166,7 +166,7 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @see #getX(int, int)
      */
     public Date getXDate(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        @SuppressWarnings("index") // the annotation on this method cannot expose the implementation detail of this class being backed by an array
+        @SuppressWarnings("index") // array-list interop: the annotation on this method cannot expose the implementation detail of this class being backed by an array
         Date result = this.date[item];
         return result;
     }
@@ -201,7 +201,7 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      */
     @Override
     public Number getHigh(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        @SuppressWarnings("index") // the annotation on this method cannot expose the implementation detail of this class being backed by an array
+        @SuppressWarnings("index") // array-list interop: the annotation on this method cannot expose the implementation detail of this class being backed by an array
                 Number result = this.high[item];
         return result;
     }
@@ -239,7 +239,7 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      */
     @Override
     public Number getLow(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        @SuppressWarnings("index") // the annotation on this method cannot expose the implementation detail of this class being backed by an array
+        @SuppressWarnings("index") // array-list interop: the annotation on this method cannot expose the implementation detail of this class being backed by an array
         Number result = this.low[item];
         return result;
     }
@@ -277,7 +277,7 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      */
     @Override
     public Number getOpen(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        @SuppressWarnings("index") // the annotation on this method cannot expose the implementation detail of this class being backed by an array
+        @SuppressWarnings("index") // array-list interop: the annotation on this method cannot expose the implementation detail of this class being backed by an array
         Number result = this.open[item];
         return result;
     }
@@ -315,7 +315,7 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      */
     @Override
     public Number getClose(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        @SuppressWarnings("index") // the annotation on this method cannot expose the implementation detail of this class being backed by an array
+        @SuppressWarnings("index") // array-list interop: the annotation on this method cannot expose the implementation detail of this class being backed by an array
         Number result = this.close[item];
         return result;
     }
@@ -353,7 +353,7 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      */
     @Override
     public Number getVolume(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        @SuppressWarnings("index") // the annotation on this method cannot expose the implementation detail of this class being backed by an array
+        @SuppressWarnings("index") // array-list interop: the annotation on this method cannot expose the implementation detail of this class being backed by an array
         Number result = this.volume[item];
         return result;
     }

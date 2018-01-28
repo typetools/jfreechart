@@ -100,7 +100,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      */
     @Override
     public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        @SuppressWarnings("index") // There is only one series for an OHLC dataset, so this is always safe.
+        @SuppressWarnings("index") // guaranteed index: There is only one series for an OHLC dataset, so this is always safe.
         Number result = new Long(this.data[item].getDate().getTime());
         return result;
     }
@@ -114,7 +114,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The x-value as a date.
      */
     public Date getXDate(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        @SuppressWarnings("index") // There is only one series for an OHLC dataset, so this is always safe.
+        @SuppressWarnings("index") // guaranteed index: There is only one series for an OHLC dataset, so this is always safe.
         Date result = this.data[item].getDate();
         return result;
     }
@@ -142,7 +142,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      */
     @Override
     public Number getHigh(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        @SuppressWarnings("index") // There is only one series for an OHLC dataset, so this is always safe.
+        @SuppressWarnings("index") // guaranteed index: There is only one series for an OHLC dataset, so this is always safe.
         Number result = this.data[item].getHigh();
         return result;
     }
@@ -176,7 +176,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      */
     @Override
     public Number getLow(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        @SuppressWarnings("index") // There is only one series for an OHLC dataset, so this is always safe.
+        @SuppressWarnings("index") // guaranteed index: There is only one series for an OHLC dataset, so this is always safe.
         Number result = this.data[item].getLow();
         return result;
     }
@@ -210,7 +210,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      */
     @Override
     public Number getOpen(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        @SuppressWarnings("index") // There is only one series for an OHLC dataset, so this is always safe.
+        @SuppressWarnings("index") // guaranteed index: There is only one series for an OHLC dataset, so this is always safe.
         Number result = this.data[item].getOpen();
         return result;
     }
@@ -244,7 +244,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      */
     @Override
     public Number getClose(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        @SuppressWarnings("index") // There is only one series for an OHLC dataset, so this is always safe.
+        @SuppressWarnings("index") // guaranteed index: There is only one series for an OHLC dataset, so this is always safe.
         Number result = this.data[item].getClose();
         return result;
     }
@@ -278,7 +278,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      */
     @Override
     public Number getVolume(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        @SuppressWarnings("index") // There is only one series for an OHLC dataset, so this is always safe.
+        @SuppressWarnings("index") // guaranteed index: There is only one series for an OHLC dataset, so this is always safe.
         Number result = this.data[item].getVolume();
         return result;
     }

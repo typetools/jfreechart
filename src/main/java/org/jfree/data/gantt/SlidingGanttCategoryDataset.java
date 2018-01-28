@@ -330,7 +330,7 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
         if (c != -1) {
-            @SuppressWarnings("index") // I think this is a bug. Why isn't r being checked the same way c is checked?
+            @SuppressWarnings("index") // True positive bug, fixed upstream
             Number result = this.underlying.getPercentComplete(r,
                     c + this.firstCategoryIndex);
             return result;
@@ -357,7 +357,7 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
         if (c != -1) {
-            @SuppressWarnings("index") // I think this is a bug. Why isn't r being checked the same way c is checked?
+            @SuppressWarnings("index") // True positive bug, fixed upstream
             Number result = this.underlying.getPercentComplete(r,
                     c + this.firstCategoryIndex, subinterval);
             return result;
@@ -384,7 +384,7 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
         if (c != -1) {
-            @SuppressWarnings("index") // I think this is a bug. Why isn't r being checked the same way c is checked?
+            @SuppressWarnings("index") // True positive bug, fixed upstream
             Number result = this.underlying.getEndValue(r,
                     c + this.firstCategoryIndex, subinterval);
             return result;
@@ -459,7 +459,7 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
         if (c != -1) {
-            @SuppressWarnings("index") // I think this is a bug. Why isn't r being checked the same way c is checked?
+            @SuppressWarnings("index") // True positive bug, fixed upstream
             Number result = this.underlying.getStartValue(r,
                     c + this.firstCategoryIndex, subinterval);
             return result;
@@ -501,7 +501,7 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
         if (c != -1) {
-            @SuppressWarnings("index") // I think this is a bug. Why isn't r being checked the same way c is checked?
+            @SuppressWarnings("index") // True positive bug, fixed upstream
             int result = this.underlying.getSubIntervalCount(r,
                     c + this.firstCategoryIndex);
             return result;
@@ -542,7 +542,7 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
         if (c != -1) {
-            @SuppressWarnings("index") // I think this is a bug. Why isn't r being checked the same way c is checked?
+            @SuppressWarnings("index") // True positive bug, fixed upstream
             Number result = this.underlying.getStartValue(r,
                     c + this.firstCategoryIndex);
             return result;
@@ -583,7 +583,7 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
         if (c != -1) {
-            @SuppressWarnings("index") // I think this is a bug. Why isn't r being checked the same way c is checked?
+            @SuppressWarnings("index") // True positive bug, fixed upstream
             Number result = this.underlying.getEndValue(r, c + this.firstCategoryIndex);
             return result;
         }
