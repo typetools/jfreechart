@@ -228,9 +228,9 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
                         / (y[1] - y[0]) + x[0];
 
                 if (x.length == 3) {
-                    @SuppressWarnings("index") // x's length is exactly one less than both nx and ny; x and y's lengths are the same
+                    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/202: x's length is exactly one less than both nx and ny; x and y's lengths are the same
                     double dead = (nx[3] = x[2]);
-                    @SuppressWarnings("index") // x's length is exactly one less than both nx and ny; x and y's lengths are the same
+                    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/202: x's length is exactly one less than both nx and ny; x and y's lengths are the same
                     double dead2 = (ny[3] = y[2]);
                 }
                 x = nx; y = ny;

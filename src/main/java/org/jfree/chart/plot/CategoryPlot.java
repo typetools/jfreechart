@@ -3618,12 +3618,12 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
 
         // draw the markers...
         for (CategoryItemRenderer renderer : this.renderers.values()) {
-            @SuppressWarnings("index") // renderer is one of the renderers of this object, so getIndexOf must return nonnegative
+            @SuppressWarnings("index") // guaranteed index: renderer is one of the renderers of this object, so getIndexOf must return nonnegative
             /*@NonNegative*/ int i = getIndexOf(renderer);
             drawDomainMarkers(g2, dataArea, i, Layer.BACKGROUND);
         }
         for (CategoryItemRenderer renderer : this.renderers.values()) {
-            @SuppressWarnings("index") // renderer is one of the renderers of this object, so getIndexOf must return nonnegative
+            @SuppressWarnings("index") // guaranteed index: renderer is one of the renderers of this object, so getIndexOf must return nonnegative
             /*@NonNegative*/ int i = getIndexOf(renderer);
             drawRangeMarkers(g2, dataArea, i, Layer.BACKGROUND);
         }

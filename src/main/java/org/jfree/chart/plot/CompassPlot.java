@@ -170,11 +170,11 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
     private transient Rectangle2D rect1;
 
     /** An array of value datasets. */
-    @SuppressWarnings("index") // this.datasets and this.seriesNeedle are always updated in tandem
+    @SuppressWarnings("index") // synced update: this.datasets and this.seriesNeedle are always updated in tandem
     private ValueDataset /*@MinLen(1)*/ /*@SameLen("this.seriesNeedle")*/ [] datasets = new ValueDataset[1];
 
     /** An array of needles. */
-    @SuppressWarnings("index") // this.datasets and this.seriesNeedle are always updated in tandem
+    @SuppressWarnings("index") // synced update: this.datasets and this.seriesNeedle are always updated in tandem
     private MeterNeedle /*@MinLen(1)*/ /*@SameLen("this.datasets")*/ [] seriesNeedle = new MeterNeedle[1];
 
     /** The resourceBundle for the localization. */
@@ -559,10 +559,10 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
             ValueDataset[] a = this.datasets;
             MeterNeedle[] b = this.seriesNeedle;
 
-            @SuppressWarnings({"index", "value"}) // these two values are being changed together, but they go out of sync as the change occurs
+            @SuppressWarnings({"index", "value"}) // synced update: these two values are being changed together, but they go out of sync as the change occurs
             ValueDataset /*@MinLen(1)*/ /*@SameLen("this.seriesNeedle")*/ [] t0 = t;
 
-            @SuppressWarnings({"index", "value"}) // these two values are being changed together, but they go out of sync as the change occurs
+            @SuppressWarnings({"index", "value"}) // synced update: these two values are being changed together, but they go out of sync as the change occurs
             MeterNeedle /*@MinLen(1)*/ /*@SameLen("this.datasets")*/ [] p0 = p;
 
             this.datasets = t0;

@@ -468,7 +468,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
         }
 
         // fetch the value...
-        @SuppressWarnings("index") // that these are indices into these arrays is an implementation detail. Most implementations of this interface are backed by a list.
+        @SuppressWarnings("index") // array-list interop: that these are indices into these arrays is an implementation detail. Most implementations of this interface are backed by a list.
         Number result = this.startData[series][category];
         return result;
     }
@@ -519,7 +519,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
                 "DefaultIntervalCategoryDataset.getValue(): "
                 + "category index out of range.");
         }
-        @SuppressWarnings("index") // that these are indices into these arrays is an implementation detail. Most implementations of this interface are backed by a list.
+        @SuppressWarnings("index") // array-list interop: that these are indices into these arrays is an implementation detail. Most implementations of this interface are backed by a list.
         Number result = this.endData[series][category];
         return result;
     }
@@ -552,7 +552,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
         }
 
         // update the data...
-        @SuppressWarnings("index") // that these are indices into these arrays is an implementation detail. Most implementations of this interface are backed by a list.
+        @SuppressWarnings("index") // array-list interop: that these are indices into these arrays is an implementation detail. Most implementations of this interface are backed by a list.
         Number tmp = (this.startData[series][categoryIndex] = value);
         fireDatasetChanged();
 
@@ -586,7 +586,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
         }
 
         // update the data...
-        @SuppressWarnings("index") // that these are indices into these arrays is an implementation detail. Most implementations of this interface are backed by a list.
+        @SuppressWarnings("index") // array-list interop: that these are indices into these arrays is an implementation detail. Most implementations of this interface are backed by a list.
         Number tmp = (this.endData[series][categoryIndex] = value);
         fireDatasetChanged();
 

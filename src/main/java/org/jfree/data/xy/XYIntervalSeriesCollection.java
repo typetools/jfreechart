@@ -147,7 +147,7 @@ public class XYIntervalSeriesCollection extends AbstractIntervalXYDataset
      *     range {@code 0} to {@code getSeriesCount() - 1}.
      */
     @Override
-    @SuppressWarnings("index") // getSeries.getItemCount cannot be annotated because some series are mutable
+    @SuppressWarnings("index") // array-list interop: getSeries.getItemCount cannot be annotated because some series are mutable
     public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         // defer argument checking
         return getSeries(series).getItemCount();

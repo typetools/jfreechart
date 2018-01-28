@@ -413,12 +413,12 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
 
         // Avoid IndexOutOfBoundsException:
         int srcLength = values.length;
-        @SuppressWarnings("index") // this.valueHistory[seriesNumber]'s length is <= this.historyCount
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158: this.valueHistory[seriesNumber]'s length is <= this.historyCount
         /*@LTEqLengthOf({"this.valueHistory[seriesNumber]", "values"})*/ int copyLength = this.historyCount;
         boolean fillNeeded = false;
         if (srcLength < this.historyCount) {
             fillNeeded = true;
-            @SuppressWarnings("index") // this.valueHistory[seriesNumber]'s length is <= this.historyCount
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158: this.valueHistory[seriesNumber]'s length is <= this.historyCount
             /*@LTEqLengthOf({"this.valueHistory[seriesNumber]", "values"})*/ int newCopyLength = srcLength;
             copyLength = newCopyLength;
         }

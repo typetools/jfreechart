@@ -697,14 +697,14 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         int visibleSeriesCount = 0;
         for (int row = 0; row < rowCount; row++) {
             if (isSeriesVisible(row)) {
-                @SuppressWarnings("index") // visibleSeriesCount is incremented at most as many times as row, which is an index
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/219: visibleSeriesCount is incremented at most as many times as row, which is an index
                 /*@IndexFor("visibleSeriesTemp")*/ int visibleSeriesCountTemp = visibleSeriesCount;
                 visibleSeriesTemp[visibleSeriesCountTemp] = row;
                 visibleSeriesCount++;
             }
         }
         /*@NonNegative*/ int[] visibleSeries = new int[visibleSeriesCount];
-        @SuppressWarnings("index") // visibleSeriesCount is incremented at most as many times as row, which is an index
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/219: visibleSeriesCount is incremented at most as many times as row, which is an index
                 /*@IndexOrHigh({"visibleSeriesTemp", "visibleSeries"})*/ int visibleSeriesCountTemp = visibleSeriesCount;
         System.arraycopy(visibleSeriesTemp, 0, visibleSeries, 0,
                 visibleSeriesCountTemp);

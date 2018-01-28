@@ -2288,10 +2288,10 @@ public final class DatasetUtils {
             return Double.NaN;
         }
 
-        @SuppressWarnings("index") // the check above is sufficient to establish that no entries in indices are negative, since the values are correlated.
+        @SuppressWarnings("index") // guaranteed index: the check above is sufficient to establish that no entries in indices are negative, since the values are correlated.
         /*@IndexFor("dataset.getSeries(series)")*/ int indices0 = indices[0];
 
-        @SuppressWarnings("index") // the check above is sufficient to establish that no entries in indices are negative, since the values are correlated.
+        @SuppressWarnings("index") // guaranteed index: the check above is sufficient to establish that no entries in indices are negative, since the values are correlated.
         /*@IndexFor("dataset.getSeries(series)")*/ int indices1 = indices[1];
 
         if (indices0 == indices1) {
