@@ -383,7 +383,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      * @return The range.
      */
     @Override
-    @SuppressWarnings("index") // every call to getXIndex in this method (there are a lot) is guarded by the if (count > 0) check, which ensures that those values can't be negative.
+    @SuppressWarnings("index") // guaranteed index: every call to getXIndex in this method (there are a lot) is guarded by the if (count > 0) check, which ensures that those values can't be negative.
     public Range getDomainBounds(boolean includeInterval) {
         boolean interval = includeInterval;
         Range result = null;

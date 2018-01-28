@@ -223,7 +223,7 @@ public abstract class Statistics {
                     }
                 }
                 else {
-                    @SuppressWarnings("index") // count is a positive even number (min. 2), so count/2 - 1 is at least zero
+                    @SuppressWarnings("index") // count is a positive even integer -> count >= 2 -> count / 2 - 1 is NN
                     Number value1 = (Number) values.get(count / 2 - 1);
                     Number value2 = (Number) values.get(count / 2);
                     result = (value1.doubleValue() + value2.doubleValue())

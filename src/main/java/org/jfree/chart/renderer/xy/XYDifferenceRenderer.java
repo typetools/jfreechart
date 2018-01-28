@@ -1066,9 +1066,9 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
         RectangleEdge l_domainAxisLocation = x_plot.getDomainAxisEdge();
         RectangleEdge l_rangeAxisLocation  = x_plot.getRangeAxisEdge();
 
-        @SuppressWarnings({"index", "value"}) // This seems like a documentation bug. x_xValues should have at least 1 element
+        @SuppressWarnings({"index", "value"}) // documentation bug: x_xValues should have at least 1 element
         Object /*@MinLen(1)*/ [] l_xValues = x_xValues.toArray();
-        @SuppressWarnings({"index", "value"}) // This seems like a documentation bug. x_yValues should have at least 1 element, and the two linked lists need to be coordinated
+        @SuppressWarnings({"index", "value"}) // documentation bug: x_yValues should have at least 1 element, and the two linked lists need to be coordinated
         Object /*@MinLen(1)*/ /*@SameLen("l_xValues")*/ [] l_yValues = x_yValues.toArray();
 
         GeneralPath l_path = new GeneralPath();

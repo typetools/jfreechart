@@ -186,7 +186,7 @@ public class XYTaskDataset extends AbstractXYDataset
      * @return The item count.
      */
     @Override
-    @SuppressWarnings("index") // The underlying representation here is a mutable collection, but this annotation is needed to match the interface
+    @SuppressWarnings("index") // array-list interop: The underlying representation here is a mutable collection, but this annotation is needed to match the interface
     public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         return this.underlying.getSeries(series).getItemCount();
     }

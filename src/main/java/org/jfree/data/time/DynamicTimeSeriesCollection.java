@@ -793,7 +793,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
     public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         // Don't synchronize this!!
         // Instead, synchronize the loop that calls it.
-        @SuppressWarnings("index") // every other class that implements these interfaces uses a list to store series, so the annotation here is wrong
+        @SuppressWarnings("index") // array-list interop: every other class that implements these interfaces uses a list to store series, so the annotation here is wrong
         ValueSequence values = this.valueHistory[series];
         return values.getData(translateGet(item, series));
     }
@@ -884,7 +884,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The key.
      */
     @Override
-    @SuppressWarnings("index") // every other class that implements this interface backs the series with a list, so the annotation on this class don't correspond to the ones on the interface
+    @SuppressWarnings("index") // array-list interop: every other class that implements this interface backs the series with a list, so the annotation on this class don't correspond to the ones on the interface
     public Comparable getSeriesKey(/*@IndexFor("this.seriesKeys")*/ int series) {
         return this.seriesKeys[series];
     }

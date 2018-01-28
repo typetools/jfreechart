@@ -292,7 +292,7 @@ public abstract class Regression {
                 for(int coe = 0; coe < matrix[eq].length - 1; coe++){
                     matrix[eq][coe] += Math.pow(data[0][item],eq + coe);
                 }
-                @SuppressWarnings("index") // coefficients is positive, and matrix's subarrays are all exactly `coefficients` long
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/202: coefficients is positive, and matrix's subarrays are all exactly `coefficients` long
                 /*@IndexFor("matrix[eq]")*/ int coe1 = coefficients - 1;
                 matrix[eq][coe1] += data[1][item]
                         * Math.pow(data[0][item],eq);
@@ -310,7 +310,7 @@ public abstract class Regression {
         for (int eq = equations - 1; eq > -1; eq--) {
             double value = matrix[eq][matrix[eq].length - 1];
             for (int coe = eq; coe < matrix[eq].length -1; coe++) {
-                @SuppressWarnings("index") // coe is LTOM for matrix[eq], which means that it is LTL for result[eq], which is one smaller in each dimension
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/202: coe is LTOM for matrix[eq], which means that it is LTL for result[eq], which is one smaller in each dimension
                 double resultCoefficient = result[coe];
                 value -= matrix[eq][coe] * resultCoefficient;
             }
@@ -362,7 +362,7 @@ public abstract class Regression {
         if (equations == 1) {
             return result;
         }
-        @SuppressWarnings({"value", "index"}) // equations != 1 -> equations >= 2 -> result is minlen(1)
+        @SuppressWarnings({"value", "index"}) // https://github.com/kelloggm/checker-framework/issues/158: equations != 1 -> equations >= 2 -> result is minlen(1)
         double /*@MinLen(1)*/ [] /*@MinLen(1)*/ [] result1 = result;
 
         // check for zero pivot element

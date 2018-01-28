@@ -3056,7 +3056,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
             // reserve space for the domain axes...
             for (ValueAxis axis: this.domainAxes.values()) {
                 if (axis != null) {
-                    @SuppressWarnings("index") // axis is guaranteed to be a domain axis, so findDomainAxisIndex will return NN
+                    @SuppressWarnings("index") // guaranteed index: axis is guaranteed to be a domain axis, so findDomainAxisIndex will return NN
                     RectangleEdge edge = getDomainAxisEdge(
                             findDomainAxisIndex(axis));
                     space = axis.reserveSpace(g2, this, plotArea, edge, space);
@@ -3103,7 +3103,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
             // reserve space for the range axes...
             for (ValueAxis axis: this.rangeAxes.values()) {
                 if (axis != null) {
-                    @SuppressWarnings("index") // axis is guaranteed to be a range axis, so findRangeAxisIndex will return NN
+                    @SuppressWarnings("index") // guaranteed index: axis is guaranteed to be a range axis, so findRangeAxisIndex will return NN
                      RectangleEdge edge = getRangeAxisEdge(
                             findRangeAxisIndex(axis));
                     space = axis.reserveSpace(g2, this, plotArea, edge, space);
@@ -3645,7 +3645,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         // add domain axes to lists...
         for (ValueAxis axis : this.domainAxes.values()) {
             if (axis != null) {
-                @SuppressWarnings("index") // axis is guaranteed to be a domain axis, so axisIndex is NN
+                @SuppressWarnings("index") // guaranteed index: axis is guaranteed to be a domain axis, so axisIndex is NN
                 /*@NonNegative*/ int axisIndex = findDomainAxisIndex(axis);
                 axisCollection.add(axis, getDomainAxisEdge(axisIndex));
             }
@@ -3654,7 +3654,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         // add range axes to lists...
         for (ValueAxis axis : this.rangeAxes.values()) {
             if (axis != null) {
-                @SuppressWarnings("index") // axis is guaranteed to be a range axis, so axisIndex is NN
+                @SuppressWarnings("index") // guaranteed index: axis is guaranteed to be a range axis, so axisIndex is NN
                 /*@NonNegative*/ int axisIndex = findRangeAxisIndex(axis);
                 axisCollection.add(axis, getRangeAxisEdge(axisIndex));
             }
@@ -5325,7 +5325,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
             if (dataset == null) {
                 continue;
             }
-            @SuppressWarnings("index") // dataset is came from this object, so indexOf returns NN
+            @SuppressWarnings("index") // guaranteed index: dataset is came from this object, so indexOf returns NN
             /*@NonNegative*/ int datasetIndex = indexOf(dataset);
             XYItemRenderer renderer = getRenderer(datasetIndex);
             if (renderer == null) {

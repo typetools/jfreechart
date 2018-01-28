@@ -482,7 +482,7 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * @return A boolean.
      */
     @Override
-    @SuppressWarnings("index") // Equality test relies on well-formedness of other object, which can't be annotated perfectly because of array-list interop
+    @SuppressWarnings("index") // array-list interop: Equality test relies on well-formedness of other object, which can't be annotated perfectly because of array-list interop
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;

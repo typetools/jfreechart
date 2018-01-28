@@ -550,7 +550,7 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
                 p[i] = this.seriesNeedle[i];
             }
 
-            @SuppressWarnings("index") // arrays have correlated but non-equal length
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/202: arrays have correlated but non-equal length
             /*@LTLengthOf(value = {"t", "p", "p", "this.datasets"}, offset = {"0", "0", "-1", "-1"})*/ int newI = this.datasets.length;
             i = newI;
             t[i] = dataset;
