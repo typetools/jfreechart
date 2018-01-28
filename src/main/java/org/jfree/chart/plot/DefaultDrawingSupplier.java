@@ -215,7 +215,7 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
      */
     @Override
     public Paint getNextPaint() {
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/195
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/218
         /*@IndexFor("this.paintSequence")*/ int index = this.paintIndex % this.paintSequence.length;
         Paint result
             = this.paintSequence[index];
@@ -230,7 +230,7 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
      */
     @Override
     public Paint getNextOutlinePaint() {
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/195
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/218
         /*@IndexFor("this.outlinePaintSequence")*/ int index = this.outlinePaintIndex % this.outlinePaintSequence.length;
         Paint result = this.outlinePaintSequence[index];
         this.outlinePaintIndex++;
@@ -246,7 +246,7 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
      */
     @Override
     public Paint getNextFillPaint() {
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/195
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/218
         /*@IndexFor("this.fillPaintSequence")*/ int index = this.fillPaintIndex % this.fillPaintSequence.length;
         Paint result = this.fillPaintSequence[index];
         this.fillPaintIndex++;
@@ -260,7 +260,7 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
      */
     @Override
     public Stroke getNextStroke() {
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/195
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/218
         /*@IndexFor("this.strokeSequence")*/ int index = this.strokeIndex % this.strokeSequence.length;
         Stroke result = this.strokeSequence[index];
         this.strokeIndex++;
@@ -274,7 +274,7 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
      */
     @Override
     public Stroke getNextOutlineStroke() {
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/195
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/218
         /*@IndexFor("this.outlineStrokeSequence")*/ int index = this.outlineStrokeIndex % this.outlineStrokeSequence.length;
         Stroke result = this.outlineStrokeSequence[index];
         this.outlineStrokeIndex++;
@@ -288,7 +288,7 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
      */
     @Override
     public Shape getNextShape() {
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/195
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/218
         /*@IndexFor("this.shapeSequence")*/ int index = this.shapeIndex % this.shapeSequence.length;
         Shape result = this.shapeSequence[index];
         this.shapeIndex++;

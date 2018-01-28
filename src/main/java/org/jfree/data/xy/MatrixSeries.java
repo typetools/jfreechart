@@ -119,7 +119,7 @@ public class MatrixSeries extends Series implements Serializable {
      *
      * @return The column of the specified item.
      */
-    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/195
+    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/218
     public /*@IndexFor("this.data")*/ int getItemColumn(/*@NonNegative*/ int itemIndex) {
         //assert itemIndex >= 0 && itemIndex < getItemCount();
         return itemIndex % getColumnsCount();
