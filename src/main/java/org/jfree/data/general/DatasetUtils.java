@@ -2343,7 +2343,7 @@ public final class DatasetUtils {
             }
         }
         if (dataset.getDomainOrder() == DomainOrder.ASCENDING) {
-            @SuppressWarnings("index") // 0 is an index, because itemCount > 1
+            @SuppressWarnings("index") // 0 is a valid index, because itemCount > 1
             /*@IndexFor("dataset.getSeries(series)")*/ int low = 0;
             @SuppressWarnings("index") // itemCount - 1 is an index, because itemCount > 1
             /*@IndexFor("dataset.getSeries(series)")*/ int high = itemCount - 1;
@@ -2378,7 +2378,7 @@ public final class DatasetUtils {
             return new int[] {low, high};
         }
         else if (dataset.getDomainOrder() == DomainOrder.DESCENDING) {
-            @SuppressWarnings("index") // 0 is an index, because itemCount > 1
+            @SuppressWarnings("index") // 0 is a valid index, because itemCount > 1
             /*@IndexFor("dataset.getSeries(series)")*/ int high = 0;
             @SuppressWarnings("index") // itemCount - 1 is an index, because itemCount > 1
             /*@IndexFor("dataset.getSeries(series)")*/ int low = itemCount - 1;

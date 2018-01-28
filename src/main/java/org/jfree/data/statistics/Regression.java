@@ -270,7 +270,7 @@ public abstract class Regression {
             if (!Double.isNaN(x) && !Double.isNaN(y)){
                 data[0][validItems] = x;
                 data[1][validItems] = y;
-                @SuppressWarnings("index") // validItems is incremented at most as often as item, which is a valid index
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/219: validItems is incremented at most as often as item, which is a valid index
                 /*@LTLengthOf(value={"data[0]","data[1]"}, offset={"0","0"})*/ /*@NonNegative*/ int validItemsTmp = validItems + 1;
                 validItems = validItemsTmp;
             }

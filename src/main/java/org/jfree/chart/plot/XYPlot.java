@@ -3321,7 +3321,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         // draw domain crosshair if required...
         int datasetIndex = crosshairState.getDatasetIndex();
         ValueAxis xAxis = getDomainAxisForDataset(datasetIndex);
-        @SuppressWarnings("index") // xAxis was just fetched out of the dataset, so getDomainAxisIndex will return NN
+        @SuppressWarnings("index") // guaranteed index: xAxis was just fetched out of the dataset, so getDomainAxisIndex will return NN
         RectangleEdge xAxisEdge = getDomainAxisEdge(getDomainAxisIndex(xAxis));
         if (!this.domainCrosshairLockedOnData && anchor != null) {
             double xx;
@@ -3343,7 +3343,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
 
         // draw range crosshair if required...
         ValueAxis yAxis = getRangeAxisForDataset(datasetIndex);
-        @SuppressWarnings("index") // yAxis was just fetched out of the dataset, so getRangeAxisIndex will return NN
+        @SuppressWarnings("index") // guaranteed index: yAxis was just fetched out of the dataset, so getRangeAxisIndex will return NN
         RectangleEdge yAxisEdge = getRangeAxisEdge(getRangeAxisIndex(yAxis));
         if (!this.rangeCrosshairLockedOnData && anchor != null) {
             double yy;

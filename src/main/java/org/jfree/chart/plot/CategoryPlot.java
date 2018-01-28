@@ -3404,7 +3404,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
             // reserve space for any domain axes...
             for (CategoryAxis xAxis : this.domainAxes.values()) {
                 if (xAxis != null) {
-                    @SuppressWarnings("index") // xAxis is guaranteed to be in the set, so IndexOf returns NN
+                    @SuppressWarnings("index") // guaranteed index: xAxis is guaranteed to be in the set, so IndexOf returns NN
                     /*@NonNegative*/ int i = getDomainAxisIndex(xAxis);
                     RectangleEdge edge = getDomainAxisEdge(i);
                     space = xAxis.reserveSpace(g2, this, plotArea, edge, space);
@@ -3449,7 +3449,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
             // reserve space for the range axes (if any)...
             for (ValueAxis yAxis : this.rangeAxes.values()) {
                 if (yAxis != null) {
-                    @SuppressWarnings("index") // yAxis is guaranteed to be in the set, so indexOf returns NN
+                    @SuppressWarnings("index") // guaranteed index: yAxis is guaranteed to be in the set, so indexOf returns NN
                     /*@NonNegative*/ int i = findRangeAxisIndex(yAxis);
                     RectangleEdge edge = getRangeAxisEdge(i);
                     space = yAxis.reserveSpace(g2, this, plotArea, edge, space);
@@ -3802,7 +3802,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         // add domain axes to lists...
         for (CategoryAxis xAxis : this.domainAxes.values()) {
             if (xAxis != null) {
-                @SuppressWarnings("index") // xAxis is guaranteed to have an index, so getDomainAxisIndex return NN
+                @SuppressWarnings("index") // guaranteed index: xAxis is guaranteed to have an index, so getDomainAxisIndex return NN
                 /*@NonNegative*/ int index = getDomainAxisIndex(xAxis);
                 axisCollection.add(xAxis, getDomainAxisEdge(index));
             }
@@ -3811,7 +3811,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         // add range axes to lists...
         for (ValueAxis yAxis : this.rangeAxes.values()) {
             if (yAxis != null) {
-                @SuppressWarnings("index") // yAxis is guaranteed to have an index, so getRangeAxisIndex return NN
+                @SuppressWarnings("index") // guaranteed index: yAxis is guaranteed to have an index, so getRangeAxisIndex return NN
                 /*@NonNegative*/ int index = findRangeAxisIndex(yAxis);
                 axisCollection.add(yAxis, getRangeAxisEdge(index));
             }
