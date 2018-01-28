@@ -3273,12 +3273,12 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
 
         // draw the markers that are associated with a specific dataset...
         for (XYDataset dataset: this.datasets.values()) {
-            @SuppressWarnings("index") // dataset is definitely a valid dataset, so its index will be nonnegative
+            @SuppressWarnings("index") // guaranteed index: dataset is definitely a valid dataset, so its index will be nonnegative
             /*@NonNegative*/ int datasetIndex = indexOf(dataset);
             drawDomainMarkers(g2, dataArea, datasetIndex, Layer.BACKGROUND);
         }
         for (XYDataset dataset: this.datasets.values()) {
-            @SuppressWarnings("index") // dataset is definitely a valid dataset, so its index will be nonnegative
+            @SuppressWarnings("index") // guaranteed index: dataset is definitely a valid dataset, so its index will be nonnegative
                     /*@NonNegative*/ int datasetIndex = indexOf(dataset);
             drawRangeMarkers(g2, dataArea, datasetIndex, Layer.BACKGROUND);
         }

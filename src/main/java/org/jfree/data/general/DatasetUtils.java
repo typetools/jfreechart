@@ -2333,7 +2333,7 @@ public final class DatasetUtils {
             return new int[] {-1, -1};
         }
         if (itemCount == 1) {
-            @SuppressWarnings("index") // 0 is a valid index, because itemCount is at least 1
+            @SuppressWarnings("index") // 0 is a valid index, because itemCount > 1
             /*@IndexFor("dataset.getSeries(series)")*/ int zero = 0;
             double xValue = dataset.getXValue(series, zero);
             if (x == xValue) {
@@ -2410,7 +2410,7 @@ public final class DatasetUtils {
             // we don't know anything about the ordering of the x-values,
             // so we iterate until we find the first crossing of x (if any)
             // we know there are at least 2 items in the series at this point
-            @SuppressWarnings("index") // 0 is a valid index, because itemCount is at least 1
+            @SuppressWarnings("index") // 0 is a valid index, because itemCount > 1
             /*@IndexFor("dataset.getSeries(series)")*/ int zero = 0;
             double prev = dataset.getXValue(series, zero);
             if (x == prev) {

@@ -148,7 +148,7 @@ public class Minute extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.13
      */
-    @SuppressWarnings({"index", "value"}) // calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
+    @SuppressWarnings({"index", "value"}) // calendar get: calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
     public Minute(Date time, TimeZone zone, Locale locale) {
         Args.nullNotPermitted(time, "time");
         Args.nullNotPermitted(zone, "zone");

@@ -164,7 +164,7 @@ public class Day extends RegularTimePeriod implements Serializable {
      * @param zone  the time zone ({@code null} not permitted).
      * @param locale  the locale ({@code null} not permitted).
      */
-    @SuppressWarnings({"index", "value"}) // calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
+    @SuppressWarnings({"index", "value"}) // calendar get: calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
     public Day(Date time, TimeZone zone, Locale locale) {
         Args.nullNotPermitted(time, "time");
         Args.nullNotPermitted(zone, "zone");

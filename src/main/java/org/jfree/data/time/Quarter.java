@@ -173,7 +173,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.12
      */
-    @SuppressWarnings({"index", "value"}) // calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
+    @SuppressWarnings({"index", "value"}) // calendar get: calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
     public Quarter(Date time, TimeZone zone, Locale locale) {
         Calendar calendar = Calendar.getInstance(zone, locale);
         calendar.setTime(time);

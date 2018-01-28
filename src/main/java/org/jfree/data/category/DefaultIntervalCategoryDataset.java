@@ -641,7 +641,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getRowKey(int)
      */
     @Override
-    @SuppressWarnings("index") // because this underlying array isn't exposed by the interface this method is inherited from, there is no way to write an upperbound annotation on column
+    @SuppressWarnings("index") // array-list interop: because this underlying array isn't exposed by the interface this method is inherited from, there is no way to write an upperbound annotation on column
     public Comparable getColumnKey(/*@NonNegative*/ int column) {
         return this.categoryKeys[column];
     }
@@ -705,7 +705,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @see #getColumnKey(int)
      */
     @Override
-    @SuppressWarnings("index") // because this underlying array isn't exposed by the interface this method is inherited from, there is no way to write an upperbound annotation on column
+    @SuppressWarnings("index") // array-list interop: because this underlying array isn't exposed by the interface this method is inherited from, there is no way to write an upperbound annotation on column
     public Comparable getRowKey(/*@NonNegative*/ int row) {
         if ((row >= getRowCount()) || (row < 0)) {
             throw new IllegalArgumentException(

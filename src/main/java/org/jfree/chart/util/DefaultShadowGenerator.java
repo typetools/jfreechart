@@ -239,7 +239,7 @@ public class DefaultShadowGenerator implements ShadowGenerator, Serializable {
                 @SuppressWarnings("index") // dataBuffer has an internal structure: it's divided into dstHeight sections of dstWidth. We iterate through dstHeight with y, and bufferOffset moves through the width
                 int dead = (dataBuffer[bufferOffset] = a << 24 | shadowRgb);
 
-                @SuppressWarnings("index") // historyIdx is always less than this.shadowSize, which is the length of aHistory
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158: historyIdx is always less than this.shadowSize, which is the length of aHistory
                 /*@IndexFor("aHistory")*/ int historyIdx1 = historyIdx;
 
                 // substract the oldest pixel from the sum
@@ -277,7 +277,7 @@ public class DefaultShadowGenerator implements ShadowGenerator, Serializable {
                 @SuppressWarnings("index") // dataBuffer has an internal structure: it's divided into dstHeight sections of dstWidth. We iterate through dstWidth with x, and bufferOffset moves through the height
                         int dead = (dataBuffer[bufferOffset] = a << 24 | shadowRgb);
 
-                @SuppressWarnings("index") // historyIdx is always less than this.shadowSize, which is the length of aHistory
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158: historyIdx is always less than this.shadowSize, which is the length of aHistory
                 /*@IndexFor("aHistory")*/ int historyIdx1 = historyIdx;
 
                 // substract the oldest pixel from the sum

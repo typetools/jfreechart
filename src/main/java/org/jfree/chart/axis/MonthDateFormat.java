@@ -207,7 +207,7 @@ public class MonthDateFormat extends DateFormat {
     public StringBuffer format(Date date, StringBuffer toAppendTo,
                                FieldPosition fieldPosition) {
         this.calendar.setTime(date);
-        @SuppressWarnings({"index", "value"}) // calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
+        @SuppressWarnings({"index", "value"}) // calendar get: calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
         /*@IntRange(from=0, to=11)*/ int month = this.calendar.get(Calendar.MONTH);
         toAppendTo.append(this.months[month]);
         if (this.showYear[month]) {

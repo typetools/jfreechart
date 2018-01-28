@@ -180,7 +180,7 @@ public class Week extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.7
      */
-    @SuppressWarnings({"index", "value"}) // calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
+    @SuppressWarnings({"index", "value"}) // calendar get: calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
     public Week(Date time, TimeZone zone, Locale locale) {
         Args.nullNotPermitted(time, "time");
         Args.nullNotPermitted(zone, "zone");
@@ -303,7 +303,7 @@ public class Week extends RegularTimePeriod implements Serializable {
                 int yy = this.year - 1;
                 Calendar prevYearCalendar = Calendar.getInstance();
                 prevYearCalendar.set(yy, Calendar.DECEMBER, 31);
-                @SuppressWarnings({"index", "value"}) // calendar.getActualMaximum is a combined getter for various calendar fields, and therefore has no sensical annotation
+                @SuppressWarnings({"index", "value"}) // calendar get: calendar.getActualMaximum is a combined getter for various calendar fields, and therefore has no sensical annotation
                         Week resultTmp = new Week(prevYearCalendar.getActualMaximum(
                         Calendar.WEEK_OF_YEAR), yy);
                 result = resultTmp;
@@ -335,7 +335,7 @@ public class Week extends RegularTimePeriod implements Serializable {
         else {
             Calendar calendar = Calendar.getInstance();
             calendar.set(this.year, Calendar.DECEMBER, 31);
-            @SuppressWarnings({"index", "value"}) // calendar.getActualMaximum is a combined getter for various calendar fields, and therefore has no sensical annotation
+            @SuppressWarnings({"index", "value"}) // calendar get: calendar.getActualMaximum is a combined getter for various calendar fields, and therefore has no sensical annotation
                     /*@IntRange(from = 52, to = 53)*/ int actualMaxWeek
                 = calendar.getActualMaximum(Calendar.WEEK_OF_YEAR);
             if (this.week < actualMaxWeek) {
