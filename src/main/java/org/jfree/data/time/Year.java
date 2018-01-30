@@ -80,14 +80,14 @@ public class Year extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.11
      */
-    public static final /*@IntVal(-9999)*/ int MINIMUM_YEAR = -9999;
+    public static final int MINIMUM_YEAR = -9999;
 
     /**
      * The maximum year value.
      *
      * @since 1.0.11
      */
-    public static final /*@IntVal(9999)*/ int MAXIMUM_YEAR = 9999;
+    public static final int MAXIMUM_YEAR = 9999;
 
     /** For serialization. */
     private static final long serialVersionUID = -7659990929736074836L;

@@ -48,7 +48,7 @@ public class LCBLayout implements LayoutManager, Serializable {
     private static final long serialVersionUID = -2531780832406163833L;
     
     /** A constant for the number of columns in the layout. */
-    private static final /*@IntVal(3)*/ int COLUMNS = 3;
+    private static final int COLUMNS = 3;
 
     /** Tracks the column widths. */
     private int /*@ArrayLen(3)*/ [] colWidth;
