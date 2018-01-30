@@ -52,7 +52,7 @@ public class AbstractObjectList implements Cloneable, Serializable {
     private static final long serialVersionUID = 7789833772597351595L;
     
     /** The default initial capacity of the list. */
-    public static final int DEFAULT_INITIAL_CAPACITY = 8;
+    public static final /*@NonNegative*/ int DEFAULT_INITIAL_CAPACITY = 8;
 
     /** Storage for the objects. */
     private transient Object[] objects;

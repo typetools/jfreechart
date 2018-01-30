@@ -169,7 +169,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
     public static final int UNITS_FAHRENHEIT = 1;
 
     /** A constant for unit type 'Celcius'. */
-    public static final int UNITS_CELCIUS = 2;
+    public static final /*@IndexFor("UNITS")*/ int UNITS_CELCIUS = 2;
 
     /** A constant for unit type 'Kelvin'. */
     public static final int UNITS_KELVIN = 3;
