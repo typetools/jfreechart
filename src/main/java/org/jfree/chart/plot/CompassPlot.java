@@ -704,9 +704,7 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
                 value = (data.getValue().doubleValue())
                     % this.revolutionDistance;
                 value = value / this.revolutionDistance * 360;
-                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/218
-                /*@IndexFor("this.seriesNeedle")*/ int current1 = i % x;
-                current = current1;
+                current = i % x;
                 this.seriesNeedle[current].draw(g2, needleArea, value);
             }
         }
