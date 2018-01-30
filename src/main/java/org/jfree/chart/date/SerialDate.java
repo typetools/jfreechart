@@ -277,7 +277,6 @@ public abstract class SerialDate implements Comparable, Serializable,
      *
      * @return an array of month names.
      */
-    @SuppressWarnings({"index", "value"}) // DateFormatSymbols needs index annotations
     public static String /*@ArrayLen(13)*/ [] getMonths(boolean shortened) {
         if (shortened) {
             return DATE_FORMAT_SYMBOLS.getShortMonths();
