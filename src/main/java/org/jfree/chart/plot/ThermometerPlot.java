@@ -199,7 +199,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
     protected static final int AXIS_GAP = 10;
 
     /** The unit strings. */
-    protected static final String [] UNITS = {"", "\u00B0F", "\u00B0C",
+    protected static final String /*@ArrayLen(4)*/ [] UNITS = {"", "\u00B0F", "\u00B0C",
             "\u00B0K"};
 
     /** Index for low value in subrangeInfo matrix. */
