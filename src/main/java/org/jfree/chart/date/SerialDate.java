@@ -557,6 +557,9 @@ public abstract class SerialDate implements Comparable, Serializable,
     @SuppressWarnings({"index", "value"}) // True positive, fixed upstream bug
     public static SerialDate addMonths(int months, SerialDate base) {
         int yy = (12 * base.getYYYY() + base.getMonth() + months - 1) / 12;
+        if (yy < MINIMUM_YEAR_SUPPORTED || yy > MAXIMUM_YEAR_SUPPORTED) {
+            throw new IllegalArgumentException("Call to addMonths resulted in unsupported year");
+        }
         int mm = (12 * base.getYYYY() + base.getMonth() + months - 1) % 12 + 1;
         int lastDayOfMonth = SerialDate.lastDayOfMonth(mm, yy);
         @SuppressWarnings({"index", "value"}) // https://github.com/typetools/checker-framework/issues/1687
@@ -581,8 +584,10 @@ public abstract class SerialDate implements Comparable, Serializable,
         int baseD = base.getDayOfMonth();
 
         int targetY = baseY + years;
-        @SuppressWarnings({"index", "value"}) // https://github.com/typetools/checker-framework/issues/1687
-        /*@IntRange(from = 1, to = 31)*/ int targetD = Math.min(baseD, SerialDate.lastDayOfMonth(baseM, targetY));
+        if (targetY < MINIMUM_YEAR_SUPPORTED || targetY > MAXIMUM_YEAR_SUPPORTED) {
+            throw new IllegalArgumentException("Call to addYears resulted in unsupported year");
+        }
+        int targetD = Math.min(baseD, SerialDate.lastDayOfMonth(baseM, targetY));
         return SerialDate.createInstance(targetD, baseM, targetY);
     }
 

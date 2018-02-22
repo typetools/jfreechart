@@ -264,13 +264,14 @@ public class SlidingCategoryDataset extends AbstractDataset
     public Number getValue(Comparable rowKey, Comparable columnKey) {
         int r = getRowIndex(rowKey);
         int c = getColumnIndex(columnKey);
-        if (c != -1) {
-            @SuppressWarnings("index") // I think this is a bug. Why isn't r checked the way c is checked?
-            Number result = this.underlying.getValue(r, c + this.firstCategoryIndex);
-            return result;
+        if (c == -1) {
+            throw new UnknownKeyException("Unknown columnKey: " + columnKey);
+        }
+        else if (r == -1) {
+            throw new UnknownKeyException("Unknown rowKey: " + rowKey);
         }
         else {
-            throw new UnknownKeyException("Unknown columnKey: " + columnKey);
+            return this.underlying.getValue(r, c + this.firstCategoryIndex);
         }
     }
 
