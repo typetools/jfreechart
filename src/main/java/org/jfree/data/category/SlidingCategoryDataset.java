@@ -177,8 +177,7 @@ public class SlidingCategoryDataset extends AbstractDataset
     public /*@GTENegativeOne*/ int getColumnIndex(Comparable key) {
         int index = this.underlying.getColumnIndex(key);
         if (index >= this.firstCategoryIndex && index <= lastCategoryIndex()) {
-            /*@NonNegative*/ int result = index - this.firstCategoryIndex;
-            return result;
+            return index - this.firstCategoryIndex;
         }
         return -1;  // we didn't find the key
     }
