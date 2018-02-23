@@ -43,6 +43,11 @@
  */
 
 package org.jfree.data.general;
+/*>>> import org.checkerframework.checker.index.qual.*; */
+
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
 
 import java.io.Serializable;
 
@@ -69,7 +74,7 @@ public abstract class AbstractSeriesDataset extends AbstractDataset
      * @return The series count.
      */
     @Override
-    public abstract int getSeriesCount();
+    public abstract /*@NonNegative*/ int getSeriesCount();
 
     /**
      * Returns the key for a series.
@@ -84,7 +89,7 @@ public abstract class AbstractSeriesDataset extends AbstractDataset
      * @return The series key.
      */
     @Override
-    public abstract Comparable getSeriesKey(int series);
+    public abstract Comparable getSeriesKey(/*@NonNegative*/ int series);
 
     /**
      * Returns the index of the named series, or -1.
@@ -94,7 +99,7 @@ public abstract class AbstractSeriesDataset extends AbstractDataset
      * @return The index.
      */
     @Override
-    public int indexOf(Comparable seriesKey) {
+    public /*@GTENegativeOne*/ int indexOf(Comparable seriesKey) {
         int seriesCount = getSeriesCount();
         for (int s = 0; s < seriesCount; s++) {
            if (getSeriesKey(s).equals(seriesKey)) {
@@ -114,4 +119,12 @@ public abstract class AbstractSeriesDataset extends AbstractDataset
         fireDatasetChanged();
     }
 
+    /**
+     * This is a ghost method that should never be called. It is used only in annotations
+     * to represent the conceptual "series" that the dataset provides.
+     */
+    @Override
+    public Series getSeries(/*@NonNegative*/ int series) throws Exception{
+        throw new Exception("unimplemented");
+    }
 }

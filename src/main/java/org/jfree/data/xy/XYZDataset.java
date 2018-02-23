@@ -42,6 +42,11 @@
  */
 
 package org.jfree.data.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
+
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
 
 /**
  * The interface through which JFreeChart obtains data in the form of (x, y, z)
@@ -57,7 +62,7 @@ public interface XYZDataset extends XYDataset {
      *
      * @return The z-value (possibly {@code null}).
      */
-    public Number getZ(int series, int item);
+    public Number getZ(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item);
 
     /**
      * Returns the z-value (as a double primitive) for an item within a series.
@@ -67,6 +72,6 @@ public interface XYZDataset extends XYDataset {
      *
      * @return The z-value.
      */
-    public double getZValue(int series, int item);
+    public double getZValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item);
 
 }

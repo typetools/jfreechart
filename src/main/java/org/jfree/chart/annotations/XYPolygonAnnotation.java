@@ -40,6 +40,7 @@
  */
 
 package org.jfree.chart.annotations;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -207,7 +208,7 @@ public class XYPolygonAnnotation extends AbstractXYAnnotation
     @Override
     public void draw(Graphics2D g2, XYPlot plot, Rectangle2D dataArea,
                      ValueAxis domainAxis, ValueAxis rangeAxis,
-                     int rendererIndex, PlotRenderingInfo info) {
+                     /*@NonNegative*/ int rendererIndex, PlotRenderingInfo info) {
 
         // if we don't have at least 2 (x, y) coordinates, just return
         if (this.polygon.length < 4) {
@@ -220,8 +221,11 @@ public class XYPolygonAnnotation extends AbstractXYAnnotation
                 plot.getRangeAxisLocation(), orientation);
 
         GeneralPath area = new GeneralPath();
+
+        @SuppressWarnings("index") // Length is checked above, and all functions called in-between are pure
         double x = domainAxis.valueToJava2D(this.polygon[0], dataArea,
                 domainEdge);
+        @SuppressWarnings("index") // Length is checked above, and all functions called in-between are pure
         double y = rangeAxis.valueToJava2D(this.polygon[1], dataArea,
                 rangeEdge);
         if (orientation == PlotOrientation.HORIZONTAL) {
@@ -229,7 +233,9 @@ public class XYPolygonAnnotation extends AbstractXYAnnotation
             for (int i = 2; i < this.polygon.length; i += 2) {
                 x = domainAxis.valueToJava2D(this.polygon[i], dataArea,
                         domainEdge);
-                y = rangeAxis.valueToJava2D(this.polygon[i + 1], dataArea,
+                @SuppressWarnings("index") // polygon always has an even number of elements, and i is an odd index
+                double y1 = this.polygon[i + 1];
+                y = rangeAxis.valueToJava2D(y1, dataArea,
                         rangeEdge);
                 area.lineTo((float) y, (float) x);
             }
@@ -240,7 +246,9 @@ public class XYPolygonAnnotation extends AbstractXYAnnotation
             for (int i = 2; i < this.polygon.length; i += 2) {
                 x = domainAxis.valueToJava2D(this.polygon[i], dataArea,
                         domainEdge);
-                y = rangeAxis.valueToJava2D(this.polygon[i + 1], dataArea,
+                @SuppressWarnings("index") // polygon always has an even number of elements, and i is an odd index
+                double y1 = this.polygon[i + 1];
+                y = rangeAxis.valueToJava2D(y1, dataArea,
                         rangeEdge);
                 area.lineTo((float) x, (float) y);
             }

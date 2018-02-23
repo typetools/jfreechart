@@ -55,6 +55,7 @@
  */
 
 package org.jfree.chart.axis;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -81,7 +82,7 @@ public class DateTickUnit extends TickUnit implements Serializable {
     private DateTickUnitType unitType;
 
     /** The unit count. */
-    private int count;
+    private /*@Positive*/ int count;
 
     /**
      * The roll unit type.
@@ -91,7 +92,7 @@ public class DateTickUnit extends TickUnit implements Serializable {
     private DateTickUnitType rollUnitType;
 
     /** The roll count. */
-    private int rollCount;
+    private /*@Positive*/ int rollCount;
 
     /** The date formatter. */
     private DateFormat formatter;
@@ -104,7 +105,7 @@ public class DateTickUnit extends TickUnit implements Serializable {
      *
      * @since 1.0.13
      */
-    public DateTickUnit(DateTickUnitType unitType, int multiple) {
+    public DateTickUnit(DateTickUnitType unitType, /*@Positive*/ int multiple) {
         this(unitType, multiple, DateFormat.getDateInstance(DateFormat.SHORT));
     }
 
@@ -117,7 +118,7 @@ public class DateTickUnit extends TickUnit implements Serializable {
      *
      * @since 1.0.13
      */
-    public DateTickUnit(DateTickUnitType unitType, int multiple,
+    public DateTickUnit(DateTickUnitType unitType, /*@Positive*/ int multiple,
             DateFormat formatter) {
         this(unitType, multiple, unitType, multiple, formatter);
     }
@@ -133,8 +134,8 @@ public class DateTickUnit extends TickUnit implements Serializable {
      *
      * @since 1.0.13
      */
-    public DateTickUnit(DateTickUnitType unitType, int multiple,
-            DateTickUnitType rollUnitType, int rollMultiple,
+    public DateTickUnit(DateTickUnitType unitType, /*@Positive*/ int multiple,
+            DateTickUnitType rollUnitType, /*@Positive*/ int rollMultiple,
             DateFormat formatter) {
         super(DateTickUnit.getMillisecondCount(unitType, multiple));
         Args.nullNotPermitted(formatter, "formatter");
@@ -167,7 +168,7 @@ public class DateTickUnit extends TickUnit implements Serializable {
      *
      * @return The unit multiple (always &gt; 0).
      */
-    public int getMultiple() {
+    public /*@Positive*/ int getMultiple() {
         return this.count;
     }
 
@@ -189,7 +190,7 @@ public class DateTickUnit extends TickUnit implements Serializable {
      *
      * @since 1.0.13
      */
-    public int getRollMultiple() {
+    public /*@Positive*/ int getRollMultiple() {
         return this.rollCount;
     }
 
@@ -279,7 +280,7 @@ public class DateTickUnit extends TickUnit implements Serializable {
      *
      * @return The field code.
      */
-    public int getCalendarField() {
+    public /*@NonNegative*/ int getCalendarField() {
         return this.unitType.getCalendarField();
     }
 

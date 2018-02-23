@@ -42,6 +42,11 @@
  */
 
 package org.jfree.data.statistics;
+/*>>> import org.checkerframework.checker.index.qual.*; */
+
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -126,7 +131,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    public int getSeriesCount() {
+    public /*@NonNegative*/ int getSeriesCount() {
         return 1;
     }
 
@@ -139,7 +144,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @return The key for the series.
      */
     @Override
-    public Comparable getSeriesKey(int series) {
+    public Comparable getSeriesKey(/*@NonNegative*/ int series) {
         return this.key;
     }
 
@@ -162,7 +167,8 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    public int getItemCount(int series) {
+    @SuppressWarnings("index") // array-list interop: the underlying data structure here is a list, but this method's annotation expects an array
+    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         return this.bins.size();
     }
 
@@ -282,7 +288,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @return The x-value (never {@code null}).
      */
     @Override
-    public Number getX(int series, int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return new Double(getXValue(series, item));
     }
 
@@ -295,7 +301,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @return The x-value.
      */
     @Override
-    public double getXValue(int series, int item) {
+    public double getXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         SimpleHistogramBin bin = (SimpleHistogramBin) this.bins.get(item);
         return (bin.getLowerBound() + bin.getUpperBound()) / 2.0;
     }
@@ -309,7 +315,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @return The y-value (possibly {@code null}).
      */
     @Override
-    public Number getY(int series, int item) {
+    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return new Double(getYValue(series, item));
     }
 
@@ -324,7 +330,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @see #getAdjustForBinSize()
      */
     @Override
-    public double getYValue(int series, int item) {
+    public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         SimpleHistogramBin bin = (SimpleHistogramBin) this.bins.get(item);
         if (this.adjustForBinSize) {
             return bin.getItemCount()
@@ -344,7 +350,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getStartX(int series, int item) {
+    public Number getStartX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return new Double(getStartXValue(series, item));
     }
 
@@ -358,7 +364,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @return The start x-value.
      */
     @Override
-    public double getStartXValue(int series, int item) {
+    public double getStartXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         SimpleHistogramBin bin = (SimpleHistogramBin) this.bins.get(item);
         return bin.getLowerBound();
     }
@@ -372,7 +378,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getEndX(int series, int item) {
+    public Number getEndX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return new Double(getEndXValue(series, item));
     }
 
@@ -386,7 +392,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @return The end x-value.
      */
     @Override
-    public double getEndXValue(int series, int item) {
+    public double getEndXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         SimpleHistogramBin bin = (SimpleHistogramBin) this.bins.get(item);
         return bin.getUpperBound();
     }
@@ -400,7 +406,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getStartY(int series, int item) {
+    public Number getStartY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getY(series, item);
     }
 
@@ -414,7 +420,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @return The start y-value.
      */
     @Override
-    public double getStartYValue(int series, int item) {
+    public double getStartYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getYValue(series, item);
     }
 
@@ -427,7 +433,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getEndY(int series, int item) {
+    public Number getEndY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getY(series, item);
     }
 
@@ -441,7 +447,7 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @return The end y-value.
      */
     @Override
-    public double getEndYValue(int series, int item) {
+    public double getEndYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getYValue(series, item);
     }
 

@@ -57,6 +57,9 @@
  */
 
 package org.jfree.data;
+/*>>> import org.checkerframework.dataflow.qual.Pure; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -116,7 +119,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #getColumnCount()
      */
     @Override
-    public int getRowCount() {
+    public /*@NonNegative*/ int getRowCount() {
         return this.rowKeys.size();
     }
 
@@ -128,7 +131,8 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #getRowCount()
      */
     @Override
-    public int getColumnCount() {
+    /*@Pure*/
+    public /*@NonNegative*/ int getColumnCount() {
         return this.columnKeys.size();
     }
 
@@ -143,7 +147,8 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #getValue(Comparable, Comparable)
      */
     @Override
-    public Number getValue(int row, int column) {
+    /*@Pure*/
+    public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         Number result = null;
         DefaultKeyedValues rowData = (DefaultKeyedValues) this.rows.get(row);
         if (rowData != null) {
@@ -169,7 +174,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #getColumnKey(int)
      */
     @Override
-    public Comparable getRowKey(int row) {
+    public Comparable getRowKey(/*@NonNegative*/ int row) {
         return (Comparable) this.rowKeys.get(row);
     }
 
@@ -184,7 +189,8 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #getColumnIndex(Comparable)
      */
     @Override
-    public int getRowIndex(Comparable key) {
+    @SuppressWarnings("index") // I think this is a bug. Binary search can return a search index, inconsistent with docs on this method
+    public /*@GTENegativeOne*/ int getRowIndex(Comparable key) {
         Args.nullNotPermitted(key, "key");
         if (this.sortRowKeys) {
             return Collections.binarySearch(this.rowKeys, key);
@@ -218,7 +224,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #getRowKey(int)
      */
     @Override
-    public Comparable getColumnKey(int column) {
+    public Comparable getColumnKey(/*@NonNegative*/ int column) {
         return (Comparable) this.columnKeys.get(column);
     }
 
@@ -233,7 +239,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #getRowIndex(Comparable)
      */
     @Override
-    public int getColumnIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getColumnIndex(Comparable key) {
         Args.nullNotPermitted(key, "key");
         return this.columnKeys.indexOf(key);
     }
@@ -360,7 +366,8 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
 
         // 1. check whether the row is now empty.
         boolean allNull = true;
-        int rowIndex = getRowIndex(rowKey);
+        @SuppressWarnings("index") // array-list interop: this method assumes that the rowKey is valid, which can't be checked b/c it's a list
+        /*@NonNegative*/ int rowIndex = getRowIndex(rowKey);
         DefaultKeyedValues row = (DefaultKeyedValues) this.rows.get(rowIndex);
 
         for (int item = 0, itemCount = row.getItemCount(); item < itemCount;
@@ -411,7 +418,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #removeRow(Comparable)
      * @see #removeColumn(int)
      */
-    public void removeRow(int rowIndex) {
+    public void removeRow(/*@NonNegative*/ int rowIndex) {
         this.rowKeys.remove(rowIndex);
         this.rows.remove(rowIndex);
     }
@@ -446,7 +453,7 @@ public class DefaultKeyedValues2D implements KeyedValues2D, PublicCloneable,
      * @see #removeColumn(Comparable)
      * @see #removeRow(int)
      */
-    public void removeColumn(int columnIndex) {
+    public void removeColumn(/*@NonNegative*/ int columnIndex) {
         Comparable columnKey = getColumnKey(columnIndex);
         removeColumn(columnKey);
     }

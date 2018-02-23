@@ -45,6 +45,7 @@
  */
 
 package org.jfree.chart.annotations;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
@@ -244,7 +245,7 @@ public class XYTitleAnnotation extends AbstractXYAnnotation
     @Override
     public void draw(Graphics2D g2, XYPlot plot, Rectangle2D dataArea,
                      ValueAxis domainAxis, ValueAxis rangeAxis,
-                     int rendererIndex, PlotRenderingInfo info) {
+                     /*@NonNegative*/ int rendererIndex, PlotRenderingInfo info) {
 
         PlotOrientation orientation = plot.getOrientation();
         AxisLocation domainAxisLocation = plot.getDomainAxisLocation();

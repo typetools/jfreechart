@@ -52,6 +52,10 @@
 
 package org.jfree.chart.urls;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import org.jfree.data.category.CategoryDataset;
 
 /**
@@ -72,7 +76,7 @@ public interface CategoryURLGenerator {
      *
      * @return A string containing the URL.
      */
-    public String generateURL(CategoryDataset dataset, int series,
-            int category);
+    public String generateURL(CategoryDataset dataset, /*@NonNegative*/ int series,
+            /*@NonNegative*/ int category);
 
 }

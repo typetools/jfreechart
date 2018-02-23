@@ -61,6 +61,7 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.common.value.qual.*; */
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -92,7 +93,7 @@ public class Year extends RegularTimePeriod implements Serializable {
     private static final long serialVersionUID = -7659990929736074836L;
 
     /** The year. */
-    private short year;
+    private /*@IntRange(from = -9999, to = 9999)*/ short year;
 
     /** The first millisecond. */
     private long firstMillisecond;
@@ -112,7 +113,7 @@ public class Year extends RegularTimePeriod implements Serializable {
      *
      * @param year  the year.
      */
-    public Year(int year) {
+    public Year(/*@IntRange(from = -9999, to = 9999)*/ int year) {
         if ((year < Year.MINIMUM_YEAR) || (year > Year.MAXIMUM_YEAR)) {
             throw new IllegalArgumentException(
                 "Year constructor: year (" + year + ") outside valid range.");
@@ -143,6 +144,7 @@ public class Year extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.12
      */
+    @SuppressWarnings({"index", "value"}) // calendar get: calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
     public Year(Date time, TimeZone zone, Locale locale) {
         Calendar calendar = Calendar.getInstance(zone, locale);
         calendar.setTime(time);
@@ -155,7 +157,8 @@ public class Year extends RegularTimePeriod implements Serializable {
      *
      * @return The year.
      */
-    public int getYear() {
+    @SuppressWarnings({"index", "value"}) // this is a bug. The calendar API which this interacts with expects years to be nonnegative (it uses an era field to represent AD/BC)
+    public /*@IntRange(from = 0, to = 9999)*/ int getYear() {
         return this.year;
     }
 
@@ -259,6 +262,7 @@ public class Year extends RegularTimePeriod implements Serializable {
      *     {@code null}.
      */
     @Override
+    @SuppressWarnings({"index", "value"}) // this is a bug in this class. Years cannot be negative from a Calendar's perspective
     public long getFirstMillisecond(Calendar calendar) {
         calendar.set(this.year, Calendar.JANUARY, 1, 0, 0, 0);
         calendar.set(Calendar.MILLISECOND, 0);
@@ -277,6 +281,7 @@ public class Year extends RegularTimePeriod implements Serializable {
      *     {@code null}.
      */
     @Override
+    @SuppressWarnings({"index", "value"}) // this is a bug in this class. Years cannot be negative from a Calendar's perspective
     public long getLastMillisecond(Calendar calendar) {
         calendar.set(this.year, Calendar.DECEMBER, 31, 23, 59, 59);
         calendar.set(Calendar.MILLISECOND, 999);
@@ -383,6 +388,7 @@ public class Year extends RegularTimePeriod implements Serializable {
      * @return {@code null} if the string is not parseable, the year
      *         otherwise.
      */
+    @SuppressWarnings({"index", "value"}) // parsing method is intended to throw an exception if the year isn't valid
     public static Year parseYear(String s) {
 
         // parse the string...

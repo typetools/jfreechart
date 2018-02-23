@@ -64,6 +64,8 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -126,7 +128,7 @@ public class Day extends RegularTimePeriod implements Serializable {
      * @param month  the month (1 to 12).
      * @param year  the year (1900 &lt;= year &lt;= 9999).
      */
-    public Day(int day, int month, int year) {
+    public Day(/*@IntRange(from = 1, to = 31)*/ int day, /*@IntRange(from = 1, to = 12)*/ int month, /*@IntRange(from = 1900, to = 9999)*/ int year) {
         this.serialDate = SerialDate.createInstance(day, month, year);
         peg(Calendar.getInstance());
     }
@@ -162,6 +164,7 @@ public class Day extends RegularTimePeriod implements Serializable {
      * @param zone  the time zone ({@code null} not permitted).
      * @param locale  the locale ({@code null} not permitted).
      */
+    @SuppressWarnings({"index", "value"}) // calendar get: calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
     public Day(Date time, TimeZone zone, Locale locale) {
         Args.nullNotPermitted(time, "time");
         Args.nullNotPermitted(zone, "zone");
@@ -171,7 +174,8 @@ public class Day extends RegularTimePeriod implements Serializable {
         int d = calendar.get(Calendar.DAY_OF_MONTH);
         int m = calendar.get(Calendar.MONTH) + 1;
         int y = calendar.get(Calendar.YEAR);
-        this.serialDate = SerialDate.createInstance(d, m, y);
+        SerialDate tmpDate = SerialDate.createInstance(d, m, y);
+        this.serialDate = tmpDate;
         peg(calendar);
     }
 
@@ -193,7 +197,7 @@ public class Day extends RegularTimePeriod implements Serializable {
      *
      * @return The year.
      */
-    public int getYear() {
+    public /*@IntRange(from=1900, to=9999)*/ int getYear() {
         return this.serialDate.getYYYY();
     }
 
@@ -202,7 +206,7 @@ public class Day extends RegularTimePeriod implements Serializable {
      *
      * @return The month.
      */
-    public int getMonth() {
+    public /*@IntRange(from=1, to=12)*/ int getMonth() {
         return this.serialDate.getMonth();
     }
 
@@ -211,7 +215,7 @@ public class Day extends RegularTimePeriod implements Serializable {
      *
      * @return The day of the month.
      */
-    public int getDayOfMonth() {
+    public /*@IntRange(from = 1, to = 31)*/ int getDayOfMonth() {
         return this.serialDate.getDayOfMonth();
     }
 

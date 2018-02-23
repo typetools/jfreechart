@@ -39,6 +39,7 @@
  */
 
 package org.jfree.chart.plot;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.awt.geom.Point2D;
 
@@ -122,7 +123,7 @@ public class CategoryCrosshairState extends CrosshairState {
      * @param orientation  the plot orientation.
      */
     public void updateCrosshairPoint(Comparable rowKey, Comparable columnKey,
-            double value, int datasetIndex, double transX, double transY,
+            double value, /*@NonNegative*/ int datasetIndex, double transX, double transY,
             PlotOrientation orientation) {
 
         Point2D anchor = getAnchor();
@@ -159,7 +160,7 @@ public class CategoryCrosshairState extends CrosshairState {
      * @param orientation  the plot orientation.
      */
     public void updateCrosshairX(Comparable rowKey, Comparable columnKey,
-            int datasetIndex, double transX, PlotOrientation orientation) {
+            /*@NonNegative*/ int datasetIndex, double transX, PlotOrientation orientation) {
 
         Point2D anchor = getAnchor();
         if (anchor != null) {

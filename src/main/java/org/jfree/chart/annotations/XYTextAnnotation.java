@@ -54,6 +54,7 @@
  */
 
 package org.jfree.chart.annotations;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -515,7 +516,7 @@ public class XYTextAnnotation extends AbstractXYAnnotation
     @Override
     public void draw(Graphics2D g2, XYPlot plot, Rectangle2D dataArea,
                      ValueAxis domainAxis, ValueAxis rangeAxis,
-                     int rendererIndex, PlotRenderingInfo info) {
+                     /*@NonNegative*/ int rendererIndex, PlotRenderingInfo info) {
 
         PlotOrientation orientation = plot.getOrientation();
         RectangleEdge domainEdge = Plot.resolveDomainAxisLocation(

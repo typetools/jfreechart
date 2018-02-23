@@ -47,6 +47,9 @@
  */
 
 package org.jfree.data.category;
+/*>>> import org.checkerframework.dataflow.qual.Pure; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
 import java.util.List;
@@ -84,7 +87,7 @@ public class DefaultCategoryDataset extends AbstractDataset
      * @see #getColumnCount()
      */
     @Override
-    public int getRowCount() {
+    public /*@NonNegative*/ int getRowCount() {
         return this.data.getRowCount();
     }
 
@@ -96,7 +99,8 @@ public class DefaultCategoryDataset extends AbstractDataset
      * @see #getRowCount()
      */
     @Override
-    public int getColumnCount() {
+    /*@Pure*/
+    public /*@NonNegative*/ int getColumnCount() {
         return this.data.getColumnCount();
     }
 
@@ -112,7 +116,8 @@ public class DefaultCategoryDataset extends AbstractDataset
      * @see #removeValue(Comparable, Comparable)
      */
     @Override
-    public Number getValue(int row, int column) {
+    /*@Pure*/
+    public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return this.data.getValue(row, column);
     }
 
@@ -128,7 +133,7 @@ public class DefaultCategoryDataset extends AbstractDataset
      * @see #getColumnKey(int)
      */
     @Override
-    public Comparable getRowKey(int row) {
+    public Comparable getRowKey(/*@NonNegative*/ int row) {
         return this.data.getRowKey(row);
     }
 
@@ -142,7 +147,7 @@ public class DefaultCategoryDataset extends AbstractDataset
      * @see #getRowKey(int)
      */
     @Override
-    public int getRowIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getRowIndex(Comparable key) {
         // defer null argument check
         return this.data.getRowIndex(key);
     }
@@ -169,7 +174,7 @@ public class DefaultCategoryDataset extends AbstractDataset
      * @see #getColumnIndex(Comparable)
      */
     @Override
-    public Comparable getColumnKey(int column) {
+    public Comparable getColumnKey(/*@NonNegative*/ int column) {
         return this.data.getColumnKey(column);
     }
 
@@ -183,7 +188,7 @@ public class DefaultCategoryDataset extends AbstractDataset
      * @see #getColumnKey(int)
      */
     @Override
-    public int getColumnIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getColumnIndex(Comparable key) {
         // defer null argument check
         return this.data.getColumnIndex(key);
     }
@@ -321,7 +326,7 @@ public class DefaultCategoryDataset extends AbstractDataset
      *
      * @see #removeColumn(int)
      */
-    public void removeRow(int rowIndex) {
+    public void removeRow(/*@NonNegative*/ int rowIndex) {
         this.data.removeRow(rowIndex);
         fireDatasetChanged();
     }
@@ -347,7 +352,7 @@ public class DefaultCategoryDataset extends AbstractDataset
      *
      * @see #removeRow(int)
      */
-    public void removeColumn(int columnIndex) {
+    public void removeColumn(/*@NonNegative*/ int columnIndex) {
         this.data.removeColumn(columnIndex);
         fireDatasetChanged();
     }

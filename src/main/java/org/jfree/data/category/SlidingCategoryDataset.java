@@ -40,6 +40,9 @@
  */
 
 package org.jfree.data.category;
+/*>>> import org.checkerframework.dataflow.qual.Pure; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.util.Collections;
 import java.util.List;
@@ -64,10 +67,10 @@ public class SlidingCategoryDataset extends AbstractDataset
     private CategoryDataset underlying;
 
     /** The index of the first category to present. */
-    private int firstCategoryIndex;
+    private /*@NonNegative*/ int firstCategoryIndex;
 
     /** The maximum number of categories to present. */
-    private int maximumCategoryCount;
+    private /*@NonNegative*/ int maximumCategoryCount;
 
     /**
      * Creates a new instance.
@@ -78,8 +81,8 @@ public class SlidingCategoryDataset extends AbstractDataset
      *     underlying dataset.
      * @param maxColumns  the maximumColumnCount.
      */
-    public SlidingCategoryDataset(CategoryDataset underlying, int firstColumn,
-            int maxColumns) {
+    public SlidingCategoryDataset(CategoryDataset underlying, /*@NonNegative*/ int firstColumn,
+            /*@NonNegative*/ int maxColumns) {
         this.underlying = underlying;
         this.firstCategoryIndex = firstColumn;
         this.maximumCategoryCount = maxColumns;
@@ -101,7 +104,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      *
      * @see #setFirstCategoryIndex(int)
      */
-    public int getFirstCategoryIndex() {
+    public /*@NonNegative*/ int getFirstCategoryIndex() {
         return this.firstCategoryIndex;
     }
 
@@ -114,7 +117,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      *
      * @see #getFirstCategoryIndex()
      */
-    public void setFirstCategoryIndex(int first) {
+    public void setFirstCategoryIndex(/*@NonNegative*/ int first) {
         if (first < 0 || first >= this.underlying.getColumnCount()) {
             throw new IllegalArgumentException("Invalid index.");
         }
@@ -129,7 +132,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      *
      * @see #setMaximumCategoryCount(int)
      */
-    public int getMaximumCategoryCount() {
+    public /*@NonNegative*/ int getMaximumCategoryCount() {
         return this.maximumCategoryCount;
     }
 
@@ -141,7 +144,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      *
      * @see #getMaximumCategoryCount()
      */
-    public void setMaximumCategoryCount(int max) {
+    public void setMaximumCategoryCount(/*@NonNegative*/ int max) {
         if (max < 0) {
             throw new IllegalArgumentException("Requires 'max' >= 0.");
         }
@@ -154,7 +157,8 @@ public class SlidingCategoryDataset extends AbstractDataset
      *
      * @return The index.
      */
-    private int lastCategoryIndex() {
+    /*@Pure*/
+    private /*@GTENegativeOne*/ int lastCategoryIndex() {
         if (this.maximumCategoryCount == 0) {
             return -1;
         }
@@ -170,7 +174,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      * @return The column index, or -1 if the key is not recognised.
      */
     @Override
-    public int getColumnIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getColumnIndex(Comparable key) {
         int index = this.underlying.getColumnIndex(key);
         if (index >= this.firstCategoryIndex && index <= lastCategoryIndex()) {
             return index - this.firstCategoryIndex;
@@ -188,7 +192,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      * @throws IndexOutOfBoundsException if {@code row} is out of bounds.
      */
     @Override
-    public Comparable getColumnKey(int column) {
+    public Comparable getColumnKey(/*@NonNegative*/ int column) {
         return this.underlying.getColumnKey(column + this.firstCategoryIndex);
     }
 
@@ -217,7 +221,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      * @return The row index, or {@code -1} if the key is unrecognised.
      */
     @Override
-    public int getRowIndex(Comparable key) {
+    public /*@GTENegativeOne*/ int getRowIndex(Comparable key) {
         return this.underlying.getRowIndex(key);
     }
 
@@ -231,7 +235,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      * @throws IndexOutOfBoundsException if {@code row} is out of bounds.
      */
     @Override
-    public Comparable getRowKey(int row) {
+    public Comparable getRowKey(/*@NonNegative*/ int row) {
         return this.underlying.getRowKey(row);
     }
 
@@ -276,7 +280,8 @@ public class SlidingCategoryDataset extends AbstractDataset
      * @return The column count.
      */
     @Override
-    public int getColumnCount() {
+    /*@Pure*/
+    public /*@NonNegative*/ int getColumnCount() {
         int last = lastCategoryIndex();
         if (last == -1) {
             return 0;
@@ -292,7 +297,7 @@ public class SlidingCategoryDataset extends AbstractDataset
      * @return The row count.
      */
     @Override
-    public int getRowCount() {
+    public /*@NonNegative*/ int getRowCount() {
         return this.underlying.getRowCount();
     }
 
@@ -305,7 +310,8 @@ public class SlidingCategoryDataset extends AbstractDataset
      * @return The value (possibly {@code null}).
      */
     @Override
-    public Number getValue(int row, int column) {
+    /*@Pure*/
+    public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return this.underlying.getValue(row, column + this.firstCategoryIndex);
     }
 

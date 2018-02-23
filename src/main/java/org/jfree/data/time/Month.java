@@ -65,6 +65,7 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.common.value.qual.*; */
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -84,10 +85,10 @@ public class Month extends RegularTimePeriod implements Serializable {
     private static final long serialVersionUID = -5090216912548722570L;
 
     /** The month (1-12). */
-    private int month;
+    private /*@IntRange(from = 1, to = 12)*/ int month;
 
     /** The year in which the month falls. */
-    private int year;
+    private /*@IntRange(from = 0, to = 9999)*/ int year;
 
     /** The first millisecond. */
     private long firstMillisecond;
@@ -108,7 +109,7 @@ public class Month extends RegularTimePeriod implements Serializable {
      * @param month  the month (in the range 1 to 12).
      * @param year  the year.
      */
-    public Month(int month, int year) {
+    public Month(/*@IntRange(from = 1, to = 12)*/ int month, /*@IntRange(from = 0, to = 9999)*/ int year) {
         if ((month < 1) || (month > 12)) {
             throw new IllegalArgumentException("Month outside valid range.");
         }
@@ -123,7 +124,7 @@ public class Month extends RegularTimePeriod implements Serializable {
      * @param month  the month (in the range 1 to 12).
      * @param year  the year.
      */
-    public Month(int month, Year year) {
+    public Month(/*@IntRange(from = 1, to = 12)*/ int month, Year year) {
         if ((month < 1) || (month > 12)) {
             throw new IllegalArgumentException("Month outside valid range.");
         }
@@ -154,6 +155,7 @@ public class Month extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.12
      */
+    @SuppressWarnings({"index", "value"}) // calendar get: calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
     public Month(Date time, TimeZone zone, Locale locale) {
         Calendar calendar = Calendar.getInstance(zone, locale);
         calendar.setTime(time);
@@ -439,6 +441,7 @@ public class Month extends RegularTimePeriod implements Serializable {
      * @return {@code null} if the string is not parseable, the month
      *         otherwise.
      */
+    @SuppressWarnings({"value", "index"}) // This method repeatedly assumes properties of the String s, especially that it is "wellformed" according to the documentation (i.e. either YYYY-MM or MM-YYYY)
     public static Month parseMonth(String s) {
         Month result = null;
         if (s == null) {

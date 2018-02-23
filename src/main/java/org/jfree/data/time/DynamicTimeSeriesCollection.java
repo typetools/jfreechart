@@ -61,6 +61,13 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -104,22 +111,22 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
     public static final int END = 2;
 
     /** The maximum number of items for each series (can be overridden). */
-    private int maximumItemCount = 2000;  // an arbitrary safe default value
+    private /*@NonNegative*/ int maximumItemCount = 2000;  // an arbitrary safe default value
 
     /** The history count. */
-    protected int historyCount;
+    protected /*@LTEqLengthOf("this.pointsInTime")*/ /*@Positive*/ int historyCount;
 
     /** Storage for the series keys. */
-    private Comparable[] seriesKeys;
+    private Comparable /*@SameLen("this.valueHistory")*/ [] seriesKeys;
 
     /** The time period class - barely used, and could be removed (DG). */
     private Class timePeriodClass = Minute.class;   // default value;
 
     /** Storage for the x-values. */
-    protected RegularTimePeriod[] pointsInTime;
+    protected RegularTimePeriod /*@MinLen(1)*/ [] pointsInTime;
 
     /** The number of series. */
-    private int seriesCount;
+    private /*@NonNegative*/ int seriesCount;
 
     /**
      * A wrapper for a fixed array of float values.
@@ -127,7 +134,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
     protected class ValueSequence {
 
         /** Storage for the float values. */
-        float[] dataPoints;
+        float /*@SameLen("this")*/ [] dataPoints;
 
         /**
          * Default constructor:
@@ -141,8 +148,10 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
          *
          * @param length  the length.
          */
-        public ValueSequence(int length) {
-            this.dataPoints = new float[length];
+        public ValueSequence(/*@NonNegative*/ int length) {
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/213
+            float /*@SameLen("this")*/ [] dataPointsTmp = new float[length];
+            this.dataPoints = dataPointsTmp;
             for (int i = 0; i < length; i++) {
                 this.dataPoints[i] = 0.0f;
             }
@@ -154,7 +163,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
          * @param index  the index.
          * @param value  the value.
          */
-        public void enterData(int index, float value) {
+        public void enterData(/*@IndexFor("this")*/ int index, float value) {
             this.dataPoints[index] = value;
         }
 
@@ -165,13 +174,13 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
          *
          * @return The value.
          */
-        public float getData(int index) {
+        public float getData(/*@IndexFor("this")*/ int index) {
             return this.dataPoints[index];
         }
     }
 
     /** An array for storing the objects that represent each series. */
-    protected ValueSequence[] valueHistory;
+    protected /*@SameLen("this.pointsInTime")*/ ValueSequence /*@SameLen("this.seriesKeys")*/ [] valueHistory;
 
     /** A working calendar (to recycle) */
     protected Calendar workingCalendar;
@@ -190,10 +199,10 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
     private boolean domainIsPointsInTime;
 
     /** index for mapping: points to the oldest valid time and data. */
-    private int oldestAt;  // as a class variable, initializes == 0
+    private /*@IndexFor("this.pointsInTime")*/ int oldestAt;  // as a class variable, initializes == 0
 
     /** Index of the newest data item. */
-    private int newestAt;
+    private /*@IndexFor("this.pointsInTime")*/ int newestAt;
 
     // cached values used for interface DomainInfo:
 
@@ -228,9 +237,11 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @param nSeries the number of series to be accommodated.
      * @param nMoments the number of TimePeriods to be spanned.
      */
-    public DynamicTimeSeriesCollection(int nSeries, int nMoments) {
+    public DynamicTimeSeriesCollection(/*@NonNegative*/ int nSeries, /*@Positive*/ int nMoments) {
         this(nSeries, nMoments, new Millisecond(), TimeZone.getDefault());
-        this.newestAt = nMoments - 1;
+        @SuppressWarnings("index") // nMoments is used later to populate the field this annotation refers to
+        /*@IndexFor("this.pointsInTime")*/ int newestAtTmp = nMoments - 1;
+        this.newestAt = newestAtTmp;
     }
 
     /**
@@ -240,10 +251,12 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @param nMoments the number of TimePeriods to be spanned
      * @param zone the timezone.
      */
-    public DynamicTimeSeriesCollection(int nSeries, int nMoments,
+    public DynamicTimeSeriesCollection(/*@NonNegative*/ int nSeries, /*@Positive*/ int nMoments,
             TimeZone zone) {
         this(nSeries, nMoments, new Millisecond(), zone);
-        this.newestAt = nMoments - 1;
+        @SuppressWarnings("index") // nMoments is used later to populate the field this annotation refers to
+        /*@IndexFor("this.pointsInTime")*/ int newestAtTmp = nMoments - 1;
+        this.newestAt = newestAtTmp;
     }
 
     /**
@@ -253,7 +266,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @param nMoments  the number of items per series.
      * @param timeSample  a time period sample.
      */
-    public DynamicTimeSeriesCollection(int nSeries, int nMoments,
+    public DynamicTimeSeriesCollection(/*@NonNegative*/ int nSeries, /*@Positive*/ int nMoments,
             RegularTimePeriod timeSample) {
         this(nSeries, nMoments, timeSample, TimeZone.getDefault());
     }
@@ -266,7 +279,8 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @param timeSample  a time period sample.
      * @param zone  the time zone.
      */
-    public DynamicTimeSeriesCollection(int nSeries, int nMoments,
+    @SuppressWarnings("index") // this constructor establishes the repr. invariants
+    public DynamicTimeSeriesCollection(/*@NonNegative*/ int nSeries, /*@Positive*/ int nMoments,
             RegularTimePeriod timeSample, TimeZone zone) {
 
         // the first initialization must precede creation of the ValueSet array:
@@ -277,7 +291,6 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         for (int i = 0; i < nSeries; i++) {
             this.seriesKeys[i] = "";
         }
-        this.newestAt = nMoments - 1;
         this.valueHistory = new ValueSequence[nSeries];
         this.timePeriodClass = timeSample.getClass();
 
@@ -291,6 +304,9 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         } else if (this.timePeriodClass == Hour.class) {
             this.pointsInTime = new Hour[nMoments];
         }
+
+        this.newestAt = nMoments - 1;
+
         ///  .. etc....
         this.workingCalendar = Calendar.getInstance(zone);
         this.position = START;
@@ -317,6 +333,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         }
         long oldestL = this.pointsInTime[0].getFirstMillisecond(
                 this.workingCalendar);
+        @SuppressWarnings("index") // This seems like a bug to me. There's nothing in the docs for this class that suggests that pointsInTime must have more than 1 element
         long nextL = this.pointsInTime[1].getFirstMillisecond(
                 this.workingCalendar);
         this.deltaTime = nextL - oldestL;
@@ -373,7 +390,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * Use this as-is during setup only, or add the synchronized keyword around
      * the copy loop.
      */
-    public void addSeries(float[] values, int seriesNumber, 
+    public void addSeries(float[] values, /*@NonNegative*/ int seriesNumber,
             Comparable seriesKey) {
 
         invalidateRangeInfo();
@@ -387,19 +404,23 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
                 + "cannot add more series than specified in c'tor");
         }
         if (this.valueHistory[seriesNumber] == null) {
-            this.valueHistory[seriesNumber]
-                = new ValueSequence(this.historyCount);
+            @SuppressWarnings("index") // this.historyCount is the length of this.pointsInTime
+            /*@SameLen("this.pointsInTime")*/ ValueSequence valueSequence = new ValueSequence(this.historyCount);
+            this.valueHistory[seriesNumber] = valueSequence;
             this.seriesCount++;
         }
         // But if that series array already exists, just overwrite its contents
 
         // Avoid IndexOutOfBoundsException:
         int srcLength = values.length;
-        int copyLength = this.historyCount;
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158: this.valueHistory[seriesNumber]'s length is <= this.historyCount
+        /*@LTEqLengthOf({"this.valueHistory[seriesNumber]", "values"})*/ int copyLength = this.historyCount;
         boolean fillNeeded = false;
         if (srcLength < this.historyCount) {
             fillNeeded = true;
-            copyLength = srcLength;
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158: this.valueHistory[seriesNumber]'s length is <= this.historyCount
+            /*@LTEqLengthOf({"this.valueHistory[seriesNumber]", "values"})*/ int newCopyLength = srcLength;
+            copyLength = newCopyLength;
         }
         //{
         for (i = 0; i < copyLength; i++) { // deep copy from values[], caller
@@ -408,7 +429,9 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         }
         if (fillNeeded) {
             for (i = copyLength; i < this.historyCount; i++) {
-                this.valueHistory[seriesNumber].enterData(i, 0.0f);
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+                /*@LTLengthOf("this.valueHistory[seriesNumber]")*/ int i0 = i;
+                this.valueHistory[seriesNumber].enterData(i0, 0.0f);
             }
         }
       //}
@@ -424,7 +447,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @param seriesNumber  the series.
      * @param key  the new key.
      */
-    public void setSeriesKey(int seriesNumber, Comparable key) {
+    public void setSeriesKey(/*@IndexFor("this.seriesKeys")*/ int seriesNumber, Comparable key) {
         this.seriesKeys[seriesNumber] = key;
     }
 
@@ -435,7 +458,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @param index  ??.
      * @param value  the value.
      */
-    public void addValue(int seriesNumber, int index, float value) {
+    public void addValue(/*@NonNegative*/ int seriesNumber, /*@IndexFor("this.getSeries(#1)")*/ int index, float value) {
         invalidateRangeInfo();
         if (seriesNumber >= this.valueHistory.length) {
             throw new IllegalArgumentException(
@@ -444,14 +467,17 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
             );
         }
         if (this.valueHistory[seriesNumber] == null) {
-            this.valueHistory[seriesNumber]
-                = new ValueSequence(this.historyCount);
+            @SuppressWarnings("index") // this.historyCount is the length of this.pointsInTime
+            /*@SameLen("this.pointsInTime")*/ ValueSequence valueSequence = new ValueSequence(this.historyCount);
+            this.valueHistory[seriesNumber] = valueSequence;
             this.seriesCount++;
         }
         // But if that series array already exists, just overwrite its contents
         //synchronized(this)
         //{
-            this.valueHistory[seriesNumber].enterData(index, value);
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+                /*@LTLengthOf("this.valueHistory[seriesNumber]")*/ int index0 = index;
+            this.valueHistory[seriesNumber].enterData(index0, value);
         //}
         fireSeriesChanged();
     }
@@ -462,7 +488,8 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    public int getSeriesCount() {
+    @SuppressWarnings("index")
+    public /*@NonNegative*/ /*@LTEqLengthOf("this.valueHistory")*/ int getSeriesCount() {
         return this.seriesCount;
     }
 
@@ -476,7 +503,8 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    public int getItemCount(int series) {  // all arrays equal length,
+    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/209: I'd like to write SameLen on this.pointsInTime
+    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {  // all arrays equal length,
                                            // so ignore argument:
         return this.historyCount;
     }
@@ -487,10 +515,12 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * Re-map an index, for use in retrieving data.
      *
      * @param toFetch  the index.
+     * @param series a ghost variable necessary for the annotations
      *
      * @return The translated index.
      */
-    protected int translateGet(int toFetch) {
+    @SuppressWarnings("index") // internal method that breaks abstraction boundaries
+    protected /*@IndexFor("this.pointsInTime")*/ int translateGet(/*@IndexFor("this.getSeries(#2)")*/ int toFetch, int series) {
         if (this.oldestAt == 0) {
             return toFetch;  // no translation needed
         }
@@ -509,7 +539,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      *
      * @return The offset.
      */
-    public int offsetFromNewest(int delta) {
+    public /*@IndexFor("this.pointsInTime")*/ int offsetFromNewest(int delta) {
         return wrapOffset(this.newestAt + delta);
     }
 
@@ -520,7 +550,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      *
      * @return The offset.
      */
-    public int offsetFromOldest(int delta) {
+    public /*@IndexFor("this.pointsInTime")*/ int offsetFromOldest(int delta) {
         return wrapOffset(this.oldestAt + delta);
     }
 
@@ -531,7 +561,8 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      *
      * @return The offset.
      */
-    protected int wrapOffset(int protoIndex) {
+    @SuppressWarnings("index") // this method assumes that protoIndex will be within an absolute value of an actual index
+    protected /*@IndexFor("this.pointsInTime")*/ int wrapOffset(int protoIndex) {
         int tmp = protoIndex;
         if (tmp >= this.historyCount) {
             tmp -= this.historyCount;
@@ -564,7 +595,9 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
             oldMax = this.maxValue.floatValue();
         }
         for (int s = 0; s < getSeriesCount(); s++) {
-            if (this.valueHistory[s].getData(this.oldestAt) == oldMax) {
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+                /*@LTLengthOf("this.valueHistory[s]")*/ int oldestAt = this.oldestAt;
+            if (this.valueHistory[s].getData(oldestAt) == oldMax) {
                 extremaChanged = true;
             }
             if (extremaChanged) {
@@ -577,15 +610,22 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         //  wipe the next (about to be used) set of data slots
         float wiper = (float) 0.0;
         for (int s = 0; s < getSeriesCount(); s++) {
-            this.valueHistory[s].enterData(this.newestAt, wiper);
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+                /*@LTLengthOf("this.valueHistory[s]")*/ int newestAt = this.newestAt;
+            this.valueHistory[s].enterData(newestAt, wiper);
         }
         // Update the array of TimePeriods:
         this.pointsInTime[this.newestAt] = nextInstant;
         // Now advance "oldestAt", wrapping at end of the array
-        this.oldestAt++;
+        int newOldestAt;
         if (this.oldestAt >= this.historyCount) {
-            this.oldestAt = 0;
+            newOldestAt = 0;
+        } else {
+            newOldestAt = this.oldestAt + 1;
         }
+        @SuppressWarnings("index") // the check right above ensures this doesn't go out of bounds
+        /*@IndexFor("this.pointsInTime")*/ int tmp = newOldestAt;
+        this.oldestAt = tmp;
         // Update the domain limits:
         long startL = this.domainStart.longValue();  //(time is kept in msec)
         this.domainStart = new Long(startL + this.deltaTime);
@@ -615,7 +655,9 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         double max = 0.0f;
         for (int s = 0; s < getSeriesCount(); s++) {
             for (int i = 0; i < this.historyCount; i++) {
-                double tmp = getYValue(s, i);
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+                /*@LTLengthOf("this.getSeries(s)")*/ int i0 = i;
+                double tmp = getYValue(s, i0);
                 if (tmp > max) {
                     max = tmp;
                 }
@@ -631,7 +673,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      *
      * @return The index.
      */
-    public int getOldestIndex() {
+    public /*@IndexFor("this.pointsInTime")*/ int getOldestIndex() {
         return this.oldestAt;
     }
 
@@ -640,7 +682,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      *
      * @return The index.
      */
-    public int getNewestIndex() {
+    public /*@IndexFor("this.pointsInTime")*/ int getNewestIndex() {
         return this.newestAt;
     }
 
@@ -662,9 +704,13 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
             // check whether the "valueHistory" array member exists; if not,
             // create them:
             if (this.valueHistory[s] == null) {
-                this.valueHistory[s] = new ValueSequence(this.historyCount);
+                @SuppressWarnings("index") // this.historyCount is the length of this.pointsInTime
+                /*@SameLen("this.pointsInTime")*/ ValueSequence valueSequence = new ValueSequence(this.historyCount);
+                this.valueHistory[s] = valueSequence;
             }
-            this.valueHistory[s].enterData(this.newestAt, newData[s]);
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+                /*@LTLengthOf("this.valueHistory[s]")*/ int newestAt = this.newestAt;
+            this.valueHistory[s].enterData(newestAt, newData[s]);
         }
         fireSeriesChanged();
     }
@@ -677,7 +723,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @param  refresh  value of n in "refresh the display on every nth call"
      *                 (ignored if &lt;= 0 )
      */
-    public void appendData(float[] newData, int insertionIndex, int refresh) {
+    public void appendData(float[] newData, final /*@IndexFor("this.pointsInTime")*/ int insertionIndex, int refresh) {
         int nDataPoints = newData.length;
         if (nDataPoints > this.valueHistory.length) {
             throw new IllegalArgumentException(
@@ -685,13 +731,17 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         }
         for (int s = 0; s < nDataPoints; s++) {
             if (this.valueHistory[s] == null) {
-                this.valueHistory[s] = new ValueSequence(this.historyCount);
+                @SuppressWarnings("index") // this.historyCount is the length of this.pointsInTime
+                /*@SameLen("this.pointsInTime")*/ ValueSequence valueSequence = new ValueSequence(this.historyCount);
+                this.valueHistory[s] = valueSequence;
             }
-            this.valueHistory[s].enterData(insertionIndex, newData[s]);
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+                /*@LTLengthOf("this.valueHistory[s]")*/ int insertionIndex0 = insertionIndex;
+            this.valueHistory[s].enterData(insertionIndex0, newData[s]);
         }
         if (refresh > 0) {
-            insertionIndex++;
-            if (insertionIndex % refresh == 0) {
+            int insertionIndexPlus = insertionIndex + 1;
+            if (insertionIndexPlus % refresh == 0) {
                 fireSeriesChanged();
             }
         }
@@ -726,8 +776,8 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
     // getXxx() ftns can ignore the "series" argument:
     // Don't synchronize this!! Instead, synchronize the loop that calls it.
     @Override
-    public Number getX(int series, int item) {
-        RegularTimePeriod tp = this.pointsInTime[translateGet(item)];
+    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+        RegularTimePeriod tp = this.pointsInTime[translateGet(item, series)];
         return new Long(getX(tp));
     }
 
@@ -740,11 +790,12 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public double getYValue(int series, int item) {
+    public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         // Don't synchronize this!!
         // Instead, synchronize the loop that calls it.
+        @SuppressWarnings("index") // array-list interop: every other class that implements these interfaces uses a list to store series, so the annotation here is wrong
         ValueSequence values = this.valueHistory[series];
-        return values.getData(translateGet(item));
+        return values.getData(translateGet(item, series));
     }
 
     /**
@@ -756,7 +807,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getY(int series, int item) {
+    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return new Float(getYValue(series, item));
     }
 
@@ -769,8 +820,8 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getStartX(int series, int item) {
-        RegularTimePeriod tp = this.pointsInTime[translateGet(item)];
+    public Number getStartX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+        RegularTimePeriod tp = this.pointsInTime[translateGet(item, series)];
         return new Long(tp.getFirstMillisecond(this.workingCalendar));
     }
 
@@ -783,8 +834,8 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getEndX(int series, int item) {
-        RegularTimePeriod tp = this.pointsInTime[translateGet(item)];
+    public Number getEndX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+        RegularTimePeriod tp = this.pointsInTime[translateGet(item, series)];
         return new Long(tp.getLastMillisecond(this.workingCalendar));
     }
 
@@ -797,7 +848,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getStartY(int series, int item) {
+    public Number getStartY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getY(series, item);
     }
 
@@ -810,17 +861,17 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getEndY(int series, int item) {
+    public Number getEndY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getY(series, item);
     }
 
     /* // "Extras" found useful when analyzing/verifying class behavior:
-    public Number getUntranslatedXValue(int series, int item)
+    public Number getUntranslatedXValue(int series, @NonNegative int item)
     {
       return super.getXValue(series, item);
     }
 
-    public float getUntranslatedY(int series, int item)
+    public float getUntranslatedY(int series, @NonNegative int item)
     {
       return super.getY(series, item);
     }  */
@@ -833,7 +884,8 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The key.
      */
     @Override
-    public Comparable getSeriesKey(int series) {
+    @SuppressWarnings("index") // array-list interop: every other class that implements this interface backs the series with a list, so the annotation on this class don't correspond to the ones on the interface
+    public Comparable getSeriesKey(/*@IndexFor("this.seriesKeys")*/ int series) {
         return this.seriesKeys[series];
     }
 

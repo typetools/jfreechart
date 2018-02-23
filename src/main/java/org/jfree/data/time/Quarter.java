@@ -61,6 +61,11 @@
 
 package org.jfree.data.time;
 
+/*>>>
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+ */
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -86,22 +91,22 @@ public class Quarter extends RegularTimePeriod implements Serializable {
     public static final int LAST_QUARTER = 4;
 
     /** The first month in each quarter. */
-    public static final int[] FIRST_MONTH_IN_QUARTER = {
+    public static final int /*@ArrayLen(5)*/ [] FIRST_MONTH_IN_QUARTER = {
         0, MonthConstants.JANUARY, MonthConstants.APRIL, MonthConstants.JULY,
         MonthConstants.OCTOBER
     };
 
     /** The last month in each quarter. */
-    public static final int[] LAST_MONTH_IN_QUARTER = {
+    public static final /*@IntRange(from = 0, to = 12)*/ int /*@ArrayLen(5)*/ [] LAST_MONTH_IN_QUARTER = {
         0, MonthConstants.MARCH, MonthConstants.JUNE, MonthConstants.SEPTEMBER,
         MonthConstants.DECEMBER
     };
 
     /** The year in which the quarter falls. */
-    private short year;
+    /*@IntRange(from = 0, to = 9999)*/ private short year;
 
     /** The quarter (1-4). */
-    private byte quarter;
+    private /*@IntVal({1,2,3,4})*/ byte quarter;
 
     /** The first millisecond. */
     private long firstMillisecond;
@@ -122,7 +127,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      * @param year  the year (1900 to 9999).
      * @param quarter  the quarter (1 to 4).
      */
-    public Quarter(int quarter, int year) {
+    public Quarter(/*@IntVal({1,2,3,4})*/ int quarter, /*@IntRange(from=0, to = 9999)*/int year) {
         if ((quarter < FIRST_QUARTER) || (quarter > LAST_QUARTER)) {
             throw new IllegalArgumentException("Quarter outside valid range.");
         }
@@ -137,7 +142,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      * @param quarter  the quarter (1 to 4).
      * @param year  the year (1900 to 9999).
      */
-    public Quarter(int quarter, Year year) {
+    public Quarter(/*@IntVal({1,2,3,4})*/ int quarter, Year year) {
         if ((quarter < FIRST_QUARTER) || (quarter > LAST_QUARTER)) {
             throw new IllegalArgumentException("Quarter outside valid range.");
         }
@@ -168,6 +173,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.12
      */
+    @SuppressWarnings({"index", "value"}) // calendar get: calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
     public Quarter(Date time, TimeZone zone, Locale locale) {
         Calendar calendar = Calendar.getInstance(zone, locale);
         calendar.setTime(time);
@@ -182,7 +188,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      *
      * @return The quarter.
      */
-    public int getQuarter() {
+    public /*@IntVal({1,2,3,4})*/ int getQuarter() {
         return this.quarter;
     }
 
@@ -202,7 +208,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.3
      */
-    public int getYearValue() {
+    public /*@IntRange(from = -9999, to = 9999)*/ int getYearValue() {
         return this.year;
     }
 
@@ -418,7 +424,8 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      */
     @Override
     public long getFirstMillisecond(Calendar calendar) {
-        int month = Quarter.FIRST_MONTH_IN_QUARTER[this.quarter];
+        @SuppressWarnings("index") // month >= 1, since months are 1 to 12. this.quarter is 1 to 4, so it can't access the 0th value in FIRST_MONTH_IN_QUARTER, which is the only non positive value
+        /*@Positive*/ int month = Quarter.FIRST_MONTH_IN_QUARTER[this.quarter];
         calendar.set(this.year, month - 1, 1, 0, 0, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTimeInMillis();
@@ -437,7 +444,8 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      */
     @Override
     public long getLastMillisecond(Calendar calendar) {
-        int month = Quarter.LAST_MONTH_IN_QUARTER[this.quarter];
+        @SuppressWarnings({"index", "value"}) // this.quarter is always 1, 2, 3, or 4 - and only the 0th element of this array is out of the range 1-12
+        /*@IntRange(from = 1, to = 12)*/ int month = Quarter.LAST_MONTH_IN_QUARTER[this.quarter];
         int eom = SerialDate.lastDayOfMonth(month, this.year);
         calendar.set(this.year, month - 1, eom, 23, 59, 59);
         calendar.set(Calendar.MILLISECOND, 999);
@@ -453,6 +461,7 @@ public class Quarter extends RegularTimePeriod implements Serializable {
      *
      * @return The quarter.
      */
+    @SuppressWarnings({"index", "value"}) // parse method relies on string being properly formatted
     public static Quarter parseQuarter(String s) {
 
         // find the Q and the integer following it (remove both from the

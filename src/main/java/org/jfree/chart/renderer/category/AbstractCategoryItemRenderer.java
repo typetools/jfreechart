@@ -111,6 +111,10 @@
 
 package org.jfree.chart.renderer.category;
 
+/*>>>
+import org.checkerframework.checker.index.qual.*;
+ */
+
 import java.awt.AlphaComposite;
 import java.awt.Composite;
 import java.awt.Font;
@@ -213,10 +217,10 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
     private CategorySeriesLabelGenerator legendItemURLGenerator;
 
     /** The number of rows in the dataset (temporary record). */
-    private transient int rowCount;
+    private transient /*@NonNegative*/ int rowCount;
 
     /** The number of columns in the dataset (temporary record). */
-    private transient int columnCount;
+    private transient /*@NonNegative*/ int columnCount;
 
     /**
      * Creates a new renderer with no tool tip generator and no URL generator.
@@ -243,7 +247,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @return The pass count.
      */
     @Override
-    public int getPassCount() {
+    public /*@NonNegative*/ int getPassCount() {
         return 1;
     }
 
@@ -290,7 +294,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @return The generator (possibly {@code null}).
      */
     @Override
-    public CategoryItemLabelGenerator getItemLabelGenerator(int row,
+    public CategoryItemLabelGenerator getItemLabelGenerator(/*@NonNegative*/ int row,
             int column) {
         return getSeriesItemLabelGenerator(row);
     }
@@ -305,7 +309,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @see #setSeriesItemLabelGenerator(int, CategoryItemLabelGenerator)
      */
     @Override
-    public CategoryItemLabelGenerator getSeriesItemLabelGenerator(int series) {
+    public CategoryItemLabelGenerator getSeriesItemLabelGenerator(/*@NonNegative*/ int series) {
 
         // otherwise look up the generator table
         CategoryItemLabelGenerator generator = this.itemLabelGeneratorMap.get(
@@ -326,7 +330,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @see #getSeriesItemLabelGenerator(int)
      */
     @Override
-    public void setSeriesItemLabelGenerator(int series,
+    public void setSeriesItemLabelGenerator(/*@NonNegative*/ int series,
             CategoryItemLabelGenerator generator) {
         setSeriesItemLabelGenerator(series, generator, true);
     }
@@ -342,7 +346,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @see #getSeriesItemLabelGenerator(int)
      */
     @Override
-    public void setSeriesItemLabelGenerator(int series,
+    public void setSeriesItemLabelGenerator(/*@NonNegative*/ int series,
             CategoryItemLabelGenerator generator, boolean notify) {
         this.itemLabelGeneratorMap.put(series, generator);
         if (notify) {
@@ -409,7 +413,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @return The generator (possibly {@code null}).
      */
     @Override
-    public CategoryToolTipGenerator getToolTipGenerator(int row, int column) {
+    public CategoryToolTipGenerator getToolTipGenerator(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
 
         CategoryToolTipGenerator result = getSeriesToolTipGenerator(row);
         if (result == null) {
@@ -429,7 +433,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @see #setSeriesToolTipGenerator(int, CategoryToolTipGenerator)
      */
     @Override
-    public CategoryToolTipGenerator getSeriesToolTipGenerator(int series) {
+    public CategoryToolTipGenerator getSeriesToolTipGenerator(/*@NonNegative*/ int series) {
         return this.toolTipGeneratorMap.get(series);
     }
 
@@ -443,7 +447,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @see #getSeriesToolTipGenerator(int)
      */
     @Override
-    public void setSeriesToolTipGenerator(int series,
+    public void setSeriesToolTipGenerator(/*@NonNegative*/ int series,
             CategoryToolTipGenerator generator) {
         setSeriesToolTipGenerator(series, generator, true);
     }
@@ -459,7 +463,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @see #getSeriesToolTipGenerator(int)
      */
     @Override
-    public void setSeriesToolTipGenerator(int series,
+    public void setSeriesToolTipGenerator(/*@NonNegative*/ int series,
             CategoryToolTipGenerator generator, boolean notify) {
         this.toolTipGeneratorMap.put(series, generator);
         if (notify) {
@@ -522,7 +526,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @return The URL generator.
      */
     @Override
-    public CategoryURLGenerator getItemURLGenerator(int row, int column) {
+    public CategoryURLGenerator getItemURLGenerator(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
         return getSeriesItemURLGenerator(row);
     }
 
@@ -536,7 +540,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @see #setSeriesItemURLGenerator(int, CategoryURLGenerator)
      */
     @Override
-    public CategoryURLGenerator getSeriesItemURLGenerator(int series) {
+    public CategoryURLGenerator getSeriesItemURLGenerator(/*@NonNegative*/ int series) {
         // otherwise look up the generator table
         CategoryURLGenerator generator = this.itemURLGeneratorMap.get(series);
         if (generator == null) {
@@ -555,7 +559,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @see #getSeriesItemURLGenerator(int)
      */
     @Override
-    public void setSeriesItemURLGenerator(int series,
+    public void setSeriesItemURLGenerator(/*@NonNegative*/ int series,
             CategoryURLGenerator generator) {
         setSeriesItemURLGenerator(series, generator, true);
     }
@@ -571,7 +575,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @see #getSeriesItemURLGenerator(int)
      */
     @Override
-    public void setSeriesItemURLGenerator(int series,
+    public void setSeriesItemURLGenerator(/*@NonNegative*/ int series,
             CategoryURLGenerator generator, boolean notify) {
         this.itemURLGeneratorMap.put(series, generator);
         if (notify) {
@@ -627,7 +631,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @return The row count.
      */
-    public int getRowCount() {
+    public /*@NonNegative*/ int getRowCount() {
         return this.rowCount;
     }
 
@@ -637,7 +641,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @return The column count.
      */
-    public int getColumnCount() {
+    public /*@NonNegative*/ int getColumnCount() {
         return this.columnCount;
     }
 
@@ -674,7 +678,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      */
     @Override
     public CategoryItemRendererState initialise(Graphics2D g2,
-            Rectangle2D dataArea, CategoryPlot plot, int rendererIndex,
+            Rectangle2D dataArea, CategoryPlot plot, /*@NonNegative*/ int rendererIndex,
             PlotRenderingInfo info) {
 
         setPlot(plot);
@@ -688,17 +692,22 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         }
         CategoryItemRendererState state = createState(info);
         state.setElementHinting(plot.fetchElementHintingFlag());
-        int[] visibleSeriesTemp = new int[this.rowCount];
+        int rowCount = this.rowCount;
+        int[] visibleSeriesTemp = new int[rowCount];
         int visibleSeriesCount = 0;
-        for (int row = 0; row < this.rowCount; row++) {
+        for (int row = 0; row < rowCount; row++) {
             if (isSeriesVisible(row)) {
-                visibleSeriesTemp[visibleSeriesCount] = row;
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/219: visibleSeriesCount is incremented at most as many times as row, which is an index
+                /*@IndexFor("visibleSeriesTemp")*/ int visibleSeriesCountTemp = visibleSeriesCount;
+                visibleSeriesTemp[visibleSeriesCountTemp] = row;
                 visibleSeriesCount++;
             }
         }
-        int[] visibleSeries = new int[visibleSeriesCount];
+        /*@NonNegative*/ int[] visibleSeries = new int[visibleSeriesCount];
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/219: visibleSeriesCount is incremented at most as many times as row, which is an index
+                /*@IndexOrHigh({"visibleSeriesTemp", "visibleSeries"})*/ int visibleSeriesCountTemp = visibleSeriesCount;
         System.arraycopy(visibleSeriesTemp, 0, visibleSeries, 0,
-                visibleSeriesCount);
+                visibleSeriesCountTemp);
         state.setVisibleSeriesArray(visibleSeries);
         return state;
     }
@@ -927,6 +936,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
             CategoryAxis axis, CategoryMarker marker, Rectangle2D dataArea) {
 
         Comparable category = marker.getKey();
+        @SuppressWarnings("index") // this will fail if this renderer is not associated with the given plot. A bug?
         CategoryDataset dataset = plot.getDataset(plot.getIndexOf(this));
         int columnIndex = dataset.getColumnIndex(category);
         if (columnIndex < 0) {
@@ -1246,7 +1256,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @see #getLegendItems()
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, int series) {
+    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
 
         CategoryPlot p = getPlot();
         if (p == null) {
@@ -1393,7 +1403,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      */
     protected void updateCrosshairValues(CategoryCrosshairState crosshairState,
             Comparable rowKey, Comparable columnKey, double value,
-            int datasetIndex,
+            /*@NonNegative*/ int datasetIndex,
             double transX, double transY, PlotOrientation orientation) {
 
         Args.nullNotPermitted(orientation, "orientation");
@@ -1425,7 +1435,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *                  label position).
      */
     protected void drawItemLabel(Graphics2D g2, PlotOrientation orientation,
-            CategoryDataset dataset, int row, int column,
+            CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column,
             double x, double y, boolean negative) {
 
         CategoryItemLabelGenerator generator = getItemLabelGenerator(row,
@@ -1544,7 +1554,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @return A domain axis.
      */
-    protected CategoryAxis getDomainAxis(CategoryPlot plot, int index) {
+    protected CategoryAxis getDomainAxis(CategoryPlot plot, /*@NonNegative*/ int index) {
         CategoryAxis result = plot.getDomainAxis(index);
         if (result == null) {
             result = plot.getDomainAxis();
@@ -1560,7 +1570,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      *
      * @return A range axis.
      */
-    protected ValueAxis getRangeAxis(CategoryPlot plot, int index) {
+    protected ValueAxis getRangeAxis(CategoryPlot plot, /*@NonNegative*/ int index) {
         ValueAxis result = plot.getRangeAxis(index);
         if (result == null) {
             result = plot.getRangeAxis();
@@ -1582,7 +1592,8 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         if (this.plot == null) {
             return result;
         }
-        int index = this.plot.getIndexOf(this);
+        @SuppressWarnings("index") // guaranteed index: this.plot.getIndexOf(this) is always non negative, since this.plot is the plot associated with the renderer
+        /*@NonNegative*/ int index = this.plot.getIndexOf(this);
         CategoryDataset dataset = this.plot.getDataset(index);
         if (dataset == null) {
             return result;
@@ -1697,7 +1708,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @param hotspot  the hotspot ({@code null} not permitted).
      */
     protected void addItemEntity(EntityCollection entities,
-            CategoryDataset dataset, int row, int column, Shape hotspot) {
+            CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column, Shape hotspot) {
         Args.nullNotPermitted(hotspot, "hotspot");
         if (!getItemCreateEntity(row, column)) {
             return;
@@ -1734,7 +1745,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * @since 1.0.13
      */
     protected void addEntity(EntityCollection entities, Shape hotspot,
-                             CategoryDataset dataset, int row, int column,
+                             CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column,
                              double entityX, double entityY) {
         if (!getItemCreateEntity(row, column)) {
             return;

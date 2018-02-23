@@ -45,6 +45,13 @@
  */
 
 package org.jfree.data.statistics;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
 
 import org.jfree.chart.util.Args;
 import org.jfree.data.xy.XYDataset;
@@ -63,7 +70,7 @@ public abstract class Regression {
      *
      * @return The parameters.
      */
-    public static double[] getOLSRegression(double[][] data) {
+    public static double /*@ArrayLen(2)*/ [] getOLSRegression(double /*@MinLen(2)*/ [] /*@MinLen(2)*/ [] data) {
 
         int n = data.length;
         if (n < 2) {
@@ -107,7 +114,7 @@ public abstract class Regression {
      *
      * @return The parameters.
      */
-    public static double[] getOLSRegression(XYDataset data, int series) {
+    public static double /*@ArrayLen(2)*/ [] getOLSRegression(XYDataset data, /*@NonNegative*/ int series) {
 
         int n = data.getItemCount(series);
         if (n < 2) {
@@ -150,7 +157,7 @@ public abstract class Regression {
      *
      * @return The parameters.
      */
-    public static double[] getPowerRegression(double[][] data) {
+    public static double /*@ArrayLen(2)*/ [] getPowerRegression(double /*@MinLen(2)*/ [] /*@MinLen(2)*/ [] data) {
 
         int n = data.length;
         if (n < 2) {
@@ -194,7 +201,7 @@ public abstract class Regression {
      *
      * @return The parameters.
      */
-    public static double[] getPowerRegression(XYDataset data, int series) {
+    public static double /*@ArrayLen(2)*/ [] getPowerRegression(XYDataset data, /*@NonNegative*/ int series) {
 
         int n = data.getItemCount(series);
         if (n < 2) {
@@ -247,31 +254,34 @@ public abstract class Regression {
      *
      * @since 1.0.14
      */
-    public static double[] getPolynomialRegression(XYDataset dataset, 
-            int series, int order) {
+    public static double[] getPolynomialRegression(XYDataset dataset,
+            /*@NonNegative*/ int series, /*@Positive*/ int order) {
         Args.nullNotPermitted(dataset, "dataset");
         int itemCount = dataset.getItemCount(series);
         if (itemCount < order + 1) {
             throw new IllegalArgumentException("Not enough data.");
         }
-        int validItems = 0;
         double[][] data = new double[2][itemCount];
+        @SuppressWarnings("index") // validItems will only be used as a index if there is at least one item
+        /*@LTLengthOf(value={"data[0]","data[1]"}, offset={"0","0"})*/ /*@NonNegative*/ int validItems = 0;
         for(int item = 0; item < itemCount; item++){
             double x = dataset.getXValue(series, item);
             double y = dataset.getYValue(series, item);
             if (!Double.isNaN(x) && !Double.isNaN(y)){
                 data[0][validItems] = x;
                 data[1][validItems] = y;
-                validItems++;
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/219: validItems is incremented at most as often as item, which is a valid index
+                /*@LTLengthOf(value={"data[0]","data[1]"}, offset={"0","0"})*/ /*@NonNegative*/ int validItemsTmp = validItems + 1;
+                validItems = validItemsTmp;
             }
         }
         if (validItems < order + 1) {
             throw new IllegalArgumentException("Not enough data.");
         }
-        int equations = order + 1;
-        int coefficients = order + 2;
+        /*@Positive*/ int equations = order + 1;
+        /*@Positive*/ int coefficients = order + 2;
         double[] result = new double[equations + 1];
-        double[][] matrix = new double[equations][coefficients];
+        double[] /*@MinLen(1)*/ [] matrix = new double[equations][coefficients];
         double sumX = 0.0;
         double sumY = 0.0;
 
@@ -279,26 +289,34 @@ public abstract class Regression {
             sumX += data[0][item];
             sumY += data[1][item];
             for(int eq = 0; eq < equations; eq++){
-                for(int coe = 0; coe < coefficients - 1; coe++){
+                for(int coe = 0; coe < matrix[eq].length - 1; coe++){
                     matrix[eq][coe] += Math.pow(data[0][item],eq + coe);
                 }
-                matrix[eq][coefficients - 1] += data[1][item]
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/202: coefficients is positive, and matrix's subarrays are all exactly `coefficients` long
+                /*@IndexFor("matrix[eq]")*/ int coe1 = coefficients - 1;
+                matrix[eq][coe1] += data[1][item]
                         * Math.pow(data[0][item],eq);
             }
         }
         double[][] subMatrix = calculateSubMatrix(matrix);
         for (int eq = 1; eq < equations; eq++) {
             matrix[eq][0] = 0;
-            for (int coe = 1; coe < coefficients; coe++) {
-                matrix[eq][coe] = subMatrix[eq - 1][coe - 1];
+            for (int coe = 1; coe < matrix[eq].length; coe++) {
+                @SuppressWarnings("index") // subMatrix is a reduced version of matrix, with rows and columns shifted so that subtracting one is always safe
+                double subMatrixEntry = subMatrix[eq - 1][coe - 1];
+                matrix[eq][coe] = subMatrixEntry;
             }
         }
         for (int eq = equations - 1; eq > -1; eq--) {
-            double value = matrix[eq][coefficients - 1];
-            for (int coe = eq; coe < coefficients -1; coe++) {
-                value -= matrix[eq][coe] * result[coe];
+            double value = matrix[eq][matrix[eq].length - 1];
+            for (int coe = eq; coe < matrix[eq].length -1; coe++) {
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/202: coe is LTOM for matrix[eq], which means that it is LTL for result[eq], which is one smaller in each dimension
+                double resultCoefficient = result[coe];
+                value -= matrix[eq][coe] * resultCoefficient;
             }
-            result[eq] = value / matrix[eq][eq];
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158 equations < coeffecients (equations = order + 1, coeffecients = order + 2)
+            double diag = matrix[eq][eq];
+            result[eq] = value / diag;
         }
         double meanY = sumY / validItems;
         double yObsSquare = 0.0;
@@ -326,30 +344,41 @@ public abstract class Regression {
      *
      * @return The new matrix.
      */
-    private static double[][] calculateSubMatrix(double[][] matrix){
-        int equations = matrix.length;
-        int coefficients = matrix[0].length;
+    private static double[][] calculateSubMatrix(double /*@MinLen(1)*/ [] /*@MinLen(1)*/ [] matrix){
+        /*@Positive*/ int equations = matrix.length;
+        /*@Positive*/ int coefficients = matrix[0].length;
         double[][] result = new double[equations - 1][coefficients - 1];
         for (int eq = 1; eq < equations; eq++) {
             double factor = matrix[0][0] / matrix[eq][0];
-            for (int coe = 1; coe < coefficients; coe++) {
-                result[eq - 1][coe -1] = matrix[0][coe] - matrix[eq][coe]
+            // I added the second condition here - matrix is rectangular, and this is the easiest way to guarantee this typechecks
+            for (int coe = 1; coe < matrix[eq].length && coe < matrix[0].length; coe++) {
+                int resultEq = eq - 1;
+                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/202: result is one smaller in both dimensions than matrix, and coe is an index for matrix. Also note the use of a temporary here: the Index Checker's java expression parser chokes on "result[eq - 1]"
+                /*@IndexFor("result[resultEq]")*/ int resultCoe = coe -1;
+                result[resultEq][resultCoe] = matrix[0][coe] - matrix[eq][coe]
                         * factor;
             }
         }
         if (equations == 1) {
             return result;
         }
+        @SuppressWarnings({"value", "index"}) // https://github.com/kelloggm/checker-framework/issues/158: equations != 1 -> equations >= 2 -> result is minlen(1)
+        double /*@MinLen(1)*/ [] /*@MinLen(1)*/ [] result1 = result;
+
         // check for zero pivot element
-        if (result[0][0] == 0) {
+        if (result1[0][0] == 0) {
             boolean found = false;
-            for (int i = 0; i < result.length; i ++) {
-                if (result[i][0] != 0) {
+            for (int i = 0; i < result1.length; i ++) {
+                if (result1[i][0] != 0) {
                     found = true;
-                    double[] temp = result[0];
-                    System.arraycopy(result[i], 0, result[0], 0, 
-                            result[i].length);
-                    System.arraycopy(temp, 0, result[i], 0, temp.length);
+                    double[] temp = result1[0];
+                    @SuppressWarnings("index") // result1 is a rectangular array
+                    /*@IndexOrHigh({"result1[i]", "result1[0]"})*/ int result1ILength = result1[i].length;
+                    System.arraycopy(result1[i], 0, result1[0], 0, 
+                            result1ILength);
+                    @SuppressWarnings("index") // result1 is a rectangular array
+                    /*@IndexOrHigh({"result1[i]", "temp", "result1[0]"})*/ int tempLen = temp.length;
+                    System.arraycopy(temp, 0, result1[i], 0, tempLen);
                     break;
                 }
             }
@@ -358,14 +387,16 @@ public abstract class Regression {
                 return new double[equations - 1][coefficients - 1];
             }
         }
-        double[][] subMatrix = calculateSubMatrix(result);
+        double[][] subMatrix = calculateSubMatrix(result1);
         for (int eq = 1; eq < equations -  1; eq++) {
-            result[eq][0] = 0;
-            for (int coe = 1; coe < coefficients - 1; coe++) {
-                result[eq][coe] = subMatrix[eq - 1][coe - 1];
+            result1[eq][0] = 0;
+            for (int coe = 1; coe < result1[eq].length; coe++) {
+                @SuppressWarnings("index") // subMatrix is always one smaller than result1
+                double submatrixresult1 = subMatrix[eq - 1][coe - 1];
+                result1[eq][coe] = submatrixresult1;
             }
         }
-        return result;
+        return result1;
     }
 
 }

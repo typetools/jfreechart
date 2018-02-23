@@ -87,6 +87,9 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -646,7 +649,7 @@ public class CandlestickRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            int series, int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
 
         boolean horiz;
         PlotOrientation orientation = plot.getOrientation();
@@ -667,12 +670,14 @@ public class CandlestickRenderer extends AbstractXYItemRenderer
         }
 
         OHLCDataset highLowData = (OHLCDataset) dataset;
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+        /*@IndexFor("highLowData.getSeries(series)")*/ int highLowItem = item;
 
-        double x = highLowData.getXValue(series, item);
-        double yHigh = highLowData.getHighValue(series, item);
-        double yLow = highLowData.getLowValue(series, item);
-        double yOpen = highLowData.getOpenValue(series, item);
-        double yClose = highLowData.getCloseValue(series, item);
+        double x = highLowData.getXValue(series, highLowItem);
+        double yHigh = highLowData.getHighValue(series, highLowItem);
+        double yLow = highLowData.getLowValue(series, highLowItem);
+        double yOpen = highLowData.getOpenValue(series, highLowItem);
+        double yClose = highLowData.getCloseValue(series, highLowItem);
 
         RectangleEdge domainEdge = plot.getDomainAxisEdge();
         double xx = domainAxis.valueToJava2D(x, dataArea, domainEdge);
@@ -724,13 +729,15 @@ public class CandlestickRenderer extends AbstractXYItemRenderer
                     break;
 
                 case WIDTHMETHOD_INTERVALDATA:
-                    IntervalXYDataset intervalXYData
+                    IntervalXYDataset intervalDataset
                             = (IntervalXYDataset) dataset;
+                    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+                    /*@NonNegative*/ /*@UpperBoundBottom*/ int intervalXYItem = item;
                     double startPos = domainAxis.valueToJava2D(
-                            intervalXYData.getStartXValue(series, item),
+                            intervalDataset.getStartXValue(series, intervalXYItem),
                             dataArea, plot.getDomainAxisEdge());
                     double endPos = domainAxis.valueToJava2D(
-                            intervalXYData.getEndXValue(series, item),
+                            intervalDataset.getEndXValue(series, intervalXYItem),
                             dataArea, plot.getDomainAxisEdge());
                     xxWidth = Math.abs(endPos - startPos);
                     break;
@@ -753,7 +760,7 @@ public class CandlestickRenderer extends AbstractXYItemRenderer
         g2.setStroke(s);
 
         if (this.drawVolume) {
-            int volume = (int) highLowData.getVolumeValue(series, item);
+            int volume = (int) highLowData.getVolumeValue(series, highLowItem);
             double volumeHeight = volume / this.maxVolume;
 
             double min, max;

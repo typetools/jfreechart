@@ -39,6 +39,7 @@
  */
 
 package org.jfree.data.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.io.Serializable;
 import org.jfree.chart.util.ObjectUtils;
@@ -69,7 +70,7 @@ public class XYItemKey<S extends Comparable<S>> implements ItemKey,
      * @param seriesKey  the series key.
      * @param itemIndex  the item index.
      */
-    public XYItemKey(S seriesKey, int itemIndex) {
+    public XYItemKey(S seriesKey, /*@NonNegative*/ int itemIndex) {
         Args.nullNotPermitted(seriesKey, "seriesKey");
         this.seriesKey = seriesKey;
         this.itemIndex = itemIndex;

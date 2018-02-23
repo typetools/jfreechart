@@ -128,6 +128,12 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.common.value.qual.*; */
+
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
 
 import java.awt.AlphaComposite;
 import java.awt.Composite;
@@ -264,7 +270,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @return The pass count.
      */
     @Override
-    public int getPassCount() {
+    public /*@NonNegative*/ int getPassCount() {
         return 1;
     }
 
@@ -324,7 +330,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @since 1.0.20
      */
     protected void beginElementGroup(Graphics2D g2, Comparable seriesKey,
-            int itemIndex) {
+            /*@NonNegative*/ int itemIndex) {
         beginElementGroup(g2, new XYItemKey(seriesKey, itemIndex));    
     }
 
@@ -342,7 +348,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @return The generator (possibly {@code null}).
      */
     @Override
-    public XYItemLabelGenerator getItemLabelGenerator(int series, int item) {
+    public XYItemLabelGenerator getItemLabelGenerator(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
 
         // otherwise look up the generator table
         XYItemLabelGenerator generator
@@ -361,7 +367,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @return The generator (possibly {@code null}).
      */
     @Override
-    public XYItemLabelGenerator getSeriesItemLabelGenerator(int series) {
+    public XYItemLabelGenerator getSeriesItemLabelGenerator(/*@NonNegative*/ int series) {
         return this.itemLabelGeneratorMap.get(series);
     }
 
@@ -373,7 +379,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @param generator  the generator ({@code null} permitted).
      */
     @Override
-    public void setSeriesItemLabelGenerator(int series,
+    public void setSeriesItemLabelGenerator(/*@NonNegative*/ int series,
             XYItemLabelGenerator generator) {
         this.itemLabelGeneratorMap.put(series, generator);
         fireChangeEvent();
@@ -414,7 +420,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @return The generator (possibly {@code null}).
      */
     @Override
-    public XYToolTipGenerator getToolTipGenerator(int series, int item) {
+    public XYToolTipGenerator getToolTipGenerator(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
 
         // otherwise look up the generator table
         XYToolTipGenerator generator
@@ -433,7 +439,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @return The generator (possibly {@code null}).
      */
     @Override
-    public XYToolTipGenerator getSeriesToolTipGenerator(int series) {
+    public XYToolTipGenerator getSeriesToolTipGenerator(/*@NonNegative*/ int series) {
         return this.toolTipGeneratorMap.get(series);
     }
 
@@ -445,7 +451,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @param generator  the generator ({@code null} permitted).
      */
     @Override
-    public void setSeriesToolTipGenerator(int series,
+    public void setSeriesToolTipGenerator(/*@NonNegative*/ int series,
             XYToolTipGenerator generator) {
         this.toolTipGeneratorMap.put(series, generator);
         fireChangeEvent();
@@ -805,7 +811,8 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
             return new LegendItemCollection();
         }
         LegendItemCollection result = new LegendItemCollection();
-        int index = this.plot.getIndexOf(this);
+        @SuppressWarnings("index") // guaranteed index: this is guaranteed to be a renderer for this.plot, so indexOf will return nonnegative
+        /*@NonNegative*/ int index = this.plot.getIndexOf(this);
         XYDataset dataset = this.plot.getDataset(index);
         if (dataset != null) {
             int seriesCount = dataset.getSeriesCount();
@@ -832,7 +839,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @return A legend item for the series.
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, int series) {
+    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
         XYPlot xyplot = getPlot();
         if (xyplot == null) {
             return null;
@@ -1578,7 +1585,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      * @since 1.0.20
      */
     protected void updateCrosshairValues(CrosshairState crosshairState,
-            double x, double y, int datasetIndex,
+            double x, double y, /*@NonNegative*/ int datasetIndex,
             double transX, double transY, PlotOrientation orientation) {
 
         Args.nullNotPermitted(orientation, "orientation");
@@ -1619,7 +1626,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      *                  label position).
      */
     protected void drawItemLabel(Graphics2D g2, PlotOrientation orientation,
-            XYDataset dataset, int series, int item, double x, double y,
+            XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#3.getSeries(#4)")*/ int item, double x, double y,
             boolean negative) {
 
         XYItemLabelGenerator generator = getItemLabelGenerator(series, item);
@@ -1676,7 +1683,8 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
             // should not get here
             throw new RuntimeException("Unknown layer.");
         }
-        int index = this.plot.getIndexOf(this);
+        @SuppressWarnings("index") // guaranteed index: this is a renderer of this.plot by definition, so indexOf will return nonnegative
+        /*@NonNegative*/ int index = this.plot.getIndexOf(this);
         for (XYAnnotation annotation : toDraw) {
             annotation.draw(g2, this.plot, dataArea, domainAxis, rangeAxis,
                     index, info);
@@ -1702,7 +1710,7 @@ public abstract class AbstractXYItemRenderer extends AbstractRenderer
      *         {@code hotspot} is {@code null}).
      */
     protected void addEntity(EntityCollection entities, Shape hotspot,
-            XYDataset dataset, int series, int item, double entityX, 
+            XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#3.getSeries(#4)")*/ int item, double entityX,
             double entityY) {
         
         if (!getItemCreateEntity(series, item)) {

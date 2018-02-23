@@ -65,6 +65,7 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -136,7 +137,7 @@ public class ClusteredXYBarRenderer extends XYBarRenderer
      * @return {@code 2}.
      */
     @Override
-    public int getPassCount() {
+    public /*@NonNegative*/ int getPassCount() {
         return 2;
     }
 
@@ -225,19 +226,21 @@ public class ClusteredXYBarRenderer extends XYBarRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state, 
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset, 
-            int series, int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
 
         IntervalXYDataset intervalDataset = (IntervalXYDataset) dataset;
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+        /*@IndexFor("intervalDataset.getSeries(series)")*/ int intervalXYItem = item;
 
         double y0;
         double y1;
         if (getUseYInterval()) {
-            y0 = intervalDataset.getStartYValue(series, item);
-            y1 = intervalDataset.getEndYValue(series, item);
+            y0 = intervalDataset.getStartYValue(series, intervalXYItem);
+            y1 = intervalDataset.getEndYValue(series, intervalXYItem);
         }
         else {
             y0 = getBase();
-            y1 = intervalDataset.getYValue(series, item);
+            y1 = intervalDataset.getYValue(series, intervalXYItem);
         }
         if (Double.isNaN(y0) || Double.isNaN(y1)) {
             return;
@@ -249,10 +252,10 @@ public class ClusteredXYBarRenderer extends XYBarRenderer
                 plot.getRangeAxisEdge());
 
         RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
-        double x0 = intervalDataset.getStartXValue(series, item);
+        double x0 = intervalDataset.getStartXValue(series, intervalXYItem);
         double xx0 = domainAxis.valueToJava2D(x0, dataArea, xAxisLocation);
 
-        double x1 = intervalDataset.getEndXValue(series, item);
+        double x1 = intervalDataset.getEndXValue(series, intervalXYItem);
         double xx1 = domainAxis.valueToJava2D(x1, dataArea, xAxisLocation);
 
         double intervalW = xx1 - xx0;  // this may be negative

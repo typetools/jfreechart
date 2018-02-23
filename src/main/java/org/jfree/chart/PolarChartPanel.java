@@ -43,6 +43,8 @@
  */
 
 package org.jfree.chart;
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.common.value.qual.*; */
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -246,7 +248,7 @@ public class PolarChartPanel extends ChartPanel {
      *
      * @return The item index.
      */
-    private int getPopupMenuItem(JPopupMenu menu, String text) {
+    private /*@GTENegativeOne*/ int getPopupMenuItem(JPopupMenu menu, String text) {
         int index = -1;
         for (int i = 0; (index == -1) && (i < menu.getComponentCount()); i++) {
             Component comp = menu.getComponent(i);

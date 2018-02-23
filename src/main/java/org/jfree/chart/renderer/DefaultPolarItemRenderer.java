@@ -62,6 +62,11 @@
  */
 
 package org.jfree.chart.renderer;
+/*>>> import org.checkerframework.checker.index.qual.*; */
+
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
 
 import java.awt.AlphaComposite;
 import java.awt.Composite;
@@ -367,7 +372,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      *
      * @return A boolean.
      */
-    public boolean isSeriesFilled(int series) {
+    public boolean isSeriesFilled(/*@NonNegative*/ int series) {
         boolean result = false;
         Boolean b = this.seriesFilled.getBoolean(series);
         if (b != null) {
@@ -382,7 +387,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      * @param series  the series index.
      * @param filled  the flag.
      */
-    public void setSeriesFilled(int series, boolean filled) {
+    public void setSeriesFilled(/*@NonNegative*/ int series, boolean filled) {
         this.seriesFilled.setBoolean(series, Boolean.valueOf(filled));
     }
 
@@ -455,7 +460,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      *                 used if {@code area} is {@code null}).
      */
     protected void addEntity(EntityCollection entities, Shape area,
-                             XYDataset dataset, int series, int item,
+                             XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#3.getSeries(#4)")*/ int item,
                              double entityX, double entityY) {
         if (!getItemCreateEntity(series, item)) {
             return;
@@ -498,13 +503,14 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
     @Override
     public void drawSeries(Graphics2D g2, Rectangle2D dataArea,
             PlotRenderingInfo info, PolarPlot plot, XYDataset dataset,
-            int seriesIndex) {
+            /*@NonNegative*/ int seriesIndex) {
 
         final int numPoints = dataset.getItemCount(seriesIndex);
         if (numPoints == 0) {
             return;
         }
         GeneralPath poly = null;
+        @SuppressWarnings("index") // This would fail if the dataset passed to this function was not associated with this plot. Maybe a bug?
         ValueAxis axis = plot.getAxisForDataset(plot.indexOf(dataset));
         for (int i = 0; i < numPoints; i++) {
             double theta = dataset.getXValue(seriesIndex, i);
@@ -583,7 +589,9 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
                 // data area...
                 if (entities != null && ShapeUtils.isPointInRect(dataArea, x, 
                         y)) {
-                    addEntity(entities, shape, dataset, seriesIndex, i-1, x, y);
+                    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/219: i - 1 is an index because the i increases once on each iteration of this while loop, and the loop condition is equivalent to the length of this series
+                    /*@IndexFor("dataset.getSeries(seriesIndex)")*/ int i1 = i - 1;
+                    addEntity(entities, shape, dataset, seriesIndex, i1, x, y);
                 }
             }
         }
@@ -684,12 +692,13 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      * @return The legend item.
      */
     @Override
-    public LegendItem getLegendItem(int series) {
+    public LegendItem getLegendItem(/*@NonNegative*/ int series) {
         LegendItem result;
         PolarPlot plot = getPlot();
         if (plot == null) {
             return null;
         }
+        @SuppressWarnings("index") // guaranteed index: this renderer belongs to the plot, so plot.getIndexOf returns a non negative
         XYDataset dataset = plot.getDataset(plot.getIndexOf(this));
         if (dataset == null) {
             return null;
@@ -746,7 +755,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      * @since 1.0.14
      */
     @Override
-    public XYToolTipGenerator getToolTipGenerator(int series, int item) {
+    public XYToolTipGenerator getToolTipGenerator(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
         XYToolTipGenerator generator
             = (XYToolTipGenerator) this.toolTipGeneratorList.get(series);
         if (generator == null) {
@@ -763,7 +772,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      * @since 1.0.14
      */
     @Override
-    public XYToolTipGenerator getSeriesToolTipGenerator(int series) {
+    public XYToolTipGenerator getSeriesToolTipGenerator(/*@NonNegative*/ int series) {
         return (XYToolTipGenerator) this.toolTipGeneratorList.get(series);
     }
 
@@ -776,7 +785,7 @@ public class DefaultPolarItemRenderer extends AbstractRenderer
      * @since 1.0.14
      */
     @Override
-    public void setSeriesToolTipGenerator(int series,
+    public void setSeriesToolTipGenerator(/*@NonNegative*/ int series,
             XYToolTipGenerator generator) {
         this.toolTipGeneratorList.set(series, generator);
         fireChangeEvent();

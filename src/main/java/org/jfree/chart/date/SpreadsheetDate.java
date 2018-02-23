@@ -28,6 +28,12 @@
 
 package org.jfree.chart.date;
 
+/*>>>
+import org.checkerframework.common.value.qual.ArrayLen;
+import org.checkerframework.common.value.qual.IntRange;
+import org.checkerframework.checker.index.qual.*;
+ */
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -58,16 +64,16 @@ public class SpreadsheetDate extends SerialDate {
      * The day number (1-Jan-1900 = 2, 2-Jan-1900 = 3, ..., 31-Dec-9999 = 
      * 2958465). 
      */
-    private final int serial;
+    private final /*@IntRange(from = 2, to = 2958465)*/ int serial;
 
     /** The day of the month (1 to 28, 29, 30 or 31 depending on the month). */
-    private final int day;
+    private final /*@IntRange(from = 1, to = 31)*/ int day;
 
     /** The month of the year (1 to 12). */
-    private final int month;
+    private final /*@IntRange(from = 1, to = 12)*/ int month;
 
     /** The year (1900 to 9999). */
-    private final int year;
+    private final /*@IntRange(from = 1900, to = 9999)*/ int year;
 
     /**
      * Creates a new date instance.
@@ -76,7 +82,7 @@ public class SpreadsheetDate extends SerialDate {
      * @param month  the month (in the range 1 to 12).
      * @param year  the year (in the range 1900 to 9999).
      */
-    public SpreadsheetDate(int day, int month, int year) {
+    public SpreadsheetDate(/*@IntRange(from = 1, to = 31)*/ int day, /*@IntRange(from = 1, to = 12)*/ int month, /*@IntRange(from = 1, to = 9999)*/ int year) {
 
         if ((year >= 1900) && (year <= 9999)) {
             this.year = year;
@@ -111,7 +117,7 @@ public class SpreadsheetDate extends SerialDate {
      *
      * @param serial  the serial number for the day (range: 2 to 2958465).
      */
-    public SpreadsheetDate(int serial) {
+    public SpreadsheetDate(/*@IntRange(from = 2, to = 2958465)*/ int serial) {
 
         if ((serial >= SERIAL_LOWER_BOUND) && (serial <= SERIAL_UPPER_BOUND)) {
             this.serial = serial;
@@ -125,26 +131,34 @@ public class SpreadsheetDate extends SerialDate {
         // get the year from the serial date
         final int days = this.serial - SERIAL_LOWER_BOUND;
         // overestimated because we ignored leap days
-        final int overestimatedYYYY = 1900 + (days / 365);
+        @SuppressWarnings({"index", "value"}) // not really true, but gets this to typecheck. Safety is assured by checks later in this method
+        final /*@IntRange(from = 1900, to = 9999)*/ int overestimatedYYYY = 1900 + (days / 365);
         final int leaps = SerialDate.leapYearCount(overestimatedYYYY);
         final int nonleapdays = days - leaps;
         // underestimated because we overestimated years
-        int underestimatedYYYY = 1900 + (nonleapdays / 365);
+        @SuppressWarnings({"index", "value"}) // not really true, but gets this to typecheck. Safety is assured by checks later in this method
+        /*@IntRange(from = 1900, to = 9999)*/ int underestimatedYYYY = 1900 + (nonleapdays / 365);
 
         if (underestimatedYYYY == overestimatedYYYY) {
             this.year = underestimatedYYYY;
         } else {
             int ss1 = calcSerial(1, 1, underestimatedYYYY);
+            @SuppressWarnings({"index", "value"}) // Necessary for typechecking the modified code below.
+            /*@IntRange(from = 1901, to = 10000)*/ int underestimatedYYYY2 = underestimatedYYYY;
             while (ss1 <= this.serial) {
-                underestimatedYYYY = underestimatedYYYY + 1;
-                ss1 = calcSerial(1, 1, underestimatedYYYY);
+                @SuppressWarnings({"index", "value"}) // This code rolls the year up to one higher than the correct one.
+                /*@IntRange(from = 1901, to = 10000)*/ int underestimatedYYYYTmp = underestimatedYYYY2 + 1;
+                underestimatedYYYY2 = underestimatedYYYYTmp;
+                @SuppressWarnings({"index", "value"}) // this call to calcSerial could technically happen with a year that's 10000. The result would still be correct.
+                int ss1tmp = calcSerial(1, 1, underestimatedYYYY2);
+                ss1 = ss1tmp;
             }
-            this.year = underestimatedYYYY - 1;
+            this.year = underestimatedYYYY2 - 1;
         }
 
         final int ss2 = calcSerial(1, 1, this.year);
 
-        int[] daysToEndOfPrecedingMonth 
+        /*@IntRange(from = 0, to = 366)*/ int /*@ArrayLen(14)*/ [] daysToEndOfPrecedingMonth
                 = AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH;
 
         if (isLeapYear(this.year)) {
@@ -153,17 +167,23 @@ public class SpreadsheetDate extends SerialDate {
         }
 
         // get the month from the serial date
-        int mm = 1;
+        /*@IntRange(from = 1, to = 13)*/ int mm = 1;
         int sss = ss2 + daysToEndOfPrecedingMonth[mm] - 1;
         while (sss < this.serial) {
-            mm = mm + 1;
+            @SuppressWarnings({"index", "value"}) // this loop cannot go around more than 12 times
+            /*@IntRange(from=2, to=13)*/ int mm1 = mm + 1;
+            mm = mm1;
             sss = ss2 + daysToEndOfPrecedingMonth[mm] - 1;
         }
-        this.month = mm - 1;
+        @SuppressWarnings({"index", "value"}) // previous loop always goes around at least once
+        /*@IntRange(from = 1, to = 12)*/ int newMonth = mm - 1;
+        this.month = newMonth;
 
         // what's left is d(+1);
-        this.day = this.serial - ss2 
+        @SuppressWarnings({"index", "value"}) // date math
+        /*@IntRange(from = 1, to = 31)*/ int newDay = this.serial - ss2
                  - daysToEndOfPrecedingMonth[this.month] + 1;
+        this.day = newDay;
 
     }
 
@@ -175,7 +195,7 @@ public class SpreadsheetDate extends SerialDate {
      * @return The serial number of this date.
      */
     @Override
-    public int toSerial() {
+    public /*@IntRange(from = 2, to = 2958465)*/ int toSerial() {
         return this.serial;
     }
 
@@ -197,7 +217,7 @@ public class SpreadsheetDate extends SerialDate {
      * @return The year.
      */
     @Override
-    public int getYYYY() {
+    public /*@IntRange(from = 1900, to = 9999)*/ int getYYYY() {
         return this.year;
     }
 
@@ -207,7 +227,7 @@ public class SpreadsheetDate extends SerialDate {
      * @return The month of the year.
      */
     @Override
-    public int getMonth() {
+    public /*@IntRange(from = 1, to = 12)*/ int getMonth() {
         return this.month;
     }
 
@@ -217,7 +237,7 @@ public class SpreadsheetDate extends SerialDate {
      * @return The day of the month.
      */
     @Override
-    public int getDayOfMonth() {
+    public /*@IntRange(from = 1, to = 31)*/ int getDayOfMonth() {
         return this.day;
     }
 
@@ -232,7 +252,7 @@ public class SpreadsheetDate extends SerialDate {
      * @return A code representing the day of the week.
      */
     @Override
-    public int getDayOfWeek() {
+    public /*@IntRange(from = 1, to = 7)*/ int getDayOfWeek() {
         return (this.serial + 6) % 7 + 1;
     }
 
@@ -425,16 +445,22 @@ public class SpreadsheetDate extends SerialDate {
      *
      * @return the serial number from the day, month and year.
      */
-    private int calcSerial(int d, int m, int y) {
+    private /*@IntRange(from = 2, to = 2958465)*/ int calcSerial(/*@IntRange(from = 1, to = 31)*/ int d, /*@IntRange(from=1,to=12)*/ int m, /*@IntRange(from = 1900, to = 9999)*/ int y) {
+        @SuppressWarnings({"index", "value"}) // Though passing y - 1 is technically incorrect iff y = 1900, leapYearCount returns zero if passed 1899 (same as 1900).
         int yy = ((y - 1900) * 365) + SerialDate.leapYearCount(y - 1);
-        int mm = SerialDate.AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH[m];
+        @SuppressWarnings({"index", "value"}) // Preceding month can't be December - month must be 1 - 12 (12 -> current month is december).
+        /*@IntRange(from = 0, to = 336)*/ int mm = SerialDate.AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH[m];
         if (m > MonthConstants.FEBRUARY) {
             if (SerialDate.isLeapYear(y)) {
-                mm = mm + 1;
+                @SuppressWarnings({"index", "value"}) // Adding leap day doesn't change this value's range
+                /*@IntRange(from = 0, to = 336)*/ int mm1 = mm + 1;
+                mm = mm1;
             }
         }
         int dd = d;
-        return yy + mm + dd + 1;
+        @SuppressWarnings("value") // Imprecision due to presence or absence of leap days (checker thinks it may be two higher)
+        /*@IntRange(from = 2, to = 2958465)*/ int result = yy + mm + dd + 1;
+        return result;
     }
 
 }

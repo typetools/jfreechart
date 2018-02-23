@@ -41,6 +41,12 @@
  */
 
 package org.jfree.chart.urls;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+*/
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -87,7 +93,7 @@ public class CustomPieURLGenerator implements PieURLGenerator,
      */
     @Override
     public String generateURL(PieDataset dataset, Comparable key,
-                              int pieIndex) {
+                              /*@NonNegative*/ int pieIndex) {
         return getURL(key, pieIndex);
     }
 
@@ -98,7 +104,7 @@ public class CustomPieURLGenerator implements PieURLGenerator,
      *
      * @see #addURLs(Map)
      */
-    public int getListCount() {
+    public /*@NonNegative*/ int getListCount() {
         return this.urls.size();
     }
 
@@ -112,7 +118,7 @@ public class CustomPieURLGenerator implements PieURLGenerator,
      *
      * @see #getListCount()
      */
-    public int getURLCount(int list) {
+    public int getURLCount(/*@NonNegative*/ int list) {
         int result = 0;
         Map urlMap = (Map) this.urls.get(list);
         if (urlMap != null) {
@@ -129,7 +135,7 @@ public class CustomPieURLGenerator implements PieURLGenerator,
      *
      * @return The URL.
      */
-    public String getURL(Comparable key, int mapIndex) {
+    public String getURL(Comparable key, /*@NonNegative*/ int mapIndex) {
         String result = null;
         if (mapIndex < getListCount()) {
             Map urlMap = (Map) this.urls.get(mapIndex);

@@ -48,6 +48,9 @@
  */
 
 package org.jfree.data.statistics;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -220,6 +223,7 @@ public abstract class Statistics {
                     }
                 }
                 else {
+                    @SuppressWarnings("index") // count is a positive even integer -> count >= 2 -> count / 2 - 1 is NN
                     Number value1 = (Number) values.get(count / 2 - 1);
                     Number value2 = (Number) values.get(count / 2);
                     result = (value1.doubleValue() + value2.doubleValue())
@@ -240,7 +244,7 @@ public abstract class Statistics {
      *
      * @return The median.
      */
-    public static double calculateMedian(List values, int start, int end) {
+    public static double calculateMedian(List values, /*@NonNegative*/  /*@LessThan("#3 + 1")*/ int start, /*@NonNegative*/ int end) {
         return calculateMedian(values, start, end, true);
     }
 
@@ -257,7 +261,7 @@ public abstract class Statistics {
      *
      * @return The median.
      */
-    public static double calculateMedian(List values, int start, int end,
+    public static double calculateMedian(List values, /*@NonNegative*/ /*@LessThan("#3 + 1")*/ int start, /*@NonNegative*/ int end,
                                          boolean copyAndSort) {
 
         double result = Double.NaN;
@@ -284,6 +288,7 @@ public abstract class Statistics {
                     }
                 }
                 else {
+                    @SuppressWarnings("index") // count is a positive even integer -> count >= 2 -> count / 2 - 1 is NN
                     Number value1 = (Number) values.get(start + count / 2 - 1);
                     Number value2 = (Number) values.get(start + count / 2);
                     result
@@ -303,7 +308,7 @@ public abstract class Statistics {
      *
      * @return The standard deviation of a set of numbers.
      */
-    public static double getStdDev(Number[] data) {
+    public static double getStdDev(Number /*@MinLen(1)*/ [] data) {
         Args.nullNotPermitted(data, "data");
         if (data.length == 0) {
             throw new IllegalArgumentException("Zero length 'data' array.");
@@ -327,7 +332,7 @@ public abstract class Statistics {
      *
      * @return A double array with the intercept in [0] and the slope in [1].
      */
-    public static double[] getLinearFit(Number[] xData, Number[] yData) {
+    public static double /*@ArrayLen(2)*/ [] getLinearFit(Number /*@SameLen("#2")*/ [] xData, Number /*@SameLen("#1")*/ [] yData) {
 
         Args.nullNotPermitted(xData, "xData");
         Args.nullNotPermitted(yData, "yData");
@@ -354,7 +359,7 @@ public abstract class Statistics {
      *
      * @return The slope.
      */
-    public static double getSlope(Number[] xData, Number[] yData) {
+    public static double getSlope(Number /*@SameLen("#2")*/ [] xData, Number /*@SameLen("#1")*/ [] yData) {
         Args.nullNotPermitted(xData, "xData");
         Args.nullNotPermitted(yData, "yData");
         if (xData.length != yData.length) {
@@ -376,7 +381,7 @@ public abstract class Statistics {
             sx = sx + xData[counter].doubleValue();
             sxx = sxx + Math.pow(xData[counter].doubleValue(), 2);
             sxy = sxy + yData[counter].doubleValue()
-                      * xData[counter].doubleValue();
+                    * xData[counter].doubleValue();
             sy = sy + yData[counter].doubleValue();
         }
         return (sxy - (sx * sy) / counter) / (sxx - (sx * sx) / counter);
@@ -396,7 +401,7 @@ public abstract class Statistics {
      *
      * @return The correlation.
      */
-    public static double getCorrelation(Number[] data1, Number[] data2) {
+    public static double getCorrelation(Number /*@SameLen("#2")*/ [] data1, Number /*@SameLen("#1")*/ [] data2) {
         Args.nullNotPermitted(data1, "data1");
         Args.nullNotPermitted(data2, "data2");
         if (data1.length != data2.length) {
@@ -439,8 +444,8 @@ public abstract class Statistics {
      * @return A double[][] the length of the data set in the first dimension,
      *         with two doubles for x and y in the second dimension
      */
-    public static double[][] getMovingAverage(Number[] xData, Number[] yData,
-            int period) {
+    public static double[] /*@ArrayLen(2)*/ [] getMovingAverage(Number /*@SameLen("#2")*/ [] xData, Number /*@SameLen("#1")*/ [] yData,
+            /*@IndexFor("#1")*/ int period) {
 
         // check arguments...
         if (xData.length != yData.length) {
@@ -452,13 +457,18 @@ public abstract class Statistics {
                 "Period can't be longer than dataset.");
         }
 
-        double[][] result = new double[xData.length - period][2];
+        /*@NonNegative*/ int resultLen = xData.length - period;
+        double[] /*@ArrayLen(2)*/ [] result = new double[resultLen][2];
         for (int i = 0; i < result.length; i++) {
-            result[i][0] = xData[i + period].doubleValue();
+            @SuppressWarnings("index") // result's length is exactly xData.length - period, so adding period to an index for result is always an index for xData
+            /*@IndexFor("xData")*/ int iPeriod = i + period;
+            result[i][0] = xData[iPeriod].doubleValue();
             // holds the moving average sum
             double sum = 0.0;
             for (int j = 0; j < period; j++) {
-                sum += yData[i + j].doubleValue();
+                @SuppressWarnings("index") // result's length is exactly yData.length - period, so adding a nonnegative value less than period to an index for result is always an index for yData
+                /*@IndexFor("yData")*/ int ij = i + j;
+                sum += yData[ij].doubleValue();
             }
             sum = sum / period;
             result[i][1] = sum;

@@ -113,6 +113,12 @@
  */
 
 package org.jfree.chart.axis;
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+
+/*>>>
+import org.checkerframework.common.value.qual.ArrayLen;
+import org.checkerframework.dataflow.qual.Pure;
+ */
 
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -628,7 +634,7 @@ public abstract class ValueAxis extends Axis
      *
      * @return The x and y coordinates of the anchor point.
      */
-    protected float[] calculateAnchorPoint(ValueTick tick, double cursor,
+    protected float /*@ArrayLen(2)*/ [] calculateAnchorPoint(ValueTick tick, double cursor,
             Rectangle2D dataArea, RectangleEdge edge) {
 
         RectangleInsets insets = getTickLabelInsets();
@@ -1471,6 +1477,7 @@ public abstract class ValueAxis extends Axis
      *
      * @see #java2DToValue(double, Rectangle2D, RectangleEdge)
      */
+    /*@Pure*/
     public abstract double valueToJava2D(double value, Rectangle2D area,
                                          RectangleEdge edge);
 
@@ -1653,7 +1660,7 @@ public abstract class ValueAxis extends Axis
      *
      * @see #getAutoTickIndex()
      */
-    protected void setAutoTickIndex(int index) {
+    protected void setAutoTickIndex(/*@NonNegative*/ int index) {
         this.autoTickIndex = index;
     }
 

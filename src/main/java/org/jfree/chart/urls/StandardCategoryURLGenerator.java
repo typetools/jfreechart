@@ -55,6 +55,10 @@
 
 package org.jfree.chart.urls;
 
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
+
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -132,8 +136,8 @@ public class StandardCategoryURLGenerator implements CategoryURLGenerator,
      * @return The generated URL.
      */
     @Override
-    public String generateURL(CategoryDataset dataset, int series, 
-            int category) {
+    public String generateURL(CategoryDataset dataset, /*@NonNegative*/ int series,
+            /*@NonNegative*/ int category) {
         String url = this.prefix;
         Comparable seriesKey = dataset.getRowKey(series);
         Comparable categoryKey = dataset.getColumnKey(category);

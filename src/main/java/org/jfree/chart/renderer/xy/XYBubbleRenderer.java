@@ -63,6 +63,12 @@
  */
 
 package org.jfree.chart.renderer.xy;
+/*>>> import org.checkerframework.common.value.qual.*; */
+/*>>> import org.checkerframework.checker.index.qual.*; */
+
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -175,7 +181,7 @@ public class XYBubbleRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            int series, int item, CrosshairState crosshairState, int pass) {
+            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
 
         // return straight away if the item is not visible
         if (!getItemVisible(series, item)) {
@@ -190,7 +196,10 @@ public class XYBubbleRenderer extends AbstractXYItemRenderer
         double z = Double.NaN;
         if (dataset instanceof XYZDataset) {
             XYZDataset xyzData = (XYZDataset) dataset;
-            z = xyzData.getZValue(series, item);
+
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+            /*@IndexFor("xyzData.getSeries(series)")*/ int xyzItem = item;
+            z = xyzData.getZValue(series, xyzItem);
         }
         if (!Double.isNaN(z)) {
             RectangleEdge domainAxisLocation = plot.getDomainAxisEdge();
@@ -269,7 +278,8 @@ public class XYBubbleRenderer extends AbstractXYItemRenderer
                 }
             }
 
-            int datasetIndex = plot.indexOf(dataset);
+            @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
+            /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
             updateCrosshairValues(crosshairState, x, y, datasetIndex,
                     transX, transY, orientation);
         }
@@ -286,7 +296,7 @@ public class XYBubbleRenderer extends AbstractXYItemRenderer
      * @return A legend item for the series.
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, int series) {
+    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
         LegendItem result = null;
         XYPlot plot = getPlot();
         if (plot == null) {

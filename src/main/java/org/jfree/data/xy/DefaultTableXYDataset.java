@@ -62,6 +62,11 @@
  */
 
 package org.jfree.data.xy;
+/*>>> import org.checkerframework.checker.index.qual.*; */
+
+/*>>>
+import org.checkerframework.checker.index.qual.NonNegative;
+ */
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -211,7 +216,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    public int getSeriesCount() {
+    public /*@NonNegative*/ int getSeriesCount() {
         return this.data.size();
     }
 
@@ -221,7 +226,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The number of x values in the dataset.
      */
     @Override
-    public int getItemCount() {
+    public /*@NonNegative*/ int getItemCount() {
         if (this.xPoints == null) {
             return 0;
         }
@@ -237,7 +242,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      *
      * @return The series (never {@code null}).
      */
-    public XYSeries getSeries(int series) {
+    public XYSeries getSeries(/*@NonNegative*/ int series) {
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException("Index outside valid range.");
         }
@@ -252,7 +257,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The key for a series.
      */
     @Override
-    public Comparable getSeriesKey(int series) {
+    public Comparable getSeriesKey(/*@NonNegative*/ int series) {
         // check arguments...delegated
         return getSeries(series).getKey();
     }
@@ -265,9 +270,11 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The number of items in the specified series.
      */
     @Override
-    public int getItemCount(int series) {
+    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
         // check arguments...delegated
-        return getSeries(series).getItemCount();
+        @SuppressWarnings("index") // conflict between ghost method and real method
+        /*@LengthOf("this.getSeries(#1)")*/ int result = getSeries(series).getItemCount();
+        return result;
     }
 
     /**
@@ -279,7 +286,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The x-value for the specified series and item.
      */
     @Override
-    public Number getX(int series, int item) {
+    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         XYSeries s = (XYSeries) this.data.get(series);
         return s.getX(item);
 
@@ -294,7 +301,8 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The starting X value.
      */
     @Override
-    public Number getStartX(int series, int item) {
+    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212: interval delegate and this.getSeries have the same conceptual length
+    public Number getStartX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.intervalDelegate.getStartX(series, item);
     }
 
@@ -307,7 +315,8 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The ending X value.
      */
     @Override
-    public Number getEndX(int series, int item) {
+    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212: interval delegate and this.getSeries have the same conceptual length
+    public Number getEndX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return this.intervalDelegate.getEndX(series, item);
     }
 
@@ -321,7 +330,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      *         {@code null}).
      */
     @Override
-    public Number getY(int series, int index) {
+    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int index) {
         XYSeries s = (XYSeries) this.data.get(series);
         return s.getY(index);
     }
@@ -335,7 +344,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The starting Y value.
      */
     @Override
-    public Number getStartY(int series, int item) {
+    public Number getStartY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getY(series, item);
     }
 
@@ -348,7 +357,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The ending Y value.
      */
     @Override
-    public Number getEndY(int series, int item) {
+    public Number getEndY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
         return getY(series, item);
     }
 
@@ -395,7 +404,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      *
      * @param series  the series (zero based index).
      */
-    public void removeSeries(int series) {
+    public void removeSeries(/*@NonNegative*/ int series) {
 
         // check arguments...
         if ((series < 0) || (series > getSeriesCount())) {
@@ -442,6 +451,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      *
      * @return A boolean.
      */
+    @SuppressWarnings("index") // documentation bug: this method assumes that x is in the dataset. This is a documentation bug.
     protected boolean canPrune(Number x) {
         for (int s = 0; s < this.data.size(); s++) {
             XYSeries series = (XYSeries) this.data.get(s);

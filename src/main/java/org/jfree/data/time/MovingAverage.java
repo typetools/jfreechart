@@ -49,6 +49,10 @@
  */
 
 package org.jfree.data.time;
+/*>>> import org.checkerframework.checker.index.qual.*; */
+/*>>> import org.checkerframework.common.value.qual.*; */
+
+/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import org.jfree.chart.util.Args;
 import org.jfree.data.xy.XYDataset;
@@ -74,7 +78,7 @@ public class MovingAverage {
      * @return A collection of moving average time series.
      */
     public static TimeSeriesCollection createMovingAverage(
-            TimeSeriesCollection source, String suffix, int periodCount,
+            TimeSeriesCollection source, String suffix, /*@Positive*/ int periodCount,
             int skip) {
 
         Args.nullNotPermitted(source, "source");
@@ -108,7 +112,7 @@ public class MovingAverage {
      * @return The moving average series.
      */
     public static TimeSeries createMovingAverage(TimeSeries source,
-            String name, int periodCount, int skip) {
+            String name, /*@Positive*/ int periodCount, int skip) {
 
         Args.nullNotPermitted(source, "source");
         if (periodCount < 1) {
@@ -140,9 +144,10 @@ public class MovingAverage {
                     boolean finished = false;
 
                     while ((offset < periodCount) && (!finished)) {
-                        if ((i - offset) >= 0) {
+                        int itemIndex = i - offset;
+                        if (itemIndex >= 0) {
                             TimeSeriesDataItem item = source.getRawDataItem(
-                                    i - offset);
+                                    itemIndex);
                             RegularTimePeriod p = item.getPeriod();
                             Number v = item.getValue();
                             long currentIndex = p.getSerialIndex();
@@ -189,7 +194,7 @@ public class MovingAverage {
      * @return The moving average series.
      */
     public static TimeSeries createPointMovingAverage(TimeSeries source,
-            String name, int pointCount) {
+            String name, /*@Positive*/ int pointCount) {
 
         Args.nullNotPermitted(source, "source");
         if (pointCount < 2) {
@@ -206,15 +211,16 @@ public class MovingAverage {
             // FIXME: what if value is null on next line?
             rollingSumForPeriod += current.getValue().doubleValue();
 
-            if (i > pointCount - 1) {
+            int startIndex = i - pointCount;
+            if (startIndex >= 0) {
                 // remove the point i-periodCount out of the rolling sum.
                 TimeSeriesDataItem startOfMovingAvg = source.getRawDataItem(
-                        i - pointCount);
+                        startIndex);
                 rollingSumForPeriod -= startOfMovingAvg.getValue()
                         .doubleValue();
                 result.add(period, rollingSumForPeriod / pointCount);
             }
-            else if (i == pointCount - 1) {
+            else if (startIndex == - 1) {
                 result.add(period, rollingSumForPeriod / pointCount);
             }
         }
@@ -280,7 +286,7 @@ public class MovingAverage {
      * @return The dataset.
      */
     public static XYSeries createMovingAverage(XYDataset source,
-            int series, String name, double period, double skip) {
+            /*@NonNegative*/ int series, String name, double period, double skip) {
 
         Args.nullNotPermitted(source, "source");
         if (period < Double.MIN_VALUE) {
@@ -296,6 +302,7 @@ public class MovingAverage {
 
             // if the initial averaging period is to be excluded, then
             // calculate the lowest x-value to have an average calculated...
+            @SuppressWarnings("index") // item count was checked just above to be greater than zero, so zero is an index
             double first = source.getXValue(series, 0) + skip;
 
             for (int i = source.getItemCount(series) - 1; i >= 0; i--) {
@@ -312,9 +319,10 @@ public class MovingAverage {
                     boolean finished = false;
 
                     while (!finished) {
-                        if ((i - offset) >= 0) {
-                            double xx = source.getXValue(series, i - offset);
-                            Number yy = source.getY(series, i - offset);
+                        int ioff = i - offset;
+                        if (ioff >= 0) {
+                            double xx = source.getXValue(series, ioff);
+                            Number yy = source.getY(series, ioff);
                             if (xx > limit) {
                                 if (yy != null) {
                                     sum = sum + yy.doubleValue();

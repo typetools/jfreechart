@@ -365,7 +365,8 @@ public class CombinedRangeCategoryPlot extends CategoryPlot
         parentState.getSharedAxisStates().put(axis, state);
 
         // draw all the charts
-        for (int i = 0; i < this.subplots.size(); i++) {
+        // this.subplotArea and this.subplots always have the same length
+        for (int i = 0; i < this.subplotArea.length; i++) {
             CategoryPlot plot = (CategoryPlot) this.subplots.get(i);
             PlotRenderingInfo subplotInfo = null;
             if (info != null) {
