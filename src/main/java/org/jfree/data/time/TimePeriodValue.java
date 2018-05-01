@@ -42,7 +42,6 @@
  */
 
 package org.jfree.data.time;
-/*>>> import org.checkerframework.dataflow.qual.Pure; */
 
 import java.io.Serializable;
 import org.jfree.chart.util.Args;
@@ -92,7 +91,6 @@ public class TimePeriodValue implements Cloneable, Serializable {
      *
      * @return The time period (never {@code null}).
      */
-    /*@Pure*/
     public TimePeriod getPeriod() {
         return this.period;
     }

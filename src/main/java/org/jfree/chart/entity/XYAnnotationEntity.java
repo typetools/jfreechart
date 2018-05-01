@@ -39,7 +39,6 @@
  */
 
 package org.jfree.chart.entity;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Shape;
 import java.io.Serializable;
@@ -65,7 +64,7 @@ public class XYAnnotationEntity extends ChartEntity
      * @param toolTipText  the tool tip text.
      * @param urlText  the URL text for HTML image maps.
      */
-    public XYAnnotationEntity(Shape hotspot, /*@NonNegative*/ int rendererIndex,
+    public XYAnnotationEntity(Shape hotspot, int rendererIndex,
                               String toolTipText, String urlText) {
         super(hotspot, toolTipText, urlText);
         this.rendererIndex = rendererIndex;
@@ -85,7 +84,7 @@ public class XYAnnotationEntity extends ChartEntity
      *
      * @param index  the item index (zero-based).
      */
-    public void setRendererIndex(/*@NonNegative*/ int index) {
+    public void setRendererIndex(int index) {
         this.rendererIndex = index;
     }
 

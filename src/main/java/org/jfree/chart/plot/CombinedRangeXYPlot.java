@@ -435,8 +435,7 @@ public class CombinedRangeXYPlot extends XYPlot
         parentState.getSharedAxisStates().put(axis, axisState);
 
         // draw all the charts
-        // this.subplotAreas and this.subplots always have the same length
-        for (int i = 0; i < this.subplotAreas.length; i++) {
+        for (int i = 0; i < this.subplots.size(); i++) {
             XYPlot plot = (XYPlot) this.subplots.get(i);
             PlotRenderingInfo subplotInfo = null;
             if (info != null) {
@@ -564,8 +563,7 @@ public class CombinedRangeXYPlot extends XYPlot
         if (!subplot.isDomainPannable()) {
             return;
         }
-        @SuppressWarnings({"value", "index"}) // this function would already have returned if the subplot was not actually a subplot of this plot
-                PlotRenderingInfo subplotInfo = info.getSubplotInfo(
+        PlotRenderingInfo subplotInfo = info.getSubplotInfo(
                 info.getSubplotIndex(source));
         if (subplotInfo == null) {
             return;

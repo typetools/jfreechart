@@ -52,7 +52,6 @@
  */
 
 package org.jfree.chart.plot;
-/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -500,7 +499,7 @@ public class RingPlot extends PiePlot implements Cloneable, Serializable {
      * @param currentPass  the current pass index.
      */
     @Override
-    protected void drawItem(Graphics2D g2, /*@NonNegative*/ int section, Rectangle2D dataArea,
+    protected void drawItem(Graphics2D g2, int section, Rectangle2D dataArea,
             PiePlotState state, int currentPass) {
 
         PieDataset dataset = getDataset();

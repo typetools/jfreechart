@@ -44,12 +44,6 @@
  */
 
 package org.jfree.chart.labels;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.common.value.qual.MinLen;
-*/
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -140,7 +134,7 @@ public class AbstractPieItemLabelGenerator implements Serializable {
      *
      * @return The items (never {@code null}).
      */
-    protected Object /*@MinLen(4)*/ [] createItemArray(PieDataset dataset, Comparable key) {
+    protected Object[] createItemArray(PieDataset dataset, Comparable key) {
         Object[] result = new Object[4];
         double total = DatasetUtils.calculatePieDatasetTotal(dataset);
         result[0] = key.toString();

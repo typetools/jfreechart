@@ -44,7 +44,6 @@
  */
 
 package org.jfree.data.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.io.Serializable;
 import java.util.List;
@@ -97,8 +96,7 @@ public class MatrixSeriesCollection extends AbstractXYZDataset
      * @return The number of items in the specified series.
      */
     @Override
-    @SuppressWarnings("index") // array-list interop: getSeries.getItemCount cannot be annotated correctly because some Series are mutable length
-    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int seriesIndex) {
+    public int getItemCount(int seriesIndex) {
         return getSeries(seriesIndex).getItemCount();
     }
 
@@ -110,7 +108,7 @@ public class MatrixSeriesCollection extends AbstractXYZDataset
      *
      * @return The series.
      */
-    public MatrixSeries getSeries(/*@NonNegative*/ int seriesIndex) {
+    public MatrixSeries getSeries(int seriesIndex) {
         if ((seriesIndex < 0) || (seriesIndex > getSeriesCount())) {
             throw new IllegalArgumentException("Index outside valid range.");
         }
@@ -125,7 +123,7 @@ public class MatrixSeriesCollection extends AbstractXYZDataset
      * @return The number of series in the collection.
      */
     @Override
-    public /*@NonNegative*/ int getSeriesCount() {
+    public int getSeriesCount() {
         return this.seriesList.size();
     }
 
@@ -138,7 +136,7 @@ public class MatrixSeriesCollection extends AbstractXYZDataset
      * @return The key for a series.
      */
     @Override
-    public Comparable getSeriesKey(/*@NonNegative*/ int seriesIndex) {
+    public Comparable getSeriesKey(int seriesIndex) {
         return getSeries(seriesIndex).getKey();
     }
 
@@ -155,7 +153,7 @@ public class MatrixSeriesCollection extends AbstractXYZDataset
      * @see org.jfree.data.xy.XYDataset#getXValue(int, int)
      */
     @Override
-    public Number getX(/*@NonNegative*/ int seriesIndex, /*@IndexFor("this.getSeries(#1)")*/ int itemIndex) {
+    public Number getX(int seriesIndex, int itemIndex) {
         MatrixSeries series = (MatrixSeries) this.seriesList.get(seriesIndex);
         int x = series.getItemColumn(itemIndex);
 
@@ -175,7 +173,7 @@ public class MatrixSeriesCollection extends AbstractXYZDataset
      * @see org.jfree.data.xy.XYDataset#getYValue(int, int)
      */
     @Override
-    public Number getY(/*@NonNegative*/ int seriesIndex, /*@IndexFor("this.getSeries(#1)")*/ int itemIndex) {
+    public Number getY(int seriesIndex, int itemIndex) {
         MatrixSeries series = (MatrixSeries) this.seriesList.get(seriesIndex);
         int y = series.getItemRow(itemIndex);
 
@@ -195,7 +193,7 @@ public class MatrixSeriesCollection extends AbstractXYZDataset
      * @see org.jfree.data.xy.XYZDataset#getZValue(int, int)
      */
     @Override
-    public Number getZ(/*@NonNegative*/ int seriesIndex, /*@IndexFor("this.getSeries(#1)")*/ int itemIndex) {
+    public Number getZ(int seriesIndex, int itemIndex) {
         MatrixSeries series = (MatrixSeries) this.seriesList.get(seriesIndex);
         Number z = series.getItem(itemIndex);
         return z;
@@ -316,7 +314,7 @@ public class MatrixSeriesCollection extends AbstractXYZDataset
      *
      * @param seriesIndex the series (zero based index).
      */
-    public void removeSeries(/*@NonNegative*/ int seriesIndex) {
+    public void removeSeries(int seriesIndex) {
         // check arguments...
         if ((seriesIndex < 0) || (seriesIndex > getSeriesCount())) {
             throw new IllegalArgumentException("Index outside valid range.");

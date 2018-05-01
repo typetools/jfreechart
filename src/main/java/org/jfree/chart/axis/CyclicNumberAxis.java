@@ -50,11 +50,6 @@
 
 package org.jfree.chart.axis;
 
-/*>>>
-import org.checkerframework.common.value.qual.ArrayLen;
-import org.checkerframework.checker.index.qual.NonNegative;
- */
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -389,7 +384,7 @@ public class CyclicNumberAxis extends NumberAxis {
      * @return The anchor point.
      */
     @Override
-    protected float /*@ArrayLen(2)*/ [] calculateAnchorPoint(ValueTick tick, double cursor,
+    protected float[] calculateAnchorPoint(ValueTick tick, double cursor,
             Rectangle2D dataArea, RectangleEdge edge) {
         if (tick instanceof CycleBoundTick) {
             boolean mapsav = this.boundMappedToLastCycle;
@@ -481,9 +476,7 @@ public class CyclicNumberAxis extends NumberAxis {
                         && (currentTickValue != cycleBound)) {
                     anchor = isInverted()
                         ? TextAnchor.TOP_RIGHT : TextAnchor.BOTTOM_RIGHT;
-                    @SuppressWarnings("index") // If cycled, there must be at least one tick in the results list already
-                    /*@NonNegative*/ int lastTickIndex = result.size() - 1;
-                    result.remove(lastTickIndex);
+                    result.remove(result.size() - 1);
                     result.add(new CycleBoundTick(
                         this.boundMappedToLastCycle, lastTick.getNumber(),
                         lastTick.getText(), anchor, anchor,
@@ -502,9 +495,7 @@ public class CyclicNumberAxis extends NumberAxis {
                             && (currentTickValue != cycleBound)) {
                         anchor = isInverted()
                             ? TextAnchor.BOTTOM_LEFT : TextAnchor.BOTTOM_RIGHT;
-                        @SuppressWarnings("index") // If cycled, there must be at least one tick in the results list already
-                        /*@NonNegative*/ int lastTickIndex = result.size() - 1;
-                        result.remove(lastTickIndex);
+                        result.remove(result.size() - 1);
                         result.add(new CycleBoundTick(
                             this.boundMappedToLastCycle, lastTick.getNumber(),
                             lastTick.getText(), anchor, anchor,
@@ -522,9 +513,7 @@ public class CyclicNumberAxis extends NumberAxis {
                             && (currentTickValue != cycleBound)) {
                         anchor = isInverted()
                             ? TextAnchor.TOP_LEFT : TextAnchor.TOP_RIGHT;
-                        @SuppressWarnings("index") // If cycled, there must be at least one tick in the results list already
-                        /*@NonNegative*/ int lastTickIndex = result.size() - 1;
-                        result.remove(lastTickIndex);
+                        result.remove(result.size() - 1);
                         result.add(new CycleBoundTick(
                             this.boundMappedToLastCycle, lastTick.getNumber(),
                             lastTick.getText(), anchor, anchor,
@@ -635,9 +624,7 @@ public class CyclicNumberAxis extends NumberAxis {
                             && (currentTickValue != cycleBound)) {
                         anchor = isInverted()
                             ? TextAnchor.BOTTOM_LEFT : TextAnchor.BOTTOM_RIGHT;
-                        @SuppressWarnings("index") // If cycled, there must be at least one tick in the results list already
-                        /*@NonNegative*/ int lastTickIndex = result.size() - 1;
-                        result.remove(lastTickIndex);
+                        result.remove(result.size() - 1);
                         result.add(new CycleBoundTick(
                             this.boundMappedToLastCycle, lastTick.getNumber(),
                             lastTick.getText(), anchor, anchor,
@@ -656,9 +643,7 @@ public class CyclicNumberAxis extends NumberAxis {
                             && (currentTickValue != cycleBound)) {
                         anchor = isInverted()
                             ? TextAnchor.BOTTOM_RIGHT : TextAnchor.BOTTOM_LEFT;
-                        @SuppressWarnings("index") // If cycled, there must be at least one tick in the results list already
-                        /*@NonNegative*/ int lastTickIndex = result.size() - 1;
-                        result.remove(lastTickIndex);
+                        result.remove(result.size() - 1);
                         result.add(new CycleBoundTick(
                             this.boundMappedToLastCycle, lastTick.getNumber(),
                             lastTick.getText(), anchor, anchor,
@@ -679,9 +664,7 @@ public class CyclicNumberAxis extends NumberAxis {
                             && (currentTickValue != cycleBound)) {
                         anchor = isInverted()
                             ? TextAnchor.BOTTOM_RIGHT : TextAnchor.TOP_RIGHT;
-                        @SuppressWarnings("index") // If cycled, there must be at least one tick in the results list already
-                        /*@NonNegative*/ int lastTickIndex = result.size() - 1;
-                        result.remove(lastTickIndex);
+                        result.remove(result.size() - 1);
                         result.add(new CycleBoundTick(
                             this.boundMappedToLastCycle, lastTick.getNumber(),
                             lastTick.getText(), anchor, anchor,
@@ -699,9 +682,7 @@ public class CyclicNumberAxis extends NumberAxis {
                             && (currentTickValue != cycleBound)) {
                         anchor = isInverted()
                             ? TextAnchor.BOTTOM_LEFT : TextAnchor.TOP_LEFT;
-                        @SuppressWarnings("index") // If cycled, there must be at least one tick in the results list already
-                        /*@NonNegative*/ int lastTickIndex = result.size() - 1;
-                        result.remove(lastTickIndex);
+                        result.remove(result.size() - 1);
                         result.add(new CycleBoundTick(
                             this.boundMappedToLastCycle, lastTick.getNumber(),
                             lastTick.getText(), anchor, anchor,

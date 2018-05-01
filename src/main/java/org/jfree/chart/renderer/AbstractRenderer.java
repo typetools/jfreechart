@@ -99,10 +99,6 @@
 
 package org.jfree.chart.renderer;
 
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -388,7 +384,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     private boolean dataBoundsIncludesVisibleSeriesOnly = true;
 
     /** The default radius for the entity 'hotspot' */
-    private /*@NonNegative*/ int defaultEntityRadius;
+    private int defaultEntityRadius;
 
     /** Storage for registered change listeners. */
     private transient EventListenerList listenerList;
@@ -516,13 +512,13 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return A boolean.
      */
-    public boolean getItemVisible(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public boolean getItemVisible(int series, int item) {
         return isSeriesVisible(series);
     }
 
     /**
      * Returns a boolean that indicates whether or not the specified series
-     * should be drawn.  In fact this method should be named
+     * should be drawn.  In fact this method should be named 
      * lookupSeriesVisible() to be consistent with the other series
      * attributes and avoid confusion with the getSeriesVisible() method.
      *
@@ -530,7 +526,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return A boolean.
      */
-    public boolean isSeriesVisible(/*@NonNegative*/ int series) {
+    public boolean isSeriesVisible(int series) {
         boolean result = this.defaultSeriesVisible;
         Boolean b = this.seriesVisibleList.getBoolean(series);
         if (b != null) {
@@ -548,7 +544,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #setSeriesVisible(int, Boolean)
      */
-    public Boolean getSeriesVisible(/*@NonNegative*/ int series) {
+    public Boolean getSeriesVisible(int series) {
         return this.seriesVisibleList.getBoolean(series);
     }
 
@@ -561,7 +557,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesVisible(int)
      */
-    public void setSeriesVisible(/*@NonNegative*/ int series, Boolean visible) {
+    public void setSeriesVisible(int series, Boolean visible) {
         setSeriesVisible(series, visible, true);
     }
 
@@ -576,7 +572,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesVisible(int)
      */
-    public void setSeriesVisible(/*@NonNegative*/ int series, Boolean visible, boolean notify) {
+    public void setSeriesVisible(int series, Boolean visible, boolean notify) {
         this.seriesVisibleList.setBoolean(series, visible);
         if (notify) {
             // we create an event with a special flag set...the purpose of
@@ -600,7 +596,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     }
 
     /**
-     * Sets the default series visibility and sends a
+     * Sets the default series visibility and sends a 
      * {@link RendererChangeEvent} to all registered listeners.
      *
      * @param visible  the flag.
@@ -643,7 +639,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return A boolean.
      */
-    public boolean isSeriesVisibleInLegend(/*@NonNegative*/ int series) {
+    public boolean isSeriesVisibleInLegend(int series) {
         boolean result = this.defaultSeriesVisibleInLegend;
         Boolean b = this.seriesVisibleInLegendList.getBoolean(series);
         if (b != null) {
@@ -664,7 +660,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #setSeriesVisibleInLegend(int, Boolean)
      */
-    public Boolean getSeriesVisibleInLegend(/*@NonNegative*/ int series) {
+    public Boolean getSeriesVisibleInLegend(int series) {
         return this.seriesVisibleInLegendList.getBoolean(series);
     }
 
@@ -677,7 +673,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesVisibleInLegend(int)
      */
-    public void setSeriesVisibleInLegend(/*@NonNegative*/ int series, Boolean visible) {
+    public void setSeriesVisibleInLegend(int series, Boolean visible) {
         setSeriesVisibleInLegend(series, visible, true);
     }
 
@@ -692,7 +688,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesVisibleInLegend(int)
      */
-    public void setSeriesVisibleInLegend(/*@NonNegative*/ int series, Boolean visible,
+    public void setSeriesVisibleInLegend(int series, Boolean visible,
                                          boolean notify) {
         this.seriesVisibleInLegendList.setBoolean(series, visible);
         if (notify) {
@@ -733,7 +729,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getDefaultSeriesVisibleInLegend()
      */
-    public void setDefaultSeriesVisibleInLegend(boolean visible,
+    public void setDefaultSeriesVisibleInLegend(boolean visible, 
             boolean notify) {
         this.defaultSeriesVisibleInLegend = visible;
         if (notify) {
@@ -756,7 +752,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getItemPaint(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public Paint getItemPaint(int row, int column) {
         return lookupSeriesPaint(row);
     }
 
@@ -769,7 +765,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.6
      */
-    public Paint lookupSeriesPaint(/*@NonNegative*/ int series) {
+    public Paint lookupSeriesPaint(int series) {
 
         Paint seriesPaint = getSeriesPaint(series);
         if (seriesPaint == null && this.autoPopulateSeriesPaint) {
@@ -795,7 +791,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #setSeriesPaint(int, Paint)
      */
-    public Paint getSeriesPaint(/*@NonNegative*/ int series) {
+    public Paint getSeriesPaint(int series) {
         return this.paintList.getPaint(series);
     }
 
@@ -808,7 +804,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesPaint(int)
      */
-    public void setSeriesPaint(/*@NonNegative*/ int series, Paint paint) {
+    public void setSeriesPaint(int series, Paint paint) {
         setSeriesPaint(series, paint, true);
     }
 
@@ -822,7 +818,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesPaint(int)
      */
-    public void setSeriesPaint(/*@NonNegative*/ int series, Paint paint, boolean notify) {
+    public void setSeriesPaint(int series, Paint paint, boolean notify) {
         this.paintList.setPaint(series, paint);
         if (notify) {
             fireChangeEvent();
@@ -925,7 +921,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getItemFillPaint(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public Paint getItemFillPaint(int row, int column) {
         return lookupSeriesFillPaint(row);
     }
 
@@ -938,7 +934,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.6
      */
-    public Paint lookupSeriesFillPaint(/*@NonNegative*/ int series) {
+    public Paint lookupSeriesFillPaint(int series) {
 
         Paint seriesFillPaint = getSeriesFillPaint(series);
         if (seriesFillPaint == null && this.autoPopulateSeriesFillPaint) {
@@ -964,7 +960,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #setSeriesFillPaint(int, Paint)
      */
-    public Paint getSeriesFillPaint(/*@NonNegative*/ int series) {
+    public Paint getSeriesFillPaint(int series) {
         return this.fillPaintList.getPaint(series);
     }
 
@@ -977,7 +973,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesFillPaint(int)
      */
-    public void setSeriesFillPaint(/*@NonNegative*/ int series, Paint paint) {
+    public void setSeriesFillPaint(int series, Paint paint) {
         setSeriesFillPaint(series, paint, true);
     }
 
@@ -991,7 +987,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesFillPaint(int)
      */
-    public void setSeriesFillPaint(/*@NonNegative*/ int series, Paint paint, boolean notify) {
+    public void setSeriesFillPaint(int series, Paint paint, boolean notify) {
         this.fillPaintList.setPaint(series, paint);
         if (notify) {
             fireChangeEvent();
@@ -1084,7 +1080,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getItemOutlinePaint(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public Paint getItemOutlinePaint(int row, int column) {
         return lookupSeriesOutlinePaint(row);
     }
 
@@ -1097,7 +1093,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.6
      */
-    public Paint lookupSeriesOutlinePaint(/*@NonNegative*/ int series) {
+    public Paint lookupSeriesOutlinePaint(int series) {
 
         Paint seriesOutlinePaint = getSeriesOutlinePaint(series);
         if (seriesOutlinePaint == null && this.autoPopulateSeriesOutlinePaint) {
@@ -1123,7 +1119,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #setSeriesOutlinePaint(int, Paint)
      */
-    public Paint getSeriesOutlinePaint(/*@NonNegative*/ int series) {
+    public Paint getSeriesOutlinePaint(int series) {
         return this.outlinePaintList.getPaint(series);
     }
 
@@ -1136,7 +1132,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesOutlinePaint(int)
      */
-    public void setSeriesOutlinePaint(/*@NonNegative*/ int series, Paint paint) {
+    public void setSeriesOutlinePaint(int series, Paint paint) {
         setSeriesOutlinePaint(series, paint, true);
     }
 
@@ -1150,7 +1146,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesOutlinePaint(int)
      */
-    public void setSeriesOutlinePaint(/*@NonNegative*/ int series, Paint paint, boolean notify) {
+    public void setSeriesOutlinePaint(int series, Paint paint, boolean notify) {
         this.outlinePaintList.setPaint(series, paint);
         if (notify) {
             fireChangeEvent();
@@ -1241,7 +1237,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The stroke (never {@code null}).
      */
-    public Stroke getItemStroke(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public Stroke getItemStroke(int row, int column) {
         return lookupSeriesStroke(row);
     }
 
@@ -1254,7 +1250,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.6
      */
-    public Stroke lookupSeriesStroke(/*@NonNegative*/ int series) {
+    public Stroke lookupSeriesStroke(int series) {
 
         Stroke result = getSeriesStroke(series);
         if (result == null && this.autoPopulateSeriesStroke) {
@@ -1280,7 +1276,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #setSeriesStroke(int, Stroke)
      */
-    public Stroke getSeriesStroke(/*@NonNegative*/ int series) {
+    public Stroke getSeriesStroke(int series) {
         return this.strokeList.getStroke(series);
     }
 
@@ -1293,7 +1289,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesStroke(int)
      */
-    public void setSeriesStroke(/*@NonNegative*/ int series, Stroke stroke) {
+    public void setSeriesStroke(int series, Stroke stroke) {
         setSeriesStroke(series, stroke, true);
     }
 
@@ -1307,7 +1303,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesStroke(int)
      */
-    public void setSeriesStroke(/*@NonNegative*/ int series, Stroke stroke, boolean notify) {
+    public void setSeriesStroke(int series, Stroke stroke, boolean notify) {
         this.strokeList.setStroke(series, stroke);
         if (notify) {
             fireChangeEvent();
@@ -1411,7 +1407,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The stroke (never {@code null}).
      */
-    public Stroke getItemOutlineStroke(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public Stroke getItemOutlineStroke(int row, int column) {
         return lookupSeriesOutlineStroke(row);
     }
 
@@ -1424,7 +1420,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.6
      */
-    public Stroke lookupSeriesOutlineStroke(/*@NonNegative*/ int series) {
+    public Stroke lookupSeriesOutlineStroke(int series) {
 
         Stroke result = getSeriesOutlineStroke(series);
         if (result == null && this.autoPopulateSeriesOutlineStroke) {
@@ -1450,7 +1446,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #setSeriesOutlineStroke(int, Stroke)
      */
-    public Stroke getSeriesOutlineStroke(/*@NonNegative*/ int series) {
+    public Stroke getSeriesOutlineStroke(int series) {
         return this.outlineStrokeList.getStroke(series);
     }
 
@@ -1463,7 +1459,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesOutlineStroke(int)
      */
-    public void setSeriesOutlineStroke(/*@NonNegative*/ int series, Stroke stroke) {
+    public void setSeriesOutlineStroke(int series, Stroke stroke) {
         setSeriesOutlineStroke(series, stroke, true);
     }
 
@@ -1477,7 +1473,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesOutlineStroke(int)
      */
-    public void setSeriesOutlineStroke(/*@NonNegative*/ int series, Stroke stroke,
+    public void setSeriesOutlineStroke(int series, Stroke stroke,
                                        boolean notify) {
         this.outlineStrokeList.setStroke(series, stroke);
         if (notify) {
@@ -1497,7 +1493,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     }
 
     /**
-     * Sets the default outline stroke and sends a {@link RendererChangeEvent}
+     * Sets the default outline stroke and sends a {@link RendererChangeEvent} 
      * to all registered listeners.
      *
      * @param stroke  the stroke ({@code null} not permitted).
@@ -1561,8 +1557,8 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     /**
      * Returns a shape used to represent a data item.
      * <p>
-     * The default implementation passes control to the
-     * {@link #lookupSeriesShape(int)} method. You can override this method if
+     * The default implementation passes control to the 
+     * {@link #lookupSeriesShape(int)} method. You can override this method if 
      * you require different behaviour.
      *
      * @param row  the row (or series) index (zero-based).
@@ -1570,7 +1566,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The shape (never {@code null}).
      */
-    public Shape getItemShape(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public Shape getItemShape(int row, int column) {
         return lookupSeriesShape(row);
     }
 
@@ -1583,7 +1579,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.6
      */
-    public Shape lookupSeriesShape(/*@NonNegative*/ int series) {
+    public Shape lookupSeriesShape(int series) {
 
         Shape result = getSeriesShape(series);
         if (result == null && this.autoPopulateSeriesShape) {
@@ -1609,7 +1605,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #setSeriesShape(int, Shape)
      */
-    public Shape getSeriesShape(/*@NonNegative*/ int series) {
+    public Shape getSeriesShape(int series) {
         return this.shapeList.getShape(series);
     }
 
@@ -1622,7 +1618,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesShape(int)
      */
-    public void setSeriesShape(/*@NonNegative*/ int series, Shape shape) {
+    public void setSeriesShape(int series, Shape shape) {
         setSeriesShape(series, shape, true);
     }
 
@@ -1636,7 +1632,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesShape(int)
      */
-    public void setSeriesShape(/*@NonNegative*/ int series, Shape shape, boolean notify) {
+    public void setSeriesShape(int series, Shape shape, boolean notify) {
         this.shapeList.setShape(series, shape);
         if (notify) {
             fireChangeEvent();
@@ -1723,7 +1719,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return A boolean.
      */
-    public boolean isItemLabelVisible(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public boolean isItemLabelVisible(int row, int column) {
         return isSeriesItemLabelsVisible(row);
     }
 
@@ -1735,7 +1731,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return A boolean.
      */
-    public boolean isSeriesItemLabelsVisible(/*@NonNegative*/ int series) {
+    public boolean isSeriesItemLabelsVisible(int series) {
         Boolean b = this.itemLabelsVisibleList.getBoolean(series);
         if (b == null) {
             return this.defaultItemLabelsVisible;
@@ -1750,7 +1746,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @param series  the series index (zero-based).
      * @param visible  the flag.
      */
-    public void setSeriesItemLabelsVisible(/*@NonNegative*/ int series, boolean visible) {
+    public void setSeriesItemLabelsVisible(int series, boolean visible) {
         setSeriesItemLabelsVisible(series, Boolean.valueOf(visible));
     }
 
@@ -1761,7 +1757,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @param series  the series index (zero-based).
      * @param visible  the flag ({@code null} permitted).
      */
-    public void setSeriesItemLabelsVisible(/*@NonNegative*/ int series, Boolean visible) {
+    public void setSeriesItemLabelsVisible(int series, Boolean visible) {
         setSeriesItemLabelsVisible(series, visible, true);
     }
 
@@ -1774,7 +1770,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @param notify  a flag that controls whether or not listeners are
      *                notified.
      */
-    public void setSeriesItemLabelsVisible(/*@NonNegative*/ int series, Boolean visible,
+    public void setSeriesItemLabelsVisible(int series, Boolean visible,
                                            boolean notify) {
         this.itemLabelsVisibleList.setBoolean(series, visible);
         if (notify) {
@@ -1815,7 +1811,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @param notify  a flag that controls whether or not listeners are
      *                notified.
      *
-     * @see #getDefaultItemLabelsVisible()
+     * @see #getDefaultItemLabelsVisible() 
      */
     public void setDefaultItemLabelsVisible(boolean visible, boolean notify) {
         this.defaultItemLabelsVisible = visible;
@@ -1834,7 +1830,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The font (never {@code null}).
      */
-    public Font getItemLabelFont(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public Font getItemLabelFont(int row, int column) {
         Font result = getSeriesItemLabelFont(row);
         if (result == null) {
             result = this.defaultItemLabelFont;
@@ -1851,7 +1847,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #setSeriesItemLabelFont(int, Font)
      */
-    public Font getSeriesItemLabelFont(/*@NonNegative*/ int series) {
+    public Font getSeriesItemLabelFont(int series) {
         return this.itemLabelFontMap.get(series);
     }
 
@@ -1864,7 +1860,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesItemLabelFont(int)
      */
-    public void setSeriesItemLabelFont(/*@NonNegative*/ int series, Font font) {
+    public void setSeriesItemLabelFont(int series, Font font) {
         setSeriesItemLabelFont(series, font, true);
     }
 
@@ -1879,7 +1875,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesItemLabelFont(int)
      */
-    public void setSeriesItemLabelFont(/*@NonNegative*/ int series, Font font, boolean notify) {
+    public void setSeriesItemLabelFont(int series, Font font, boolean notify) {
         this.itemLabelFontMap.put(series, font);
         if (notify) {
             fireChangeEvent();
@@ -1899,7 +1895,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     }
 
     /**
-     * Sets the default item label font and sends a {@link RendererChangeEvent}
+     * Sets the default item label font and sends a {@link RendererChangeEvent} 
      * to all registered listeners.
      *
      * @param font  the font ({@code null} not permitted).
@@ -1938,7 +1934,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getItemLabelPaint(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public Paint getItemLabelPaint(int row, int column) {
         Paint result = getSeriesItemLabelPaint(row);
         if (result == null) {
             result = this.defaultItemLabelPaint;
@@ -1955,7 +1951,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #setSeriesItemLabelPaint(int, Paint)
      */
-    public Paint getSeriesItemLabelPaint(/*@NonNegative*/ int series) {
+    public Paint getSeriesItemLabelPaint(int series) {
         return this.itemLabelPaintList.getPaint(series);
     }
 
@@ -1968,7 +1964,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesItemLabelPaint(int)
      */
-    public void setSeriesItemLabelPaint(/*@NonNegative*/ int series, Paint paint) {
+    public void setSeriesItemLabelPaint(int series, Paint paint) {
         setSeriesItemLabelPaint(series, paint, true);
     }
 
@@ -1983,7 +1979,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesItemLabelPaint(int)
      */
-    public void setSeriesItemLabelPaint(/*@NonNegative*/ int series, Paint paint,
+    public void setSeriesItemLabelPaint(int series, Paint paint,
                                         boolean notify) {
         this.itemLabelPaintList.setPaint(series, paint);
         if (notify) {
@@ -2045,7 +2041,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getNegativeItemLabelPosition(int, int)
      */
-    public ItemLabelPosition getPositiveItemLabelPosition(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public ItemLabelPosition getPositiveItemLabelPosition(int row, int column) {
         return getSeriesPositiveItemLabelPosition(row);
     }
 
@@ -2058,7 +2054,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #setSeriesPositiveItemLabelPosition(int, ItemLabelPosition)
      */
-    public ItemLabelPosition getSeriesPositiveItemLabelPosition(/*@NonNegative*/ int series) {
+    public ItemLabelPosition getSeriesPositiveItemLabelPosition(int series) {
         // otherwise look up the position table
         ItemLabelPosition position = (ItemLabelPosition)
             this.positiveItemLabelPositionMap.get(series);
@@ -2077,7 +2073,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesPositiveItemLabelPosition(int)
      */
-    public void setSeriesPositiveItemLabelPosition(/*@NonNegative*/ int series,
+    public void setSeriesPositiveItemLabelPosition(int series,
                                                    ItemLabelPosition position) {
         setSeriesPositiveItemLabelPosition(series, position, true);
     }
@@ -2093,7 +2089,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesPositiveItemLabelPosition(int)
      */
-    public void setSeriesPositiveItemLabelPosition(/*@NonNegative*/ int series,
+    public void setSeriesPositiveItemLabelPosition(int series,
             ItemLabelPosition position, boolean notify) {
         this.positiveItemLabelPositionMap.put(series, position);
         if (notify) {
@@ -2157,7 +2153,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getPositiveItemLabelPosition(int, int)
      */
-    public ItemLabelPosition getNegativeItemLabelPosition(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public ItemLabelPosition getNegativeItemLabelPosition(int row, int column) {
         return getSeriesNegativeItemLabelPosition(row);
     }
 
@@ -2170,9 +2166,9 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #setSeriesNegativeItemLabelPosition(int, ItemLabelPosition)
      */
-    public ItemLabelPosition getSeriesNegativeItemLabelPosition(/*@NonNegative*/ int series) {
+    public ItemLabelPosition getSeriesNegativeItemLabelPosition(int series) {
         // otherwise look up the position list
-        ItemLabelPosition position
+        ItemLabelPosition position 
                 = this.negativeItemLabelPositionMap.get(series);
         if (position == null) {
             position = this.defaultNegativeItemLabelPosition;
@@ -2189,7 +2185,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesNegativeItemLabelPosition(int)
      */
-    public void setSeriesNegativeItemLabelPosition(/*@NonNegative*/ int series,
+    public void setSeriesNegativeItemLabelPosition(int series,
                                                    ItemLabelPosition position) {
         setSeriesNegativeItemLabelPosition(series, position, true);
     }
@@ -2205,7 +2201,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesNegativeItemLabelPosition(int)
      */
-    public void setSeriesNegativeItemLabelPosition(/*@NonNegative*/ int series,
+    public void setSeriesNegativeItemLabelPosition(int series,
             ItemLabelPosition position, boolean notify) {
         this.negativeItemLabelPositionMap.put(series, position);
         if (notify) {
@@ -2287,7 +2283,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @return A boolean.
      */
-    public boolean getItemCreateEntity(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public boolean getItemCreateEntity(int series, int item) {
         Boolean b = getSeriesCreateEntities(series);
         if (b != null) {
             return b;
@@ -2306,7 +2302,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #setSeriesCreateEntities(int, Boolean)
      */
-    public Boolean getSeriesCreateEntities(/*@NonNegative*/ int series) {
+    public Boolean getSeriesCreateEntities(int series) {
         return this.createEntitiesList.getBoolean(series);
     }
 
@@ -2319,7 +2315,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesCreateEntities(int)
      */
-    public void setSeriesCreateEntities(/*@NonNegative*/ int series, Boolean create) {
+    public void setSeriesCreateEntities(int series, Boolean create) {
         setSeriesCreateEntities(series, create, true);
     }
 
@@ -2334,7 +2330,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getSeriesCreateEntities(int)
      */
-    public void setSeriesCreateEntities(/*@NonNegative*/ int series, Boolean create,
+    public void setSeriesCreateEntities(int series, Boolean create,
                                         boolean notify) {
         this.createEntitiesList.setBoolean(series, create);
         if (notify) {
@@ -2392,7 +2388,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #setDefaultEntityRadius(int)
      */
-    public /*@NonNegative*/ int getDefaultEntityRadius() {
+    public int getDefaultEntityRadius() {
         return this.defaultEntityRadius;
     }
 
@@ -2404,7 +2400,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @see #getDefaultEntityRadius()
      */
-    public void setDefaultEntityRadius(/*@NonNegative*/ int radius) {
+    public void setDefaultEntityRadius(int radius) {
         this.defaultEntityRadius = radius;
     }
 
@@ -2417,7 +2413,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    public Shape lookupLegendShape(/*@NonNegative*/ int series) {
+    public Shape lookupLegendShape(int series) {
         Shape result = getLegendShape(series);
         if (result == null) {
             result = this.defaultLegendShape;
@@ -2440,7 +2436,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    public Shape getLegendShape(/*@NonNegative*/ int series) {
+    public Shape getLegendShape(int series) {
         return this.legendShapeList.getShape(series);
     }
 
@@ -2453,7 +2449,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    public void setLegendShape(/*@NonNegative*/ int series, Shape shape) {
+    public void setLegendShape(int series, Shape shape) {
         this.legendShapeList.setShape(series, shape);
         fireChangeEvent();
     }
@@ -2485,9 +2481,9 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     /**
      * Returns the flag that controls whether or not the legend shape is
      * treated as a line when creating legend items.
-     *
+     * 
      * @return A boolean.
-     *
+     * 
      * @since 1.0.14
      */
     protected boolean getTreatLegendShapeAsLine() {
@@ -2518,7 +2514,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    public Font lookupLegendTextFont(/*@NonNegative*/ int series) {
+    public Font lookupLegendTextFont(int series) {
         Font result = getLegendTextFont(series);
         if (result == null) {
             result = this.defaultLegendTextFont;
@@ -2538,7 +2534,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    public Font getLegendTextFont(/*@NonNegative*/ int series) {
+    public Font getLegendTextFont(int series) {
         return this.legendTextFontMap.get(series);
     }
 
@@ -2551,7 +2547,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    public void setLegendTextFont(/*@NonNegative*/ int series, Font font) {
+    public void setLegendTextFont(int series, Font font) {
         this.legendTextFontMap.put(series, font);
         fireChangeEvent();
     }
@@ -2590,7 +2586,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    public Paint lookupLegendTextPaint(/*@NonNegative*/ int series) {
+    public Paint lookupLegendTextPaint(int series) {
         Paint result = getLegendTextPaint(series);
         if (result == null) {
             result = this.defaultLegendTextPaint;
@@ -2610,7 +2606,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    public Paint getLegendTextPaint(/*@NonNegative*/ int series) {
+    public Paint getLegendTextPaint(int series) {
         return this.legendTextPaint.getPaint(series);
     }
 
@@ -2623,7 +2619,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      *
      * @since 1.0.11
      */
-    public void setLegendTextPaint(/*@NonNegative*/ int series, Paint paint) {
+    public void setLegendTextPaint(int series, Paint paint) {
         this.legendTextPaint.setPaint(series, paint);
         fireChangeEvent();
     }

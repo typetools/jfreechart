@@ -41,7 +41,6 @@
  */
 
 package org.jfree.chart.labels;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -108,7 +107,7 @@ public class StandardCategoryToolTipGenerator
      */
     @Override
     public String generateToolTip(CategoryDataset dataset,
-                                  /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+                                  int row, int column) {
         return generateLabelString(dataset, row, column);
     }
 

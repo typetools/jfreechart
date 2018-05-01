@@ -40,10 +40,6 @@
 
 package org.jfree.chart.urls;
 
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
-
 import org.jfree.data.xy.XYZDataset;
 
 /**
@@ -62,7 +58,7 @@ public class StandardXYZURLGenerator extends StandardXYURLGenerator
      * @return A string containing the generated URL.
      */
     @Override
-    public String generateURL(XYZDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public String generateURL(XYZDataset dataset, int series, int item) {
         return super.generateURL(dataset, series, item);
     }
 

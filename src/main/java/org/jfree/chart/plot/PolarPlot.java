@@ -61,11 +61,6 @@
  */
 
 package org.jfree.chart.plot;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -359,7 +354,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public ValueAxis getAxis(/*@NonNegative*/ int index) {
+    public ValueAxis getAxis(int index) {
         ValueAxis result = null;
         if (index < this.axes.size()) {
             result = (ValueAxis) this.axes.get(index);
@@ -388,7 +383,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void setAxis(/*@NonNegative*/ int index, ValueAxis axis) {
+    public void setAxis(int index, ValueAxis axis) {
         setAxis(index, axis, true);
     }
 
@@ -404,7 +399,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void setAxis(/*@NonNegative*/ int index, ValueAxis axis, boolean notify) {
+    public void setAxis(int index, ValueAxis axis, boolean notify) {
         ValueAxis existing = getAxis(index);
         if (existing != null) {
             existing.removeChangeListener(this);
@@ -446,7 +441,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public PolarAxisLocation getAxisLocation(/*@NonNegative*/ int index) {
+    public PolarAxisLocation getAxisLocation(int index) {
         PolarAxisLocation result = null;
         if (index < this.axisLocations.size()) {
             result = (PolarAxisLocation) this.axisLocations.get(index);
@@ -496,7 +491,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void setAxisLocation(/*@NonNegative*/ int index, PolarAxisLocation location) {
+    public void setAxisLocation(int index, PolarAxisLocation location) {
         // delegate...
         setAxisLocation(index, location, true);
     }
@@ -511,7 +506,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void setAxisLocation(/*@NonNegative*/ int index, PolarAxisLocation location,
+    public void setAxisLocation(int index, PolarAxisLocation location,
             boolean notify) {
         Args.nullNotPermitted(location, "location");
         this.axisLocations.set(index, location);
@@ -553,7 +548,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public XYDataset getDataset(/*@NonNegative*/ int index) {
+    public XYDataset getDataset(int index) {
         XYDataset result = null;
         if (index < this.datasets.size()) {
             result = (XYDataset) this.datasets.get(index);
@@ -586,7 +581,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void setDataset(/*@NonNegative*/ int index, XYDataset dataset) {
+    public void setDataset(int index, XYDataset dataset) {
         XYDataset existing = getDataset(index);
         if (existing != null) {
             existing.removeChangeListener(this);
@@ -622,7 +617,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public /*@GTENegativeOne*/ int indexOf(XYDataset dataset) {
+    public int indexOf(XYDataset dataset) {
         int result = -1;
         for (int i = 0; i < this.datasets.size(); i++) {
             if (dataset == this.datasets.get(i)) {
@@ -655,7 +650,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public PolarItemRenderer getRenderer(/*@NonNegative*/ int index) {
+    public PolarItemRenderer getRenderer(int index) {
         PolarItemRenderer result = null;
         if (index < this.renderers.size()) {
             result = (PolarItemRenderer) this.renderers.get(index);
@@ -687,7 +682,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void setRenderer(/*@NonNegative*/ int index, PolarItemRenderer renderer) {
+    public void setRenderer(int index, PolarItemRenderer renderer) {
         setRenderer(index, renderer, true);
     }
 
@@ -703,7 +698,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void setRenderer(/*@NonNegative*/ int index, PolarItemRenderer renderer,
+    public void setRenderer(int index, PolarItemRenderer renderer,
                             boolean notify) {
         PolarItemRenderer existing = getRenderer(index);
         if (existing != null) {
@@ -1235,7 +1230,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void mapDatasetToAxis(/*@NonNegative*/ int index, int axisIndex) {
+    public void mapDatasetToAxis(int index, int axisIndex) {
         List axisIndices = new java.util.ArrayList(1);
         axisIndices.add(new Integer(axisIndex));
         mapDatasetToAxes(index, axisIndices);
@@ -1251,7 +1246,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void mapDatasetToAxes(/*@NonNegative*/ int index, List axisIndices) {
+    public void mapDatasetToAxes(int index, List axisIndices) {
         if (index < 0) {
             throw new IllegalArgumentException("Requires 'index' >= 0.");
         }
@@ -1302,15 +1297,14 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public ValueAxis getAxisForDataset(/*@NonNegative*/ int index) {
+    public ValueAxis getAxisForDataset(int index) {
         ValueAxis valueAxis;
         List axisIndices = (List) this.datasetToAxesMap.get(
                 new Integer(index));
         if (axisIndices != null) {
             // the first axis in the list is used for data <--> Java2D
-            @SuppressWarnings("index") // guaranteed index: axesIndices[0] is always NN
-            /*@NonNegative*/ int axisIndex = ((Integer) axisIndices.get(0)).intValue();
-            valueAxis = getAxis(axisIndex);
+            Integer axisIndex = (Integer) axisIndices.get(0);
+            valueAxis = getAxis(axisIndex.intValue());
         }
         else {
             valueAxis = getAxis(0);

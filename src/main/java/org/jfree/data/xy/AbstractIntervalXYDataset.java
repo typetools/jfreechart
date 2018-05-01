@@ -42,11 +42,7 @@
  */
 
 package org.jfree.data.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
 
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 /**
  * An base class that you can use to create new implementations of the
@@ -65,7 +61,7 @@ public abstract class AbstractIntervalXYDataset extends AbstractXYDataset
      * @return The value.
      */
     @Override
-    public double getStartXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public double getStartXValue(int series, int item) {
         double result = Double.NaN;
         Number x = getStartX(series, item);
         if (x != null) {
@@ -84,7 +80,7 @@ public abstract class AbstractIntervalXYDataset extends AbstractXYDataset
      * @return The value.
      */
     @Override
-    public double getEndXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public double getEndXValue(int series, int item) {
         double result = Double.NaN;
         Number x = getEndX(series, item);
         if (x != null) {
@@ -103,7 +99,7 @@ public abstract class AbstractIntervalXYDataset extends AbstractXYDataset
      * @return The value.
      */
     @Override
-    public double getStartYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public double getStartYValue(int series, int item) {
         double result = Double.NaN;
         Number y = getStartY(series, item);
         if (y != null) {
@@ -122,7 +118,7 @@ public abstract class AbstractIntervalXYDataset extends AbstractXYDataset
      * @return The value.
      */
     @Override
-    public double getEndYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public double getEndYValue(int series, int item) {
         double result = Double.NaN;
         Number y = getEndY(series, item);
         if (y != null) {
@@ -130,4 +126,5 @@ public abstract class AbstractIntervalXYDataset extends AbstractXYDataset
         }
         return result;
     }
+
 }

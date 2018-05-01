@@ -105,11 +105,6 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -718,7 +713,6 @@ public class XYBarRenderer extends AbstractXYItemRenderer
             XYPlot plot, XYDataset dataset, PlotRenderingInfo info) {
 
         XYBarRendererState state = new XYBarRendererState(info);
-        @SuppressWarnings("index") // dataset is assumed to be associated with plot, but isn't checked. A bug?
         ValueAxis rangeAxis = plot.getRangeAxisForDataset(plot.indexOf(
                 dataset));
         state.setG2Base(rangeAxis.valueToJava2D(this.base, dataArea,
@@ -737,7 +731,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
      * @return A legend item for the series.
      */
     @Override
-    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(int datasetIndex, int series) {
         XYPlot xyplot = getPlot();
         if (xyplot == null) {
             return null;
@@ -809,24 +803,21 @@ public class XYBarRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            int series, int item, CrosshairState crosshairState, int pass) {
 
         if (!getItemVisible(series, item)) {
             return;
         }
         IntervalXYDataset intervalDataset = (IntervalXYDataset) dataset;
 
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-        /*@IndexFor("intervalDataset.getSeries(series)")*/ int intervalItem = item;
-
         double value0;
         double value1;
         if (this.useYInterval) {
-            value0 = intervalDataset.getStartYValue(series, intervalItem);
-            value1 = intervalDataset.getEndYValue(series, intervalItem);
+            value0 = intervalDataset.getStartYValue(series, item);
+            value1 = intervalDataset.getEndYValue(series, item);
         } else {
             value0 = this.base;
-            value1 = intervalDataset.getYValue(series, intervalItem);
+            value1 = intervalDataset.getYValue(series, item);
         }
         if (Double.isNaN(value0) || Double.isNaN(value1)) {
             return;
@@ -848,11 +839,11 @@ public class XYBarRenderer extends AbstractXYItemRenderer
         double bottom = Math.min(translatedValue0, translatedValue1);
         double top = Math.max(translatedValue0, translatedValue1);
 
-        double startX = intervalDataset.getStartXValue(series, intervalItem);
+        double startX = intervalDataset.getStartXValue(series, item);
         if (Double.isNaN(startX)) {
             return;
         }
-        double endX = intervalDataset.getEndXValue(series, intervalItem);
+        double endX = intervalDataset.getEndXValue(series, item);
         if (Double.isNaN(endX)) {
             return;
         }
@@ -868,7 +859,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
 
         // is there an alignment adjustment to be made?
         if (this.barAlignmentFactor >= 0.0 && this.barAlignmentFactor <= 1.0) {
-            double x = intervalDataset.getXValue(series, intervalItem);
+            double x = intervalDataset.getXValue(series, item);
             double interval = endX - startX;
             startX = x - interval * this.barAlignmentFactor;
             endX = startX + interval;
@@ -948,8 +939,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
         double transX1 = domainAxis.valueToJava2D(x1, dataArea, location);
         double transY1 = rangeAxis.valueToJava2D(y1, dataArea,
                 plot.getRangeAxisEdge());
-        @SuppressWarnings("index") // plot and dataset must be associated with each other. This is assumed but not checked. A bug?
-        /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
+        int datasetIndex = plot.indexOf(dataset);
         updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
                 transX1, transY1, plot.getOrientation());
 
@@ -977,7 +967,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
      * @param negative  a flag indicating a negative value.
      */
     protected void drawItemLabel(Graphics2D g2, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#2.getSeries(#3)")*/ int item, XYPlot plot, XYItemLabelGenerator generator,
+            int series, int item, XYPlot plot, XYItemLabelGenerator generator,
             Rectangle2D bar, boolean negative) {
 
         if (generator == null) {

@@ -79,8 +79,6 @@
  */
 
 package org.jfree.data.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -113,7 +111,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
     protected List data;
 
     /** The maximum number of items for the series. */
-    private /*@NonNegative*/ int maximumItemCount = Integer.MAX_VALUE;
+    private int maximumItemCount = Integer.MAX_VALUE;
 
     /**
      * A flag that controls whether the items are automatically sorted
@@ -267,7 +265,6 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @since 1.0.13
      */
-    @SuppressWarnings("index") // documentation bug: this method cannot be called unless there is at least one more item beyond the parameter in this dataset: I believe this is a bug
     private void updateBoundsForRemovedItem(XYDataItem item) {
         boolean itemContributesToXBounds = false;
         boolean itemContributesToYBounds = false;
@@ -346,7 +343,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      * @see #getItems()
      */
     @Override
-    public /*@NonNegative*/ int getItemCount() {
+    public int getItemCount() {
         return this.data.size();
     }
 
@@ -368,7 +365,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @see #setMaximumItemCount(int)
      */
-    public /*@NonNegative*/ int getMaximumItemCount() {
+    public int getMaximumItemCount() {
         return this.maximumItemCount;
     }
 
@@ -386,7 +383,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @param maximum  the maximum number of items for the series.
      */
-    public void setMaximumItemCount(/*@NonNegative*/ int maximum) {
+    public void setMaximumItemCount(int maximum) {
         this.maximumItemCount = maximum;
         int remove = this.data.size() - maximum;
         if (remove > 0) {
@@ -512,9 +509,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
         if (this.autoSort) {
             int index = Collections.binarySearch(this.data, item);
             if (index < 0) {
-                @SuppressWarnings("index") // binary search on list
-                /*@NonNegative*/ int newIndex = -index - 1;
-                this.data.add(newIndex, item);
+                this.data.add(-index - 1, item);
             }
             else {
                 if (this.allowDuplicateXValues) {
@@ -564,7 +559,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      * @param start  the start index (zero-based).
      * @param end  the end index (zero-based).
      */
-    public void delete(/*@NonNegative*/ int start, /*@NonNegative*/ int end) {
+    public void delete(int start, int end) {
         this.data.subList(start, end + 1).clear();
         findBoundsByIteration();
         fireSeriesChanged();
@@ -578,7 +573,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @return The item removed.
      */
-    public XYDataItem remove(/*@NonNegative*/ int index) {
+    public XYDataItem remove(int index) {
         XYDataItem removed = (XYDataItem) this.data.remove(index);
         updateBoundsForRemovedItem(removed);
         fireSeriesChanged();
@@ -595,7 +590,6 @@ public class XYSeries extends Series implements Cloneable, Serializable {
 
      * @return The item removed.
      */
-    @SuppressWarnings("index") // this is a bug? The documentation doesn't say it, but a precondition of this method must be that x is in this XYSeries
     public XYDataItem remove(Number x) {
         return remove(indexOf(x));
     }
@@ -622,7 +616,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @return The data item with the specified index.
      */
-    public XYDataItem getDataItem(/*@NonNegative*/ int index) {
+    public XYDataItem getDataItem(int index) {
         XYDataItem item = (XYDataItem) this.data.get(index);
         return (XYDataItem) item.clone();
     }
@@ -636,7 +630,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @since 1.0.14
      */
-    XYDataItem getRawDataItem(/*@NonNegative*/ int index) {
+    XYDataItem getRawDataItem(int index) {
         return (XYDataItem) this.data.get(index);
     }
 
@@ -647,7 +641,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @return The x-value (never {@code null}).
      */
-    public Number getX(/*@NonNegative*/ int index) {
+    public Number getX(int index) {
         return getRawDataItem(index).getX();
     }
 
@@ -658,7 +652,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @return The y-value (possibly {@code null}).
      */
-    public Number getY(/*@NonNegative*/ int index) {
+    public Number getY(int index) {
         return getRawDataItem(index).getY();
     }
 
@@ -709,7 +703,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @since 1.0.1
      */
-    public void updateByIndex(/*@NonNegative*/ int index, Number y) {
+    public void updateByIndex(int index, Number y) {
         XYDataItem item = getRawDataItem(index);
 
         // figure out if we need to iterate through all the y-values
@@ -826,9 +820,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
             // append the value to the list...
             item = (XYDataItem) item.clone();
             if (this.autoSort) {
-                @SuppressWarnings("index") // binary search on list
-                /*@NonNegative*/ int addIndex = -index - 1;
-                this.data.add(addIndex, item);
+                this.data.add(-index - 1, item);
             }
             else {
                 this.data.add(item);
@@ -877,8 +869,6 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @since 1.0.4
      */
-    @SuppressWarnings("index") // every access of the form result[0][i] or result[1][i] in this method issues an error despite
-                               // being safe, since both result[0] and result[1] have length of itemCount.
     public double[][] toArray() {
         int itemCount = getItemCount();
         double[][] result = new double[2][itemCount];
@@ -919,7 +909,7 @@ public class XYSeries extends Series implements Cloneable, Serializable {
      *
      * @throws CloneNotSupportedException if there is a cloning problem.
      */
-    public XYSeries createCopy(/*@NonNegative*/ int start, /*@NonNegative*/ int end)
+    public XYSeries createCopy(int start, int end)
             throws CloneNotSupportedException {
 
         XYSeries copy = (XYSeries) super.clone();

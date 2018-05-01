@@ -43,10 +43,6 @@
 
 package org.jfree.data.xy;
 
-/*>>>
-import org.checkerframework.checker.index.qual.*;
- */
-
 /**
  * Represent a data set where Y is a symbolic values. Each symbolic value is
  * linked with an Integer.
@@ -69,7 +65,7 @@ public interface YisSymbolic {
      *
      * @return The symbolic value.
      */
-    public String getYSymbolicValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
+    public String getYSymbolicValue(int series, int item);
 
     /**
      * Returns the symbolic value linked with the specified {@code Integer}.

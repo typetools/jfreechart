@@ -68,7 +68,6 @@
  */
 
 package org.jfree.chart.renderer.category;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -138,7 +137,7 @@ public class IntervalBarRenderer extends BarRenderer {
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column,
+            ValueAxis rangeAxis, CategoryDataset dataset, int row, int column,
             int pass) {
 
          if (dataset instanceof IntervalCategoryDataset) {
@@ -167,8 +166,8 @@ public class IntervalBarRenderer extends BarRenderer {
       */
      protected void drawInterval(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, IntervalCategoryDataset dataset, /*@NonNegative*/ int row,
-                                 /*@NonNegative*/ int column) {
+            ValueAxis rangeAxis, IntervalCategoryDataset dataset, int row,
+                                 int column) {
 
         int visibleRow = state.getVisibleSeriesIndex(row);
         if (visibleRow < 0) {

@@ -46,9 +46,6 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
@@ -115,7 +112,7 @@ public class VectorRenderer extends AbstractXYItemRenderer
         if (dataset instanceof VectorXYDataset) {
             VectorXYDataset vdataset = (VectorXYDataset) dataset;
             for (int series = 0; series < seriesCount; series++) {
-                int itemCount = vdataset.getItemCount(series);
+                int itemCount = dataset.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
                     double delta = vdataset.getVectorXValue(series, item);
                     if (delta < 0.0) {
@@ -170,7 +167,7 @@ public class VectorRenderer extends AbstractXYItemRenderer
         if (dataset instanceof VectorXYDataset) {
             VectorXYDataset vdataset = (VectorXYDataset) dataset;
             for (int series = 0; series < seriesCount; series++) {
-                int itemCount = vdataset.getItemCount(series);
+                int itemCount = dataset.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
                     double delta = vdataset.getVectorYValue(series, item);
                     if (delta < 0.0) {
@@ -225,18 +222,15 @@ public class VectorRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            int series, int item, CrosshairState crosshairState, int pass) {
 
         double x = dataset.getXValue(series, item);
         double y = dataset.getYValue(series, item);
         double dx = 0.0;
         double dy = 0.0;
         if (dataset instanceof VectorXYDataset) {
-            VectorXYDataset vectorXYDataset = (VectorXYDataset) dataset;
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-            /*@IndexFor("vectorXYDataset.getSeries(series)")*/ int vectorXYItem = item;
-            dx = vectorXYDataset.getVectorXValue(series, vectorXYItem);
-            dy = vectorXYDataset.getVectorYValue(series, vectorXYItem);
+            dx = ((VectorXYDataset) dataset).getVectorXValue(series, item);
+            dy = ((VectorXYDataset) dataset).getVectorYValue(series, item);
         }
         double xx0 = domainAxis.valueToJava2D(x, dataArea,
                 plot.getDomainAxisEdge());

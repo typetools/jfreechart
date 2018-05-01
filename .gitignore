@@ -2,14 +2,6 @@
 /target/
 /javadoc/
 
-build/
-jfreechart-*-javadocs.zip
-jfreechart-*.zip
-lib/jfreechart-*-src.jar
-lib/jfreechart-*.jar
-
-ant/check-index-output*.txt
-
 # Eclipse files #
 /.classpath
 /.project

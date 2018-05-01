@@ -56,9 +56,6 @@
  */
 
 package org.jfree.data.statistics;
-/*>>> import org.checkerframework.dataflow.qual.Pure; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.util.List;
 import org.jfree.chart.util.PublicCloneable;
@@ -155,7 +152,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The mean value (possibly {@code null}).
      */
     @Override
-    public Number getMeanValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public Number getMeanValue(int row, int column) {
         Number result = null;
         MeanAndStandardDeviation masd = (MeanAndStandardDeviation)
                 this.data.getObject(row, column);
@@ -175,8 +172,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The value (possibly {@code null}).
      */
     @Override
-    /*@Pure*/
-    public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public Number getValue(int row, int column) {
         return getMeanValue(row, column);
     }
 
@@ -222,7 +218,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The standard deviation (possibly {@code null}).
      */
     @Override
-    public Number getStdDevValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public Number getStdDevValue(int row, int column) {
         Number result = null;
         MeanAndStandardDeviation masd = (MeanAndStandardDeviation)
                 this.data.getObject(row, column);
@@ -259,7 +255,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The column index.
      */
     @Override
-    public /*@GTENegativeOne*/ int getColumnIndex(Comparable key) {
+    public int getColumnIndex(Comparable key) {
         // defer null argument check
         return this.data.getColumnIndex(key);
     }
@@ -272,7 +268,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The column key.
      */
     @Override
-    public Comparable getColumnKey(/*@NonNegative*/ int column) {
+    public Comparable getColumnKey(int column) {
         return this.data.getColumnKey(column);
     }
 
@@ -294,7 +290,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The row index.
      */
     @Override
-    public /*@GTENegativeOne*/ int getRowIndex(Comparable key) {
+    public int getRowIndex(Comparable key) {
         // defer null argument check
         return this.data.getRowIndex(key);
     }
@@ -307,7 +303,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The row key.
      */
     @Override
-    public Comparable getRowKey(/*@NonNegative*/ int row) {
+    public Comparable getRowKey(int row) {
         return this.data.getRowKey(row);
     }
 
@@ -329,7 +325,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @see #getColumnCount()
      */
     @Override
-    public /*@NonNegative*/ int getRowCount() {
+    public int getRowCount() {
         return this.data.getRowCount();
     }
 
@@ -341,8 +337,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @see #getRowCount()
      */
     @Override
-    /*@Pure*/
-    public /*@NonNegative*/ int getColumnCount() {
+    public int getColumnCount() {
         return this.data.getColumnCount();
     }
 
@@ -483,7 +478,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      *
      * @since 1.0.7
      */
-    public void removeRow(/*@NonNegative*/ int rowIndex) {
+    public void removeRow(int rowIndex) {
         this.data.removeRow(rowIndex);
         updateBounds();
         fireDatasetChanged();
@@ -515,7 +510,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      *
      * @since 1.0.7
      */
-    public void removeColumn(/*@NonNegative*/ int columnIndex) {
+    public void removeColumn(int columnIndex) {
         this.data.removeColumn(columnIndex);
         updateBounds();
         fireDatasetChanged();

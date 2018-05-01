@@ -43,7 +43,6 @@
  */
 
 package org.jfree.chart.plot.dial;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -87,7 +86,7 @@ public class DialValueIndicator extends AbstractDialLayer implements DialLayer,
     static final long serialVersionUID = 803094354130942585L;
 
     /** The dataset index. */
-    private /*@NonNegative*/ int datasetIndex;
+    private int datasetIndex;
 
     /** The angle that defines the anchor point. */
     private double angle;
@@ -149,7 +148,7 @@ public class DialValueIndicator extends AbstractDialLayer implements DialLayer,
      *
      * @param datasetIndex  the dataset index.
      */
-    public DialValueIndicator(/*@NonNegative*/ int datasetIndex) {
+    public DialValueIndicator(int datasetIndex) {
         this.datasetIndex = datasetIndex;
         this.angle = -90.0;
         this.radius = 0.3;
@@ -175,7 +174,7 @@ public class DialValueIndicator extends AbstractDialLayer implements DialLayer,
      *
      * @see #setDatasetIndex(int)
      */
-    public /*@NonNegative*/ int getDatasetIndex() {
+    public int getDatasetIndex() {
         return this.datasetIndex;
     }
 
@@ -187,7 +186,7 @@ public class DialValueIndicator extends AbstractDialLayer implements DialLayer,
      *
      * @see #getDatasetIndex()
      */
-    public void setDatasetIndex(/*@NonNegative*/ int index) {
+    public void setDatasetIndex(int index) {
         this.datasetIndex = index;
         notifyListeners(new DialLayerChangeEvent(this));
     }

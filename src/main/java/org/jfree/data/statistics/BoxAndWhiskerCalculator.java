@@ -47,9 +47,6 @@
 
 package org.jfree.data.statistics;
 
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.*; */
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -189,18 +186,14 @@ public abstract class BoxAndWhiskerCalculator {
         if (count > 0) {
             if (count % 2 == 1) {
                 if (count > 1) {
-                    int count1 = count / 2;
-                    result = Statistics.calculateMedian(values, 0, count1);
+                    result = Statistics.calculateMedian(values, 0, count / 2);
                 }
                 else {
                     result = Statistics.calculateMedian(values, 0, 0);
                 }
             }
             else {
-                @SuppressWarnings({"index","value"}) // since count is a nonnegative even number, this expression is >= 0
-                /*@IntRange(from=0)*/ int count1 = count / 2 - 1;
-                count1 = count1;
-                result = Statistics.calculateMedian(values, 0, count1);
+                result = Statistics.calculateMedian(values, 0, count / 2 - 1);
             }
 
         }
@@ -225,21 +218,16 @@ public abstract class BoxAndWhiskerCalculator {
         if (count > 0) {
             if (count % 2 == 1) {
                 if (count > 1) {
-                    int countDiv2 = count / 2;
-                    int countMinus1 = count - 1;
-                    result = Statistics.calculateMedian(values, countDiv2,
-                            countMinus1);
+                    result = Statistics.calculateMedian(values, count / 2,
+                            count - 1);
                 }
                 else {
                     result = Statistics.calculateMedian(values, 0, 0);
                 }
             }
             else {
-                int countDiv2 = count / 2;
-                int countMinus1 = count - 1;
-
-                result = Statistics.calculateMedian(values, countDiv2,
-                        countMinus1);
+                result = Statistics.calculateMedian(values, count / 2,
+                        count - 1);
             }
         }
         return result;

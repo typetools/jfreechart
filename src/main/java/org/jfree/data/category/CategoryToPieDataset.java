@@ -48,8 +48,6 @@
  */
 
 package org.jfree.data.category;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.util.Collections;
 import java.util.List;
@@ -78,7 +76,7 @@ public class CategoryToPieDataset extends AbstractDataset
     private TableOrder extract;
 
     /** The row or column index. */
-    private /*@NonNegative*/ int index;
+    private int index;
 
     /**
      * An adaptor class that converts any {@link CategoryDataset} into a
@@ -93,7 +91,7 @@ public class CategoryToPieDataset extends AbstractDataset
      * @param index  the row or column index.
      */
     public CategoryToPieDataset(CategoryDataset source, TableOrder extract,
-            /*@NonNegative*/ int index) {
+            int index) {
         Args.nullNotPermitted(extract, "extract");
         this.source = source;
         if (this.source != null) {
@@ -133,7 +131,7 @@ public class CategoryToPieDataset extends AbstractDataset
      *
      * @since 1.0.2
      */
-    public /*@NonNegative*/ int getExtractIndex() {
+    public int getExtractIndex() {
         return this.index;
     }
 
@@ -144,7 +142,7 @@ public class CategoryToPieDataset extends AbstractDataset
      * @return The item count.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount() {
+    public int getItemCount() {
         int result = 0;
         if (this.source != null) {
             if (this.extract == TableOrder.BY_ROW) {
@@ -168,7 +166,7 @@ public class CategoryToPieDataset extends AbstractDataset
      *     range {@code 0} to {@code getItemCount() -1}.
      */
     @Override
-    public Number getValue(/*@NonNegative*/ int item) {
+    public Number getValue(int item) {
         Number result = null;
         if (item < 0 || item >= getItemCount()) {
             // this will include the case where the underlying dataset is null
@@ -196,7 +194,7 @@ public class CategoryToPieDataset extends AbstractDataset
      *     specified range.
      */
     @Override
-    public Comparable getKey(/*@NonNegative*/ int index) {
+    public Comparable getKey(int index) {
         Comparable result = null;
         if (index < 0 || index >= getItemCount()) {
             // this includes the case where the underlying dataset is null
@@ -220,7 +218,7 @@ public class CategoryToPieDataset extends AbstractDataset
      * @return The index for the key, or {@code -1}.
      */
     @Override
-    public /*@GTENegativeOne*/ int getIndex(Comparable key) {
+    public int getIndex(Comparable key) {
         int result = -1;
         if (this.source != null) {
             if (this.extract == TableOrder.BY_ROW) {

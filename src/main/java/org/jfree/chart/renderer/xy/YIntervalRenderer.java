@@ -49,12 +49,6 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -183,7 +177,7 @@ public class YIntervalRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            int series, int item, CrosshairState crosshairState, int pass) {
 
         // do nothing if item is not visible
         if (!getItemVisible(series, item)) {
@@ -197,12 +191,10 @@ public class YIntervalRenderer extends AbstractXYItemRenderer
         }
 
         IntervalXYDataset intervalDataset = (IntervalXYDataset) dataset;
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-        /*@IndexFor("intervalDataset.getSeries(series)")*/ int intervalItem = item;
 
-        double x = intervalDataset.getXValue(series, intervalItem);
-        double yLow   = intervalDataset.getStartYValue(series, intervalItem);
-        double yHigh  = intervalDataset.getEndYValue(series, intervalItem);
+        double x = intervalDataset.getXValue(series, item);
+        double yLow   = intervalDataset.getStartYValue(series, item);
+        double yHigh  = intervalDataset.getEndYValue(series, item);
 
         RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
         RectangleEdge yAxisLocation = plot.getRangeAxisEdge();
@@ -269,8 +261,8 @@ public class YIntervalRenderer extends AbstractXYItemRenderer
      * @param y  the y coordinate (in Java2D space).
      */
     private void drawAdditionalItemLabel(Graphics2D g2,
-            PlotOrientation orientation, XYDataset dataset, /*@NonNegative*/ int series,
-            /*@IndexFor("#3.getSeries(#4)")*/ int item, double x, double y) {
+            PlotOrientation orientation, XYDataset dataset, int series,
+            int item, double x, double y) {
 
         if (this.additionalItemLabelGenerator == null) {
             return;

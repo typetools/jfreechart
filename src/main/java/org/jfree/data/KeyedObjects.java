@@ -43,8 +43,6 @@
  */
 
 package org.jfree.data;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -75,7 +73,7 @@ public class KeyedObjects implements Cloneable, PublicCloneable, Serializable {
      *
      * @return The item count.
      */
-    public /*@NonNegative*/ int getItemCount() {
+    public int getItemCount() {
         return this.data.size();
     }
 
@@ -88,7 +86,7 @@ public class KeyedObjects implements Cloneable, PublicCloneable, Serializable {
      *
      * @throws IndexOutOfBoundsException if {@code item} is out of bounds.
      */
-    public Object getObject(/*@NonNegative*/ int item) {
+    public Object getObject(int item) {
         Object result = null;
         KeyedObject kobj = (KeyedObject) this.data.get(item);
         if (kobj != null) {
@@ -108,7 +106,7 @@ public class KeyedObjects implements Cloneable, PublicCloneable, Serializable {
      *
      * @see #getIndex(Comparable)
      */
-    public Comparable getKey(/*@NonNegative*/ int index) {
+    public Comparable getKey(int index) {
         Comparable result = null;
         KeyedObject item = (KeyedObject) this.data.get(index);
         if (item != null) {
@@ -126,7 +124,7 @@ public class KeyedObjects implements Cloneable, PublicCloneable, Serializable {
      *
      * @see #getKey(int)
      */
-    public /*@GTENegativeOne*/ int getIndex(Comparable key) {
+    public int getIndex(Comparable key) {
         Args.nullNotPermitted(key, "key");
         int i = 0;
         Iterator iterator = this.data.iterator();
@@ -246,7 +244,7 @@ public class KeyedObjects implements Cloneable, PublicCloneable, Serializable {
      *
      * @see #removeValue(Comparable)
      */
-    public void removeValue(/*@NonNegative*/ int index) {
+    public void removeValue(int index) {
         this.data.remove(index);
     }
 

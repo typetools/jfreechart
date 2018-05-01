@@ -43,9 +43,6 @@
 
 package org.jfree.chart.util;
 
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.LinearGradientPaint;
@@ -253,10 +250,7 @@ public class PaintAlpha {
 
         final int   wid = ras.getWidth();
 
-        @SuppressWarnings("index") // wid is NN, as is img.getSampleModel().getNumBands(). Both require JDK annotations on classes in java.awt.image
-        /*@NonNegative*/ int pixLength = wid * img.getSampleModel().getNumBands();
-
-        /**/  int[] pix = new int[pixLength];
+        /**/  int[] pix = new int[wid * img.getSampleModel().getNumBands()];
         /* (pix-buffer is large enough for all pixels of one row) */
 
         /**
@@ -287,7 +281,7 @@ public class PaintAlpha {
                 pix = ras.getPixels(miX, y, wid, 1, pix);
 
                 for (int p = 0; p < pix.length; p++) {
-                    nco = img.getColorModel().getComponents(pix[p], nco, 0);
+                    nco    =  img.getColorModel().getComponents(pix[p], nco, 0);
                     nco[0] *= FACTOR; // Red
                     nco[1] *= FACTOR; // Green
                     nco[2] *= FACTOR; // Blue. Now map computed colour to
@@ -318,16 +312,11 @@ public class PaintAlpha {
 
                 pix = ras.getPixels(miX, y, wid, 1, pix);
 
-                for (int p = 0; p < pix.length; p++) {
-                    switch(p % 4) {
-                        case 0: // Red
-                        case 1: // Green
-                        case 2: // Blue
-                            pix[p] = (int)(pix[p] * FACTOR);
-                            break;
-                        case 3:
-                            /* Ignore alpha-channel -> */continue;
-                    }
+                for (int p = 0; p < pix.length;) {
+                    pix[p] = (int)(pix[p++] * FACTOR); // Red
+                    pix[p] = (int)(pix[p++] * FACTOR); // Green
+                    pix[p] = (int)(pix[p++] * FACTOR); // Blue
+                    /* Ignore alpha-channel -> */p++;
                 }
                 /**/  ras.setPixels(miX, y, wid, 1, pix);
             }

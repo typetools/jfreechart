@@ -46,7 +46,6 @@
  */
 
 package org.jfree.chart.urls;
-/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import org.jfree.data.general.PieDataset;
 
@@ -76,6 +75,6 @@ public interface PieURLGenerator {
      *
      * @return A string containing the URL.
      */
-    public String generateURL(PieDataset dataset, Comparable key, /*@NonNegative*/ int pieIndex);
+    public String generateURL(PieDataset dataset, Comparable key, int pieIndex);
 
 }

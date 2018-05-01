@@ -154,7 +154,6 @@
  */
 
 package org.jfree.chart;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -715,7 +714,7 @@ public class JFreeChart implements Drawable, TitleChangeListener,
      *
      * @see #addLegend(LegendTitle)
      */
-    public LegendTitle getLegend(/*@NonNegative*/ int index) {
+    public LegendTitle getLegend(int index) {
         int seen = 0;
         Iterator iterator = this.subtitles.iterator();
         while (iterator.hasNext()) {
@@ -799,7 +798,7 @@ public class JFreeChart implements Drawable, TitleChangeListener,
      *
      * @see #addSubtitle(Title)
      */
-    public Title getSubtitle(/*@NonNegative*/ int index) {
+    public Title getSubtitle(int index) {
         if ((index < 0) || (index >= getSubtitleCount())) {
             throw new IllegalArgumentException("Index out of range.");
         }
@@ -830,7 +829,7 @@ public class JFreeChart implements Drawable, TitleChangeListener,
      *
      * @since 1.0.6
      */
-    public void addSubtitle(/*@NonNegative*/ int index, Title subtitle) {
+    public void addSubtitle(int index, Title subtitle) {
         if (index < 0 || index > getSubtitleCount()) {
             throw new IllegalArgumentException(
                     "The 'index' argument is out of range.");

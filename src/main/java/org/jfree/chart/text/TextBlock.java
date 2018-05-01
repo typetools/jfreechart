@@ -28,10 +28,6 @@
 
 package org.jfree.chart.text;
 
-/*>>>
-import org.checkerframework.common.value.qual.ArrayLen;
- */
-
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -243,7 +239,7 @@ public class TextBlock implements Serializable {
      * 
      * @return The offsets (float[0] = x offset, float[1] = y offset).
      */
-    private float /*@ArrayLen(2)*/ [] calculateOffsets(TextBlockAnchor anchor, double width,
+    private float[] calculateOffsets(TextBlockAnchor anchor, double width, 
             double height) {
         float[] result = new float[2];
         float xAdj = 0.0f;

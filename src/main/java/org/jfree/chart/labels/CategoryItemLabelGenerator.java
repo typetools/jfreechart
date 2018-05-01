@@ -58,7 +58,6 @@
  */
 
 package org.jfree.chart.labels;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import org.jfree.data.category.CategoryDataset;
 
@@ -81,7 +80,7 @@ public interface CategoryItemLabelGenerator {
      *
      * @return The label.
      */
-    public String generateRowLabel(CategoryDataset dataset, /*@NonNegative*/ int row);
+    public String generateRowLabel(CategoryDataset dataset, int row);
 
     /**
      * Generates a label for the specified row.
@@ -91,7 +90,7 @@ public interface CategoryItemLabelGenerator {
      *
      * @return The label.
      */
-    public String generateColumnLabel(CategoryDataset dataset, /*@NonNegative*/ int column);
+    public String generateColumnLabel(CategoryDataset dataset, int column);
 
     /**
      * Generates a label for the specified item. The label is typically a
@@ -103,6 +102,6 @@ public interface CategoryItemLabelGenerator {
      *
      * @return The label (possibly {@code null}).
      */
-    public String generateLabel(CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public String generateLabel(CategoryDataset dataset, int row, int column);
 
 }

@@ -72,12 +72,6 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -245,7 +239,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      * @return The pass count.
      */
     @Override
-    public /*@NonNegative*/ int getPassCount() {
+    public int getPassCount() {
         return 2;
     }
 
@@ -260,7 +254,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      *
      * @return A boolean.
      */
-    public boolean getItemLineVisible(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public boolean getItemLineVisible(int series, int item) {
         Boolean flag = getSeriesLinesVisible(series);
         if (flag != null) {
             return flag;
@@ -278,7 +272,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      *
      * @see #setSeriesLinesVisible(int, Boolean)
      */
-    public Boolean getSeriesLinesVisible(/*@NonNegative*/ int series) {
+    public Boolean getSeriesLinesVisible(int series) {
         return this.seriesLinesVisible.getBoolean(series);
     }
 
@@ -291,7 +285,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      *
      * @see #getSeriesLinesVisible(int)
      */
-    public void setSeriesLinesVisible(/*@NonNegative*/ int series, Boolean flag) {
+    public void setSeriesLinesVisible(int series, Boolean flag) {
         this.seriesLinesVisible.setBoolean(series, flag);
         fireChangeEvent();
     }
@@ -305,7 +299,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      *
      * @see #getSeriesLinesVisible(int)
      */
-    public void setSeriesLinesVisible(/*@NonNegative*/ int series, boolean visible) {
+    public void setSeriesLinesVisible(int series, boolean visible) {
         setSeriesLinesVisible(series, Boolean.valueOf(visible));
     }
 
@@ -373,7 +367,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      *
      * @return A boolean.
      */
-    public boolean getItemShapeVisible(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public boolean getItemShapeVisible(int series, int item) {
         Boolean flag = getSeriesShapesVisible(series);
         if (flag != null) {
             return flag;
@@ -391,7 +385,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      *
      * @see #setSeriesShapesVisible(int, Boolean)
      */
-    public Boolean getSeriesShapesVisible(/*@NonNegative*/ int series) {
+    public Boolean getSeriesShapesVisible(int series) {
         return this.seriesShapesVisible.getBoolean(series);
     }
 
@@ -404,7 +398,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      *
      * @see #getSeriesShapesVisible(int)
      */
-    public void setSeriesShapesVisible(/*@NonNegative*/ int series, boolean visible) {
+    public void setSeriesShapesVisible(int series, boolean visible) {
         setSeriesShapesVisible(series, Boolean.valueOf(visible));
     }
 
@@ -417,7 +411,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      *
      * @see #getSeriesShapesVisible(int)
      */
-    public void setSeriesShapesVisible(/*@NonNegative*/ int series, Boolean flag) {
+    public void setSeriesShapesVisible(int series, Boolean flag) {
         this.seriesShapesVisible.setBoolean(series, flag);
         fireChangeEvent();
     }
@@ -461,7 +455,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      *
      * @return A boolean.
      */
-    public boolean getItemShapeFilled(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public boolean getItemShapeFilled(int series, int item) {
         Boolean flag = getSeriesShapesFilled(series);
         if (flag != null) {
             return flag;
@@ -480,7 +474,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      *
      * @see #setSeriesShapesFilled(int, Boolean)
      */
-    public Boolean getSeriesShapesFilled(/*@NonNegative*/ int series) {
+    public Boolean getSeriesShapesFilled(int series) {
         return this.seriesShapesFilled.getBoolean(series);
     }
 
@@ -493,7 +487,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      *
      * @see #getSeriesShapesFilled(int)
      */
-    public void setSeriesShapesFilled(/*@NonNegative*/ int series, boolean flag) {
+    public void setSeriesShapesFilled(int series, boolean flag) {
         setSeriesShapesFilled(series, Boolean.valueOf(flag));
     }
 
@@ -506,7 +500,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      *
      * @see #getSeriesShapesFilled(int)
      */
-    public void setSeriesShapesFilled(/*@NonNegative*/ int series, Boolean flag) {
+    public void setSeriesShapesFilled(int series, Boolean flag) {
         this.seriesShapesFilled.setBoolean(series, flag);
         fireChangeEvent();
     }
@@ -684,8 +678,8 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
          * @param passCount  the number of passes.
          */
         @Override
-        public void startSeriesPass(XYDataset dataset, /*@NonNegative*/ int series,
-                /*@IndexFor("#1.getSeries(#2)")*/ int firstItem, /*@IndexFor("#1.getSeries(#2)")*/ int lastItem, int pass, int passCount) {
+        public void startSeriesPass(XYDataset dataset, int series,
+                int firstItem, int lastItem, int pass, int passCount) {
             this.seriesPath.reset();
             this.lastPointGood = false;
             super.startSeriesPass(dataset, series, firstItem, lastItem, pass,
@@ -738,7 +732,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            int series, int item, CrosshairState crosshairState, int pass) {
 
         // do nothing if item is not visible
         if (!getItemVisible(series, item)) {
@@ -817,8 +811,8 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
                                    XYPlot plot,
                                    XYDataset dataset,
                                    int pass,
-                                   /*@NonNegative*/ int series,
-                                   /*@IndexFor("#4.getSeries(#6)")*/ int item,
+                                   int series,
+                                   int item,
                                    ValueAxis domainAxis,
                                    ValueAxis rangeAxis,
                                    Rectangle2D dataArea) {
@@ -877,8 +871,8 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      * @param item  the item index.
      * @param shape  the shape.
      */
-    protected void drawFirstPassShape(Graphics2D g2, int pass, /*@NonNegative*/ int series,
-                                      /*@NonNegative*/ int item, Shape shape) {
+    protected void drawFirstPassShape(Graphics2D g2, int pass, int series,
+                                      int item, Shape shape) {
         g2.setStroke(getItemStroke(series, item));
         g2.setPaint(getItemPaint(series, item));
         g2.draw(shape);
@@ -905,7 +899,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      */
     protected void drawPrimaryLineAsPath(XYItemRendererState state,
             Graphics2D g2, XYPlot plot, XYDataset dataset, int pass,
-            /*@NonNegative*/ int series, /*@IndexFor("#4.getSeries(#6)")*/ int item, ValueAxis domainAxis, ValueAxis rangeAxis,
+            int series, int item, ValueAxis domainAxis, ValueAxis rangeAxis,
             Rectangle2D dataArea) {
 
         RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
@@ -964,7 +958,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      * @param entities the entity collection.
      */
     protected void drawSecondaryPass(Graphics2D g2, XYPlot plot, 
-            XYDataset dataset, int pass, /*@NonNegative*/ int series, /*@IndexFor("#3.getSeries(#5)")*/ int item,
+            XYDataset dataset, int pass, int series, int item,
             ValueAxis domainAxis, Rectangle2D dataArea, ValueAxis rangeAxis,
             CrosshairState crosshairState, EntityCollection entities) {
 
@@ -1030,8 +1024,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
                     (y1 < 0.0));
         }
 
-        @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
-        /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
+        int datasetIndex = plot.indexOf(dataset);
         updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
                 transX1, transY1, orientation);
 
@@ -1052,7 +1045,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      * @return A legend item for the series (possibly {@code null}).
      */
     @Override
-    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(int datasetIndex, int series) {
         XYPlot plot = getPlot();
         if (plot == null) {
             return null;

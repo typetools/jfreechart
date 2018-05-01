@@ -91,10 +91,6 @@
 
 package org.jfree.chart.renderer.category;
 
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -455,7 +451,7 @@ public class BoxAndWhiskerRenderer extends AbstractCategoryItemRenderer
      * @return The legend item (possibly {@code null}).
      */
     @Override
-    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(int datasetIndex, int series) {
 
         CategoryPlot cp = getPlot();
         if (cp == null) {
@@ -527,7 +523,7 @@ public class BoxAndWhiskerRenderer extends AbstractCategoryItemRenderer
      */
     @Override
     public CategoryItemRendererState initialise(Graphics2D g2, 
-            Rectangle2D dataArea, CategoryPlot plot, /*@NonNegative*/ int rendererIndex,
+            Rectangle2D dataArea, CategoryPlot plot, int rendererIndex,
             PlotRenderingInfo info) {
 
         CategoryItemRendererState state = super.initialise(g2, dataArea, plot,
@@ -588,7 +584,7 @@ public class BoxAndWhiskerRenderer extends AbstractCategoryItemRenderer
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
         Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-        ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column,
+        ValueAxis rangeAxis, CategoryDataset dataset, int row, int column,
         int pass) {
 
         // do nothing if item is not visible
@@ -634,7 +630,7 @@ public class BoxAndWhiskerRenderer extends AbstractCategoryItemRenderer
     public void drawHorizontalItem(Graphics2D g2, 
             CategoryItemRendererState state, Rectangle2D dataArea,
             CategoryPlot plot, CategoryAxis domainAxis, ValueAxis rangeAxis,
-            CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+            CategoryDataset dataset, int row, int column) {
 
         BoxAndWhiskerCategoryDataset bawDataset
                 = (BoxAndWhiskerCategoryDataset) dataset;
@@ -777,7 +773,7 @@ public class BoxAndWhiskerRenderer extends AbstractCategoryItemRenderer
      */
     public void drawVerticalItem(Graphics2D g2, CategoryItemRendererState state,
         Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-        ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+        ValueAxis rangeAxis, CategoryDataset dataset, int row, int column) {
 
         BoxAndWhiskerCategoryDataset bawDataset
                 = (BoxAndWhiskerCategoryDataset) dataset;

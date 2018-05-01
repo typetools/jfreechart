@@ -186,8 +186,6 @@
  */
 
 package org.jfree.chart.plot;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.*; */
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -329,10 +327,10 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
     private RectangleInsets axisOffset;
 
     /** Storage for the domain axes. */
-    private Map</*@NonNegative*/ Integer, CategoryAxis> domainAxes;
+    private Map<Integer, CategoryAxis> domainAxes;
 
     /** Storage for the domain axis locations. */
-    private Map</*@NonNegative*/ Integer, AxisLocation> domainAxisLocations;
+    private Map<Integer, AxisLocation> domainAxisLocations;
 
     /**
      * A flag that controls whether or not the shared domain axis is drawn
@@ -341,30 +339,30 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
     private boolean drawSharedDomainAxis;
 
     /** Storage for the range axes. */
-    private Map</*@NonNegative*/ Integer, ValueAxis> rangeAxes;
+    private Map<Integer, ValueAxis> rangeAxes;
 
     /** Storage for the range axis locations. */
-    private Map</*@NonNegative*/ Integer, AxisLocation> rangeAxisLocations;
+    private Map<Integer, AxisLocation> rangeAxisLocations;
 
     /** Storage for the datasets. */
-    private Map</*@NonNegative*/ Integer, CategoryDataset> datasets;
+    private Map<Integer, CategoryDataset> datasets;
 
     /** 
      * Storage for keys that map each dataset to one or more domain axes.
      * Typically a dataset is rendered using the scale of a single axis, but
      * a dataset can contribute to the "auto-range" of any number of axes.
      */
-    private TreeMap</*@NonNegative*/ Integer, List<Integer>> datasetToDomainAxesMap;
+    private TreeMap<Integer, List<Integer>> datasetToDomainAxesMap;
 
     /** 
      * Storage for keys that map each dataset to one or more range axes. 
      * Typically a dataset is rendered using the scale of a single axis, but
      * a dataset can contribute to the "auto-range" of any number of axes.
      */
-    private TreeMap</*@NonNegative*/ Integer, List<Integer>> datasetToRangeAxesMap;
+    private TreeMap<Integer, List<Integer>> datasetToRangeAxesMap;
 
     /** Storage for the renderers. */
-    private Map</*@NonNegative*/ Integer, CategoryItemRenderer> renderers;
+    private Map<Integer, CategoryItemRenderer> renderers;
 
     /** The dataset rendering order. */
     private DatasetRenderingOrder renderingOrder
@@ -518,16 +516,16 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
     private boolean rangeCrosshairLockedOnData = true;
 
     /** A map containing lists of markers for the domain axes. */
-    private Map</*@NonNegative*/ Integer, Collection> foregroundDomainMarkers;
+    private Map foregroundDomainMarkers;
 
     /** A map containing lists of markers for the domain axes. */
-    private Map</*@NonNegative*/ Integer, Collection> backgroundDomainMarkers;
+    private Map backgroundDomainMarkers;
 
     /** A map containing lists of markers for the range axes. */
-    private Map</*@NonNegative*/ Integer, Collection> foregroundRangeMarkers;
+    private Map foregroundRangeMarkers;
 
     /** A map containing lists of markers for the range axes. */
-    private Map</*@NonNegative*/ Integer, Collection> backgroundRangeMarkers;
+    private Map backgroundRangeMarkers;
 
     /**
      * A (possibly empty) list of annotations for the plot.  The list should
@@ -593,23 +591,17 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         this.orientation = PlotOrientation.VERTICAL;
 
         // allocate storage for dataset, axes and renderers
-        HashMap domainAxesTmp = new HashMap</*@NonNegative*/ Integer, CategoryAxis>();
-        this.domainAxes = domainAxesTmp;
-        HashMap domainAxisLocationsTmp = new HashMap</*@NonNegative*/ Integer, AxisLocation>();
-        this.domainAxisLocations = domainAxisLocationsTmp;
-        HashMap rangeAxesTmp = new HashMap</*@NonNegative*/ Integer, ValueAxis>();
-        this.rangeAxes = rangeAxesTmp;
-        HashMap rangeAxisLocationsTmp = new HashMap</*@NonNegative*/ Integer, AxisLocation>();
-        this.rangeAxisLocations = rangeAxisLocationsTmp;
+        this.domainAxes = new HashMap<Integer, CategoryAxis>();
+        this.domainAxisLocations = new HashMap<Integer, AxisLocation>();
+        this.rangeAxes = new HashMap<Integer, ValueAxis>();
+        this.rangeAxisLocations = new HashMap<Integer, AxisLocation>();
 
         this.datasetToDomainAxesMap = new TreeMap();
         this.datasetToRangeAxesMap = new TreeMap();
 
-        HashMap renderersTmp = new HashMap</*@NonNegative*/ Integer, CategoryItemRenderer>();
-        this.renderers = renderersTmp;
+        this.renderers = new HashMap<Integer, CategoryItemRenderer>();
 
-        HashMap datasetsTmp = new HashMap</*@NonNegative*/ Integer, CategoryDataset>();
-        this.datasets = datasetsTmp;
+        this.datasets = new HashMap<Integer, CategoryDataset>();
         this.datasets.put(0, dataset);
         if (dataset != null) {
             dataset.addChangeListener(this);
@@ -765,7 +757,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #setDomainAxis(int, CategoryAxis)
      */
-    public CategoryAxis getDomainAxis(/*@NonNegative*/ int index) {
+    public CategoryAxis getDomainAxis(int index) {
         CategoryAxis result = (CategoryAxis) this.domainAxes.get(index);
         if (result == null) {
             Plot parent = getParent();
@@ -798,7 +790,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #getDomainAxis(int)
      */
-    public void setDomainAxis(/*@NonNegative*/ int index, CategoryAxis axis) {
+    public void setDomainAxis(int index, CategoryAxis axis) {
         setDomainAxis(index, axis, true);
     }
 
@@ -810,7 +802,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * @param axis  the axis ({@code null} permitted).
      * @param notify  notify listeners?
      */
-    public void setDomainAxis(/*@NonNegative*/ int index, CategoryAxis axis, boolean notify) {
+    public void setDomainAxis(int index, CategoryAxis axis, boolean notify) {
         CategoryAxis existing = (CategoryAxis) this.domainAxes.get(index);
         if (existing != null) {
             existing.removeChangeListener(this);
@@ -856,9 +848,9 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @since 1.0.3
      */
-    public /*@GTENegativeOne*/ int getDomainAxisIndex(CategoryAxis axis) {
+    public int getDomainAxisIndex(CategoryAxis axis) {
         Args.nullNotPermitted(axis, "axis");
-        for (Entry</*@NonNegative*/ Integer, CategoryAxis> entry : this.domainAxes.entrySet()) {
+        for (Entry<Integer, CategoryAxis> entry : this.domainAxes.entrySet()) {
             if (entry.getValue() == axis) {
                 return entry.getKey();
             }
@@ -886,7 +878,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #setDomainAxisLocation(int, AxisLocation)
      */
-    public AxisLocation getDomainAxisLocation(/*@NonNegative*/ int index) {
+    public AxisLocation getDomainAxisLocation(int index) {
         AxisLocation result = this.domainAxisLocations.get(index);
         if (result == null) {
             result = AxisLocation.getOpposite(getDomainAxisLocation(0));
@@ -930,7 +922,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * @see #getDomainAxisLocation(int)
      * @see #setRangeAxisLocation(int, AxisLocation)
      */
-    public void setDomainAxisLocation(/*@NonNegative*/ int index, AxisLocation location) {
+    public void setDomainAxisLocation(int index, AxisLocation location) {
         // delegate...
         setDomainAxisLocation(index, location, true);
     }
@@ -948,7 +940,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * @see #getDomainAxisLocation(int)
      * @see #setRangeAxisLocation(int, AxisLocation, boolean)
      */
-    public void setDomainAxisLocation(/*@NonNegative*/ int index, AxisLocation location,
+    public void setDomainAxisLocation(int index, AxisLocation location,
             boolean notify) {
         if (index == 0 && location == null) {
             throw new IllegalArgumentException(
@@ -977,7 +969,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @return The edge (never {@code null}).
      */
-    public RectangleEdge getDomainAxisEdge(/*@NonNegative*/ int index) {
+    public RectangleEdge getDomainAxisEdge(int index) {
         RectangleEdge result;
         AxisLocation location = getDomainAxisLocation(index);
         if (location != null) {
@@ -993,7 +985,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @return The axis count.
      */
-    public /*@NonNegative*/ int getDomainAxisCount() {
+    public int getDomainAxisCount() {
         return this.domainAxes.size();
     }
 
@@ -1040,7 +1032,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @return The axis ({@code null} possible).
      */
-    public ValueAxis getRangeAxis(/*@NonNegative*/ int index) {
+    public ValueAxis getRangeAxis(int index) {
         ValueAxis result = this.rangeAxes.get(index);
         if (result == null) {
             Plot parent = getParent();
@@ -1069,7 +1061,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * @param index  the axis index.
      * @param axis  the axis.
      */
-    public void setRangeAxis(/*@NonNegative*/ int index, ValueAxis axis) {
+    public void setRangeAxis(int index, ValueAxis axis) {
         setRangeAxis(index, axis, true);
     }
 
@@ -1081,7 +1073,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * @param axis  the axis.
      * @param notify  notify listeners?
      */
-    public void setRangeAxis(/*@NonNegative*/ int index, ValueAxis axis, boolean notify) {
+    public void setRangeAxis(int index, ValueAxis axis, boolean notify) {
         ValueAxis existing = this.rangeAxes.get(index);
         if (existing != null) {
             existing.removeChangeListener(this);
@@ -1127,7 +1119,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @since 1.0.7
      */
-    public /*@GTENegativeOne*/ int getRangeAxisIndex(ValueAxis axis) {
+    public int getRangeAxisIndex(ValueAxis axis) {
         Args.nullNotPermitted(axis, "axis");
         int result = findRangeAxisIndex(axis);
         if (result < 0) { // try the parent plot
@@ -1140,8 +1132,8 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         return result;
     }
 
-    private  /*@GTENegativeOne*/ int findRangeAxisIndex(ValueAxis axis) {
-        for (Entry</*@NonNegative*/ Integer, ValueAxis> entry : this.rangeAxes.entrySet()) {
+    private int findRangeAxisIndex(ValueAxis axis) {
+        for (Entry<Integer, ValueAxis> entry : this.rangeAxes.entrySet()) {
             if (entry.getValue() == axis) {
                 return entry.getKey();
             }
@@ -1167,7 +1159,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #setRangeAxisLocation(int, AxisLocation)
      */
-    public AxisLocation getRangeAxisLocation(/*@NonNegative*/ int index) {
+    public AxisLocation getRangeAxisLocation(int index) {
         AxisLocation result = this.rangeAxisLocations.get(index);
         if (result == null) {
             result = AxisLocation.getOpposite(getRangeAxisLocation(0));
@@ -1212,7 +1204,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * @see #getRangeAxisLocation(int)
      * @see #setRangeAxisLocation(int, AxisLocation, boolean)
      */
-    public void setRangeAxisLocation(/*@NonNegative*/ int index, AxisLocation location) {
+    public void setRangeAxisLocation(int index, AxisLocation location) {
         setRangeAxisLocation(index, location, true);
     }
 
@@ -1227,7 +1219,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * @see #getRangeAxisLocation(int)
      * @see #setDomainAxisLocation(int, AxisLocation, boolean)
      */
-    public void setRangeAxisLocation(/*@NonNegative*/ int index, AxisLocation location,
+    public void setRangeAxisLocation(int index, AxisLocation location,
             boolean notify) {
         if (index == 0 && location == null) {
             throw new IllegalArgumentException(
@@ -1255,7 +1247,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @return The edge.
      */
-    public RectangleEdge getRangeAxisEdge(/*@NonNegative*/ int index) {
+    public RectangleEdge getRangeAxisEdge(int index) {
         AxisLocation location = getRangeAxisLocation(index);
         return Plot.resolveRangeAxisLocation(location, this.orientation);
     }
@@ -1265,7 +1257,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @return The axis count.
      */
-    public /*@NonNegative*/ int getRangeAxisCount() {
+    public int getRangeAxisCount() {
         return this.rangeAxes.size();
     }
 
@@ -1315,7 +1307,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #setDataset(int, CategoryDataset)
      */
-    public CategoryDataset getDataset(/*@NonNegative*/ int index) {
+    public CategoryDataset getDataset(int index) {
         return this.datasets.get(index);
     }
 
@@ -1343,7 +1335,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #getDataset(int)
      */
-    public void setDataset(/*@NonNegative*/ int index, CategoryDataset dataset) {
+    public void setDataset(int index, CategoryDataset dataset) {
         CategoryDataset existing = (CategoryDataset) this.datasets.get(index);
         if (existing != null) {
             existing.removeChangeListener(this);
@@ -1364,7 +1356,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @since 1.0.2
      */
-    public /*@NonNegative*/ int getDatasetCount() {
+    public int getDatasetCount() {
         return this.datasets.size();
     }
 
@@ -1378,8 +1370,8 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @since 1.0.11
      */
-    public /*@GTENegativeOne*/ int indexOf(CategoryDataset dataset) {
-        for (Entry</*@NonNegative*/ Integer, CategoryDataset> entry: this.datasets.entrySet()) {
+    public int indexOf(CategoryDataset dataset) {
+        for (Entry<Integer, CategoryDataset> entry: this.datasets.entrySet()) {
             if (entry.getValue() == dataset) {
                 return entry.getKey();
             }
@@ -1395,7 +1387,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #getDomainAxisForDataset(int)
      */
-    public void mapDatasetToDomainAxis(/*@NonNegative*/ int index, int axisIndex) {
+    public void mapDatasetToDomainAxis(int index, int axisIndex) {
         List<Integer> axisIndices = new java.util.ArrayList<Integer>(1);
         axisIndices.add(axisIndex);
         mapDatasetToDomainAxes(index, axisIndices);
@@ -1411,10 +1403,10 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @since 1.0.12
      */
-    public void mapDatasetToDomainAxes(/*@NonNegative*/ int index, List<Integer> axisIndices) {
+    public void mapDatasetToDomainAxes(int index, List axisIndices) {
         Args.requireNonNegative(index, "index");
         checkAxisIndices(axisIndices);
-        this.datasetToDomainAxesMap.put(index, new ArrayList<Integer>(axisIndices));
+        this.datasetToDomainAxesMap.put(index, new ArrayList(axisIndices));
         // fake a dataset change event to update axes...
         datasetChanged(new DatasetChangeEvent(this, getDataset(index)));
     }
@@ -1461,14 +1453,14 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #mapDatasetToDomainAxis(int, int)
      */
-    public CategoryAxis getDomainAxisForDataset(/*@NonNegative*/ int index) {
+    public CategoryAxis getDomainAxisForDataset(int index) {
         Args.requireNonNegative(index, "index");
         CategoryAxis axis;
         List axisIndices = (List) this.datasetToDomainAxesMap.get(
                 new Integer(index));
         if (axisIndices != null) {
-            @SuppressWarnings("index") // the first axis in the list is used for data <--> Java2D
-            /*@NonNegative*/ Integer axisIndex = (Integer) axisIndices.get(0);
+            // the first axis in the list is used for data <--> Java2D
+            Integer axisIndex = (Integer) axisIndices.get(0);
             axis = getDomainAxis(axisIndex.intValue());
         } else {
             axis = getDomainAxis(0);
@@ -1484,7 +1476,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #getRangeAxisForDataset(int)
      */
-    public void mapDatasetToRangeAxis(/*@NonNegative*/ int index, int axisIndex) {
+    public void mapDatasetToRangeAxis(int index, int axisIndex) {
         List axisIndices = new java.util.ArrayList(1);
         axisIndices.add(new Integer(axisIndex));
         mapDatasetToRangeAxes(index, axisIndices);
@@ -1500,10 +1492,10 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @since 1.0.12
      */
-    public void mapDatasetToRangeAxes(/*@NonNegative*/ int index, List<Integer> axisIndices) {
+    public void mapDatasetToRangeAxes(int index, List axisIndices) {
         Args.requireNonNegative(index, "index");
         checkAxisIndices(axisIndices);
-        this.datasetToRangeAxesMap.put(index, new ArrayList<Integer>(axisIndices));
+        this.datasetToRangeAxesMap.put(index, new ArrayList(axisIndices));
         // fake a dataset change event to update axes...
         datasetChanged(new DatasetChangeEvent(this, getDataset(index)));
     }
@@ -1518,14 +1510,14 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #mapDatasetToRangeAxis(int, int)
      */
-    public ValueAxis getRangeAxisForDataset(/*@NonNegative*/ int index) {
+    public ValueAxis getRangeAxisForDataset(int index) {
         Args.requireNonNegative(index, "index");
         ValueAxis axis;
         List axisIndices = (List) this.datasetToRangeAxesMap.get(
                 new Integer(index));
         if (axisIndices != null) {
-            @SuppressWarnings("index") // the first axis in the list is used for data <--> Java2D
-            /*@NonNegative*/ Integer axisIndex = (Integer) axisIndices.get(0);
+            // the first axis in the list is used for data <--> Java2D
+            Integer axisIndex = (Integer) axisIndices.get(0);
             axis = getRangeAxis(axisIndex.intValue());
         } else {
             axis = getRangeAxis(0);
@@ -1540,7 +1532,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @since 1.0.11
      */
-    public /*@NonNegative*/ int getRendererCount() {
+    public int getRendererCount() {
         return this.renderers.size();
     }
 
@@ -1564,7 +1556,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #setRenderer(int, CategoryItemRenderer)
      */
-    public CategoryItemRenderer getRenderer(/*@NonNegative*/ int index) {
+    public CategoryItemRenderer getRenderer(int index) {
         CategoryItemRenderer renderer = this.renderers.get(index);
         if (renderer == null) {
             return this.renderers.get(0);
@@ -1617,7 +1609,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * @see #getRenderer(int)
      * @see #setRenderer(int, CategoryItemRenderer, boolean)
      */
-    public void setRenderer(/*@NonNegative*/ int index, CategoryItemRenderer renderer) {
+    public void setRenderer(int index, CategoryItemRenderer renderer) {
         setRenderer(index, renderer, true);
     }
 
@@ -1633,7 +1625,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #getRenderer(int)
      */
-    public void setRenderer(/*@NonNegative*/ int index, CategoryItemRenderer renderer,
+    public void setRenderer(int index, CategoryItemRenderer renderer,
             boolean notify) {
         CategoryItemRenderer existing = this.renderers.get(index);
         if (existing != null) {
@@ -1692,8 +1684,8 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @return The renderer index.
      */
-    public /*@GTENegativeOne*/ int getIndexOf(CategoryItemRenderer renderer) {
-        for (Entry</*@NonNegative*/ Integer, CategoryItemRenderer> entry
+    public int getIndexOf(CategoryItemRenderer renderer) {
+        for (Entry<Integer, CategoryItemRenderer> entry 
                 : this.renderers.entrySet()) {
             if (entry.getValue() == renderer) {
                 return entry.getKey();
@@ -2192,8 +2184,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         // get the legend items for the datasets...
         for (CategoryDataset dataset: this.datasets.values()) {
             if (dataset != null) {
-                @SuppressWarnings("index") // guaranteed index: indexOf cannot return -1 here because we're looking up the indexOf an element we already know is in the dataset
-                /*@NonNegative*/ int datasetIndex = indexOf(dataset);
+                int datasetIndex = indexOf(dataset);
                 CategoryItemRenderer renderer = getRenderer(datasetIndex);
                 if (renderer != null) {
                     result.addAll(renderer.getLegendItems());
@@ -2365,7 +2356,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #removeDomainMarker(int, Marker, Layer)
      */
-    public void addDomainMarker(/*@NonNegative*/ int index, CategoryMarker marker, Layer layer) {
+    public void addDomainMarker(int index, CategoryMarker marker, Layer layer) {
         addDomainMarker(index, marker, layer, true);
     }
 
@@ -2385,7 +2376,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #removeDomainMarker(int, Marker, Layer, boolean)
      */
-    public void addDomainMarker(/*@NonNegative*/ int index, CategoryMarker marker, Layer layer,
+    public void addDomainMarker(int index, CategoryMarker marker, Layer layer,
             boolean notify) {
         Args.nullNotPermitted(marker, "marker");
         Args.nullNotPermitted(layer, "layer");
@@ -2395,8 +2386,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
                     new Integer(index));
             if (markers == null) {
                 markers = new java.util.ArrayList();
-                /*@NonNegative*/ Integer i = index;
-                this.foregroundDomainMarkers.put(i, markers);
+                this.foregroundDomainMarkers.put(new Integer(index), markers);
             }
             markers.add(marker);
         } else if (layer == Layer.BACKGROUND) {
@@ -2404,8 +2394,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
                     new Integer(index));
             if (markers == null) {
                 markers = new java.util.ArrayList();
-                /*@NonNegative*/ Integer i = index;
-                this.backgroundDomainMarkers.put(i, markers);
+                this.backgroundDomainMarkers.put(new Integer(index), markers);
             }
             markers.add(marker);
         }
@@ -2423,23 +2412,19 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      */
     public void clearDomainMarkers() {
         if (this.backgroundDomainMarkers != null) {
-            
-                    Set</*@NonNegative*/ Integer> keys = this.backgroundDomainMarkers.keySet();
+            Set keys = this.backgroundDomainMarkers.keySet();
             Iterator iterator = keys.iterator();
             while (iterator.hasNext()) {
-                @SuppressWarnings({"index", "value"}) // iterator over a set of nonnegative integers always returns a nonnegative integer?
-                /*@NonNegative*/ Integer key = (Integer) iterator.next();
+                Integer key = (Integer) iterator.next();
                 clearDomainMarkers(key.intValue());
             }
             this.backgroundDomainMarkers.clear();
         }
         if (this.foregroundDomainMarkers != null) {
-
-            Set</*@NonNegative*/ Integer> keys = this.foregroundDomainMarkers.keySet();
+            Set keys = this.foregroundDomainMarkers.keySet();
             Iterator iterator = keys.iterator();
             while (iterator.hasNext()) {
-                @SuppressWarnings({"index", "value"}) // iterator over a set of nonnegative integers always returns a nonnegative integer?
-                /*@NonNegative*/ Integer key = (Integer) iterator.next();
+                Integer key = (Integer) iterator.next();
                 clearDomainMarkers(key.intValue());
             }
             this.foregroundDomainMarkers.clear();
@@ -2467,7 +2452,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @return A collection of markers (possibly {@code null}).
      */
-    public Collection getDomainMarkers(/*@NonNegative*/ int index, Layer layer) {
+    public Collection getDomainMarkers(int index, Layer layer) {
         Collection result = null;
         Integer key = new Integer(index);
         if (layer == Layer.FOREGROUND) {
@@ -2489,7 +2474,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #clearRangeMarkers(int)
      */
-    public void clearDomainMarkers(/*@NonNegative*/ int index) {
+    public void clearDomainMarkers(int index) {
         Integer key = new Integer(index);
         if (this.backgroundDomainMarkers != null) {
             Collection markers
@@ -2562,7 +2547,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @since 1.0.7
      */
-    public boolean removeDomainMarker(/*@NonNegative*/ int index, Marker marker, Layer layer) {
+    public boolean removeDomainMarker(int index, Marker marker, Layer layer) {
         return removeDomainMarker(index, marker, layer, true);
     }
 
@@ -2580,7 +2565,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @since 1.0.10
      */
-    public boolean removeDomainMarker(/*@NonNegative*/ int index, Marker marker, Layer layer,
+    public boolean removeDomainMarker(int index, Marker marker, Layer layer,
             boolean notify) {
         ArrayList markers;
         if (layer == Layer.FOREGROUND) {
@@ -2643,7 +2628,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #removeRangeMarker(int, Marker, Layer)
      */
-    public void addRangeMarker(/*@NonNegative*/ int index, Marker marker, Layer layer) {
+    public void addRangeMarker(int index, Marker marker, Layer layer) {
         addRangeMarker(index, marker, layer, true);
     }
 
@@ -2663,7 +2648,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #removeRangeMarker(int, Marker, Layer, boolean)
      */
-    public void addRangeMarker(/*@NonNegative*/ int index, Marker marker, Layer layer,
+    public void addRangeMarker(int index, Marker marker, Layer layer,
             boolean notify) {
         Collection markers;
         if (layer == Layer.FOREGROUND) {
@@ -2671,8 +2656,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
                     new Integer(index));
             if (markers == null) {
                 markers = new java.util.ArrayList();
-                                /*@NonNegative*/ Integer i = index;
-                this.foregroundRangeMarkers.put(i, markers);
+                this.foregroundRangeMarkers.put(new Integer(index), markers);
             }
             markers.add(marker);
         } else if (layer == Layer.BACKGROUND) {
@@ -2680,8 +2664,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
                     new Integer(index));
             if (markers == null) {
                 markers = new java.util.ArrayList();
-                                /*@NonNegative*/ Integer i = index;
-                this.backgroundRangeMarkers.put(i, markers);
+                this.backgroundRangeMarkers.put(new Integer(index), markers);
             }
             markers.add(marker);
         }
@@ -2699,23 +2682,19 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      */
     public void clearRangeMarkers() {
         if (this.backgroundRangeMarkers != null) {
-
-                    Set</*@NonNegative*/ Integer> keys = this.backgroundRangeMarkers.keySet();
+            Set keys = this.backgroundRangeMarkers.keySet();
             Iterator iterator = keys.iterator();
             while (iterator.hasNext()) {
-                @SuppressWarnings({"index", "value"}) // iterator over a set of nonnegative integers always returns a nonnegative integer?
-                /*@NonNegative*/ Integer key = (Integer) iterator.next();
+                Integer key = (Integer) iterator.next();
                 clearRangeMarkers(key.intValue());
             }
             this.backgroundRangeMarkers.clear();
         }
         if (this.foregroundRangeMarkers != null) {
-
-                    Set</*@NonNegative*/ Integer> keys = this.foregroundRangeMarkers.keySet();
+            Set keys = this.foregroundRangeMarkers.keySet();
             Iterator iterator = keys.iterator();
             while (iterator.hasNext()) {
-                @SuppressWarnings({"index", "value"}) // iterator over a set of nonnegative integers always returns a nonnegative integer?
-                /*@NonNegative*/ Integer key = (Integer) iterator.next();
+                Integer key = (Integer) iterator.next();
                 clearRangeMarkers(key.intValue());
             }
             this.foregroundRangeMarkers.clear();
@@ -2745,7 +2724,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @return A collection of markers (possibly {@code null}).
      */
-    public Collection getRangeMarkers(/*@NonNegative*/ int index, Layer layer) {
+    public Collection getRangeMarkers(int index, Layer layer) {
         Collection result = null;
         Integer key = new Integer(index);
         if (layer == Layer.FOREGROUND) {
@@ -2767,7 +2746,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #clearDomainMarkers(int)
      */
-    public void clearRangeMarkers(/*@NonNegative*/ int index) {
+    public void clearRangeMarkers(int index) {
         Integer key = new Integer(index);
         if (this.backgroundRangeMarkers != null) {
             Collection markers
@@ -2846,7 +2825,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #addRangeMarker(int, Marker, Layer)
      */
-    public boolean removeRangeMarker(/*@NonNegative*/ int index, Marker marker, Layer layer) {
+    public boolean removeRangeMarker(int index, Marker marker, Layer layer) {
         return removeRangeMarker(index, marker, layer, true);
     }
 
@@ -2866,7 +2845,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @see #addRangeMarker(int, Marker, Layer, boolean)
      */
-    public boolean removeRangeMarker(/*@NonNegative*/ int index, Marker marker, Layer layer,
+    public boolean removeRangeMarker(int index, Marker marker, Layer layer,
             boolean notify) {
         Args.nullNotPermitted(marker, "marker");
         ArrayList markers;
@@ -3017,7 +2996,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @since 1.0.11
      */
-    public void setCrosshairDatasetIndex(/*@NonNegative*/ int index) {
+    public void setCrosshairDatasetIndex(int index) {
         setCrosshairDatasetIndex(index, true);
     }
 
@@ -3030,7 +3009,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @since 1.0.11
      */
-    public void setCrosshairDatasetIndex(/*@NonNegative*/ int index, boolean notify) {
+    public void setCrosshairDatasetIndex(int index, boolean notify) {
         this.crosshairDatasetIndex = index;
         if (notify) {
             fireChangeEvent();
@@ -3404,8 +3383,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
             // reserve space for any domain axes...
             for (CategoryAxis xAxis : this.domainAxes.values()) {
                 if (xAxis != null) {
-                    @SuppressWarnings("index") // guaranteed index: xAxis is guaranteed to be in the set, so IndexOf returns NN
-                    /*@NonNegative*/ int i = getDomainAxisIndex(xAxis);
+                    int i = getDomainAxisIndex(xAxis);
                     RectangleEdge edge = getDomainAxisEdge(i);
                     space = xAxis.reserveSpace(g2, this, plotArea, edge, space);
                 }
@@ -3449,8 +3427,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
             // reserve space for the range axes (if any)...
             for (ValueAxis yAxis : this.rangeAxes.values()) {
                 if (yAxis != null) {
-                    @SuppressWarnings("index") // guaranteed index: yAxis is guaranteed to be in the set, so indexOf returns NN
-                    /*@NonNegative*/ int i = findRangeAxisIndex(yAxis);
+                    int i = findRangeAxisIndex(yAxis);
                     RectangleEdge edge = getRangeAxisEdge(i);
                     space = yAxis.reserveSpace(g2, this, plotArea, edge, space);
                 }
@@ -3618,13 +3595,11 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
 
         // draw the markers...
         for (CategoryItemRenderer renderer : this.renderers.values()) {
-            @SuppressWarnings("index") // guaranteed index: renderer is one of the renderers of this object, so getIndexOf must return nonnegative
-            /*@NonNegative*/ int i = getIndexOf(renderer);
+            int i = getIndexOf(renderer);
             drawDomainMarkers(g2, dataArea, i, Layer.BACKGROUND);
         }
         for (CategoryItemRenderer renderer : this.renderers.values()) {
-            @SuppressWarnings("index") // guaranteed index: renderer is one of the renderers of this object, so getIndexOf must return nonnegative
-            /*@NonNegative*/ int i = getIndexOf(renderer);
+            int i = getIndexOf(renderer);
             drawRangeMarkers(g2, dataArea, i, Layer.BACKGROUND);
         }
 
@@ -3637,14 +3612,14 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
                 AlphaComposite.SRC_OVER, getForegroundAlpha()));
 
         DatasetRenderingOrder order = getDatasetRenderingOrder();
-        List</*@NonNegative*/ Integer> datasetIndices = getDatasetIndices(order);
+        List<Integer> datasetIndices = getDatasetIndices(order);
         for (int i : datasetIndices) {
             foundData = render(g2, dataArea, i, state, crosshairState)
                     || foundData;
         }
 
         // draw the foreground markers...
-        List</*@NonNegative*/ Integer> rendererIndices = getRendererIndices(order);
+        List<Integer> rendererIndices = getRendererIndices(order);
         for (int i : rendererIndices) {
             drawDomainMarkers(g2, dataArea, i, Layer.FOREGROUND);
         }
@@ -3729,9 +3704,9 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * 
      * @return The list of indices. 
      */
-    private List</*@NonNegative*/ Integer> getDatasetIndices(DatasetRenderingOrder order) {
-                List</*@NonNegative*/ /*@UnknownVal*/ Integer> result = new ArrayList</*@NonNegative*/ Integer>();
-        for (Map.Entry</*@NonNegative*/ Integer, CategoryDataset> entry :
+    private List<Integer> getDatasetIndices(DatasetRenderingOrder order) {
+        List<Integer> result = new ArrayList<Integer>();
+        for (Map.Entry<Integer, CategoryDataset> entry : 
                 this.datasets.entrySet()) {
             if (entry.getValue() != null) {
                 result.add(entry.getKey());
@@ -3752,9 +3727,9 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * 
      * @return A list of indices.
      */
-    private List</*@NonNegative*/ Integer> getRendererIndices(DatasetRenderingOrder order) {
-                List</*@NonNegative*/ /*@UnknownVal*/ Integer> result = new ArrayList</*@NonNegative*/ Integer>();
-        for (Map.Entry</*@NonNegative*/ Integer, CategoryItemRenderer> entry:
+    private List<Integer> getRendererIndices(DatasetRenderingOrder order) {
+        List<Integer> result = new ArrayList<Integer>();
+        for (Map.Entry<Integer, CategoryItemRenderer> entry: 
                 this.renderers.entrySet()) {
             if (entry.getValue() != null) {
                 result.add(entry.getKey());
@@ -3802,8 +3777,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         // add domain axes to lists...
         for (CategoryAxis xAxis : this.domainAxes.values()) {
             if (xAxis != null) {
-                @SuppressWarnings("index") // guaranteed index: xAxis is guaranteed to have an index, so getDomainAxisIndex return NN
-                /*@NonNegative*/ int index = getDomainAxisIndex(xAxis);
+                int index = getDomainAxisIndex(xAxis);
                 axisCollection.add(xAxis, getDomainAxisEdge(index));
             }
         }
@@ -3811,8 +3785,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         // add range axes to lists...
         for (ValueAxis yAxis : this.rangeAxes.values()) {
             if (yAxis != null) {
-                @SuppressWarnings("index") // guaranteed index: yAxis is guaranteed to have an index, so getRangeAxisIndex return NN
-                /*@NonNegative*/ int index = findRangeAxisIndex(yAxis);
+                int index = findRangeAxisIndex(yAxis);
                 axisCollection.add(yAxis, getRangeAxisEdge(index));
             }
         }
@@ -3894,7 +3867,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      *
      * @since 1.0.11
      */
-    public boolean render(Graphics2D g2, Rectangle2D dataArea, /*@NonNegative*/ int index,
+    public boolean render(Graphics2D g2, Rectangle2D dataArea, int index,
             PlotRenderingInfo info, CategoryCrosshairState crosshairState) {
 
         boolean foundData = false;
@@ -4092,7 +4065,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * @see #drawRangeMarkers(Graphics2D, Rectangle2D, int, Layer)
      */
     protected void drawDomainMarkers(Graphics2D g2, Rectangle2D dataArea,
-                                     /*@NonNegative*/ int index, Layer layer) {
+                                     int index, Layer layer) {
 
         CategoryItemRenderer r = getRenderer(index);
         if (r == null) {
@@ -4123,7 +4096,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * @see #drawDomainMarkers(Graphics2D, Rectangle2D, int, Layer)
      */
     protected void drawRangeMarkers(Graphics2D g2, Rectangle2D dataArea,
-                                    /*@NonNegative*/ int index, Layer layer) {
+                                    int index, Layer layer) {
 
         CategoryItemRenderer r = getRenderer(index);
         if (r == null) {
@@ -4190,7 +4163,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
      * @since 1.0.11
      */
     protected void drawDomainCrosshair(Graphics2D g2, Rectangle2D dataArea,
-            PlotOrientation orientation, /*@NonNegative*/ int datasetIndex,
+            PlotOrientation orientation, int datasetIndex,
             Comparable rowKey, Comparable columnKey, Stroke stroke,
             Paint paint) {
 
@@ -5008,18 +4981,12 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         }
 
         // AxisLocation is immutable, so we can just copy the maps
-
-                HashMap clonedomainAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>(
+        clone.domainAxisLocations = new HashMap<Integer, AxisLocation>(
                 this.domainAxisLocations);
-        clone.domainAxisLocations = clonedomainAxisLocations;
-
-        HashMap clonerangeAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>(
+        clone.rangeAxisLocations = new HashMap<Integer, AxisLocation>(
                 this.rangeAxisLocations);
-        clone.rangeAxisLocations = clonerangeAxisLocations;
 
-
-                HashMap clonedatasets = new HashMap</*@NonNegative*/ Integer, CategoryDataset>(this.datasets);
-        clone.datasets = clonedatasets;
+        clone.datasets = new HashMap<Integer, CategoryDataset>(this.datasets);
         for (CategoryDataset dataset : clone.datasets.values()) {
             if (dataset != null) {
                 dataset.addChangeListener(clone);

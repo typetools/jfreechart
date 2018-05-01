@@ -39,12 +39,6 @@
  */
 
 package org.jfree.chart.labels;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.MinLen; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -152,11 +146,9 @@ public class IntervalXYToolTipGenerator extends AbstractXYItemLabelGenerator
      *         {@code String} objects (never {@code null}).
      */
     @Override
-    protected Object/*@MinLen(7)*/ [] createItemArray(XYDataset dataset, /*@NonNegative*/ int series,
-            /*@IndexFor("#1.getSeries(#2)")*/ int item) {
+    protected Object[] createItemArray(XYDataset dataset, int series, 
+            int item) {
         IntervalXYDataset intervalDataset = null;
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-        /*@IndexFor("intervalDataset.getSeries(series)")*/ int itemIntervalDataset = item;
         if (dataset instanceof IntervalXYDataset) {
             intervalDataset = (IntervalXYDataset) dataset;
         }
@@ -170,10 +162,10 @@ public class IntervalXYToolTipGenerator extends AbstractXYItemLabelGenerator
         double ys = y;
         double ye = y;
         if (intervalDataset != null) {
-            xs = intervalDataset.getStartXValue(series, itemIntervalDataset);
-            xe = intervalDataset.getEndXValue(series, itemIntervalDataset);
-            ys = intervalDataset.getStartYValue(series, itemIntervalDataset);
-            ye = intervalDataset.getEndYValue(series, itemIntervalDataset);
+            xs = intervalDataset.getStartXValue(series, item);
+            xe = intervalDataset.getEndXValue(series, item);
+            ys = intervalDataset.getStartYValue(series, item);
+            ye = intervalDataset.getEndYValue(series, item);
         }
 
         DateFormat xdf = getXDateFormat();
@@ -201,7 +193,7 @@ public class IntervalXYToolTipGenerator extends AbstractXYItemLabelGenerator
             }
         }
         if (Double.isNaN(ys) && intervalDataset != null
-                && intervalDataset.getStartY(series, itemIntervalDataset) == null) {
+                && intervalDataset.getStartY(series, item) == null) {
             result[5] = getNullYString();
         } else {
             if (ydf != null) {
@@ -212,7 +204,7 @@ public class IntervalXYToolTipGenerator extends AbstractXYItemLabelGenerator
             }
         }
         if (Double.isNaN(ye) && intervalDataset != null
-                && intervalDataset.getEndY(series, itemIntervalDataset) == null) {
+                && intervalDataset.getEndY(series, item) == null) {
             result[6] = getNullYString();
         } else {
             if (ydf != null) {
@@ -235,7 +227,7 @@ public class IntervalXYToolTipGenerator extends AbstractXYItemLabelGenerator
      * @return The tool tip text (possibly {@code null}).
      */
     @Override
-    public String generateToolTip(XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#1.getSeries(#2)")*/ int item) {
+    public String generateToolTip(XYDataset dataset, int series, int item) {
         return generateLabelString(dataset, series, item);
     }
 

@@ -48,7 +48,6 @@
  */
 
 package org.jfree.chart.renderer.category;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -138,7 +137,7 @@ public class GroupedStackedBarRenderer extends StackedBarRenderer
      */
     @Override
     protected void calculateBarWidth(CategoryPlot plot, Rectangle2D dataArea,
-            /*@NonNegative*/ int rendererIndex, CategoryItemRendererState state) {
+            int rendererIndex, CategoryItemRendererState state) {
 
         // calculate the bar width
         CategoryAxis xAxis = plot.getDomainAxisForDataset(rendererIndex);
@@ -197,7 +196,7 @@ public class GroupedStackedBarRenderer extends StackedBarRenderer
     protected double calculateBarW0(CategoryPlot plot, 
             PlotOrientation orientation, Rectangle2D dataArea,
             CategoryAxis domainAxis, CategoryItemRendererState state,
-            /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+            int row, int column) {
         // calculate bar width...
         double space;
         if (orientation == PlotOrientation.HORIZONTAL) {
@@ -209,10 +208,9 @@ public class GroupedStackedBarRenderer extends StackedBarRenderer
         double barW0 = domainAxis.getCategoryStart(column, getColumnCount(),
                 dataArea, plot.getDomainAxisEdge());
         int groupCount = this.seriesToGroupMap.getGroupCount();
-        @SuppressWarnings("index") // this renderer is assumed to be associated with the plot passed to this function. If that isn't true, this will fail. A bug?
-        CategoryDataset dataset = plot.getDataset(plot.getIndexOf(this));
         int groupIndex = this.seriesToGroupMap.getGroupIndex(
-                this.seriesToGroupMap.getGroup(dataset.getRowKey(row)));
+                this.seriesToGroupMap.getGroup(plot.getDataset(
+                        plot.getIndexOf(this)).getRowKey(row)));
         int categoryCount = getColumnCount();
         if (groupCount > 1) {
             double groupGap = space * getItemMargin()
@@ -247,8 +245,8 @@ public class GroupedStackedBarRenderer extends StackedBarRenderer
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row,
-            /*@NonNegative*/ int column, int pass) {
+            ValueAxis rangeAxis, CategoryDataset dataset, int row,
+            int column, int pass) {
 
         // nothing is drawn for null values...
         Number dataValue = dataset.getValue(row, column);

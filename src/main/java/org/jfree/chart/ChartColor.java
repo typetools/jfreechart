@@ -44,8 +44,6 @@
  */
 
 package org.jfree.chart;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.*; */
 
 import java.awt.Color;
 import java.awt.Paint;
@@ -148,7 +146,7 @@ public class ChartColor extends Color {
      *
      * @return An array of objects with the {@code Paint} interface.
      */
-    public static Paint /*@ArrayLen(34)*/ [] createDefaultPaintArray() {
+    public static Paint[] createDefaultPaintArray() {
 
         return new Paint[] {
             new Color(0xFF, 0x55, 0x55),

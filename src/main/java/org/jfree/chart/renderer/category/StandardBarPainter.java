@@ -40,7 +40,6 @@
  */
 
 package org.jfree.chart.renderer.category;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -82,8 +81,8 @@ public class StandardBarPainter implements BarPainter, Serializable {
      *              bar.
      */
     @Override
-    public void paintBar(Graphics2D g2, BarRenderer renderer, /*@NonNegative*/ int row,
-            /*@NonNegative*/ int column, RectangularShape bar, RectangleEdge base) {
+    public void paintBar(Graphics2D g2, BarRenderer renderer, int row,
+            int column, RectangularShape bar, RectangleEdge base) {
 
         Paint itemPaint = renderer.getItemPaint(row, column);
         GradientPaintTransformer t = renderer.getGradientPaintTransformer();
@@ -120,8 +119,8 @@ public class StandardBarPainter implements BarPainter, Serializable {
      * @param pegShadow  peg the shadow to the base of the bar?
      */
     @Override
-    public void paintBarShadow(Graphics2D g2, BarRenderer renderer, /*@NonNegative*/ int row,
-            /*@NonNegative*/ int column, RectangularShape bar, RectangleEdge base,
+    public void paintBarShadow(Graphics2D g2, BarRenderer renderer, int row,
+            int column, RectangularShape bar, RectangleEdge base,
             boolean pegShadow) {
 
         // handle a special case - if the bar colour has alpha == 0, it is

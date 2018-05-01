@@ -47,10 +47,6 @@
  */
 
 package org.jfree.data.time;
-/*>>> import org.checkerframework.dataflow.qual.Pure; */
-/*>>> import org.checkerframework.checker.index.qual.GTENegativeOne; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
-/*>>> import org.checkerframework.checker.index.qual.LessThan; */
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -91,22 +87,22 @@ public class TimePeriodValues extends Series implements Serializable {
     private List data;
 
     /** Index of the time period with the minimum start milliseconds. */
-    private /*@GTENegativeOne*/ int minStartIndex = -1;
+    private int minStartIndex = -1;
     
     /** Index of the time period with the maximum start milliseconds. */
-    private /*@GTENegativeOne*/ int maxStartIndex = -1;
+    private int maxStartIndex = -1;
     
     /** Index of the time period with the minimum middle milliseconds. */
-    private /*@GTENegativeOne*/ int minMiddleIndex = -1;
+    private int minMiddleIndex = -1;
     
     /** Index of the time period with the maximum middle milliseconds. */
-    private /*@GTENegativeOne*/ int maxMiddleIndex = -1;
+    private int maxMiddleIndex = -1;
     
     /** Index of the time period with the minimum end milliseconds. */
-    private /*@GTENegativeOne*/ int minEndIndex = -1;
+    private int minEndIndex = -1;
     
     /** Index of the time period with the maximum end milliseconds. */
-    private /*@GTENegativeOne*/ int maxEndIndex = -1;
+    private int maxEndIndex = -1;
 
     /**
      * Creates a new (empty) collection of time period values.
@@ -193,7 +189,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * @return The item count.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount() {
+    public int getItemCount() {
         return this.data.size();
     }
 
@@ -205,8 +201,7 @@ public class TimePeriodValues extends Series implements Serializable {
      *
      * @return One data item for the series.
      */
-    /*@Pure*/
-    public TimePeriodValue getDataItem(/*@NonNegative*/ int index) {
+    public TimePeriodValue getDataItem(int index) {
         return (TimePeriodValue) this.data.get(index);
     }
 
@@ -220,7 +215,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @see #getDataItem(int)
      */
-    public TimePeriod getTimePeriod(/*@NonNegative*/ int index) {
+    public TimePeriod getTimePeriod(int index) {
         return getDataItem(index).getPeriod();
     }
 
@@ -234,7 +229,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @see #getDataItem(int)
      */
-    public Number getValue(/*@NonNegative*/ int index) {
+    public Number getValue(int index) {
         return getDataItem(index).getValue();
     }
 
@@ -247,9 +242,7 @@ public class TimePeriodValues extends Series implements Serializable {
     public void add(TimePeriodValue item) {
         Args.nullNotPermitted(item, "item");
         this.data.add(item);
-        @SuppressWarnings("index") // data.size is positive because we just added an item to data on the previous line
-        /*@NonNegative*/ int lastIndex = this.data.size() - 1;
-        updateBounds(item.getPeriod(), lastIndex);
+        updateBounds(item.getPeriod(), this.data.size() - 1);
         fireSeriesChanged();
     }
     
@@ -259,7 +252,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * @param period  the time period.
      * @param index  the index of the time period.
      */
-    private void updateBounds(TimePeriod period, /*@NonNegative*/ int index) {
+    private void updateBounds(TimePeriod period, int index) {
         
         long start = period.getStart().getTime();
         long end = period.getEnd().getTime();
@@ -286,13 +279,11 @@ public class TimePeriodValues extends Series implements Serializable {
         else {
             this.maxStartIndex = index;
         }
-
-        // don't use field directly to satisfy typechecker that field is not side-effected
-        int minMiddleIndex = this.minMiddleIndex;
-        if (minMiddleIndex >= 0) {
-            long s = getDataItem(minMiddleIndex).getPeriod().getStart()
+        
+        if (this.minMiddleIndex >= 0) {
+            long s = getDataItem(this.minMiddleIndex).getPeriod().getStart()
                 .getTime();
-            long e = getDataItem(minMiddleIndex).getPeriod().getEnd()
+            long e = getDataItem(this.minMiddleIndex).getPeriod().getEnd()
                 .getTime();
             long minMiddle = s + (e - s) / 2;
             if (middle < minMiddle) {
@@ -302,13 +293,11 @@ public class TimePeriodValues extends Series implements Serializable {
         else {
             this.minMiddleIndex = index;
         }
-
-        // don't use field directly to satisfy typechecker that field is not side-effected
-        int maxMiddleIndex = this.maxMiddleIndex;
-        if (maxMiddleIndex >= 0) {
-            long s = getDataItem(maxMiddleIndex).getPeriod().getStart()
+        
+        if (this.maxMiddleIndex >= 0) {
+            long s = getDataItem(this.maxMiddleIndex).getPeriod().getStart()
                 .getTime();
-            long e = getDataItem(maxMiddleIndex).getPeriod().getEnd()
+            long e = getDataItem(this.maxMiddleIndex).getPeriod().getEnd()
                 .getTime();
             long maxMiddle = s + (e - s) / 2;
             if (middle > maxMiddle) {
@@ -392,7 +381,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * @param index  the index of the data item to update.
      * @param value  the new value ({@code null} not permitted).
      */
-    public void update(/*@NonNegative*/ int index, Number value) {
+    public void update(int index, Number value) {
         TimePeriodValue item = getDataItem(index);
         item.setValue(value);
         fireSeriesChanged();
@@ -405,7 +394,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * @param start  the index of the first period to delete.
      * @param end  the index of the last period to delete.
      */
-    public void delete(/*@NonNegative*/ /*@LessThan("#2 + 1")*/ int start, /*@NonNegative*/ int end) {
+    public void delete(int start, int end) {
         for (int i = 0; i <= (end - start); i++) {
             this.data.remove(start);
         }
@@ -504,7 +493,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @throws CloneNotSupportedException if there is a cloning problem.
      */
-    public TimePeriodValues createCopy(/*@NonNegative*/ int start, /*@GTENegativeOne*/ int end)
+    public TimePeriodValues createCopy(int start, int end) 
         throws CloneNotSupportedException {
 
         TimePeriodValues copy = (TimePeriodValues) super.clone();
@@ -531,7 +520,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @return The index.
      */
-    public /*@GTENegativeOne*/ int getMinStartIndex() {
+    public int getMinStartIndex() {
         return this.minStartIndex;
     }
     
@@ -540,7 +529,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @return The index.
      */
-    public /*@GTENegativeOne*/ int getMaxStartIndex() {
+    public int getMaxStartIndex() {
         return this.maxStartIndex;
     }
 
@@ -550,7 +539,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @return The index.
      */
-    public /*@GTENegativeOne*/ int getMinMiddleIndex() {
+    public int getMinMiddleIndex() {
         return this.minMiddleIndex;
     }
     
@@ -560,7 +549,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @return The index.
      */
-    public /*@GTENegativeOne*/ int getMaxMiddleIndex() {
+    public int getMaxMiddleIndex() {
         return this.maxMiddleIndex;
     }
 
@@ -569,7 +558,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @return The index.
      */
-    public /*@GTENegativeOne*/ int getMinEndIndex() {
+    public int getMinEndIndex() {
         return this.minEndIndex;
     }
     
@@ -578,7 +567,7 @@ public class TimePeriodValues extends Series implements Serializable {
      * 
      * @return The index.
      */
-    public /*@GTENegativeOne*/ int getMaxEndIndex() {
+    public int getMaxEndIndex() {
         return this.maxEndIndex;
     }
 

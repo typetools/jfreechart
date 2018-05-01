@@ -54,12 +54,6 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -234,7 +228,7 @@ public class XYDotRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            int series, int item, CrosshairState crosshairState, int pass) {
 
         // do nothing if item is not visible
         if (!getItemVisible(series, item)) {
@@ -265,8 +259,7 @@ public class XYDotRenderer extends AbstractXYItemRenderer
                         this.dotHeight);
             }
 
-            @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
-            /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
+            int datasetIndex = plot.indexOf(dataset);
             updateCrosshairValues(crosshairState, x, y, datasetIndex,
                     transX, transY, orientation);
         }
@@ -282,7 +275,7 @@ public class XYDotRenderer extends AbstractXYItemRenderer
      * @return A legend item for the series (possibly {@code null}).
      */
     @Override
-    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(int datasetIndex, int series) {
 
         // if the renderer isn't assigned to a plot, then we don't have a
         // dataset...

@@ -51,10 +51,6 @@
 
 package org.jfree.chart.renderer.category;
 
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
-
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
@@ -170,7 +166,7 @@ public class CategoryStepRenderer extends AbstractCategoryItemRenderer
      * @return The legend item.
      */
     @Override
-    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(int datasetIndex, int series) {
 
         CategoryPlot p = getPlot();
         if (p == null) {
@@ -277,8 +273,8 @@ public class CategoryStepRenderer extends AbstractCategoryItemRenderer
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row,
-            /*@NonNegative*/ int column, int pass) {
+            ValueAxis rangeAxis, CategoryDataset dataset, int row,
+            int column, int pass) {
 
         // do nothing if item is not visible
         if (!getItemVisible(row, column)) {

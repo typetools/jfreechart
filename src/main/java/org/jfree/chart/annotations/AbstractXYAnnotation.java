@@ -42,7 +42,6 @@
  */
 
 package org.jfree.chart.annotations;
-/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.awt.Graphics2D;
 import java.awt.Shape;
@@ -139,7 +138,7 @@ public abstract class AbstractXYAnnotation extends AbstractAnnotation
     @Override
     public abstract void draw(Graphics2D g2, XYPlot plot, Rectangle2D dataArea,
                               ValueAxis domainAxis, ValueAxis rangeAxis,
-                              /*@NonNegative*/ int rendererIndex,
+                              int rendererIndex,
                               PlotRenderingInfo info);
 
     /**
@@ -153,7 +152,7 @@ public abstract class AbstractXYAnnotation extends AbstractAnnotation
      * @param urlText  the URL text.
      */
     protected void addEntity(PlotRenderingInfo info,
-                             Shape hotspot, /*@NonNegative*/ int rendererIndex,
+                             Shape hotspot, int rendererIndex,
                              String toolTipText, String urlText) {
         if (info == null) {
             return;

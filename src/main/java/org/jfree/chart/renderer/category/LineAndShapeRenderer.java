@@ -94,10 +94,6 @@
 
 package org.jfree.chart.renderer.category;
 
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
-
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
@@ -234,7 +230,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      *
      * @return A boolean.
      */
-    public boolean getItemLineVisible(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public boolean getItemLineVisible(int series, int item) {
         Boolean flag = getSeriesLinesVisible(series);
         if (flag != null) {
             return flag;
@@ -252,7 +248,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      *
      * @see #setSeriesLinesVisible(int, Boolean)
      */
-    public Boolean getSeriesLinesVisible(/*@NonNegative*/ int series) {
+    public Boolean getSeriesLinesVisible(int series) {
         return this.seriesLinesVisible.getBoolean(series);
     }
 
@@ -265,7 +261,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      *
      * @see #getSeriesLinesVisible(int)
      */
-    public void setSeriesLinesVisible(/*@NonNegative*/ int series, Boolean flag) {
+    public void setSeriesLinesVisible(int series, Boolean flag) {
         this.seriesLinesVisible.setBoolean(series, flag);
         fireChangeEvent();
     }
@@ -279,7 +275,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      *
      * @see #getSeriesLinesVisible(int)
      */
-    public void setSeriesLinesVisible(/*@NonNegative*/ int series, boolean visible) {
+    public void setSeriesLinesVisible(int series, boolean visible) {
         setSeriesLinesVisible(series, Boolean.valueOf(visible));
     }
 
@@ -318,7 +314,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      *
      * @return A boolean.
      */
-    public boolean getItemShapeVisible(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public boolean getItemShapeVisible(int series, int item) {
         Boolean flag = getSeriesShapesVisible(series);
         if (flag != null) {
             return flag;
@@ -336,7 +332,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      *
      * @see #setSeriesShapesVisible(int, Boolean)
      */
-    public Boolean getSeriesShapesVisible(/*@NonNegative*/ int series) {
+    public Boolean getSeriesShapesVisible(int series) {
         return this.seriesShapesVisible.getBoolean(series);
     }
 
@@ -349,7 +345,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      *
      * @see #getSeriesShapesVisible(int)
      */
-    public void setSeriesShapesVisible(/*@NonNegative*/ int series, boolean visible) {
+    public void setSeriesShapesVisible(int series, boolean visible) {
         setSeriesShapesVisible(series, Boolean.valueOf(visible));
     }
 
@@ -362,7 +358,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      *
      * @see #getSeriesShapesVisible(int)
      */
-    public void setSeriesShapesVisible(/*@NonNegative*/ int series, Boolean flag) {
+    public void setSeriesShapesVisible(int series, Boolean flag) {
         this.seriesShapesVisible.setBoolean(series, flag);
         fireChangeEvent();
     }
@@ -459,7 +455,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      *
      * @return A boolean.
      */
-    public boolean getItemShapeFilled(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public boolean getItemShapeFilled(int series, int item) {
         return getSeriesShapesFilled(series);
     }
 
@@ -471,7 +467,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      *
      * @return A boolean.
      */
-    public boolean getSeriesShapesFilled(/*@NonNegative*/ int series) {
+    public boolean getSeriesShapesFilled(int series) {
         Boolean flag = this.seriesShapesFilled.getBoolean(series);
         if (flag != null) {
             return flag;
@@ -488,7 +484,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      *
      * @see #getSeriesShapesFilled(int)
      */
-    public void setSeriesShapesFilled(/*@NonNegative*/ int series, Boolean filled) {
+    public void setSeriesShapesFilled(int series, Boolean filled) {
         this.seriesShapesFilled.setBoolean(series, filled);
         fireChangeEvent();
     }
@@ -502,7 +498,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      *
      * @see #getSeriesShapesFilled(int)
      */
-    public void setSeriesShapesFilled(/*@NonNegative*/ int series, boolean filled) {
+    public void setSeriesShapesFilled(int series, boolean filled) {
         // delegate
         setSeriesShapesFilled(series, Boolean.valueOf(filled));
     }
@@ -634,7 +630,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      * @return The legend item.
      */
     @Override
-    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(int datasetIndex, int series) {
 
         CategoryPlot cp = getPlot();
         if (cp == null) {
@@ -692,7 +688,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      * @return The pass count ({@code 2} for this renderer).
      */
     @Override
-    public /*@NonNegative*/ int getPassCount() {
+    public int getPassCount() {
         return 2;
     }
 
@@ -713,7 +709,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column,
+            ValueAxis rangeAxis, CategoryDataset dataset, int row, int column,
             int pass) {
 
         // do nothing if item is not visible
@@ -836,8 +832,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
             }
 
             // submit the current data point as a crosshair candidate
-            @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
-            /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
+            int datasetIndex = plot.indexOf(dataset);
             updateCrosshairValues(state.getCrosshairState(),
                     dataset.getRowKey(row), dataset.getColumnKey(column),
                     value, datasetIndex, x1, y1, orientation);

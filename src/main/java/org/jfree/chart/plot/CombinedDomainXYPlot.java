@@ -496,8 +496,7 @@ public class CombinedDomainXYPlot extends XYPlot
         parentState.getSharedAxisStates().put(axis, axisState);
 
         // draw all the subplots
-        // this.subplotAreas and this.subplots always have the same length
-        for (int i = 0; i < this.subplotAreas.length; i++) {
+        for (int i = 0; i < this.subplots.size(); i++) {
             XYPlot plot = (XYPlot) this.subplots.get(i);
             PlotRenderingInfo subplotInfo = null;
             if (info != null) {
@@ -616,7 +615,6 @@ public class CombinedDomainXYPlot extends XYPlot
         if (!subplot.isRangePannable()) {
             return;
         }
-        @SuppressWarnings("index") // guaranteed index: getSubplotIndex is guaranteed to return non-negative because if the subplot isn't found, then subplot would have been null above and the function would have returned.
         PlotRenderingInfo subplotInfo = info.getSubplotInfo(
                 info.getSubplotIndex(source));
         if (subplotInfo == null) {

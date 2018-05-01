@@ -40,7 +40,6 @@
  */
 
 package org.jfree.chart.labels;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import org.jfree.data.category.CategoryDataset;
 
@@ -67,6 +66,6 @@ public interface CategoryToolTipGenerator {
      *
      * @return The tooltip text (possibly {@code null}).
      */
-    public String generateToolTip(CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public String generateToolTip(CategoryDataset dataset, int row, int column);
 
 }

@@ -50,10 +50,6 @@
 
 package org.jfree.chart.entity;
 
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
-
 import java.awt.Shape;
 
 import org.jfree.data.xy.XYDataset;
@@ -71,7 +67,7 @@ public class XYItemEntity extends ChartEntity {
     private transient XYDataset dataset;
 
     /** The series. */
-    private /*@NonNegative*/ int series;
+    private int series;
 
     /** The item. */
     private int item;
@@ -87,7 +83,7 @@ public class XYItemEntity extends ChartEntity {
      * @param urlText  the URL text for HTML image maps.
      */
     public XYItemEntity(Shape area,
-                        XYDataset dataset, /*@NonNegative*/ int series, /*@NonNegative*/ int item,
+                        XYDataset dataset, int series, int item,
                         String toolTipText, String urlText) {
         super(area, toolTipText, urlText);
         this.dataset = dataset;
@@ -118,7 +114,7 @@ public class XYItemEntity extends ChartEntity {
      *
      * @return The series index.
      */
-    public /*@NonNegative*/ int getSeriesIndex() {
+    public int getSeriesIndex() {
         return this.series;
     }
 
@@ -127,7 +123,7 @@ public class XYItemEntity extends ChartEntity {
      *
      * @param series the series index (zero-based).
      */
-    public void setSeriesIndex(/*@NonNegative*/ int series) {
+    public void setSeriesIndex(int series) {
         this.series = series;
     }
 
@@ -145,7 +141,7 @@ public class XYItemEntity extends ChartEntity {
      *
      * @param item the item index (zero-based).
      */
-    public void setItem(/*@NonNegative*/ int item) {
+    public void setItem(int item) {
         this.item = item;
     }
 

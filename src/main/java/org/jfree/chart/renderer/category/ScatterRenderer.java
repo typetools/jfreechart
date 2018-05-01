@@ -45,10 +45,6 @@
 
 package org.jfree.chart.renderer.category;
 
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
-
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
@@ -268,7 +264,7 @@ public class ScatterRenderer extends AbstractCategoryItemRenderer
      * @param item   the item index (zero-based).
      * @return A boolean.
      */
-    public boolean getItemShapeFilled(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public boolean getItemShapeFilled(int series, int item) {
         return getSeriesShapesFilled(series);
     }
 
@@ -279,7 +275,7 @@ public class ScatterRenderer extends AbstractCategoryItemRenderer
      * @param series the series index (zero-based).
      * @return A boolean.
      */
-    public boolean getSeriesShapesFilled(/*@NonNegative*/ int series) {
+    public boolean getSeriesShapesFilled(int series) {
         Boolean flag = this.seriesShapesFilled.getBoolean(series);
         if (flag != null) {
             return flag.booleanValue();
@@ -297,7 +293,7 @@ public class ScatterRenderer extends AbstractCategoryItemRenderer
      * @param series the series index (zero-based).
      * @param filled the flag.
      */
-    public void setSeriesShapesFilled(/*@NonNegative*/ int series, Boolean filled) {
+    public void setSeriesShapesFilled(int series, Boolean filled) {
         this.seriesShapesFilled.setBoolean(series, filled);
         fireChangeEvent();
     }
@@ -309,7 +305,7 @@ public class ScatterRenderer extends AbstractCategoryItemRenderer
      * @param series the series index (zero-based).
      * @param filled the flag.
      */
-    public void setSeriesShapesFilled(/*@NonNegative*/ int series, boolean filled) {
+    public void setSeriesShapesFilled(int series, boolean filled) {
         this.seriesShapesFilled.setBoolean(series, Boolean.valueOf(filled));
         fireChangeEvent();
     }
@@ -389,7 +385,7 @@ public class ScatterRenderer extends AbstractCategoryItemRenderer
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column,
+            ValueAxis rangeAxis, CategoryDataset dataset, int row, int column,
             int pass) {
 
         // do nothing if item is not visible
@@ -466,7 +462,7 @@ public class ScatterRenderer extends AbstractCategoryItemRenderer
      * @return The legend item.
      */
     @Override
-    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(int datasetIndex, int series) {
 
         CategoryPlot cp = getPlot();
         if (cp == null) {

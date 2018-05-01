@@ -27,7 +27,6 @@
  */
 
 package org.jfree.chart.ui;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Component;
 import java.text.NumberFormat;
@@ -64,9 +63,9 @@ public class NumberCellRenderer extends DefaultTableCellRenderer {
      * @return the component that can render the contents of the cell.
      */
     @Override
-    public Component getTableCellRendererComponent(JTable table,
+    public Component getTableCellRendererComponent(JTable table, 
             Object value, boolean isSelected, 
-            boolean hasFocus, /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+            boolean hasFocus, int row, int column) {
 
         setFont(null);
         NumberFormat nf = NumberFormat.getNumberInstance();

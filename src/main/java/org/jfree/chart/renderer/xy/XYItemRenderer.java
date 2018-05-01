@@ -85,11 +85,6 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -146,7 +141,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The pass count.
      */
-    public /*@NonNegative*/ int getPassCount();
+    public int getPassCount();
 
     /**
      * Returns the lower and upper bounds (range) of the x-values in the
@@ -202,7 +197,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return A boolean.
      */
-    public boolean getItemVisible(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
+    public boolean getItemVisible(int series, int item);
 
     /**
      * Returns a boolean that indicates whether or not the specified series
@@ -212,7 +207,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return A boolean.
      */
-    public boolean isSeriesVisible(/*@NonNegative*/ int series);
+    public boolean isSeriesVisible(int series);
 
     /**
      * Returns the flag that controls whether a series is visible.
@@ -223,7 +218,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesVisible(int, Boolean)
      */
-    public Boolean getSeriesVisible(/*@NonNegative*/ int series);
+    public Boolean getSeriesVisible(int series);
 
     /**
      * Sets the flag that controls whether a series is visible and sends a
@@ -234,7 +229,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesVisible(int)
      */
-    public void setSeriesVisible(/*@NonNegative*/ int series, Boolean visible);
+    public void setSeriesVisible(int series, Boolean visible);
 
     /**
      * Sets the flag that controls whether a series is visible and, if
@@ -247,7 +242,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesVisible(int)
      */
-    public void setSeriesVisible(/*@NonNegative*/ int series, Boolean visible, boolean notify);
+    public void setSeriesVisible(int series, Boolean visible, boolean notify);
 
     /**
      * Returns the default visibility for all series.
@@ -289,7 +284,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return A boolean.
      */
-    public boolean isSeriesVisibleInLegend(/*@NonNegative*/ int series);
+    public boolean isSeriesVisibleInLegend(int series);
 
     /**
      * Returns the flag that controls whether a series is visible in the
@@ -303,7 +298,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesVisibleInLegend(int, Boolean)
      */
-    public Boolean getSeriesVisibleInLegend(/*@NonNegative*/ int series);
+    public Boolean getSeriesVisibleInLegend(int series);
 
     /**
      * Sets the flag that controls whether a series is visible in the legend
@@ -314,7 +309,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesVisibleInLegend(int)
      */
-    public void setSeriesVisibleInLegend(/*@NonNegative*/ int series, Boolean visible);
+    public void setSeriesVisibleInLegend(int series, Boolean visible);
 
     /**
      * Sets the flag that controls whether a series is visible in the legend
@@ -327,7 +322,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesVisibleInLegend(int)
      */
-    public void setSeriesVisibleInLegend(/*@NonNegative*/ int series, Boolean visible,
+    public void setSeriesVisibleInLegend(int series, Boolean visible,
                                          boolean notify);
 
     /**
@@ -371,7 +366,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getItemPaint(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Paint getItemPaint(int row, int column);
 
     /**
      * Returns the paint used to color an item drawn by the renderer.
@@ -382,7 +377,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesPaint(int, Paint)
      */
-    public Paint getSeriesPaint(/*@NonNegative*/ int series);
+    public Paint getSeriesPaint(int series);
 
     /**
      * Sets the paint used for a series and sends a {@link RendererChangeEvent}
@@ -393,9 +388,9 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesPaint(int)
      */
-    public void setSeriesPaint(/*@NonNegative*/ int series, Paint paint);
+    public void setSeriesPaint(int series, Paint paint);
 
-    public void setSeriesPaint(/*@NonNegative*/ int series, Paint paint, boolean notify);
+    public void setSeriesPaint(int series, Paint paint, boolean notify);
 
     /**
      * Returns the default paint.
@@ -428,7 +423,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getItemFillPaint(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Paint getItemFillPaint(int row, int column);
 
     /**
      * Returns the paint used to fill an item drawn by the renderer.
@@ -437,7 +432,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The paint (possibly {@code null}).
      */
-    public Paint getSeriesFillPaint(/*@NonNegative*/ int series);
+    public Paint getSeriesFillPaint(int series);
 
     /**
      * Sets the paint used for a series and sends a
@@ -446,9 +441,9 @@ public interface XYItemRenderer extends LegendItemSource {
      * @param series  the series index (zero-based).
      * @param paint  the paint ({@code null} permitted).
      */
-    public void setSeriesFillPaint(/*@NonNegative*/ int series, Paint paint);
+    public void setSeriesFillPaint(int series, Paint paint);
 
-    public void setSeriesFillPaint(/*@NonNegative*/ int series, Paint paint, boolean notify);
+    public void setSeriesFillPaint(int series, Paint paint, boolean notify);
 
     /**
      * Returns the default paint.
@@ -477,7 +472,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getItemOutlinePaint(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Paint getItemOutlinePaint(int row, int column);
 
     /**
      * Returns the paint used to outline an item drawn by the renderer.
@@ -488,7 +483,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesOutlinePaint(int, Paint)
      */
-    public Paint getSeriesOutlinePaint(/*@NonNegative*/ int series);
+    public Paint getSeriesOutlinePaint(int series);
 
     /**
      * Sets the paint used for a series outline and sends a
@@ -499,9 +494,9 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesOutlinePaint(int)
      */
-    public void setSeriesOutlinePaint(/*@NonNegative*/ int series, Paint paint);
+    public void setSeriesOutlinePaint(int series, Paint paint);
 
-    public void setSeriesOutlinePaint(/*@NonNegative*/ int series, Paint paint, boolean notify);
+    public void setSeriesOutlinePaint(int series, Paint paint, boolean notify);
 
     /**
      * Returns the default outline paint.
@@ -534,7 +529,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The stroke (never {@code null}).
      */
-    public Stroke getItemStroke(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Stroke getItemStroke(int row, int column);
 
     /**
      * Returns the stroke used to draw the items in a series.
@@ -545,7 +540,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesStroke(int, Stroke)
      */
-    public Stroke getSeriesStroke(/*@NonNegative*/ int series);
+    public Stroke getSeriesStroke(int series);
 
     /**
      * Sets the stroke used for a series and sends a
@@ -556,9 +551,9 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesStroke(int)
      */
-    public void setSeriesStroke(/*@NonNegative*/ int series, Stroke stroke);
+    public void setSeriesStroke(int series, Stroke stroke);
 
-    public void setSeriesStroke(/*@NonNegative*/ int series, Stroke stroke, boolean notify);
+    public void setSeriesStroke(int series, Stroke stroke, boolean notify);
 
     /**
      * Returns the default stroke.
@@ -593,7 +588,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The stroke (never {@code null}).
      */
-    public Stroke getItemOutlineStroke(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Stroke getItemOutlineStroke(int row, int column);
 
     /**
      * Returns the stroke used to outline the items in a series.
@@ -604,7 +599,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesOutlineStroke(int, Stroke)
      */
-    public Stroke getSeriesOutlineStroke(/*@NonNegative*/ int series);
+    public Stroke getSeriesOutlineStroke(int series);
 
     /**
      * Sets the outline stroke used for a series and sends a
@@ -615,9 +610,9 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesOutlineStroke(int)
      */
-    public void setSeriesOutlineStroke(/*@NonNegative*/ int series, Stroke stroke);
+    public void setSeriesOutlineStroke(int series, Stroke stroke);
 
-    public void setSeriesOutlineStroke(/*@NonNegative*/ int series, Stroke stroke, boolean notify);
+    public void setSeriesOutlineStroke(int series, Stroke stroke, boolean notify);
 
     /**
      * Returns the default outline stroke.
@@ -650,7 +645,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The shape (never {@code null}).
      */
-    public Shape getItemShape(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Shape getItemShape(int row, int column);
 
     /**
      * Returns a shape used to represent the items in a series.
@@ -661,7 +656,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesShape(int, Shape)
      */
-    public Shape getSeriesShape(/*@NonNegative*/ int series);
+    public Shape getSeriesShape(int series);
 
     /**
      * Sets the shape used for a series and sends a {@link RendererChangeEvent}
@@ -672,9 +667,9 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesShape(int)
      */
-    public void setSeriesShape(/*@NonNegative*/ int series, Shape shape);
+    public void setSeriesShape(int series, Shape shape);
 
-    public void setSeriesShape(/*@NonNegative*/ int series, Shape shape, boolean notify);
+    public void setSeriesShape(int series, Shape shape, boolean notify);
 
     /**
      * Returns the default shape.
@@ -708,7 +703,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The legend item (possibly {@code null}).
      */
-    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series);
+    public LegendItem getLegendItem(int datasetIndex, int series);
 
 
     //// LEGEND ITEM LABEL GENERATOR //////////////////////////////////////////
@@ -741,7 +736,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The generator (possibly {@code null}).
      */
-    public XYToolTipGenerator getToolTipGenerator(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public XYToolTipGenerator getToolTipGenerator(int row, int column);
 
     /**
      * Returns the tool tip generator for a series.
@@ -752,7 +747,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesToolTipGenerator(int, XYToolTipGenerator)
      */
-    public XYToolTipGenerator getSeriesToolTipGenerator(/*@NonNegative*/ int series);
+    public XYToolTipGenerator getSeriesToolTipGenerator(int series);
 
     /**
      * Sets the tool tip generator for a series and sends a
@@ -763,7 +758,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesToolTipGenerator(int)
      */
-    public void setSeriesToolTipGenerator(/*@NonNegative*/ int series,
+    public void setSeriesToolTipGenerator(int series, 
             XYToolTipGenerator generator);
 
     /**
@@ -812,7 +807,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return A boolean.
      */
-    public boolean isItemLabelVisible(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public boolean isItemLabelVisible(int row, int column);
 
     /**
      * Returns {@code true} if the item labels for a series are visible,
@@ -822,7 +817,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return A boolean.
      */
-    public boolean isSeriesItemLabelsVisible(/*@NonNegative*/ int series);
+    public boolean isSeriesItemLabelsVisible(int series);
 
     /**
      * Sets a flag that controls the visibility of the item labels for a
@@ -834,7 +829,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #isSeriesItemLabelsVisible(int)
      */
-    public void setSeriesItemLabelsVisible(/*@NonNegative*/ int series, boolean visible);
+    public void setSeriesItemLabelsVisible(int series, boolean visible);
 
     /**
      * Sets a flag that controls the visibility of the item labels for a series.
@@ -844,7 +839,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #isSeriesItemLabelsVisible(int)
      */
-    public void setSeriesItemLabelsVisible(/*@NonNegative*/ int series, Boolean visible);
+    public void setSeriesItemLabelsVisible(int series, Boolean visible);
 
     /**
      * Sets the visibility of item labels for a series and, if requested,
@@ -857,7 +852,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #isSeriesItemLabelsVisible(int)
      */
-    public void setSeriesItemLabelsVisible(/*@NonNegative*/ int series, Boolean visible,
+    public void setSeriesItemLabelsVisible(int series, Boolean visible,
             boolean notify);
 
     /**
@@ -901,7 +896,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The generator (possibly {@code null}).
      */
-    public XYItemLabelGenerator getItemLabelGenerator(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public XYItemLabelGenerator getItemLabelGenerator(int row, int column);
 
     /**
      * Returns the item label generator for a series.
@@ -912,7 +907,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesItemLabelGenerator(int, XYItemLabelGenerator)
      */
-    public XYItemLabelGenerator getSeriesItemLabelGenerator(/*@NonNegative*/ int series);
+    public XYItemLabelGenerator getSeriesItemLabelGenerator(int series);
 
     /**
      * Sets the item label generator for a series and sends a
@@ -923,7 +918,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesItemLabelGenerator(int)
      */
-    public void setSeriesItemLabelGenerator(/*@NonNegative*/ int series,
+    public void setSeriesItemLabelGenerator(int series, 
             XYItemLabelGenerator generator);
 
     /**
@@ -955,7 +950,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The font (never {@code null}).
      */
-    public Font getItemLabelFont(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Font getItemLabelFont(int row, int column);
 
     /**
      * Returns the font for all the item labels in a series.
@@ -964,7 +959,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The font (possibly {@code null}).
      */
-    public Font getSeriesItemLabelFont(/*@NonNegative*/ int series);
+    public Font getSeriesItemLabelFont(int series);
 
     /**
      * Sets the item label font for a series and sends a
@@ -975,7 +970,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesItemLabelFont(int)
      */
-    public void setSeriesItemLabelFont(/*@NonNegative*/ int series, Font font);
+    public void setSeriesItemLabelFont(int series, Font font);
 
     /**
      * Returns the default item label font (this is used when no other font
@@ -1007,7 +1002,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getItemLabelPaint(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Paint getItemLabelPaint(int row, int column);
 
     /**
      * Returns the paint used to draw the item labels for a series.
@@ -1018,7 +1013,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesItemLabelPaint(int, Paint)
      */
-    public Paint getSeriesItemLabelPaint(/*@NonNegative*/ int series);
+    public Paint getSeriesItemLabelPaint(int series);
 
     /**
      * Sets the item label paint for a series and sends a
@@ -1029,7 +1024,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesItemLabelPaint(int)
      */
-    public void setSeriesItemLabelPaint(/*@NonNegative*/ int series, Paint paint);
+    public void setSeriesItemLabelPaint(int series, Paint paint);
 
     /**
      * Returns the default item label paint.
@@ -1056,7 +1051,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The item label position (never {@code null}).
      */
-    public ItemLabelPosition getPositiveItemLabelPosition(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public ItemLabelPosition getPositiveItemLabelPosition(int row, int column);
 
     /**
      * Returns the item label position for all positive values in a series.
@@ -1065,7 +1060,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The item label position (never {@code null}).
      */
-    public ItemLabelPosition getSeriesPositiveItemLabelPosition(/*@NonNegative*/ int series);
+    public ItemLabelPosition getSeriesPositiveItemLabelPosition(int series);
 
     /**
      * Sets the item label position for all positive values in a series and
@@ -1074,7 +1069,7 @@ public interface XYItemRenderer extends LegendItemSource {
      * @param series  the series index (zero-based).
      * @param position  the position ({@code null} permitted).
      */
-    public void setSeriesPositiveItemLabelPosition(/*@NonNegative*/ int series,
+    public void setSeriesPositiveItemLabelPosition(int series, 
             ItemLabelPosition position);
 
     /**
@@ -1086,7 +1081,7 @@ public interface XYItemRenderer extends LegendItemSource {
      * @param position  the position ({@code null} permitted).
      * @param notify  notify registered listeners?
      */
-    public void setSeriesPositiveItemLabelPosition(/*@NonNegative*/ int series,
+    public void setSeriesPositiveItemLabelPosition(int series, 
             ItemLabelPosition position, boolean notify);
 
     /**
@@ -1126,7 +1121,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The item label position (never {@code null}).
      */
-    public ItemLabelPosition getNegativeItemLabelPosition(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public ItemLabelPosition getNegativeItemLabelPosition(int row, int column);
 
     /**
      * Returns the item label position for all negative values in a series.
@@ -1135,7 +1130,7 @@ public interface XYItemRenderer extends LegendItemSource {
      *
      * @return The item label position (never {@code null}).
      */
-    public ItemLabelPosition getSeriesNegativeItemLabelPosition(/*@NonNegative*/ int series);
+    public ItemLabelPosition getSeriesNegativeItemLabelPosition(int series);
 
     /**
      * Sets the item label position for negative values in a series and sends a
@@ -1144,7 +1139,7 @@ public interface XYItemRenderer extends LegendItemSource {
      * @param series  the series index (zero-based).
      * @param position  the position ({@code null} permitted).
      */
-    public void setSeriesNegativeItemLabelPosition(/*@NonNegative*/ int series,
+    public void setSeriesNegativeItemLabelPosition(int series, 
             ItemLabelPosition position);
 
     /**
@@ -1156,7 +1151,7 @@ public interface XYItemRenderer extends LegendItemSource {
      * @param position  the position ({@code null} permitted).
      * @param notify  notify registered listeners?
      */
-    public void setSeriesNegativeItemLabelPosition(/*@NonNegative*/ int series,
+    public void setSeriesNegativeItemLabelPosition(int series, 
             ItemLabelPosition position, boolean notify);
 
     /**
@@ -1187,13 +1182,13 @@ public interface XYItemRenderer extends LegendItemSource {
 
     // CREATE ENTITIES
 
-    public boolean getItemCreateEntity(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
+    public boolean getItemCreateEntity(int series, int item);
 
-    public Boolean getSeriesCreateEntities(/*@NonNegative*/ int series);
+    public Boolean getSeriesCreateEntities(int series);
 
-    public void setSeriesCreateEntities(/*@NonNegative*/ int series, Boolean create);
+    public void setSeriesCreateEntities(int series, Boolean create);
 
-    public void setSeriesCreateEntities(/*@NonNegative*/ int series, Boolean create,
+    public void setSeriesCreateEntities(int series, Boolean create,
             boolean notify);
 
     public boolean getDefaultCreateEntities();
@@ -1298,7 +1293,7 @@ public interface XYItemRenderer extends LegendItemSource {
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass);
+            int series, int item, CrosshairState crosshairState, int pass);
 
     /**
      * Fills a band between two values on the axis.  This can be used to color

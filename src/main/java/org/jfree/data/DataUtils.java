@@ -47,9 +47,6 @@
  */
 
 package org.jfree.data;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.util.Arrays;
 import org.jfree.chart.util.Args;
@@ -101,7 +98,7 @@ public abstract class DataUtils {
      *
      * @since 1.0.13
      */
-    public static double /*@SameLen("#1")*/ [][] clone(double[][] source) {
+    public static double[][] clone(double[][] source) {
         Args.nullNotPermitted(source, "source");
         double[][] clone = new double[source.length][];
         for (int i = 0; i < source.length; i++) {
@@ -123,7 +120,7 @@ public abstract class DataUtils {
      *
      * @return The total of the values in the specified column.
      */
-    public static double calculateColumnTotal(Values2D data, /*@NonNegative*/ int column) {
+    public static double calculateColumnTotal(Values2D data, int column) {
         Args.nullNotPermitted(data, "data");
         double total = 0.0;
         int rowCount = data.getRowCount();
@@ -148,8 +145,8 @@ public abstract class DataUtils {
      *
      * @since 1.0.13
      */
-    public static double calculateColumnTotal(Values2D data, /*@NonNegative*/ int column,
-             /*@NonNegative*/ int[] validRows) {
+    public static double calculateColumnTotal(Values2D data, int column,
+             int[] validRows) {
         Args.nullNotPermitted(data, "data");
         double total = 0.0;
         int rowCount = data.getRowCount();
@@ -174,7 +171,7 @@ public abstract class DataUtils {
      *
      * @return The total of the values in the specified row.
      */
-    public static double calculateRowTotal(Values2D data, /*@NonNegative*/ int row) {
+    public static double calculateRowTotal(Values2D data, int row) {
         Args.nullNotPermitted(data, "data");
         double total = 0.0;
         int columnCount = data.getColumnCount();
@@ -199,8 +196,8 @@ public abstract class DataUtils {
      *
      * @since 1.0.13
      */
-    public static double calculateRowTotal(Values2D data, /*@NonNegative*/ int row,
-             /*@NonNegative*/ int[] validCols) {
+    public static double calculateRowTotal(Values2D data, int row,
+             int[] validCols) {
         Args.nullNotPermitted(data, "data");
         double total = 0.0;
         int colCount = data.getColumnCount();
@@ -241,11 +238,10 @@ public abstract class DataUtils {
      *
      * @return An array of {@code double}.
      */
-    @SuppressWarnings("value") // the result array is manifestly the same size as the parameter
-    public static Number /*@SameLen("#1")*/ /*@PolyValue*/ [][] createNumberArray2D(double /*@PolyValue*/ [][] data) {
+    public static Number[][] createNumberArray2D(double[][] data) {
         Args.nullNotPermitted(data, "data");
         int l1 = data.length;
-        Number[][] result = new Number[data.length][];
+        Number[][] result = new Number[l1][];
         for (int i = 0; i < l1; i++) {
             result[i] = createNumberArray(data[i]);
         }

@@ -724,7 +724,6 @@ public class SymbolAxis extends NumberAxis implements Serializable {
      *
      * @return The symbol.
      */
-    @SuppressWarnings("index") // this method intentionally throws and catches an indexoutofboundsexception
     public String valueToString(double value) {
         String strToReturn;
         try {

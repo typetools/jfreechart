@@ -52,7 +52,6 @@
  */
 
 package org.jfree.chart.plot;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.geom.Point2D;
 
@@ -90,7 +89,7 @@ public class CrosshairState {
      *
      * @since 1.0.11
      */
-    private /*@NonNegative*/ int datasetIndex;
+    private int datasetIndex;
 
     /**
      * The smallest distance (so far) between the anchor point and a data
@@ -157,7 +156,7 @@ public class CrosshairState {
      * @param transY  the y-value in Java2D space.
      * @param orientation  the plot orientation ({@code null} not permitted).
      */
-    public void updateCrosshairPoint(double x, double y, /*@NonNegative*/ int datasetIndex,
+    public void updateCrosshairPoint(double x, double y, int datasetIndex,
             double transX, double transY, PlotOrientation orientation) {
 
         if (this.anchor != null) {
@@ -199,7 +198,7 @@ public class CrosshairState {
      * 
      * @since 1.0.20
      */
-    public void updateCrosshairX(double x, double transX, /*@NonNegative*/ int datasetIndex) {
+    public void updateCrosshairX(double x, double transX, int datasetIndex) {
         if (this.anchor == null) {
             return;
         }
@@ -224,7 +223,7 @@ public class CrosshairState {
      *
      * @since 1.0.20
      */
-    public void updateCrosshairY(double candidateY, double transY, /*@NonNegative*/ int datasetIndex) {
+    public void updateCrosshairY(double candidateY, double transY, int datasetIndex) {
         if (this.anchor == null) {
             return;
         }
@@ -378,7 +377,7 @@ public class CrosshairState {
      *
      * @since 1.0.11
      */
-    public /*@NonNegative*/ int getDatasetIndex() {
+    public int getDatasetIndex() {
         return this.datasetIndex;
     }
 
@@ -391,7 +390,7 @@ public class CrosshairState {
      *
      * @since 1.0.11
      */
-    public void setDatasetIndex(/*@NonNegative*/ int index) {
+    public void setDatasetIndex(int index) {
         this.datasetIndex = index;
     }
 }

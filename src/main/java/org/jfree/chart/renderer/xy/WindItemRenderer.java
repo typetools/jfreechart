@@ -56,9 +56,6 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Color;
 import java.awt.Font;
@@ -121,11 +118,9 @@ public class WindItemRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D plotArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            int series, int item, CrosshairState crosshairState, int pass) {
 
         WindDataset windData = (WindDataset) dataset;
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-            /*@IndexFor("windData.getSeries(series)")*/ int windItem = item;
 
         Paint seriesPaint = getItemPaint(series, item);
         Stroke seriesStroke = getItemStroke(series, item);
@@ -134,9 +129,9 @@ public class WindItemRenderer extends AbstractXYItemRenderer
 
         // get the data point...
 
-        Number x = windData.getX(series, windItem);
-        Number windDir = windData.getWindDirection(series, windItem);
-        Number wforce = windData.getWindForce(series, windItem);
+        Number x = windData.getX(series, item);
+        Number windDir = windData.getWindDirection(series, item);
+        Number wforce = windData.getWindForce(series, item);
         double windForce = wforce.doubleValue();
 
         double wdirt = Math.toRadians(windDir.doubleValue() * (-30.0) - 90.0);

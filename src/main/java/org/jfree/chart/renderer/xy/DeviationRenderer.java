@@ -44,11 +44,6 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.AlphaComposite;
 import java.awt.Composite;
@@ -93,13 +88,13 @@ public class DeviationRenderer extends XYLineAndShapeRenderer {
          * A list of coordinates for the upper y-values in the current series
          * (after translation into Java2D space).
          */
-        public List<double /*@ArrayLen(2)*/ []> upperCoordinates;
+        public List upperCoordinates;
 
         /**
          * A list of coordinates for the lower y-values in the current series
          * (after translation into Java2D space).
          */
-        public List<double /*@ArrayLen(2)*/ []> lowerCoordinates;
+        public List lowerCoordinates;
 
         /**
          * Creates a new state instance.
@@ -218,7 +213,7 @@ public class DeviationRenderer extends XYLineAndShapeRenderer {
      * @return {@code 3}.
      */
     @Override
-    public /*@NonNegative*/ int getPassCount() {
+    public int getPassCount() {
         return 3;
     }
 
@@ -274,7 +269,7 @@ public class DeviationRenderer extends XYLineAndShapeRenderer {
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            int series, int item, CrosshairState crosshairState, int pass) {
 
         // do nothing if item is not visible
         if (!getItemVisible(series, item)) {
@@ -284,15 +279,11 @@ public class DeviationRenderer extends XYLineAndShapeRenderer {
         // first pass draws the shading
         if (pass == 0) {
             IntervalXYDataset intervalDataset = (IntervalXYDataset) dataset;
-
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-            /*@IndexFor("intervalDataset.getSeries(series)")*/ int intervalXYItem = item;
-
             State drState = (State) state;
 
-            double x = intervalDataset.getXValue(series, intervalXYItem);
-            double yLow = intervalDataset.getStartYValue(series, intervalXYItem);
-            double yHigh  = intervalDataset.getEndYValue(series, intervalXYItem);
+            double x = intervalDataset.getXValue(series, item);
+            double yLow = intervalDataset.getStartYValue(series, item);
+            double yHigh  = intervalDataset.getEndYValue(series, item);
 
             RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
             RectangleEdge yAxisLocation = plot.getRangeAxisEdge();
@@ -323,18 +314,17 @@ public class DeviationRenderer extends XYLineAndShapeRenderer {
                 GeneralPath area = new GeneralPath(GeneralPath.WIND_NON_ZERO,
                         drState.lowerCoordinates.size() 
                         + drState.upperCoordinates.size());
-                double[] coords = drState.lowerCoordinates.get(0);
+                double[] coords = (double[]) drState.lowerCoordinates.get(0);
                 area.moveTo((float) coords[0], (float) coords[1]);
                 for (int i = 1; i < drState.lowerCoordinates.size(); i++) {
-                    coords = drState.lowerCoordinates.get(i);
+                    coords = (double[]) drState.lowerCoordinates.get(i);
                     area.lineTo((float) coords[0], (float) coords[1]);
                 }
-                @SuppressWarnings("index") // upperCoordinates always has at least one entry, because first pass always adds one entry
-                /*@Positive*/ int count = drState.upperCoordinates.size();
-                coords = drState.upperCoordinates.get(count - 1);
+                int count = drState.upperCoordinates.size();
+                coords = (double[]) drState.upperCoordinates.get(count - 1);
                 area.lineTo((float) coords[0], (float) coords[1]);
                 for (int i = count - 2; i >= 0; i--) {
-                    coords = drState.upperCoordinates.get(i);
+                    coords = (double[]) drState.upperCoordinates.get(i);
                     area.lineTo((float) coords[0], (float) coords[1]);
                 }
                 area.closePath();

@@ -49,12 +49,6 @@
  */
 
 package org.jfree.data.time;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -141,7 +135,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    public /*@NonNegative*/ int getSeriesCount() {
+    public int getSeriesCount() {
         return this.data.size();
     }
 
@@ -152,7 +146,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      *
      * @return The series.
      */
-    public TimePeriodValues getSeries(/*@NonNegative*/ int series) {
+    public TimePeriodValues getSeries(int series) {
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException("Index 'series' out of range.");
         }
@@ -167,7 +161,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      * @return The key for a series.
      */
     @Override
-    public Comparable getSeriesKey(/*@NonNegative*/ int series) {
+    public Comparable getSeriesKey(int series) {
         // defer argument checking
         return getSeries(series).getKey();
     }
@@ -204,7 +198,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      *
      * @param index  the series index (zero-based).
      */
-    public void removeSeries(/*@NonNegative*/ int index) {
+    public void removeSeries(int index) {
         TimePeriodValues series = getSeries(index);
         if (series != null) {
             removeSeries(series);
@@ -221,8 +215,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      * @return The number of items in the specified series.
      */
     @Override
-    @SuppressWarnings("index") // array-list interop: getSeries(series).getItemCount is LengthOf(this.getSeries)
-    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
+    public int getItemCount(int series) {
         return getSeries(series).getItemCount();
     }
 
@@ -235,7 +228,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      * @return The x-value for the specified series and item.
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getX(int series, int item) {
         TimePeriodValues ts = (TimePeriodValues) this.data.get(series);
         TimePeriodValue dp = ts.getDataItem(item);
         TimePeriod period = dp.getPeriod();
@@ -276,7 +269,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      * @return The starting X value for the specified series and item.
      */
     @Override
-    public Number getStartX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getStartX(int series, int item) {
         TimePeriodValues ts = (TimePeriodValues) this.data.get(series);
         TimePeriodValue dp = ts.getDataItem(item);
         return new Long(dp.getPeriod().getStart().getTime());
@@ -291,7 +284,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      * @return The ending X value for the specified series and item.
      */
     @Override
-    public Number getEndX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getEndX(int series, int item) {
         TimePeriodValues ts = (TimePeriodValues) this.data.get(series);
         TimePeriodValue dp = ts.getDataItem(item);
         return new Long(dp.getPeriod().getEnd().getTime());
@@ -306,7 +299,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      * @return The y-value for the specified series and item.
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getY(int series, int item) {
         TimePeriodValues ts = (TimePeriodValues) this.data.get(series);
         TimePeriodValue dp = ts.getDataItem(item);
         return dp.getValue();
@@ -321,7 +314,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      * @return The starting Y value for the specified series and item.
      */
     @Override
-    public Number getStartY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getStartY(int series, int item) {
         return getY(series, item);
     }
 
@@ -334,7 +327,7 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      * @return The ending Y value for the specified series and item.
      */
     @Override
-    public Number getEndY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getEndY(int series, int item) {
         return getY(series, item);
     }
 
@@ -383,7 +376,6 @@ public class TimePeriodValuesCollection extends AbstractIntervalXYDataset
      * @return The range.
      */
     @Override
-    @SuppressWarnings("index") // guaranteed index: every call to getXIndex in this method (there are a lot) is guarded by the if (count > 0) check, which ensures that those values can't be negative.
     public Range getDomainBounds(boolean includeInterval) {
         boolean interval = includeInterval;
         Range result = null;

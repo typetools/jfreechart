@@ -43,7 +43,6 @@
  */
 
 package org.jfree.data.xy;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
@@ -104,7 +103,7 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @return The row count.
      */
     @Override
-    public /*@NonNegative*/ int getRowCount() {
+    public int getRowCount() {
         if (this.model == null) {
             return 0;
         }
@@ -117,7 +116,7 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @return The number of columns in the model.
      */
     @Override
-    public /*@NonNegative*/ int getColumnCount() {
+    public int getColumnCount() {
         if (this.model == null) {
             return 0;
         }
@@ -132,7 +131,7 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @return The column name.
      */
     @Override
-    public String getColumnName(/*@NonNegative*/ int column) {
+    public String getColumnName(int column) {
         if (this.model == null) {
             return super.getColumnName(column);
         }
@@ -154,8 +153,7 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @return The value of the specified cell.
      */
     @Override
-    @SuppressWarnings("index") // array-list interop: this method relies on row being an index into a particular data series in the underlying dataset. The annotations can't neatly express that fact (not all implementations of this interface would even have an underlying dataset...), so I'm not sure how I'd verify this.
-    public Object getValueAt(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public Object getValueAt(int row, int column) {
         if (this.model == null) {
             return null;
         }
@@ -188,7 +186,7 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @return {@code true} if the specified cell is editable.
      */
     @Override
-    public boolean isCellEditable(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public boolean isCellEditable(int row, int column) {
         return false;
    }
 
@@ -200,7 +198,7 @@ public class XYDatasetTableModel extends AbstractTableModel
      * @param column  the column.
      */
     @Override
-    public void setValueAt(Object value, /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public void setValueAt(Object value, int row, int column) {
         if (isCellEditable(row, column)) {
             // XYDataset only provides methods for reading a dataset...
         }

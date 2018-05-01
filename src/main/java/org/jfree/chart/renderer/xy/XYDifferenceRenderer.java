@@ -83,11 +83,6 @@
 
 package org.jfree.chart.renderer.xy;
 
-/*>>>
-import org.checkerframework.checker.index.qual.*;
-import org.checkerframework.common.value.qual.*;
- */
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -348,7 +343,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
      * @return The number of passes required by the renderer.
      */
     @Override
-    public /*@NonNegative*/ int getPassCount() {
+    public int getPassCount() {
         return 2;
     }
 
@@ -374,7 +369,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            int series, int item, CrosshairState crosshairState, int pass) {
 
         if (pass == 0) {
             drawItemPass0(g2, dataArea, info, plot, domainAxis, rangeAxis,
@@ -410,8 +405,8 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
                                  ValueAxis x_domainAxis,
                                  ValueAxis x_rangeAxis,
                                  XYDataset x_dataset,
-                                 /*@NonNegative*/ int x_series,
-                                 /*@IndexFor("#7.getSeries(#8)")*/ int x_item,
+                                 int x_series,
+                                 int x_item,
                                  CrosshairState x_crosshairState) {
 
         if (!((0 == x_series) && (0 == x_item))) {
@@ -439,10 +434,8 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
         LinkedList l_polygonYs    = new LinkedList();
 
         // state
-        @SuppressWarnings("index") // one of the guarantees of a non-degenerate series is that it has at least one item
-        /*@IndexFor("x_dataset.getSeries(0)")*/ int l_minuendItem      = 0;
-        @SuppressWarnings("index") // the call to isEitherSeriesDegenerate above guarantees this is true
-        /*@Positive*/ int l_minuendItemCount = x_dataset.getItemCount(0);
+        int l_minuendItem      = 0;
+        int l_minuendItemCount = x_dataset.getItemCount(0);
         Double l_minuendCurX   = null;
         Double l_minuendNextX  = null;
         Double l_minuendCurY   = null;
@@ -450,8 +443,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
         double l_minuendMaxY   = Double.NEGATIVE_INFINITY;
         double l_minuendMinY   = Double.POSITIVE_INFINITY;
 
-        @SuppressWarnings("index") // one of the guarantees of a non-degenerate series is that it has at least one item
-        /*@IndexFor("x_dataset.getSeries(1)")*/ int l_subtrahendItem      = 0;
+        int l_subtrahendItem      = 0;
         int l_subtrahendItemCount = 0; // actual value set below
         Double l_subtrahendCurX   = null;
         Double l_subtrahendNextX  = null;
@@ -462,11 +454,9 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
 
         // if a subtrahend is not specified, assume it is zero
         if (b_impliedZeroSubtrahend) {
-            //l_subtrahendItem      = 0;
+            l_subtrahendItem      = 0;
             l_subtrahendItemCount = 2;
-            @SuppressWarnings("index") // itemCount is positive for series zero, so zero is an index into that series
-                    /*@IndexFor("x_dataset.getSeries(0)")*/ int zero = 0;
-            l_subtrahendCurX      = new Double(x_dataset.getXValue(0, zero));
+            l_subtrahendCurX      = new Double(x_dataset.getXValue(0, 0));
             l_subtrahendNextX     = new Double(x_dataset.getXValue(0,
                     (l_minuendItemCount - 1)));
             l_subtrahendCurY      = new Double(0.0);
@@ -505,10 +495,8 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
             // get the x and y coordinates
             l_x1 = x_dataset.getXValue(0, l_minuendItem);
             l_y1 = x_dataset.getYValue(0, l_minuendItem);
-            @SuppressWarnings("index") // non-degenerate series always have both x and y coordinates
-            /*@IndexFor("x_dataset.getSeries(0)")*/ int l_minuendItemPlusOne = l_minuendItem + 1;
-            l_x2 = x_dataset.getXValue(0, l_minuendItemPlusOne);
-            l_y2 = x_dataset.getYValue(0, l_minuendItemPlusOne);
+            l_x2 = x_dataset.getXValue(0, l_minuendItem + 1);
+            l_y2 = x_dataset.getYValue(0, l_minuendItem + 1);
 
             l_minuendCurX  = new Double(l_x1);
             l_minuendCurY  = new Double(l_y1);
@@ -524,10 +512,8 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
             else {
                 l_x3 = x_dataset.getXValue(1, l_subtrahendItem);
                 l_y3 = x_dataset.getYValue(1, l_subtrahendItem);
-                @SuppressWarnings("index") // non-degenerate series always have both x and y coordinates
-                /*@IndexFor("x_dataset.getSeries(1)")*/ int l_subtrahendItemPlusOne = l_subtrahendItem + 1;
-                l_x4 = x_dataset.getXValue(1, l_subtrahendItemPlusOne);
-                l_y4 = x_dataset.getYValue(1, l_subtrahendItemPlusOne);
+                l_x4 = x_dataset.getXValue(1, l_subtrahendItem + 1);
+                l_y4 = x_dataset.getYValue(1, l_subtrahendItem + 1);
 
                 l_subtrahendCurX  = new Double(l_x3);
                 l_subtrahendCurY  = new Double(l_y3);
@@ -536,17 +522,15 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
             }
 
             if (l_x2 <= l_x3) {
-                @SuppressWarnings("index") // minuend needs to be fast forwarded
-                /*@IndexFor("x_dataset.getSeries(0)")*/ int l_minuendItemTmp = l_minuendItem + 1;
-                l_minuendItem = l_minuendItemTmp;
+                // minuend needs to be fast forwarded
+                l_minuendItem++;
                 b_minuendFastForward = true;
                 continue;
             }
 
             if (l_x4 <= l_x1) {
-                @SuppressWarnings("index") // subtrahend needs to be fast forwarded
-                /*@IndexFor("x_dataset.getSeries(1)")*/ int l_subtrahendItemTmp = l_subtrahendItem + 1;
-                l_subtrahendItem = l_subtrahendItemTmp;
+                // subtrahend needs to be fast forwarded
+                l_subtrahendItem++;
                 b_subtrahendFastForward = true;
                 continue;
             }
@@ -598,11 +582,8 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
                 l_minuendMaxY = Math.max(l_minuendMaxY, l_y1);
                 l_minuendMinY = Math.min(l_minuendMinY, l_y1);
 
-                @SuppressWarnings("index") // non-degenerate series always have both x and y coordinates
-                /*@IndexFor("x_dataset.getSeries(0)")*/ int l_minuendItemPlusOne = l_minuendItem + 1;
-
-                l_x2 = x_dataset.getXValue(0, l_minuendItemPlusOne);
-                l_y2 = x_dataset.getYValue(0, l_minuendItemPlusOne);
+                l_x2 = x_dataset.getXValue(0, l_minuendItem + 1);
+                l_y2 = x_dataset.getYValue(0, l_minuendItem + 1);
                 l_minuendNextX = new Double(l_x2);
                 l_minuendNextY = new Double(l_y2);
             }
@@ -623,11 +604,8 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
                 l_subtrahendMaxY = Math.max(l_subtrahendMaxY, l_y3);
                 l_subtrahendMinY = Math.min(l_subtrahendMinY, l_y3);
 
-                @SuppressWarnings("index") // non-degenerate series always have both x and y coordinates
-                /*@IndexFor("x_dataset.getSeries(1)")*/ int l_subtrahendItemPlusOne = l_subtrahendItem + 1;
-
-                l_x4 = x_dataset.getXValue(1, l_subtrahendItemPlusOne);
-                l_y4 = x_dataset.getYValue(1, l_subtrahendItemPlusOne);
+                l_x4 = x_dataset.getXValue(1, l_subtrahendItem + 1);
+                l_y4 = x_dataset.getYValue(1, l_subtrahendItem + 1);
                 l_subtrahendNextX = new Double(l_x4);
                 l_subtrahendNextY = new Double(l_y4);
             }
@@ -785,20 +763,18 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
                 l_polygonYs.add(l_intersectY);
             }
 
+            // advance the minuend if needed
             if (l_x2 <= l_x4) {
-                @SuppressWarnings("index") // advance the minuend if needed
-                /*@IndexFor("x_dataset.getSeries(0)")*/ int l_minuendItemTmp = l_minuendItem + 1;
-                l_minuendItem = l_minuendItemTmp;
+                l_minuendItem++;
                 b_minuendAdvanced = true;
             }
             else {
                 b_minuendAdvanced = false;
             }
 
+            // advance the subtrahend if needed
             if (l_x4 <= l_x2) {
-                @SuppressWarnings("index") // advance the subtrahend if needed
-                /*@IndexFor("x_dataset.getSeries(1)")*/ int l_subtrahendItemTmp = l_subtrahendItem + 1;
-                l_subtrahendItem = l_subtrahendItemTmp;
+                l_subtrahendItem++;
                 b_subtrahendAdvanced = true;
             }
             else {
@@ -887,8 +863,8 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
                                  ValueAxis x_domainAxis,
                                  ValueAxis x_rangeAxis,
                                  XYDataset x_dataset,
-                                 /*@NonNegative*/ int x_series,
-                                 /*@IndexFor("#7.getSeries(#8)")*/ int x_item,
+                                 int x_series,
+                                 int x_item,
                                  CrosshairState x_crosshairState) {
 
         Shape l_entityArea = null;
@@ -960,8 +936,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
                           x_item, l_x1, l_y1, (l_y1 < 0.0));
         }
 
-        @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
-        /*@NonNegative*/ int datasetIndex = x_plot.indexOf(x_dataset);
+        int datasetIndex = x_plot.indexOf(x_dataset);
         updateCrosshairValues(x_crosshairState, l_x0, l_y0, datasetIndex,
                               l_x1, l_y1, l_orientation);
 
@@ -1019,16 +994,12 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
      */
     private boolean areSeriesDisjoint(XYDataset x_dataset) {
 
-        @SuppressWarnings("index") // This method can only called on XYDataset_s with at least one item. See drawItemPass0
-        /*@Positive*/ int l_minuendItemCount = x_dataset.getItemCount(0);
-        @SuppressWarnings("index") // This method can only called on XYDataset_s with at least one item. See drawItemPass0
-        /*@IndexFor({"x_dataset.getSeries(0)", "x_dataset.getSeries(1)"})*/ int zero = 0;
-        double l_minuendFirst  = x_dataset.getXValue(0, zero);
+        int l_minuendItemCount = x_dataset.getItemCount(0);
+        double l_minuendFirst  = x_dataset.getXValue(0, 0);
         double l_minuendLast   = x_dataset.getXValue(0, l_minuendItemCount - 1);
 
         int l_subtrahendItemCount = x_dataset.getItemCount(1);
-        double l_subtrahendFirst  = x_dataset.getXValue(1, zero);
-        @SuppressWarnings("index") // This method can only called on XYDataset_s with at least one item. See drawItemPass0
+        double l_subtrahendFirst  = x_dataset.getXValue(1, 0);
         double l_subtrahendLast   = x_dataset.getXValue(1,
                 l_subtrahendItemCount - 1);
 
@@ -1052,7 +1023,6 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
      * @param x_yValues  a linked list of the y values (expects values to be
      *                   of type Double).
      */
-    @SuppressWarnings({"Duplicates", "UnnecessaryUnboxing"})
     private void createPolygon (Graphics2D x_graphics,
                                 Rectangle2D x_dataArea,
                                 XYPlot x_plot,
@@ -1066,10 +1036,8 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
         RectangleEdge l_domainAxisLocation = x_plot.getDomainAxisEdge();
         RectangleEdge l_rangeAxisLocation  = x_plot.getRangeAxisEdge();
 
-        @SuppressWarnings({"index", "value"}) // documentation bug: x_xValues should have at least 1 element
-        Object /*@MinLen(1)*/ [] l_xValues = x_xValues.toArray();
-        @SuppressWarnings({"index", "value"}) // documentation bug: x_yValues should have at least 1 element, and the two linked lists need to be coordinated
-        Object /*@MinLen(1)*/ /*@SameLen("l_xValues")*/ [] l_yValues = x_yValues.toArray();
+        Object[] l_xValues = x_xValues.toArray();
+        Object[] l_yValues = x_yValues.toArray();
 
         GeneralPath l_path = new GeneralPath();
 
@@ -1147,7 +1115,7 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
      * @return A legend item for the series.
      */
     @Override
-    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(int datasetIndex, int series) {
         LegendItem result = null;
         XYPlot p = getPlot();
         if (p != null) {

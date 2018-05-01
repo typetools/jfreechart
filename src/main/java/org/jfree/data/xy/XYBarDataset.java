@@ -48,11 +48,6 @@
  */
 
 package org.jfree.data.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.general.DatasetChangeEvent;
@@ -127,8 +122,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-    public /*@NonNegative*/ int getSeriesCount() {
+    public int getSeriesCount() {
         return this.underlying.getSeriesCount();
     }
 
@@ -141,7 +135,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The series key.
      */
     @Override
-    public Comparable getSeriesKey(/*@NonNegative*/ int series) {
+    public Comparable getSeriesKey(int series) {
         return this.underlying.getSeriesKey(series);
     }
 
@@ -153,8 +147,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
+    public int getItemCount(int series) {
         return this.underlying.getItemCount(series);
     }
 
@@ -169,8 +162,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getXValue(int, int)
      */
     @Override
-    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getX(int series, int item) {
         return this.underlying.getX(series, item);
     }
 
@@ -185,8 +177,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getX(int, int)
      */
     @Override
-    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-    public double getXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public double getXValue(int series, int item) {
         return this.underlying.getXValue(series, item);
     }
 
@@ -201,8 +192,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getYValue(int, int)
      */
     @Override
-    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getY(int series, int item) {
         return this.underlying.getY(series, item);
     }
 
@@ -217,8 +207,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getY(int, int)
      */
     @Override
-    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-    public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public double getYValue(int series, int item) {
         return this.underlying.getYValue(series, item);
     }
 
@@ -231,8 +220,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-    public Number getStartX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getStartX(int series, int item) {
         Number result = null;
         Number xnum = this.underlying.getX(series, item);
         if (xnum != null) {
@@ -253,7 +241,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getXValue(int, int)
      */
     @Override
-    public double getStartXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public double getStartXValue(int series, int item) {
         return getXValue(series, item) - this.barWidth / 2.0;
     }
 
@@ -266,8 +254,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-    public Number getEndX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getEndX(int series, int item) {
         Number result = null;
         Number xnum = this.underlying.getX(series, item);
         if (xnum != null) {
@@ -288,7 +275,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getXValue(int, int)
      */
     @Override
-    public double getEndXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public double getEndXValue(int series, int item) {
         return getXValue(series, item) + this.barWidth / 2.0;
     }
 
@@ -301,8 +288,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-    public Number getStartY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getStartY(int series, int item) {
         return this.underlying.getY(series, item);
     }
 
@@ -318,7 +304,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getYValue(int, int)
      */
     @Override
-    public double getStartYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public double getStartYValue(int series, int item) {
         return getYValue(series, item);
     }
 
@@ -331,8 +317,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-    public Number getEndY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getEndY(int series, int item) {
         return this.underlying.getY(series, item);
     }
 
@@ -348,7 +333,7 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @see #getYValue(int, int)
      */
     @Override
-    public double getEndYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public double getEndYValue(int series, int item) {
         return getYValue(series, item);
     }
 

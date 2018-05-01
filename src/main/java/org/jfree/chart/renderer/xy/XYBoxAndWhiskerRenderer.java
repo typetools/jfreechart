@@ -77,12 +77,6 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -309,7 +303,7 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
      *
      * @since 1.0.10
      */
-    protected Paint lookupBoxPaint(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    protected Paint lookupBoxPaint(int series, int item) {
         Paint p = getBoxPaint();
         if (p != null) {
             return p;
@@ -344,7 +338,7 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            int series, int item, CrosshairState crosshairState, int pass) {
 
         PlotOrientation orientation = plot.getOrientation();
 
@@ -379,8 +373,8 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
      */
     public void drawHorizontalItem(Graphics2D g2, Rectangle2D dataArea,
             PlotRenderingInfo info, XYPlot plot, ValueAxis domainAxis,
-            ValueAxis rangeAxis, XYDataset dataset, /*@NonNegative*/ int series,
-            /*@IndexFor("#7.getSeries(#8)")*/ int item, CrosshairState crosshairState, int pass) {
+            ValueAxis rangeAxis, XYDataset dataset, int series,
+            int item, CrosshairState crosshairState, int pass) {
 
         // setup for collecting optional entity info...
         EntityCollection entities = null;
@@ -391,16 +385,13 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
         BoxAndWhiskerXYDataset boxAndWhiskerData
                 = (BoxAndWhiskerXYDataset) dataset;
 
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-        /*@IndexFor("boxAndWhiskerData.getSeries(series)")*/ int boxAndWhiskerItem = item;
-
-        Number x = boxAndWhiskerData.getX(series, boxAndWhiskerItem);
-        Number yMax = boxAndWhiskerData.getMaxRegularValue(series, boxAndWhiskerItem);
-        Number yMin = boxAndWhiskerData.getMinRegularValue(series, boxAndWhiskerItem);
-        Number yMedian = boxAndWhiskerData.getMedianValue(series, boxAndWhiskerItem);
-        Number yAverage = boxAndWhiskerData.getMeanValue(series, boxAndWhiskerItem);
-        Number yQ1Median = boxAndWhiskerData.getQ1Value(series, boxAndWhiskerItem);
-        Number yQ3Median = boxAndWhiskerData.getQ3Value(series, boxAndWhiskerItem);
+        Number x = boxAndWhiskerData.getX(series, item);
+        Number yMax = boxAndWhiskerData.getMaxRegularValue(series, item);
+        Number yMin = boxAndWhiskerData.getMinRegularValue(series, item);
+        Number yMedian = boxAndWhiskerData.getMedianValue(series, item);
+        Number yAverage = boxAndWhiskerData.getMeanValue(series, item);
+        Number yQ1Median = boxAndWhiskerData.getQ1Value(series, item);
+        Number yQ3Median = boxAndWhiskerData.getQ3Value(series, item);
 
         double xx = domainAxis.valueToJava2D(x.doubleValue(), dataArea,
                 plot.getDomainAxisEdge());
@@ -522,8 +513,8 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
      */
     public void drawVerticalItem(Graphics2D g2, Rectangle2D dataArea,
             PlotRenderingInfo info, XYPlot plot, ValueAxis domainAxis,
-            ValueAxis rangeAxis, XYDataset dataset, /*@NonNegative*/ int series,
-            /*@IndexFor("#7.getSeries(#8)")*/ int item, CrosshairState crosshairState, int pass) {
+            ValueAxis rangeAxis, XYDataset dataset, int series,
+            int item, CrosshairState crosshairState, int pass) {
 
         // setup for collecting optional entity info...
         EntityCollection entities = null;
@@ -534,17 +525,14 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
         BoxAndWhiskerXYDataset boxAndWhiskerData
             = (BoxAndWhiskerXYDataset) dataset;
 
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-        /*@IndexFor("boxAndWhiskerData.getSeries(series)")*/ int boxAndWhiskerItem = item;
-
-        Number x = boxAndWhiskerData.getX(series, boxAndWhiskerItem);
-        Number yMax = boxAndWhiskerData.getMaxRegularValue(series, boxAndWhiskerItem);
-        Number yMin = boxAndWhiskerData.getMinRegularValue(series, boxAndWhiskerItem);
-        Number yMedian = boxAndWhiskerData.getMedianValue(series, boxAndWhiskerItem);
-        Number yAverage = boxAndWhiskerData.getMeanValue(series, boxAndWhiskerItem);
-        Number yQ1Median = boxAndWhiskerData.getQ1Value(series, boxAndWhiskerItem);
-        Number yQ3Median = boxAndWhiskerData.getQ3Value(series, boxAndWhiskerItem);
-        List yOutliers = boxAndWhiskerData.getOutliers(series, boxAndWhiskerItem);
+        Number x = boxAndWhiskerData.getX(series, item);
+        Number yMax = boxAndWhiskerData.getMaxRegularValue(series, item);
+        Number yMin = boxAndWhiskerData.getMinRegularValue(series, item);
+        Number yMedian = boxAndWhiskerData.getMedianValue(series, item);
+        Number yAverage = boxAndWhiskerData.getMeanValue(series, item);
+        Number yQ1Median = boxAndWhiskerData.getQ1Value(series, item);
+        Number yQ3Median = boxAndWhiskerData.getQ3Value(series, item);
+        List yOutliers = boxAndWhiskerData.getOutliers(series, item);
         // yOutliers can be null, but we'd prefer it to be an empty list in
         // that case...
         if (yOutliers == null) {
@@ -656,21 +644,21 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
         for (int i = 0; i < yOutliers.size(); i++) {
             double outlier = ((Number) yOutliers.get(i)).doubleValue();
             if (outlier > boxAndWhiskerData.getMaxOutlier(series,
-                    boxAndWhiskerItem).doubleValue()) {
+                    item).doubleValue()) {
                 outlierListCollection.setHighFarOut(true);
             }
             else if (outlier < boxAndWhiskerData.getMinOutlier(series,
-                    boxAndWhiskerItem).doubleValue()) {
+                    item).doubleValue()) {
                 outlierListCollection.setLowFarOut(true);
             }
             else if (outlier > boxAndWhiskerData.getMaxRegularValue(series,
-                    boxAndWhiskerItem).doubleValue()) {
+                    item).doubleValue()) {
                 yyOutlier = rangeAxis.valueToJava2D(outlier, dataArea,
                         location);
                 outliers.add(new Outlier(xx, yyOutlier, oRadius));
             }
             else if (outlier < boxAndWhiskerData.getMinRegularValue(series,
-                    boxAndWhiskerItem).doubleValue()) {
+                    item).doubleValue()) {
                 yyOutlier = rangeAxis.valueToJava2D(outlier, dataArea,
                         location);
                 outliers.add(new Outlier(xx, yyOutlier, oRadius));

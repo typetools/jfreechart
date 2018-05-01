@@ -46,11 +46,6 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -66,7 +61,6 @@ import org.jfree.chart.urls.XYURLGenerator;
 import org.jfree.data.DomainOrder;
 import org.jfree.data.general.DatasetChangeListener;
 import org.jfree.data.general.DatasetGroup;
-import org.jfree.data.general.Series;
 import org.jfree.data.xy.XYDataset;
 
 /**
@@ -150,7 +144,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state, 
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            int series, int item, CrosshairState crosshairState, int pass) {
 
         if ((!getPlotLines()) || ((!(domainAxis instanceof CyclicNumberAxis))
                 && (!(rangeAxis instanceof CyclicNumberAxis))) || (item <= 0)) {
@@ -226,16 +220,12 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
                 ny[1] = ycycleBound;
                 nx[1] = (x[1] - x[0]) * (ycycleBound - y[0])
                         / (y[1] - y[0]) + x[0];
-
                 if (x.length == 3) {
-                    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/202: x's length is exactly one less than both nx and ny; x and y's lengths are the same
-                    double dead = (nx[3] = x[2]);
-                    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/202: x's length is exactly one less than both nx and ny; x and y's lengths are the same
-                    double dead2 = (ny[3] = y[2]);
+                    nx[3] = x[2]; ny[3] = y[2];
                 }
                 x = nx; y = ny;
             }
-            else if ((x.length == 3) && (y.length == 3) && (y[1] != y[2]) && ((ycycleBound >= y[1])
+            else if ((x.length == 3) && (y[1] != y[2]) && ((ycycleBound >= y[1])
                     && (ycycleBound <= y[2])
                     || (ycycleBound >= y[2]) && (ycycleBound <= y[1]))) {
                 double[] nx = new double[4];
@@ -250,13 +240,12 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
         }
 
         // If the line is not wrapping, then parent is OK
-        if (x.length == 2 && y.length == 2) {
+        if (x.length == 2) {
             super.drawItem(g2, state, dataArea, info, plot, domainAxis,
                     rangeAxis, dataset, series, item, crosshairState, pass);
             return;
         }
 
-        @SuppressWarnings("index") // x and y always have the same length here
         OverwriteDataSet newset = new OverwriteDataSet(x, y, dataset);
 
         if (cnax != null) {
@@ -275,18 +264,10 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
                 cnay.setBoundMappedToLastCycle(y[0] <= ycycleBound);
             }
         }
-
-        @SuppressWarnings("index") // newset is created from x and y, which are both arrays with at least two elements. So one is always a valid index to either
-        /*@LTLengthOf("newset.getSeries(series)")*/ int one = 1;
         super.drawItem(
             g2, state, dataArea, info, plot, domainAxis, rangeAxis,
-            newset, series, one, crosshairState, pass
+            newset, series, 1, crosshairState, pass
         );
-
-        if (x.length < 3 || y.length < 3) {
-            // dead code, necessary for typechecking. x and y have correlated lengths
-            return;
-        }
 
         if (cnax != null) {
             if (xcycleBound == x[1]) {
@@ -304,14 +285,10 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
                 cnay.setBoundMappedToLastCycle(y[1] <= ycycleBound);
             }
         }
-
-        @SuppressWarnings("index") // newset is created from x and y, which are both arrays with at least two elements. But, if x and y were of length two we already returned. So, two is a valid index into newset.
-        /*@LTLengthOf("newset.getSeries(series)")*/ int two = 2;
-
         super.drawItem(g2, state, dataArea, info, plot, domainAxis, rangeAxis,
-                newset, series, two, crosshairState, pass);
+                newset, series, 2, crosshairState, pass);
 
-        if (x.length == 4 && y.length == 4) {
+        if (x.length == 4) {
             if (cnax != null) {
                 if (xcycleBound == x[2]) {
                     cnax.setBoundMappedToLastCycle(x[3] <= xcycleBound);
@@ -328,12 +305,8 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
                     cnay.setBoundMappedToLastCycle(y[2] <= ycycleBound);
                 }
             }
-
-            @SuppressWarnings("index") // newset is created from x and y, which are both arrays with exactly four elements.
-            /*@LTLengthOf("newset.getSeries(series)")*/ int three = 3;
-
             super.drawItem(g2, state, dataArea, info, plot, domainAxis,
-                    rangeAxis, newset, series, three, crosshairState, pass);
+                    rangeAxis, newset, series, 3, crosshairState, pass);
         }
 
         if (cnax != null) {
@@ -362,8 +335,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @param y  the y values.
          * @param delegateSet  the dataset.
          */
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/213
-        public OverwriteDataSet(double /*@SameLen("#2")*/ [] x, double /*@SameLen("#1")*/ [] y,
+        public OverwriteDataSet(double [] x, double[] y,
                                 XYDataset delegateSet) {
             this.delegateSet = delegateSet;
             this.x = new Double[x.length]; this.y = new Double[y.length];
@@ -391,8 +363,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The item count.
          */
         @Override
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/209
-        public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
+        public int getItemCount(int series) {
             return this.x.length;
         }
 
@@ -405,8 +376,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The x-value.
          */
         @Override
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/209
-        public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+        public Number getX(int series, int item) {
             return this.x[item];
         }
 
@@ -420,7 +390,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The x-value.
          */
         @Override
-        public double getXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+        public double getXValue(int series, int item) {
             double result = Double.NaN;
             Number xx = getX(series, item);
             if (xx != null) {
@@ -438,8 +408,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The y-value.
          */
         @Override
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/209
-        public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+        public Number getY(int series, int item) {
             return this.y[item];
         }
 
@@ -453,7 +422,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The y-value.
          */
         @Override
-        public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+        public double getYValue(int series, int item) {
             double result = Double.NaN;
             Number yy = getY(series, item);
             if (yy != null) {
@@ -468,7 +437,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The series count.
          */
         @Override
-        public /*@NonNegative*/ int getSeriesCount() {
+        public int getSeriesCount() {
             return this.delegateSet.getSeriesCount();
         }
 
@@ -480,7 +449,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The series name.
          */
         @Override
-        public Comparable getSeriesKey(/*@NonNegative*/ int series) {
+        public Comparable getSeriesKey(int series) {
             return this.delegateSet.getSeriesKey(series);
         }
 
@@ -492,7 +461,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The index.
          */
         @Override
-        public /*@GTENegativeOne*/ int indexOf(Comparable seriesName) {
+        public int indexOf(Comparable seriesName) {
             return this.delegateSet.indexOf(seriesName);
         }
 
@@ -535,14 +504,6 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
         @Override
         public void setGroup(DatasetGroup group) {
             // unused in parent
-        }
-
-        /**
-         * A ghost method. Do not call.
-         */
-        @Override
-        public Series getSeries(/*@NonNegative*/ int series) {
-            return null;
         }
 
     }

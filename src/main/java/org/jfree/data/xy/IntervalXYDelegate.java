@@ -52,11 +52,6 @@
  */
 
 package org.jfree.data.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.io.Serializable;
 
@@ -262,7 +257,7 @@ public class IntervalXYDelegate implements DatasetChangeListener,
      *
      * @see #getStartXValue(int, int)
      */
-    public Number getStartX(/*@NonNegative*/ int series, /*@IndexFor("this.dataset.getSeries(#1)")*/ int item) {
+    public Number getStartX(int series, int item) {
         Number startX = null;
         Number x = this.dataset.getX(series, item);
         if (x != null) {
@@ -282,7 +277,7 @@ public class IntervalXYDelegate implements DatasetChangeListener,
      *
      * @see #getStartX(int, int)
      */
-    public double getStartXValue(/*@NonNegative*/ int series, /*@IndexFor("this.dataset.getSeries(#1)")*/ int item) {
+    public double getStartXValue(int series, int item) {
         return this.dataset.getXValue(series, item)
                 - getIntervalPositionFactor() * getIntervalWidth();
     }
@@ -297,7 +292,7 @@ public class IntervalXYDelegate implements DatasetChangeListener,
      *
      * @see #getEndXValue(int, int)
      */
-    public Number getEndX(/*@NonNegative*/ int series, /*@IndexFor("this.dataset.getSeries(#1)")*/ int item) {
+    public Number getEndX(int series, int item) {
         Number endX = null;
         Number x = this.dataset.getX(series, item);
         if (x != null) {
@@ -317,7 +312,7 @@ public class IntervalXYDelegate implements DatasetChangeListener,
      *
      * @see #getEndX(int, int)
      */
-    public double getEndXValue(/*@NonNegative*/ int series, /*@IndexFor("this.dataset.getSeries(#1)")*/ int item) {
+    public double getEndXValue(int series, int item) {
         return this.dataset.getXValue(series, item)
                 + (1.0 - getIntervalPositionFactor()) * getIntervalWidth();
     }
@@ -420,11 +415,10 @@ public class IntervalXYDelegate implements DatasetChangeListener,
      *
      * @return The interval width.
      */
-    private double calculateIntervalForSeries(/*@NonNegative*/ int series) {
+    private double calculateIntervalForSeries(int series) {
         double result = Double.POSITIVE_INFINITY;
         int itemCount = this.dataset.getItemCount(series);
         if (itemCount > 1) {
-            @SuppressWarnings("index") // itemCount is the length of this series, so 0 is safe here
             double prev = this.dataset.getXValue(series, 0);
             for (int item = 1; item < itemCount; item++) {
                 double x = this.dataset.getXValue(series, item);

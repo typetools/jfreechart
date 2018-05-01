@@ -54,9 +54,6 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -169,7 +166,7 @@ public class StackedXYBarRenderer extends XYBarRenderer {
      * @return {@code 2}.
      */
     @Override
-    public /*@NonNegative*/ int getPassCount() {
+    public int getPassCount() {
         return 3;
     }
 
@@ -240,7 +237,7 @@ public class StackedXYBarRenderer extends XYBarRenderer {
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            int series, int item, CrosshairState crosshairState, int pass) {
 
         if (!getItemVisible(series, item)) {
             return;
@@ -266,9 +263,7 @@ public class StackedXYBarRenderer extends XYBarRenderer {
         }
 
         IntervalXYDataset intervalDataset = (IntervalXYDataset) dataset;
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-            /*@IndexFor("intervalDataset.getSeries(series)")*/ int intervalXYItem = item;
-        double value = intervalDataset.getYValue(series, intervalXYItem);
+        double value = intervalDataset.getYValue(series, item);
         if (Double.isNaN(value)) {
             return;
         }
@@ -291,7 +286,6 @@ public class StackedXYBarRenderer extends XYBarRenderer {
         double negativeBase = 0.0;
 
         for (int i = 0; i < series; i++) {
-            @SuppressWarnings("index") // this code assumes that item is an index into every series in the dataset preceding the series, not just the series. This isn't an intrinsic property of xydatasets, so I think this may be a bug?
             double v = dataset.getYValue(i, item);
             if (!Double.isNaN(v) && isSeriesVisible(i)) {
                 if (this.renderAsPercentages) {
@@ -323,14 +317,14 @@ public class StackedXYBarRenderer extends XYBarRenderer {
         }
 
         RectangleEdge edgeD = plot.getDomainAxisEdge();
-        double startX = intervalDataset.getStartXValue(series, intervalXYItem);
+        double startX = intervalDataset.getStartXValue(series, item);
         if (Double.isNaN(startX)) {
             return;
         }
         double translatedStartX = domainAxis.valueToJava2D(startX, dataArea,
                 edgeD);
 
-        double endX = intervalDataset.getEndXValue(series, intervalXYItem);
+        double endX = intervalDataset.getEndXValue(series, item);
         if (Double.isNaN(endX)) {
             return;
         }

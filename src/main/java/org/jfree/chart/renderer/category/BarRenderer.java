@@ -95,11 +95,6 @@
  */
 
 package org.jfree.chart.renderer.category;
-/*>>> import org.checkerframework.common.value.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -748,7 +743,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
      */
     @Override
     public CategoryItemRendererState initialise(Graphics2D g2, 
-            Rectangle2D dataArea, CategoryPlot plot, /*@NonNegative*/ int rendererIndex,
+            Rectangle2D dataArea, CategoryPlot plot, int rendererIndex,
             PlotRenderingInfo info) {
 
         CategoryItemRendererState state = super.initialise(g2, dataArea, plot,
@@ -776,7 +771,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
      */
     protected void calculateBarWidth(CategoryPlot plot,
                                      Rectangle2D dataArea,
-                                     /*@NonNegative*/ int rendererIndex,
+                                     int rendererIndex,
                                      CategoryItemRendererState state) {
 
         CategoryAxis domainAxis = getDomainAxis(plot, rendererIndex);
@@ -832,7 +827,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
     protected double calculateBarW0(CategoryPlot plot, 
             PlotOrientation orientation, Rectangle2D dataArea, 
             CategoryAxis domainAxis, CategoryItemRendererState state,
-            /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+            int row, int column) {
         // calculate bar width...
         double space;
         if (orientation == PlotOrientation.HORIZONTAL) {
@@ -870,7 +865,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
      * @return The coordinates for each end of the bar (or {@code null} if
      *         the bar is not visible for the current axis range).
      */
-    protected double /*@ArrayLen(2)*/ [] calculateBarL0L1(double value) {
+    protected double[] calculateBarL0L1(double value) {
         double lclip = getLowerClip();
         double uclip = getUpperClip();
         double barLow = Math.min(this.base, value);
@@ -922,7 +917,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
      * @return The legend item (possibly {@code null}).
      */
     @Override
-    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(int datasetIndex, int series) {
 
         CategoryPlot cp = getPlot();
         if (cp == null) {
@@ -989,8 +984,8 @@ public class BarRenderer extends AbstractCategoryItemRenderer
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row,
-            /*@NonNegative*/ int column, int pass) {
+            ValueAxis rangeAxis, CategoryDataset dataset, int row,
+            int column, int pass) {
 
         // nothing is drawn if the row index is not included in the list with
         // the indices of the visible rows...
@@ -1085,8 +1080,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
         }
 
         // submit the current data point as a crosshair candidate
-        @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
-        /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
+        int datasetIndex = plot.indexOf(dataset);
         updateCrosshairValues(state.getCrosshairState(),
                 dataset.getRowKey(row), dataset.getColumnKey(column), value,
                 datasetIndex, barW0, barL0, orientation);
@@ -1110,7 +1104,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
      * @return The width of one series.
      */
     protected double calculateSeriesWidth(double space, CategoryAxis axis,
-                                          int categories, /*@NonNegative*/ int series) {
+                                          int categories, int series) {
         double factor = 1.0 - getItemMargin() - axis.getLowerMargin()
                             - axis.getUpperMargin();
         if (categories > 1) {
@@ -1134,8 +1128,8 @@ public class BarRenderer extends AbstractCategoryItemRenderer
      */
     protected void drawItemLabel(Graphics2D g2,
                                  CategoryDataset data,
-                                 /*@NonNegative*/ int row,
-                                 /*@NonNegative*/ int column,
+                                 int row,
+                                 int column,
                                  CategoryPlot plot,
                                  CategoryItemLabelGenerator generator,
                                  Rectangle2D bar,

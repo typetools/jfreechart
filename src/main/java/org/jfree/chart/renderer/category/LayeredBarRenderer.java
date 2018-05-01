@@ -54,10 +54,6 @@
 
 package org.jfree.chart.renderer.category;
 
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
-
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -109,7 +105,7 @@ public class LayeredBarRenderer extends BarRenderer implements Serializable {
      *
      * @return The width for the series (1.0=100%, it is the maximum).
      */
-    public double getSeriesBarWidth(/*@NonNegative*/ int series) {
+    public double getSeriesBarWidth(int series) {
         double result = Double.NaN;
         Number n = (Number) this.seriesBarWidthList.get(series);
         if (n != null) {
@@ -125,7 +121,7 @@ public class LayeredBarRenderer extends BarRenderer implements Serializable {
      * @param width  the width of the series bar in percentage (1.0=100%, it is
      *               the maximum).
      */
-    public void setSeriesBarWidth(/*@NonNegative*/ int series, double width) {
+    public void setSeriesBarWidth(int series, double width) {
         this.seriesBarWidthList.set(series, new Double(width));
     }
 
@@ -139,7 +135,7 @@ public class LayeredBarRenderer extends BarRenderer implements Serializable {
      */
     @Override
     protected void calculateBarWidth(CategoryPlot plot, Rectangle2D dataArea,
-            /*@NonNegative*/ int rendererIndex, CategoryItemRendererState state) {
+            int rendererIndex, CategoryItemRendererState state) {
 
         // calculate the bar width - this calculation differs from the
         // BarRenderer calculation because the bars are layered on top of one
@@ -192,7 +188,7 @@ public class LayeredBarRenderer extends BarRenderer implements Serializable {
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset data, /*@NonNegative*/ int row, /*@NonNegative*/ int column,
+            ValueAxis rangeAxis, CategoryDataset data, int row, int column,
             int pass) {
 
         PlotOrientation orientation = plot.getOrientation();
@@ -222,7 +218,7 @@ public class LayeredBarRenderer extends BarRenderer implements Serializable {
     protected void drawHorizontalItem(Graphics2D g2,
             CategoryItemRendererState state, Rectangle2D dataArea,
             CategoryPlot plot, CategoryAxis domainAxis, ValueAxis rangeAxis,
-            CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+            CategoryDataset dataset, int row, int column) {
 
         // nothing is drawn for null values...
         Number dataValue = dataset.getValue(row, column);
@@ -347,7 +343,7 @@ public class LayeredBarRenderer extends BarRenderer implements Serializable {
     protected void drawVerticalItem(Graphics2D g2,
             CategoryItemRendererState state, Rectangle2D dataArea,
             CategoryPlot plot, CategoryAxis domainAxis, ValueAxis rangeAxis,
-            CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+            CategoryDataset dataset, int row, int column) {
 
         // nothing is drawn for null values...
         Number dataValue = dataset.getValue(row, column);

@@ -48,11 +48,6 @@
 
  package org.jfree.chart.plot;
 
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
-import org.checkerframework.checker.index.qual.IndexFor;
- */
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
@@ -113,37 +108,37 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
     private transient Paint[] paintSequence;
 
     /** The current paint index. */
-    private /*@NonNegative*/ int paintIndex;
+    private int paintIndex;
 
     /** The outline paint sequence. */
     private transient Paint[] outlinePaintSequence;
 
     /** The current outline paint index. */
-    private /*@NonNegative*/ int outlinePaintIndex;
+    private int outlinePaintIndex;
 
     /** The fill paint sequence. */
     private transient Paint[] fillPaintSequence;
 
     /** The current fill paint index. */
-    private /*@NonNegative*/ int fillPaintIndex;
+    private int fillPaintIndex;
 
     /** The stroke sequence. */
     private transient Stroke[] strokeSequence;
 
     /** The current stroke index. */
-    private /*@NonNegative*/ int strokeIndex;
+    private int strokeIndex;
 
     /** The outline stroke sequence. */
     private transient Stroke[] outlineStrokeSequence;
 
     /** The current outline stroke index. */
-    private /*@NonNegative*/ int outlineStrokeIndex;
+    private int outlineStrokeIndex;
 
     /** The shape sequence. */
     private transient Shape[] shapeSequence;
 
     /** The current shape index. */
-    private /*@NonNegative*/ int shapeIndex;
+    private int shapeIndex;
 
     /**
      * Creates a new supplier, with default sequences for fill paint, outline
@@ -473,7 +468,6 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
      * @throws IOException if there is an I/O problem.
      * @throws ClassNotFoundException if there is a problem loading a class.
      */
-    @SuppressWarnings("index") // stream must have been serialized from an object of this class
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();

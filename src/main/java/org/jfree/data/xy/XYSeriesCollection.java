@@ -64,11 +64,6 @@
  */
 
 package org.jfree.data.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
@@ -175,7 +170,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      *
      * @param series  the series index (zero-based).
      */
-    public void removeSeries(/*@NonNegative*/ int series) {
+    public void removeSeries(int series) {
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException("Series index out of bounds.");
         }
@@ -225,7 +220,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    public /*@NonNegative*/ int getSeriesCount() {
+    public int getSeriesCount() {
         return this.data.size();
     }
 
@@ -248,7 +243,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      *
      * @since 1.0.6
      */
-    public /*@GTENegativeOne*/ int indexOf(XYSeries series) {
+    public int indexOf(XYSeries series) {
         Args.nullNotPermitted(series, "series");
         return this.data.indexOf(series);
     }
@@ -263,7 +258,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * @throws IllegalArgumentException if {@code series} is not in the
      *     range {@code 0} to {@code getSeriesCount() - 1}.
      */
-    public XYSeries getSeries(/*@NonNegative*/ int series) {
+    public XYSeries getSeries(int series) {
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException("Series index out of bounds");
         }
@@ -306,7 +301,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    public Comparable getSeriesKey(/*@NonNegative*/ int series) {
+    public Comparable getSeriesKey(int series) {
         // defer argument checking
         return getSeries(series).getKey();
     }
@@ -321,7 +316,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * 
      * @since 1.0.14
      */
-    public /*@GTENegativeOne*/ int getSeriesIndex(Comparable key) {
+    public int getSeriesIndex(Comparable key) {
         Args.nullNotPermitted(key, "key");
         int seriesCount = getSeriesCount();
         for (int i = 0; i < seriesCount; i++) {
@@ -344,8 +339,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      *     range {@code 0} to {@code getSeriesCount() - 1}.
      */
     @Override
-    @SuppressWarnings("index") // array-list interop: getSeries.getItemCount cannot be annotated because some series are mutable
-    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
+    public int getItemCount(int series) {
         // defer argument checking
         return getSeries(series).getItemCount();
     }
@@ -359,7 +353,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getX(int series, int item) {
         XYSeries s = (XYSeries) this.data.get(series);
         return s.getX(item);
     }
@@ -373,8 +367,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * @return The starting X value.
      */
     @Override
-    @SuppressWarnings("index") // array-list interop: getSeries.getItemCount cannot be annotated because some series are mutable
-    public Number getStartX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getStartX(int series, int item) {
         return this.intervalDelegate.getStartX(series, item);
     }
 
@@ -387,8 +380,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * @return The ending X value.
      */
     @Override
-    @SuppressWarnings("index") // array-list interop: getSeries.getItemCount cannot be annotated because some series are mutable
-    public Number getEndX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getEndX(int series, int item) {
         return this.intervalDelegate.getEndX(series, item);
     }
 
@@ -401,7 +393,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * @return The value (possibly {@code null}).
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int index) {
+    public Number getY(int series, int index) {
         XYSeries s = (XYSeries) this.data.get(series);
         return s.getY(index);
     }
@@ -415,7 +407,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * @return The starting Y value.
      */
     @Override
-    public Number getStartY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getStartY(int series, int item) {
         return getY(series, item);
     }
 
@@ -428,7 +420,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * @return The ending Y value.
      */
     @Override
-    public Number getEndY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getEndY(int series, int item) {
         return getY(series, item);
     }
 

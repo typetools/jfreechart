@@ -72,9 +72,6 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -203,7 +200,7 @@ public class XYStepRenderer extends XYLineAndShapeRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            int series, int item, CrosshairState crosshairState, int pass) {
 
         // do nothing if item is not visible
         if (!getItemVisible(series, item)) {
@@ -276,8 +273,7 @@ public class XYStepRenderer extends XYLineAndShapeRenderer
             }
 
             // submit this data item as a candidate for the crosshair point
-            @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
-            /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
+            int datasetIndex = plot.indexOf(dataset);
             updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
                     transX1, transY1, orientation);
 

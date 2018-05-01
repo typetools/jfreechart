@@ -74,10 +74,6 @@
 
 package org.jfree.chart.renderer.category;
 
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
-
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
@@ -161,7 +157,7 @@ public class AreaRenderer extends AbstractCategoryItemRenderer
      * @return The legend item.
      */
     @Override
-    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(int datasetIndex, int series) {
 
         // if there is no plot, there is no dataset to access...
         CategoryPlot cp = getPlot();
@@ -225,7 +221,7 @@ public class AreaRenderer extends AbstractCategoryItemRenderer
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column,
+            ValueAxis rangeAxis, CategoryDataset dataset, int row, int column,
             int pass) {
 
         // do nothing if item is not visible or null
@@ -324,8 +320,7 @@ public class AreaRenderer extends AbstractCategoryItemRenderer
         }
 
         // submit the current data point as a crosshair candidate
-        @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
-        /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
+        int datasetIndex = plot.indexOf(dataset);
         updateCrosshairValues(state.getCrosshairState(), 
                 dataset.getRowKey(row), dataset.getColumnKey(column), yy1,
                 datasetIndex, x1, y1, orientation);

@@ -42,11 +42,6 @@
 
 package org.jfree.chart.axis;
 
-/*>>>
-import org.checkerframework.common.value.qual.ArrayLen;
-import org.checkerframework.common.value.qual.IntRange;
- */
-
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
@@ -58,7 +53,7 @@ import org.jfree.chart.util.Args;
 public class CompassFormat extends NumberFormat {
 
     /** The directions. */
-    public final String /*@ArrayLen(16)*/ [] directions;
+    public final String[] directions;
 
     /**
      * Creates a new formatter using English identifiers.
@@ -93,7 +88,7 @@ public class CompassFormat extends NumberFormat {
      * 
      * @since 1.0.18
      */
-    public CompassFormat(String /*@ArrayLen(16)*/ [] directions) {
+    public CompassFormat(String[] directions) {
         super();
         Args.nullNotPermitted(directions, "directions");
         if (directions.length != 16) {
@@ -115,8 +110,7 @@ public class CompassFormat extends NumberFormat {
         if (direction < 0.0) {
             direction = direction + 360.0;
         }
-        @SuppressWarnings({"index", "value"}) // Math.floor needs annotations?
-        /*@IntRange(from = 0, to = 15)*/ int index = ((int) Math.floor(direction / 11.25) + 1) / 2;
+        int index = ((int) Math.floor(direction / 11.25) + 1) / 2;
         return directions[index];
     }
 

@@ -59,8 +59,6 @@
  */
 
 package org.jfree.data;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -109,7 +107,7 @@ public class DefaultKeyedValues implements KeyedValues, Cloneable,
      * @return The item count.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount() {
+    public int getItemCount() {
         return this.indexMap.size();
     }
 
@@ -123,7 +121,7 @@ public class DefaultKeyedValues implements KeyedValues, Cloneable,
      * @throws IndexOutOfBoundsException if {@code item} is out of bounds.
      */
     @Override
-    public Number getValue(/*@NonNegative*/ int item) {
+    public Number getValue(int item) {
         return (Number) this.values.get(item);
     }
 
@@ -137,7 +135,7 @@ public class DefaultKeyedValues implements KeyedValues, Cloneable,
      * @throws IndexOutOfBoundsException if {@code item} is out of bounds.
      */
     @Override
-    public Comparable getKey(/*@NonNegative*/ int index) {
+    public Comparable getKey(int index) {
         return (Comparable) this.keys.get(index);
     }
 
@@ -152,15 +150,13 @@ public class DefaultKeyedValues implements KeyedValues, Cloneable,
      *     {@code null}.
      */
     @Override
-    public /*@GTENegativeOne*/ int getIndex(Comparable key) {
+    public int getIndex(Comparable key) {
         Args.nullNotPermitted(key, "key");
         final Integer i = (Integer) this.indexMap.get(key);
         if (i == null) {
             return -1;  // key not found
         }
-        @SuppressWarnings("index") // the map only contains indices, so if the value is in the map, then result is non-negative
-        /*@NonNegative*/ int result = i.intValue();
-        return result;
+        return i.intValue();
     }
 
     /**
@@ -258,7 +254,7 @@ public class DefaultKeyedValues implements KeyedValues, Cloneable,
      *
      * @since 1.0.6
      */
-    public void insertValue(/*@NonNegative*/ int position, Comparable key, double value) {
+    public void insertValue(int position, Comparable key, double value) {
         insertValue(position, key, new Double(value));
     }
 
@@ -273,7 +269,7 @@ public class DefaultKeyedValues implements KeyedValues, Cloneable,
      *
      * @since 1.0.6
      */
-    public void insertValue(/*@NonNegative*/ int position, Comparable key, Number value) {
+    public void insertValue(int position, Comparable key, Number value) {
         if (position < 0 || position > getItemCount()) {
             throw new IllegalArgumentException("'position' out of bounds.");
         }
@@ -316,7 +312,7 @@ public class DefaultKeyedValues implements KeyedValues, Cloneable,
      * @throws IndexOutOfBoundsException if {@code index} is not within
      *     the specified range.
      */
-    public void removeValue(/*@NonNegative*/ int index) {
+    public void removeValue(int index) {
         this.keys.remove(index);
         this.values.remove(index);
         rebuildIndex();

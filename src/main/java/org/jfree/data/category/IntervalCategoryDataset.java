@@ -46,10 +46,6 @@
 
 package org.jfree.data.category;
 
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
-
 /**
  * A category dataset that defines a value range for each series/category
  * combination.
@@ -66,7 +62,7 @@ public interface IntervalCategoryDataset extends CategoryDataset {
      *
      * @see #getEndValue(int, int)
      */
-    public Number getStartValue(/*@NonNegative*/ int series, /*@NonNegative*/ int category);
+    public Number getStartValue(int series, int category);
 
     /**
      * Returns the start value for the interval for a given series and category.
@@ -90,7 +86,7 @@ public interface IntervalCategoryDataset extends CategoryDataset {
      *
      * @see #getStartValue(int, int)
      */
-    public Number getEndValue(/*@NonNegative*/ int series, /*@NonNegative*/ int category);
+    public Number getEndValue(int series, int category);
 
     /**
      * Returns the end value for the interval for a given series and category.

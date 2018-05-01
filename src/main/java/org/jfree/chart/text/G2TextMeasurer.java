@@ -27,8 +27,6 @@
  */
 
 package org.jfree.chart.text;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -61,7 +59,7 @@ public class G2TextMeasurer implements TextMeasurer {
      * @return The string width.
      */
     @Override
-    public float getStringWidth(String text, /*@IndexOrHigh("#1")*/ int start, /*@IndexOrHigh("#1")*/ int end) {
+    public float getStringWidth(String text, int start, int end) {
         FontMetrics fm = this.g2.getFontMetrics();
         Rectangle2D bounds = TextUtils.getTextBounds(text.substring(start, end),
                 this.g2, fm);

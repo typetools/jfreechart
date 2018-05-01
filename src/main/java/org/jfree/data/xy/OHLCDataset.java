@@ -47,11 +47,6 @@
  */
 
 package org.jfree.data.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 /**
  * An interface that defines data in the form of (x, high, low, open, close)
@@ -67,7 +62,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The value.
      */
-    public Number getHigh(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
+    public Number getHigh(int series, int item);
 
     /**
      * Returns the high-value (as a double primitive) for an item within a
@@ -78,7 +73,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The high-value.
      */
-    public double getHighValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
+    public double getHighValue(int series, int item);
 
     /**
      * Returns the low-value for the specified series and item.
@@ -88,7 +83,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The value.
      */
-    public Number getLow(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
+    public Number getLow(int series, int item);
 
     /**
      * Returns the low-value (as a double primitive) for an item within a
@@ -99,7 +94,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The low-value.
      */
-    public double getLowValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
+    public double getLowValue(int series, int item);
 
     /**
      * Returns the open-value for the specified series and item.
@@ -109,7 +104,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The value.
      */
-    public Number getOpen(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
+    public Number getOpen(int series, int item);
 
     /**
      * Returns the open-value (as a double primitive) for an item within a
@@ -120,7 +115,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The open-value.
      */
-    public double getOpenValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
+    public double getOpenValue(int series, int item);
 
     /**
      * Returns the y-value for the specified series and item.
@@ -130,7 +125,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The value.
      */
-    public Number getClose(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
+    public Number getClose(int series, int item);
 
     /**
      * Returns the close-value (as a double primitive) for an item within a
@@ -141,7 +136,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The close-value.
      */
-    public double getCloseValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
+    public double getCloseValue(int series, int item);
 
     /**
      * Returns the volume for the specified series and item.
@@ -151,7 +146,7 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The value.
      */
-    public Number getVolume(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
+    public Number getVolume(int series, int item);
 
     /**
      * Returns the volume-value (as a double primitive) for an item within a
@@ -162,6 +157,6 @@ public interface OHLCDataset extends XYDataset {
      *
      * @return The volume-value.
      */
-    public double getVolumeValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/  int item);
+    public double getVolumeValue(int series, int item);
 
 }

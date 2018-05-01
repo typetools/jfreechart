@@ -43,7 +43,6 @@
  */
 
 package org.jfree.data.gantt;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
 import java.util.Date;
@@ -191,7 +190,7 @@ public class Task implements Cloneable, PublicCloneable, Serializable {
      *
      * @return The sub-task count.
      */
-    public /*@NonNegative*/ int getSubtaskCount() {
+    public int getSubtaskCount() {
         return this.subtasks.size();
     }
 
@@ -202,7 +201,7 @@ public class Task implements Cloneable, PublicCloneable, Serializable {
      *
      * @return The sub-task.
      */
-    public Task getSubtask(/*@NonNegative*/ int index) {
+    public Task getSubtask(int index) {
         return (Task) this.subtasks.get(index);
     }
 

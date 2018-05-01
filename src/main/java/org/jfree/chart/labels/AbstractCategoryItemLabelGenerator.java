@@ -45,8 +45,6 @@
  */
 
 package org.jfree.chart.labels;
-/*>>> import org.checkerframework.common.value.qual.MinLen; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -160,7 +158,7 @@ public abstract class AbstractCategoryItemLabelGenerator
      *
      * @return The label.
      */
-    public String generateRowLabel(CategoryDataset dataset, /*@NonNegative*/ int row) {
+    public String generateRowLabel(CategoryDataset dataset, int row) {
         return dataset.getRowKey(row).toString();
     }
 
@@ -172,7 +170,7 @@ public abstract class AbstractCategoryItemLabelGenerator
      *
      * @return The label.
      */
-    public String generateColumnLabel(CategoryDataset dataset, /*@NonNegative*/ int column) {
+    public String generateColumnLabel(CategoryDataset dataset, int column) {
         return dataset.getColumnKey(column).toString();
     }
 
@@ -213,7 +211,7 @@ public abstract class AbstractCategoryItemLabelGenerator
      * @return The label (possibly {@code null}).
      */
     protected String generateLabelString(CategoryDataset dataset,
-                                         /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+                                         int row, int column) {
         Args.nullNotPermitted(dataset, "dataset");
         String result;
         Object[] items = createItemArray(dataset, row, column);
@@ -232,8 +230,8 @@ public abstract class AbstractCategoryItemLabelGenerator
      *
      * @return The items (never {@code null}).
      */
-    protected Object /*@MinLen(4)*/ [] createItemArray(CategoryDataset dataset,
-                                       /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    protected Object[] createItemArray(CategoryDataset dataset,
+                                       int row, int column) {
         Object[] result = new Object[4];
         result[0] = dataset.getRowKey(row).toString();
         result[1] = dataset.getColumnKey(column).toString();

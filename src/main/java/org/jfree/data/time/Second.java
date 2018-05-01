@@ -61,7 +61,6 @@
  */
 
 package org.jfree.data.time;
-/*>>> import org.checkerframework.common.value.qual.*; */
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -89,13 +88,13 @@ public class Second extends RegularTimePeriod implements Serializable {
     private Day day;
 
     /** The hour of the day. */
-    /*@IntRange(from = 0, to = 23)*/ private byte hour;
+    private byte hour;
 
     /** The minute. */
-    /*@IntRange(from = 0, to = 59)*/ private byte minute;
+    private byte minute;
 
     /** The second. */
-    /*@IntRange(from = 0, to = 59)*/ private byte second;
+    private byte second;
 
     /**
      * The first millisecond.  We don't store the last millisecond, because it
@@ -116,7 +115,7 @@ public class Second extends RegularTimePeriod implements Serializable {
      * @param second  the second (0 to 59).
      * @param minute  the minute ({@code null} not permitted).
      */
-    public Second(/*@IntRange(from = 0, to = 59)*/ int second, Minute minute) {
+    public Second(int second, Minute minute) {
         Args.requireInRange(second, "second", 
                 Second.FIRST_SECOND_IN_MINUTE, Second.LAST_SECOND_IN_MINUTE);
         Args.nullNotPermitted(minute, "minute");
@@ -137,8 +136,8 @@ public class Second extends RegularTimePeriod implements Serializable {
      * @param month  the month (1-12).
      * @param year  the year (1900-9999).
      */
-    public Second(/*@IntRange(from = 0, to = 59)*/ int second, /*@IntRange(from = 0, to = 59)*/ int minute, /*@IntRange(from = 0, to = 23)*/ int hour,
-                  /*@IntRange(from = 1, to = 31)*/ int day, /*@IntRange(from = 1, to = 12)*/ int month, /*@IntRange(from = 1900, to = 9999)*/ int year) {
+    public Second(int second, int minute, int hour,
+                  int day, int month, int year) {
         this(second, new Minute(minute, hour, day, month, year));
     }
 
@@ -163,7 +162,6 @@ public class Second extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.13
      */
-    @SuppressWarnings({"index", "value"}) // calendar get: calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
     public Second(Date time, TimeZone zone, Locale locale) {
         Calendar calendar = Calendar.getInstance(zone, locale);
         calendar.setTime(time);
@@ -179,7 +177,7 @@ public class Second extends RegularTimePeriod implements Serializable {
      *
      * @return The second (0 - 59).
      */
-    public /*@IntRange(from = 0, to = 59)*/ int getSecond() {
+    public int getSecond() {
         return this.second;
     }
 

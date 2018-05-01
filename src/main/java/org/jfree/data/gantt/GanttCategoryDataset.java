@@ -41,7 +41,6 @@
  */
 
  package org.jfree.data.gantt;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import org.jfree.data.category.IntervalCategoryDataset;
 
@@ -61,7 +60,7 @@ public interface GanttCategoryDataset extends IntervalCategoryDataset {
      *
      * @see #getPercentComplete(Comparable, Comparable)
      */
-    public Number getPercentComplete(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Number getPercentComplete(int row, int column);
 
     /**
      * Returns the percent complete for a given item.
@@ -85,7 +84,7 @@ public interface GanttCategoryDataset extends IntervalCategoryDataset {
      *
      * @see #getSubIntervalCount(Comparable, Comparable)
      */
-    public /*@NonNegative*/ int getSubIntervalCount(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public int getSubIntervalCount(int row, int column);
 
     /**
      * Returns the number of sub-intervals for a given item.
@@ -97,7 +96,7 @@ public interface GanttCategoryDataset extends IntervalCategoryDataset {
      *
      * @see #getSubIntervalCount(int, int)
      */
-    public /*@NonNegative*/ int getSubIntervalCount(Comparable rowKey, Comparable columnKey);
+    public int getSubIntervalCount(Comparable rowKey, Comparable columnKey);
 
     /**
      * Returns the start value of a sub-interval for a given item.
@@ -110,7 +109,7 @@ public interface GanttCategoryDataset extends IntervalCategoryDataset {
      *
      * @see #getEndValue(int, int, int)
      */
-    public Number getStartValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column, /*@NonNegative*/ int subinterval);
+    public Number getStartValue(int row, int column, int subinterval);
 
     /**
      * Returns the start value of a sub-interval for a given item.
@@ -124,7 +123,7 @@ public interface GanttCategoryDataset extends IntervalCategoryDataset {
      * @see #getEndValue(Comparable, Comparable, int)
      */
     public Number getStartValue(Comparable rowKey, Comparable columnKey,
-                                 /*@NonNegative*/ int subinterval);
+                                int subinterval);
 
     /**
      * Returns the end value of a sub-interval for a given item.
@@ -137,7 +136,7 @@ public interface GanttCategoryDataset extends IntervalCategoryDataset {
      *
      * @see #getStartValue(int, int, int)
      */
-    public Number getEndValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column, /*@NonNegative*/ int subinterval);
+    public Number getEndValue(int row, int column, int subinterval);
 
     /**
      * Returns the end value of a sub-interval for a given item.
@@ -151,7 +150,7 @@ public interface GanttCategoryDataset extends IntervalCategoryDataset {
      * @see #getStartValue(Comparable, Comparable, int)
      */
     public Number getEndValue(Comparable rowKey, Comparable columnKey,
-                              /*@NonNegative*/ int subinterval);
+                              int subinterval);
 
     /**
      * Returns the percentage complete value of a sub-interval for a given item.
@@ -164,7 +163,7 @@ public interface GanttCategoryDataset extends IntervalCategoryDataset {
      *
      * @see #getPercentComplete(Comparable, Comparable, int)
      */
-    public Number getPercentComplete(/*@NonNegative*/ int row, /*@NonNegative*/ int column, /*@NonNegative*/ int subinterval);
+    public Number getPercentComplete(int row, int column, int subinterval);
 
     /**
      * Returns the percentage complete value of a sub-interval for a given item.
@@ -178,6 +177,6 @@ public interface GanttCategoryDataset extends IntervalCategoryDataset {
      * @see #getPercentComplete(int, int, int)
      */
     public Number getPercentComplete(Comparable rowKey, Comparable columnKey,
-                                      /*@NonNegative*/ int subinterval);
+                                     int subinterval);
 
 }

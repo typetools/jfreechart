@@ -48,8 +48,6 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.*; */
 
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
@@ -301,7 +299,7 @@ public class XYSplineRenderer extends XYLineAndShapeRenderer {
     @Override
     protected void drawPrimaryLineAsPath(XYItemRendererState state,
             Graphics2D g2, XYPlot plot, XYDataset dataset, int pass,
-            /*@NonNegative*/ int series, /*@IndexFor("#4.getSeries(#6)")*/ int item, ValueAxis xAxis, ValueAxis yAxis,
+            int series, int item, ValueAxis xAxis, ValueAxis yAxis,
             Rectangle2D dataArea) {
 
         XYSplineState s = (XYSplineState) state;
@@ -324,8 +322,7 @@ public class XYSplineRenderer extends XYLineAndShapeRenderer {
         }
         
         if (item == dataset.getItemCount(series) - 1) {     // construct path
-            int spointsSize = s.points.size();
-            if (spointsSize > 1) {
+            if (s.points.size() > 1) {
                 Point2D origin;
                 if (this.fillType == FillType.TO_ZERO) {
                     float xz = (float) xAxis.valueToJava2D(0, dataArea, 
@@ -376,8 +373,7 @@ public class XYSplineRenderer extends XYLineAndShapeRenderer {
                     s.seriesPath.lineTo(cp1.getX(), cp1.getY());
                 } else {
                     // construct spline
-                    @SuppressWarnings({"index", "value"}) // array-list interop: s.points is minlen 3 at this point
-                    /*@IntRange(from = 3)*/ int np = s.points.size(); // number of points
+                    int np = s.points.size(); // number of points
                     float[] d = new float[np]; // Newton form coefficients
                     float[] x = new float[np]; // x-coordinates of nodes
                     float y, oldy;
@@ -433,10 +429,10 @@ public class XYSplineRenderer extends XYLineAndShapeRenderer {
                 if (this.fillType != FillType.NONE) {
                     if (plot.getOrientation() == PlotOrientation.HORIZONTAL) {
                         s.fillArea.lineTo(origin.getX(), s.points.get(
-                                spointsSize - 1).getY());
+                                s.points.size() - 1).getY());
                     } else {
                         s.fillArea.lineTo(s.points.get(
-                                spointsSize - 1).getX(), origin.getY());
+                                s.points.size() - 1).getX(), origin.getY());
                     }
                     s.fillArea.closePath();
                 }
@@ -464,7 +460,7 @@ public class XYSplineRenderer extends XYLineAndShapeRenderer {
     }
     
     private void solveTridiag(float[] sub, float[] diag, float[] sup,
-            float[] b, /*@IndexFor({"#1", "#2", "#3", "#4"})*/ int n) {
+            float[] b, int n) {
 /*      solve linear system with tridiagonal n by n matrix a
         using Gaussian elimination *without* pivoting
         where   a(i,i-1) = sub[i]  for 2<=i<=n

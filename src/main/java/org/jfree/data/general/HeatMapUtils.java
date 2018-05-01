@@ -40,8 +40,6 @@
  */
 
 package org.jfree.data.general;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -70,7 +68,7 @@ public abstract class HeatMapUtils {
      * @return The dataset.
      */
     public static XYDataset extractRowFromHeatMapDataset(HeatMapDataset dataset,
-            /*@IndexFor("#1.getData()[0]")*/ int row, Comparable seriesName) {
+            int row, Comparable seriesName) {
         XYSeries series = new XYSeries(seriesName);
         int cols = dataset.getXSampleCount();
         for (int c = 0; c < cols; c++) {
@@ -91,7 +89,7 @@ public abstract class HeatMapUtils {
      * @return The dataset.
      */
     public static XYDataset extractColumnFromHeatMapDataset(
-            HeatMapDataset dataset, /*@IndexFor("#1.getData()")*/ int column, Comparable seriesName) {
+            HeatMapDataset dataset, int column, Comparable seriesName) {
         XYSeries series = new XYSeries(seriesName);
         int rows = dataset.getYSampleCount();
         for (int r = 0; r < rows; r++) {

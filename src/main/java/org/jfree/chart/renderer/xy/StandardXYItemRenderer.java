@@ -110,11 +110,6 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -331,7 +326,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      *
      * @see #getSeriesShapesFilled(int)
      */
-    public boolean getItemShapeFilled(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public boolean getItemShapeFilled(int series, int item) {
 
         // otherwise look up the paint table
         Boolean flag = this.seriesShapesFilled.getBoolean(series);
@@ -351,7 +346,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      *
      * @return A boolean.
      */
-    public Boolean getSeriesShapesFilled(/*@NonNegative*/ int series) {
+    public Boolean getSeriesShapesFilled(int series) {
         return this.seriesShapesFilled.getBoolean(series);
     }
 
@@ -364,7 +359,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      *
      * @see #getSeriesShapesFilled(int)
      */
-    public void setSeriesShapesFilled(/*@NonNegative*/ int series, Boolean flag) {
+    public void setSeriesShapesFilled(int series, Boolean flag) {
         this.seriesShapesFilled.setBoolean(series, flag);
         fireChangeEvent();
     }
@@ -579,7 +574,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      * @return A legend item for the series.
      */
     @Override
-    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(int datasetIndex, int series) {
         XYPlot plot = getPlot();
         if (plot == null) {
             return null;
@@ -635,7 +630,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
         public GeneralPath seriesPath;
 
         /** The series index. */
-        private /*@GTENegativeOne*/ int seriesIndex;
+        private int seriesIndex;
 
         /**
          * A flag that indicates if the last (x, y) point was 'good'
@@ -677,7 +672,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
          *
          * @return The series index for the current path.
          */
-        public /*@GTENegativeOne*/ int getSeriesIndex() {
+        public int getSeriesIndex() {
             return this.seriesIndex;
         }
 
@@ -686,7 +681,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
          *
          * @param index  the index.
          */
-        public void setSeriesIndex(/*@NonNegative*/ int index) {
+        public void setSeriesIndex(int index) {
             this.seriesIndex = index;
         }
     }
@@ -740,7 +735,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            int series, int item, CrosshairState crosshairState, int pass) {
 
         boolean itemVisible = getItemVisible(series, item);
 
@@ -819,11 +814,8 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
                     if (getPlotDiscontinuous()) {
                         // only draw a line if the gap between the current and
                         // previous data point is within the threshold
-                        @SuppressWarnings("index") // item is an index, but it's not equal to zero. This implies that there must be at least two items.
-                        /*@Positive*/ int numX = dataset.getItemCount(series);
-                        @SuppressWarnings("index") // zero is an index, because itemCount >= 2
-                        /*@IndexFor("dataset.getSeries(series)")*/ int zero = 0;
-                        double minX = dataset.getXValue(series, zero);
+                        int numX = dataset.getItemCount(series);
+                        double minX = dataset.getXValue(series, 0);
                         double maxX = dataset.getXValue(series, numX - 1);
                         if (this.gapThresholdType == UnitType.ABSOLUTE) {
                             drawLine = Math.abs(x1 - x0) <= this.gapThreshold;
@@ -919,8 +911,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
                     (y1 < 0.0));
         }
 
-        @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
-        /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
+        int datasetIndex = plot.indexOf(dataset);
         updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
                 transX1, transY1, orientation);
 
@@ -1018,7 +1009,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      *
      * @see #getPlotImages()
      */
-    protected Image getImage(Plot plot, /*@NonNegative*/ int series, /*@NonNegative*/ int item,
+    protected Image getImage(Plot plot, int series, int item,
                              double x, double y) {
         // this method must be overridden if you want to display images
         return null;
@@ -1041,7 +1032,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      *
      * @return The hotspot used to draw the data item.
      */
-    protected Point getImageHotspot(Plot plot, /*@NonNegative*/ int series, /*@NonNegative*/ int item,
+    protected Point getImageHotspot(Plot plot, int series, int item,
                                     double x, double y, Image image) {
 
         int height = image.getHeight(null);

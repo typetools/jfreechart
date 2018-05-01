@@ -128,13 +128,6 @@
  */
 
 package org.jfree.data.general;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-
-/*>>>
-import org.checkerframework.checker.index.qual.NonNegative;
- */
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -220,8 +213,7 @@ public final class DatasetUtils {
      */
     public static PieDataset createPieDatasetForRow(CategoryDataset dataset,
             Comparable rowKey) {
-        @SuppressWarnings("index") // rowKey is being assumed to be a valid key. It should probably be checked - this is a bug
-        /*@NonNegative*/ int row = dataset.getRowIndex(rowKey);
+        int row = dataset.getRowIndex(rowKey);
         return createPieDatasetForRow(dataset, row);
     }
 
@@ -235,7 +227,7 @@ public final class DatasetUtils {
      * @return A pie dataset.
      */
     public static PieDataset createPieDatasetForRow(CategoryDataset dataset,
-            /*@NonNegative*/ int row) {
+            int row) {
         DefaultPieDataset result = new DefaultPieDataset();
         int columnCount = dataset.getColumnCount();
         for (int current = 0; current < columnCount; current++) {
@@ -256,8 +248,7 @@ public final class DatasetUtils {
      */
     public static PieDataset createPieDatasetForColumn(CategoryDataset dataset,
             Comparable columnKey) {
-        @SuppressWarnings("index") // columnKey is being assumed to be a valid key. It should probably be checked - this is a bug
-        /*@NonNegative*/ int column = dataset.getColumnIndex(columnKey);
+        int column = dataset.getColumnIndex(columnKey);
         return createPieDatasetForColumn(dataset, column);
     }
 
@@ -271,7 +262,7 @@ public final class DatasetUtils {
      * @return A pie dataset.
      */
     public static PieDataset createPieDatasetForColumn(CategoryDataset dataset,
-            /*@NonNegative*/ int column) {
+            int column) {
         DefaultPieDataset result = new DefaultPieDataset();
         int rowCount = dataset.getRowCount();
         for (int i = 0; i < rowCount; i++) {
@@ -431,8 +422,8 @@ public final class DatasetUtils {
      *
      * @return The dataset.
      */
-    public static CategoryDataset createCategoryDataset(Comparable /*@SameLen("#3")*/ [] rowKeys,
-            Comparable[] columnKeys, double /*@SameLen("#1")*/ [] /*@SameLen("#2")*/ [] data) {
+    public static CategoryDataset createCategoryDataset(Comparable[] rowKeys,
+            Comparable[] columnKeys, double[][] data) {
 
         Args.nullNotPermitted(rowKeys, "rowKeys");
         Args.nullNotPermitted(columnKeys, "columnKeys");
@@ -507,7 +498,7 @@ public final class DatasetUtils {
      * @return A dataset.
      */
     public static XYDataset sampleFunction2D(Function2D f, double start,
-            double end, /*@Positive*/ int samples, Comparable seriesKey) {
+            double end, int samples, Comparable seriesKey) {
 
         // defer argument checking
         XYSeries series = sampleFunction2DToSeries(f, start, end, samples,
@@ -532,7 +523,7 @@ public final class DatasetUtils {
      * @since 1.0.13
      */
     public static XYSeries sampleFunction2DToSeries(Function2D f,
-            double start, double end, /*@Positive*/ int samples, Comparable seriesKey) {
+            double start, double end, int samples, Comparable seriesKey) {
 
         Args.nullNotPermitted(f, "f");
         Args.nullNotPermitted(seriesKey, "seriesKey");
@@ -742,7 +733,7 @@ public final class DatasetUtils {
         if (includeInterval && dataset instanceof IntervalXYDataset) {
             IntervalXYDataset intervalXYData = (IntervalXYDataset) dataset;
             for (int series = 0; series < seriesCount; series++) {
-                int itemCount = intervalXYData.getItemCount(series);
+                int itemCount = dataset.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
                     double value = intervalXYData.getXValue(series, item);
                     lvalue = intervalXYData.getStartXValue(series, item);
@@ -1029,8 +1020,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
-                /*@NonNegative*/ int series = dataset.getRowIndex(seriesKey);
+                int series = dataset.getRowIndex(seriesKey);
                 int itemCount = dataset.getColumnCount();
                 for (int item = 0; item < itemCount; item++) {
                     Number lvalue = bx.getMinRegularValue(series, item);
@@ -1059,8 +1049,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
-                /*@NonNegative*/ int series = dataset.getRowIndex(seriesKey);
+                int series = dataset.getRowIndex(seriesKey);
                 for (int column = 0; column < columnCount; column++) {
                     lvalue = icd.getStartValue(series, column);
                     uvalue = icd.getEndValue(series, column);
@@ -1082,8 +1071,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
-                /*@NonNegative*/ int series = dataset.getRowIndex(seriesKey);
+                int series = dataset.getRowIndex(seriesKey);
                 for (int column = 0; column < columnCount; column++) {
                     List values = mvcd.getValues(series, column);
                     Iterator valueIterator = values.iterator();
@@ -1109,8 +1097,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
-                 /*@NonNegative*/ int series = dataset.getRowIndex(seriesKey);
+                int series = dataset.getRowIndex(seriesKey);
                 for (int column = 0; column < columnCount; column++) {
                     Number meanN = scd.getMeanValue(series, column);
                     if (meanN != null) {
@@ -1136,8 +1123,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
-                /*@NonNegative*/ int series = dataset.getRowIndex(seriesKey);
+                int series = dataset.getRowIndex(seriesKey);
                 for (int column = 0; column < columnCount; column++) {
                     Number value = dataset.getValue(series, column);
                     if (value != null) {
@@ -1196,7 +1182,7 @@ public final class DatasetUtils {
             // handle special case of IntervalXYDataset
             IntervalXYDataset ixyd = (IntervalXYDataset) dataset;
             for (int series = 0; series < seriesCount; series++) {
-                int itemCount = ixyd.getItemCount(series);
+                int itemCount = dataset.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
                     double value = ixyd.getYValue(series, item);
                     double lvalue = ixyd.getStartYValue(series, item);
@@ -1220,7 +1206,7 @@ public final class DatasetUtils {
             // handle special case of OHLCDataset
             OHLCDataset ohlc = (OHLCDataset) dataset;
             for (int series = 0; series < seriesCount; series++) {
-                int itemCount = ohlc.getItemCount(series);
+                int itemCount = dataset.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
                     double lvalue = ohlc.getLowValue(series, item);
                     double uvalue = ohlc.getHighValue(series, item);
@@ -1384,9 +1370,8 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
-                /*@NonNegative*/ int series = dataset.indexOf(seriesKey);
-                int itemCount = ixyd.getItemCount(series);
+                int series = dataset.indexOf(seriesKey);
+                int itemCount = dataset.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
                     double xvalue = ixyd.getXValue(series, item);
                     double lvalue = ixyd.getStartXValue(series, item);
@@ -1408,8 +1393,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
-                /*@NonNegative*/ int series = dataset.indexOf(seriesKey);
+                int series = dataset.indexOf(seriesKey);
                 int itemCount = dataset.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
                     double x = dataset.getXValue(series, item);
@@ -1462,9 +1446,8 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
-                /*@NonNegative*/ int series = dataset.indexOf(seriesKey);
-                int itemCount = ohlc.getItemCount(series);
+                int series = dataset.indexOf(seriesKey);
+                int itemCount = dataset.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
                     double x = ohlc.getXValue(series, item);
                     if (xRange.contains(x)) {
@@ -1486,9 +1469,8 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
-                /*@NonNegative*/ int series = dataset.indexOf(seriesKey);
-                int itemCount = bx.getItemCount(series);
+                int series = dataset.indexOf(seriesKey);
+                int itemCount = dataset.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
                     double x = bx.getXValue(series, item);
                     if (xRange.contains(x)) {
@@ -1510,9 +1492,8 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
-                /*@NonNegative*/ int series = dataset.indexOf(seriesKey);
-                int itemCount = ixyd.getItemCount(series);
+                int series = dataset.indexOf(seriesKey);
+                int itemCount = dataset.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
                     double x = ixyd.getXValue(series, item);
                     if (xRange.contains(x)) {
@@ -1537,8 +1518,7 @@ public final class DatasetUtils {
             Iterator iterator = visibleSeriesKeys.iterator();
             while (iterator.hasNext()) {
                 Comparable seriesKey = (Comparable) iterator.next();
-                @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
-                /*@NonNegative*/ int series = dataset.indexOf(seriesKey);
+                int series = dataset.indexOf(seriesKey);
                 int itemCount = dataset.getItemCount(series);
                 for (int item = 0; item < itemCount; item++) {
                     double x = dataset.getXValue(series, item);
@@ -1586,8 +1566,7 @@ public final class DatasetUtils {
         Iterator iterator = visibleSeriesKeys.iterator();
         while (iterator.hasNext()) {
             Comparable seriesKey = (Comparable) iterator.next();
-            @SuppressWarnings("index") // guaranteed index: guaranteed to be an index since getRowIndex called on a key known to be in the dataset
-            /*@NonNegative*/ int series = dataset.indexOf(seriesKey);
+            int series = dataset.indexOf(seriesKey);
             int itemCount = dataset.getItemCount(series);
             for (int item = 0; item < itemCount; item++) {
                 double x = dataset.getXValue(series, item);
@@ -1640,9 +1619,7 @@ public final class DatasetUtils {
                     if (dataset instanceof IntervalXYDataset) {
                         IntervalXYDataset intervalXYData
                             = (IntervalXYDataset) dataset;
-                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-                        double valueTmp = intervalXYData.getStartXValue(series, item);
-                        value = valueTmp;
+                        value = intervalXYData.getStartXValue(series, item);
                     }
                     else {
                         value = dataset.getXValue(series, item);
@@ -1697,9 +1674,7 @@ public final class DatasetUtils {
                     if (dataset instanceof IntervalXYDataset) {
                         IntervalXYDataset intervalXYData
                             = (IntervalXYDataset) dataset;
-                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-                        double valueTmp = intervalXYData.getEndXValue(series, item);
-                        value = valueTmp;
+                        value = intervalXYData.getEndXValue(series, item);
                     }
                     else {
                         value = dataset.getXValue(series, item);
@@ -1751,8 +1726,7 @@ public final class DatasetUtils {
                     if (dataset instanceof IntervalCategoryDataset) {
                         IntervalCategoryDataset icd
                                 = (IntervalCategoryDataset) dataset;
-                        Number valueTmp = icd.getStartValue(series, item);
-                        value = valueTmp;
+                        value = icd.getStartValue(series, item);
                     }
                     else {
                         value = dataset.getValue(series, item);
@@ -1806,15 +1780,11 @@ public final class DatasetUtils {
                     if (dataset instanceof IntervalXYDataset) {
                         IntervalXYDataset intervalXYData
                                 = (IntervalXYDataset) dataset;
-                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-                                double valueTmp = intervalXYData.getStartYValue(series, item);
-                        value = valueTmp;
+                        value = intervalXYData.getStartYValue(series, item);
                     }
                     else if (dataset instanceof OHLCDataset) {
                         OHLCDataset highLowData = (OHLCDataset) dataset;
-                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-                        double valueTmp = highLowData.getLowValue(series, item);
-                        value = valueTmp;
+                        value = highLowData.getLowValue(series, item);
                     }
                     else {
                         value = dataset.getYValue(series, item);
@@ -1923,15 +1893,11 @@ public final class DatasetUtils {
                     if (dataset instanceof IntervalXYDataset) {
                         IntervalXYDataset intervalXYData
                                 = (IntervalXYDataset) dataset;
-                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-                               double valueTmp = intervalXYData.getEndYValue(series, item);
-                        value = valueTmp;
+                        value = intervalXYData.getEndYValue(series, item);
                     }
                     else if (dataset instanceof OHLCDataset) {
                         OHLCDataset highLowData = (OHLCDataset) dataset;
-                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-                               double valueTmp = highLowData.getHighValue(series, item);
-                        value = valueTmp;
+                        value = highLowData.getHighValue(series, item);
                     }
                     else {
                         value = dataset.getYValue(series, item);
@@ -2024,9 +1990,8 @@ public final class DatasetUtils {
         Range result = null;
 
         // create an array holding the group indices for each series...
-        int rowCount = dataset.getRowCount();
-        int[] groupIndex = new int[rowCount];
-        for (int i = 0; i < rowCount; i++) {
+        int[] groupIndex = new int[dataset.getRowCount()];
+        for (int i = 0; i < dataset.getRowCount(); i++) {
             groupIndex[i] = map.getGroupIndex(map.getGroup(
                     dataset.getRowKey(i)));
         }
@@ -2040,20 +2005,19 @@ public final class DatasetUtils {
         for (int item = 0; item < categoryCount; item++) {
             double[] positive = new double[groupCount];
             double[] negative = new double[groupCount];
-            for (int series = 0; series < rowCount; series++) {
+            int seriesCount = dataset.getRowCount();
+            for (int series = 0; series < seriesCount; series++) {
                 Number number = dataset.getValue(series, item);
                 if (number != null) {
                     hasValidData = true;
                     double value = number.doubleValue();
-                    @SuppressWarnings("index") // group indices are all <= group count by definition
-                    /*@IndexFor({"positive", "negative", "maximum", "minimum"})*/ int groupIndexTmp = groupIndex[series];
                     if (value > 0.0) {
-                        positive[groupIndexTmp]
-                                 = positive[groupIndexTmp] + value;
+                        positive[groupIndex[series]]
+                                 = positive[groupIndex[series]] + value;
                     }
                     if (value < 0.0) {
-                        negative[groupIndexTmp]
-                                 = negative[groupIndexTmp] + value;
+                        negative[groupIndex[series]]
+                                 = negative[groupIndex[series]] + value;
                                  // '+', remember value is negative
                     }
                 }
@@ -2178,7 +2142,6 @@ public final class DatasetUtils {
             double negative = base;
             int seriesCount = dataset.getSeriesCount();
             for (int seriesNo = 0; seriesNo < seriesCount; seriesNo++) {
-                @SuppressWarnings("index") // all the series of a TableXYDataset have the same length
                 double y = dataset.getYValue(seriesNo, itemNo);
                 if (!Double.isNaN(y)) {
                     if (y > 0.0) {
@@ -2215,11 +2178,10 @@ public final class DatasetUtils {
      *
      * @since 1.0.5
      */
-    public static double calculateStackTotal(TableXYDataset dataset, /*@NonNegative*/ int item) {
+    public static double calculateStackTotal(TableXYDataset dataset, int item) {
         double total = 0.0;
         int seriesCount = dataset.getSeriesCount();
         for (int s = 0; s < seriesCount; s++) {
-            @SuppressWarnings("index") // This assumes that all series in the dataset have the same number of items
             double value = dataset.getYValue(s, item);
             if (!Double.isNaN(value)) {
                 total = total + value;
@@ -2281,26 +2243,19 @@ public final class DatasetUtils {
      * 
      * @since 1.0.16
      */
-    public static double findYValue(XYDataset dataset, /*@NonNegative*/ int series, double x) {
+    public static double findYValue(XYDataset dataset, int series, double x) {
         // delegate null check on dataset
-        /*@IndexOrLow("dataset.getSeries(series)")*/ int[] indices = findItemIndicesForX(dataset, series, x);
+        int[] indices = findItemIndicesForX(dataset, series, x);
         if (indices[0] == -1) {
             return Double.NaN;
         }
-
-        @SuppressWarnings("index") // guaranteed index: the check above is sufficient to establish that no entries in indices are negative, since the values are correlated.
-        /*@IndexFor("dataset.getSeries(series)")*/ int indices0 = indices[0];
-
-        @SuppressWarnings("index") // guaranteed index: the check above is sufficient to establish that no entries in indices are negative, since the values are correlated.
-        /*@IndexFor("dataset.getSeries(series)")*/ int indices1 = indices[1];
-
-        if (indices0 == indices1) {
-            return dataset.getYValue(series, indices0);
+        if (indices[0] == indices[1]) {
+            return dataset.getYValue(series, indices[0]);
         }
-        double x0 = dataset.getXValue(series, indices0);
-        double x1 = dataset.getXValue(series, indices1);
-        double y0 = dataset.getYValue(series, indices0);
-        double y1 = dataset.getYValue(series, indices1);
+        double x0 = dataset.getXValue(series, indices[0]);
+        double x1 = dataset.getXValue(series, indices[1]);
+        double y0 = dataset.getYValue(series, indices[0]);
+        double y1 = dataset.getYValue(series, indices[1]);
         return y0 + (y1 - y0) * (x - x0) / (x1 - x0);
     }
     
@@ -2325,7 +2280,7 @@ public final class DatasetUtils {
      * 
      * @see #findYValue(org.jfree.data.xy.XYDataset, int, double) 
      */
-    public static /*@IndexOrLow("#1.getSeries(#2)")*/ int /*@ArrayLen(2)*/ [] findItemIndicesForX(XYDataset dataset, /*@NonNegative*/ int series,
+    public static int[] findItemIndicesForX(XYDataset dataset, int series,
             double x) {
         Args.nullNotPermitted(dataset, "dataset");
         int itemCount = dataset.getItemCount(series);
@@ -2333,20 +2288,15 @@ public final class DatasetUtils {
             return new int[] {-1, -1};
         }
         if (itemCount == 1) {
-            @SuppressWarnings("index") // 0 is a valid index, because itemCount > 1
-            /*@IndexFor("dataset.getSeries(series)")*/ int zero = 0;
-            double xValue = dataset.getXValue(series, zero);
-            if (x == xValue) {
-                return new int[] {zero, zero};
+            if (x == dataset.getXValue(series, 0)) {
+                return new int[] {0, 0};
             } else {
                 return new int[] {-1, -1};
             }
         }
         if (dataset.getDomainOrder() == DomainOrder.ASCENDING) {
-            @SuppressWarnings("index") // 0 is a valid index, because itemCount > 1
-            /*@IndexFor("dataset.getSeries(series)")*/ int low = 0;
-            @SuppressWarnings("index") // itemCount - 1 is an index, because itemCount > 1
-            /*@IndexFor("dataset.getSeries(series)")*/ int high = itemCount - 1;
+            int low = 0;
+            int high = itemCount - 1;
             double lowValue = dataset.getXValue(series, low);
             if (lowValue > x) {
                 return new int[] {-1, -1};
@@ -2378,10 +2328,8 @@ public final class DatasetUtils {
             return new int[] {low, high};
         }
         else if (dataset.getDomainOrder() == DomainOrder.DESCENDING) {
-            @SuppressWarnings("index") // 0 is a valid index, because itemCount > 1
-            /*@IndexFor("dataset.getSeries(series)")*/ int high = 0;
-            @SuppressWarnings("index") // itemCount - 1 is an index, because itemCount > 1
-            /*@IndexFor("dataset.getSeries(series)")*/ int low = itemCount - 1;
+            int high = 0;
+            int low = itemCount - 1;
             double lowValue = dataset.getXValue(series, low);
             if (lowValue > x) {
                 return new int[] {-1, -1};
@@ -2410,11 +2358,9 @@ public final class DatasetUtils {
             // we don't know anything about the ordering of the x-values,
             // so we iterate until we find the first crossing of x (if any)
             // we know there are at least 2 items in the series at this point
-            @SuppressWarnings("index") // 0 is a valid index, because itemCount > 1
-            /*@IndexFor("dataset.getSeries(series)")*/ int zero = 0;
-            double prev = dataset.getXValue(series, zero);
+            double prev = dataset.getXValue(series, 0);
             if (x == prev) {
-                return new int[] {zero, zero}; // exact match on first item
+                return new int[] {0, 0}; // exact match on first item
             }
             for (int i = 1; i < itemCount; i++) {
                 double next = dataset.getXValue(series, i);

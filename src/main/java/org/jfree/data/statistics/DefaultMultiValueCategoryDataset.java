@@ -41,8 +41,6 @@
  */
 
 package org.jfree.data.statistics;
-/*>>> import org.checkerframework.dataflow.qual.Pure; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -165,7 +163,7 @@ public class DefaultMultiValueCategoryDataset extends AbstractDataset
      * @return The list of values.
      */
     @Override
-    public List getValues(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public List getValues(int row, int column) {
         List values = (List) this.data.getObject(row, column);
         if (values != null) {
             return Collections.unmodifiableList(values);
@@ -228,8 +226,7 @@ public class DefaultMultiValueCategoryDataset extends AbstractDataset
      * @return The average value.
      */
     @Override
-    /*@Pure*/
-    public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public Number getValue(int row, int column) {
         List l = (List) this.data.getObject(row, column);
         double average = 0.0d;
         int count = 0;
@@ -257,7 +254,7 @@ public class DefaultMultiValueCategoryDataset extends AbstractDataset
      * @return The column index.
      */
     @Override
-    public /*@GTENegativeOne*/ int getColumnIndex(Comparable key) {
+    public int getColumnIndex(Comparable key) {
         return this.data.getColumnIndex(key);
     }
 
@@ -269,7 +266,7 @@ public class DefaultMultiValueCategoryDataset extends AbstractDataset
      * @return The column key.
      */
     @Override
-    public Comparable getColumnKey(/*@NonNegative*/ int column) {
+    public Comparable getColumnKey(int column) {
         return this.data.getColumnKey(column);
     }
 
@@ -291,7 +288,7 @@ public class DefaultMultiValueCategoryDataset extends AbstractDataset
      * @return The row index.
      */
     @Override
-    public /*@GTENegativeOne*/ int getRowIndex(Comparable key) {
+    public int getRowIndex(Comparable key) {
         return this.data.getRowIndex(key);
     }
 
@@ -303,7 +300,7 @@ public class DefaultMultiValueCategoryDataset extends AbstractDataset
      * @return The row key.
      */
     @Override
-    public Comparable getRowKey(/*@NonNegative*/ int row) {
+    public Comparable getRowKey(int row) {
         return this.data.getRowKey(row);
     }
 
@@ -323,7 +320,7 @@ public class DefaultMultiValueCategoryDataset extends AbstractDataset
      * @return The row count.
      */
     @Override
-    public /*@NonNegative*/ int getRowCount() {
+    public int getRowCount() {
         return this.data.getRowCount();
     }
 
@@ -333,8 +330,7 @@ public class DefaultMultiValueCategoryDataset extends AbstractDataset
      * @return The column count.
      */
     @Override
-    /*@Pure*/
-    public /*@NonNegative*/ int getColumnCount() {
+    public int getColumnCount() {
         return this.data.getColumnCount();
     }
 
