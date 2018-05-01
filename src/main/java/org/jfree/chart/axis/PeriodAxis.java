@@ -65,10 +65,10 @@
 
 package org.jfree.chart.axis;
 
-/*>>>
+
 import org.checkerframework.common.value.qual.ArrayLen;
 import org.checkerframework.common.value.qual.IntVal;
- */
+
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -184,7 +184,7 @@ public class PeriodAxis extends ValueAxis
     private transient Paint minorTickMarkPaint = Color.BLACK;
 
     /** Info for each labeling band. */
-    private PeriodAxisLabelInfo /*@ArrayLen(2)*/ [] labelInfo;
+    private PeriodAxisLabelInfo @ArrayLen(2) [] labelInfo;
 
     /**
      * Creates a new axis.
@@ -515,7 +515,7 @@ public class PeriodAxis extends ValueAxis
      *
      * @return An array.
      */
-    public PeriodAxisLabelInfo /*@ArrayLen(2)*/ [] getLabelInfo() {
+    public PeriodAxisLabelInfo @ArrayLen(2) [] getLabelInfo() {
         return this.labelInfo;
     }
 
@@ -525,7 +525,7 @@ public class PeriodAxis extends ValueAxis
      *
      * @param info  the info.
      */
-    public void setLabelInfo(PeriodAxisLabelInfo /*@ArrayLen(2)*/ [] info) {
+    public void setLabelInfo(PeriodAxisLabelInfo @ArrayLen(2) [] info) {
         this.labelInfo = info;
         fireChangeEvent();
     }
@@ -805,7 +805,7 @@ public class PeriodAxis extends ValueAxis
      *
      * @return The updated axis state.
      */
-    protected AxisState drawTickLabels(/*@IntVal({0, 1})*/ int band, Graphics2D g2, AxisState state,
+    protected AxisState drawTickLabels(@IntVal({0, 1}) int band, Graphics2D g2, AxisState state,
             Rectangle2D dataArea, RectangleEdge edge) {
 
         // work out the initial gap
@@ -1147,7 +1147,7 @@ public class PeriodAxis extends ValueAxis
     public Object clone() throws CloneNotSupportedException {
         PeriodAxis clone = (PeriodAxis) super.clone();
         clone.timeZone = (TimeZone) this.timeZone.clone();
-        clone.labelInfo = (PeriodAxisLabelInfo /*@ArrayLen(2)*/ []) this.labelInfo.clone();
+        clone.labelInfo = (PeriodAxisLabelInfo @ArrayLen(2) []) this.labelInfo.clone();
         return clone;
     }
 

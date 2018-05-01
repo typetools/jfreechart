@@ -27,7 +27,7 @@
  */
 
 package org.jfree.chart.text;
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
 /**
  * An object that can measure text.
@@ -44,7 +44,7 @@ public interface TextMeasurer {
      *
      * @return The width of the string in Java2D units.
      */
-    public float getStringWidth(String text, /*@IndexOrHigh("#1")*/ int start, /*@IndexOrHigh("#1")*/ int end);
+    public float getStringWidth(String text, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end);
     
 }
 

@@ -44,11 +44,11 @@
  */
 
 package org.jfree.data.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.util.Arrays;
 import java.util.Date;
@@ -86,7 +86,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The series key.
      */
     @Override
-    public Comparable getSeriesKey(/*@NonNegative*/ int series) {
+    public Comparable getSeriesKey(@NonNegative int series) {
         return this.key;
     }
 
@@ -99,7 +99,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The x-value.
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getX(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         @SuppressWarnings("index") // guaranteed index: There is only one series for an OHLC dataset, so this is always safe.
         Number result = new Long(this.data[item].getDate().getTime());
         return result;
@@ -113,7 +113,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      *
      * @return The x-value as a date.
      */
-    public Date getXDate(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Date getXDate(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         @SuppressWarnings("index") // guaranteed index: There is only one series for an OHLC dataset, so this is always safe.
         Date result = this.data[item].getDate();
         return result;
@@ -128,7 +128,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The y value.
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getY(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         return getClose(series, item);
     }
 
@@ -141,7 +141,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The high value.
      */
     @Override
-    public Number getHigh(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getHigh(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         @SuppressWarnings("index") // guaranteed index: There is only one series for an OHLC dataset, so this is always safe.
         Number result = this.data[item].getHigh();
         return result;
@@ -157,7 +157,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The high-value.
      */
     @Override
-    public double getHighValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public double getHighValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         double result = Double.NaN;
         Number high = getHigh(series, item);
         if (high != null) {
@@ -175,7 +175,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The low value.
      */
     @Override
-    public Number getLow(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getLow(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         @SuppressWarnings("index") // guaranteed index: There is only one series for an OHLC dataset, so this is always safe.
         Number result = this.data[item].getLow();
         return result;
@@ -191,7 +191,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The low-value.
      */
     @Override
-    public double getLowValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public double getLowValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         double result = Double.NaN;
         Number low = getLow(series, item);
         if (low != null) {
@@ -209,7 +209,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The open value.
      */
     @Override
-    public Number getOpen(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getOpen(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         @SuppressWarnings("index") // guaranteed index: There is only one series for an OHLC dataset, so this is always safe.
         Number result = this.data[item].getOpen();
         return result;
@@ -225,7 +225,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The open-value.
      */
     @Override
-    public double getOpenValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public double getOpenValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         double result = Double.NaN;
         Number open = getOpen(series, item);
         if (open != null) {
@@ -243,7 +243,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The close value.
      */
     @Override
-    public Number getClose(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getClose(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         @SuppressWarnings("index") // guaranteed index: There is only one series for an OHLC dataset, so this is always safe.
         Number result = this.data[item].getClose();
         return result;
@@ -259,7 +259,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The close-value.
      */
     @Override
-    public double getCloseValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public double getCloseValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         double result = Double.NaN;
         Number close = getClose(series, item);
         if (close != null) {
@@ -277,7 +277,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The trading volume.
      */
     @Override
-    public Number getVolume(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getVolume(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         @SuppressWarnings("index") // guaranteed index: There is only one series for an OHLC dataset, so this is always safe.
         Number result = this.data[item].getVolume();
         return result;
@@ -293,7 +293,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return The volume-value.
      */
     @Override
-    public double getVolumeValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public double getVolumeValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         double result = Double.NaN;
         Number volume = getVolume(series, item);
         if (volume != null) {
@@ -308,7 +308,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      * @return 1.
      */
     @Override
-    public /*@NonNegative*/ int getSeriesCount() {
+    public @NonNegative int getSeriesCount() {
         return 1;
     }
 
@@ -321,7 +321,7 @@ public class DefaultOHLCDataset extends AbstractXYDataset
      */
     @Override
     @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/209: this.data is the same length as the conceptual getSeries called with any argument, but no SameLen annotation can express that due to the argument needed for getSeries
-    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
+    public @LengthOf("this.getSeries(#1)") int getItemCount(@NonNegative int series) {
         return this.data.length;
     }
 

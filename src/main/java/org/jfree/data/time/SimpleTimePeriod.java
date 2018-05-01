@@ -45,7 +45,7 @@
  */
 
 package org.jfree.data.time;
-/*>>> import org.checkerframework.dataflow.qual.Pure; */
+import org.checkerframework.dataflow.qual.Pure;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -98,7 +98,7 @@ public class SimpleTimePeriod implements TimePeriod, Comparable, Serializable {
      * @return The start date/time (never {@code null}).
      */
     @Override
-    /*@Pure*/
+    @Pure
     public Date getStart() {
         return new Date(this.start);
     }

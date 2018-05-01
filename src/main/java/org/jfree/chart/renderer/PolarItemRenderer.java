@@ -41,9 +41,9 @@
 
 package org.jfree.chart.renderer;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -77,7 +77,7 @@ public interface PolarItemRenderer {
      */
     public void drawSeries(Graphics2D g2, Rectangle2D dataArea,
             PlotRenderingInfo info, PolarPlot plot, XYDataset dataset,
-            /*@NonNegative*/ int seriesIndex);
+            @NonNegative int seriesIndex);
 
     /**
      * Draw the angular gridlines - the spokes.
@@ -109,7 +109,7 @@ public interface PolarItemRenderer {
      *
      * @return The legend item.
      */
-    public LegendItem getLegendItem(/*@NonNegative*/ int series);
+    public LegendItem getLegendItem(@NonNegative int series);
 
     /**
      * Returns the plot that this renderer has been assigned to.
@@ -153,7 +153,7 @@ public interface PolarItemRenderer {
      *
      * @since 1.0.14
      */
-    public XYToolTipGenerator getToolTipGenerator(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public XYToolTipGenerator getToolTipGenerator(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the tool tip generator for a series.
@@ -166,7 +166,7 @@ public interface PolarItemRenderer {
      *
      * @since 1.0.14
      */
-    public XYToolTipGenerator getSeriesToolTipGenerator(/*@NonNegative*/ int series);
+    public XYToolTipGenerator getSeriesToolTipGenerator(@NonNegative int series);
 
     /**
      * Sets the tool tip generator for a series and sends a
@@ -179,7 +179,7 @@ public interface PolarItemRenderer {
      *
      * @since 1.0.14
      */
-    public void setSeriesToolTipGenerator(/*@NonNegative*/ int series,
+    public void setSeriesToolTipGenerator(@NonNegative int series,
                                           XYToolTipGenerator generator);
 
     /**

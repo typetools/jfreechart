@@ -45,7 +45,7 @@
  */
 
 package org.jfree.data.xy;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import org.jfree.data.ComparableObjectItem;
 import org.jfree.data.ComparableObjectSeries;
@@ -118,7 +118,7 @@ public class VectorSeries extends ComparableObjectSeries {
      * @return The item removed.
      */
     @Override
-    public ComparableObjectItem remove(/*@NonNegative*/ int index) {
+    public ComparableObjectItem remove(@NonNegative int index) {
         VectorDataItem result = (VectorDataItem) this.data.remove(index);
         fireSeriesChanged();
         return result;
@@ -131,7 +131,7 @@ public class VectorSeries extends ComparableObjectSeries {
      *
      * @return The x-value.
      */
-    public double getXValue(/*@NonNegative*/ int index) {
+    public double getXValue(@NonNegative int index) {
         VectorDataItem item = (VectorDataItem) this.getDataItem(index);
         return item.getXValue();
     }
@@ -143,7 +143,7 @@ public class VectorSeries extends ComparableObjectSeries {
      *
      * @return The y-value.
      */
-    public double getYValue(/*@NonNegative*/ int index) {
+    public double getYValue(@NonNegative int index) {
         VectorDataItem item = (VectorDataItem) getDataItem(index);
         return item.getYValue();
     }
@@ -155,7 +155,7 @@ public class VectorSeries extends ComparableObjectSeries {
      *
      * @return The x-component of the vector.
      */
-    public double getVectorXValue(/*@NonNegative*/ int index) {
+    public double getVectorXValue(@NonNegative int index) {
         VectorDataItem item = (VectorDataItem) getDataItem(index);
         return item.getVectorX();
     }
@@ -167,7 +167,7 @@ public class VectorSeries extends ComparableObjectSeries {
      *
      * @return The y-component of the vector.
      */
-    public double getVectorYValue(/*@NonNegative*/ int index) {
+    public double getVectorYValue(@NonNegative int index) {
         VectorDataItem item = (VectorDataItem) getDataItem(index);
         return item.getVectorY();
     }
@@ -180,7 +180,7 @@ public class VectorSeries extends ComparableObjectSeries {
      * @return The data item.
      */
     @Override
-    public ComparableObjectItem getDataItem(/*@NonNegative*/ int index) {
+    public ComparableObjectItem getDataItem(@NonNegative int index) {
         // overridden to make public
         return super.getDataItem(index);
     }

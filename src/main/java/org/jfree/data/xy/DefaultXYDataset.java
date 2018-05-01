@@ -42,11 +42,11 @@
  */
 
 package org.jfree.data.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
-/*>>>
+
 import org.checkerframework.common.value.qual.ArrayLen;
- */
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,7 +76,7 @@ public class DefaultXYDataset extends AbstractXYDataset
      * order of the series is significant.  This list must be kept in sync
      * with the seriesKeys list.
      */
-    private List<double /*@ArrayLen(2)*/ [][]> seriesList;
+    private List<double @ArrayLen(2) [][]> seriesList;
 
     /**
      * Creates a new {@code DefaultXYDataset} instance, initially
@@ -93,7 +93,7 @@ public class DefaultXYDataset extends AbstractXYDataset
      * @return The series count.
      */
     @Override
-    public /*@NonNegative*/ int getSeriesCount() {
+    public @NonNegative int getSeriesCount() {
         return this.seriesList.size();
     }
 
@@ -109,7 +109,7 @@ public class DefaultXYDataset extends AbstractXYDataset
      *     specified range.
      */
     @Override
-    public Comparable getSeriesKey(/*@NonNegative*/ int series) {
+    public Comparable getSeriesKey(@NonNegative int series) {
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException("Series index out of bounds");
         }
@@ -125,7 +125,7 @@ public class DefaultXYDataset extends AbstractXYDataset
      * @return The index, or -1.
      */
     @Override
-    public /*@GTENegativeOne*/ int indexOf(Comparable seriesKey) {
+    public @GTENegativeOne int indexOf(Comparable seriesKey) {
         return this.seriesKeys.indexOf(seriesKey);
     }
 
@@ -153,13 +153,13 @@ public class DefaultXYDataset extends AbstractXYDataset
      *     specified range.
      */
     @Override
-    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
+    public @LengthOf("this.getSeries(#1)") int getItemCount(@NonNegative int series) {
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException("Series index out of bounds");
         }
         @SuppressWarnings("index") //array-list interop: this.getSeries is the logical ghost variable representing this array
-        double /*@ArrayLen(2)*/ [] /*@SameLen("this.getSeries(#1)")*/ [] seriesArray =
-                (double /*@ArrayLen(2)*/ [][])
+        double @ArrayLen(2) [] @SameLen("this.getSeries(#1)") [] seriesArray =
+                (double @ArrayLen(2) [][])
                         this.seriesList.get(series);
         return seriesArray[0].length;
     }
@@ -182,10 +182,10 @@ public class DefaultXYDataset extends AbstractXYDataset
      * @see #getX(int, int)
      */
     @Override
-    public double getXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        double /*@ArrayLen(2)*/ [][] seriesData = (double /*@ArrayLen(2)*/ [][]) this.seriesList.get(series);
+    public double getXValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
+        double @ArrayLen(2) [][] seriesData = (double @ArrayLen(2) [][]) this.seriesList.get(series);
         @SuppressWarnings("index") // this.seriesList.get is equivalent to this.getSeries
-        /*@IndexFor("seriesData[0]")*/ int itemIndex = item;
+        @IndexFor("seriesData[0]") int itemIndex = item;
         return seriesData[0][itemIndex];
     }
 
@@ -207,7 +207,7 @@ public class DefaultXYDataset extends AbstractXYDataset
      * @see #getXValue(int, int)
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getX(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         return new Double(getXValue(series, item));
     }
 
@@ -229,10 +229,10 @@ public class DefaultXYDataset extends AbstractXYDataset
      * @see #getY(int, int)
      */
     @Override
-    public double getYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
-        double /*@ArrayLen(2)*/ [][] seriesData = (double /*@ArrayLen(2)*/ [][]) this.seriesList.get(series);
+    public double getYValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
+        double @ArrayLen(2) [][] seriesData = (double @ArrayLen(2) [][]) this.seriesList.get(series);
         @SuppressWarnings("index") // this.seriesList.get is equivalent to ghost method this.getSeries
-        /*@IndexFor("seriesData[1]")*/ int itemIndex = item;
+        @IndexFor("seriesData[1]") int itemIndex = item;
         return seriesData[1][itemIndex];
     }
 
@@ -254,7 +254,7 @@ public class DefaultXYDataset extends AbstractXYDataset
      * @see #getX(int, int)
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getY(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         return new Double(getYValue(series, item));
     }
 
@@ -268,7 +268,7 @@ public class DefaultXYDataset extends AbstractXYDataset
      *     arrays of equal length, the first containing the x-values and the
      *     second containing the y-values).
      */
-    public void addSeries(Comparable seriesKey, double /*@ArrayLen(2)*/ [][] data) {
+    public void addSeries(Comparable seriesKey, double @ArrayLen(2) [][] data) {
         if (seriesKey == null) {
             throw new IllegalArgumentException(
                     "The 'seriesKey' cannot be null.");
@@ -339,8 +339,8 @@ public class DefaultXYDataset extends AbstractXYDataset
             return false;
         }
         for (int i = 0; i < this.seriesList.size(); i++) {
-            double[][] d1 = (double /*@ArrayLen(2)*/ [][]) this.seriesList.get(i);
-            double[][] d2 = (double /*@ArrayLen(2)*/ [][]) that.seriesList.get(i);
+            double[][] d1 = (double @ArrayLen(2) [][]) this.seriesList.get(i);
+            double[][] d2 = (double @ArrayLen(2) [][]) that.seriesList.get(i);
             double[] d1x = d1[0];
             double[] d2x = d2[0];
             if (!Arrays.equals(d1x, d2x)) {
@@ -383,7 +383,7 @@ public class DefaultXYDataset extends AbstractXYDataset
         clone.seriesKeys = new java.util.ArrayList(this.seriesKeys);
         clone.seriesList = new ArrayList(this.seriesList.size());
         for (int i = 0; i < this.seriesList.size(); i++) {
-            double[][] data = (double /*@ArrayLen(2)*/ [][]) this.seriesList.get(i);
+            double[][] data = (double @ArrayLen(2) [][]) this.seriesList.get(i);
             double[] x = data[0];
             double[] y = data[1];
             double[] xx = new double[x.length];

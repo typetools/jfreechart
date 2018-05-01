@@ -71,7 +71,7 @@
  */
 
 package org.jfree.data.jdbc;
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -244,7 +244,7 @@ public class JDBCXYDataset extends AbstractXYDataset
             ResultSetMetaData metaData = resultSet.getMetaData();
 
             @SuppressWarnings("index") // ResultSetMetaData#getColumnCount needs an annotation
-            /*@Positive*/ int numberOfColumns = metaData.getColumnCount();
+            @Positive int numberOfColumns = metaData.getColumnCount();
             int numberOfValidColumns = 0;
             int [] columnTypes = new int[numberOfColumns];
             for (int column = 0; column < numberOfColumns; column++) {
@@ -288,13 +288,13 @@ public class JDBCXYDataset extends AbstractXYDataset
             /// First column is X data
             this.columnNames = new String[numberOfValidColumns - 1];
             /// Get the column names and cache them.
-            /*@IndexFor("this.columnNames")*/ int currentColumn = 0;
+            @IndexFor("this.columnNames") int currentColumn = 0;
             for (int column = 1; column < numberOfColumns; column++) {
                 if (columnTypes[column] != Types.NULL) {
                     this.columnNames[currentColumn]
                         = metaData.getColumnLabel(column + 1);
                     @SuppressWarnings("index") // this update only happens when the column is valid
-                    /*@IndexFor("this.columnNames")*/ int currentColumnTmp = currentColumn + 1;
+                    @IndexFor("this.columnNames") int currentColumnTmp = currentColumn + 1;
                     currentColumn = currentColumnTmp;
                 }
             }
@@ -427,7 +427,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      * @see XYDataset
      */
     @Override
-    public Number getX(/*@NonNegative*/ int seriesIndex, /*@IndexFor("this.getSeries(#1)")*/ int itemIndex) {
+    public Number getX(@NonNegative int seriesIndex, @IndexFor("this.getSeries(#1)") int itemIndex) {
         ArrayList row = (ArrayList) this.rows.get(itemIndex);
         return (Number) row.get(0);
     }
@@ -443,7 +443,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      * @see XYDataset
      */
     @Override
-    public Number getY(/*@NonNegative*/ int seriesIndex, /*@IndexFor("this.getSeries(#1)")*/ int itemIndex) {
+    public Number getY(@NonNegative int seriesIndex, @IndexFor("this.getSeries(#1)") int itemIndex) {
         ArrayList row = (ArrayList) this.rows.get(itemIndex);
         return (Number) row.get(seriesIndex + 1);
     }
@@ -459,7 +459,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      */
     @Override
     @SuppressWarnings("index") // array-list interop: getItemCount needs to have this type for the other implementations
-    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int seriesIndex) {
+    public @LengthOf("this.getSeries(#1)") int getItemCount(@NonNegative int seriesIndex) {
         return this.rows.size();
     }
 
@@ -470,7 +470,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      * @return The item count.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount() {
+    public @NonNegative int getItemCount() {
         return getItemCount(0);
     }
 
@@ -483,7 +483,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      * @see Dataset
      */
     @Override
-    public /*@NonNegative*/ int getSeriesCount() {
+    public @NonNegative int getSeriesCount() {
         return this.columnNames.length;
     }
 
@@ -498,7 +498,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      * @see Dataset
      */
     @Override
-    public Comparable getSeriesKey(/*@NonNegative*/ int seriesIndex) {
+    public Comparable getSeriesKey(@NonNegative int seriesIndex) {
 
         if ((seriesIndex < this.columnNames.length)
                 && (this.columnNames[seriesIndex] != null)) {

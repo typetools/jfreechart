@@ -39,7 +39,7 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.Graphics2D;
 import java.awt.geom.RectangularShape;
@@ -73,7 +73,7 @@ public interface XYBarPainter {
      * @param base  the base of the bar.
      */
     public void paintBar(Graphics2D g2, XYBarRenderer renderer,
-            /*@NonNegative*/ int row, /*@NonNegative*/ int column, RectangularShape bar, RectangleEdge base);
+            @NonNegative int row, @NonNegative int column, RectangularShape bar, RectangleEdge base);
 
     /**
      * Paints the shadow for a single bar on behalf of a renderer.
@@ -87,7 +87,7 @@ public interface XYBarPainter {
      * @param pegShadow  peg the shadow to the base of the bar?
      */
     public void paintBarShadow(Graphics2D g2, XYBarRenderer renderer,
-            /*@NonNegative*/ int row, /*@NonNegative*/ int column, RectangularShape bar, RectangleEdge base,
+            @NonNegative int row, @NonNegative int column, RectangularShape bar, RectangleEdge base,
             boolean pegShadow);
 
 }

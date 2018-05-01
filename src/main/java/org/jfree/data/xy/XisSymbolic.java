@@ -41,11 +41,11 @@
  */
 
 package org.jfree.data.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 /**
  * Represent a data set where X is a symbolic values. Each symbolic value is
@@ -69,7 +69,7 @@ public interface XisSymbolic {
      *
      * @return The symbolic value.
      */
-    public String getXSymbolicValue(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
+    public String getXSymbolicValue(@NonNegative int series, @NonNegative int item);
 
     /**
      * Returns the symbolic value linked with the specified {@code Integer}.

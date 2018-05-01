@@ -54,7 +54,7 @@
  */
 
 package org.jfree.chart.axis;
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
@@ -115,7 +115,7 @@ public class TickUnits implements TickUnitSource, Cloneable, Serializable {
      *
      * @return The tickunit.
      */
-    public TickUnit get(/*@NonNegative*/ int pos) {
+    public TickUnit get(@NonNegative int pos) {
         return (TickUnit) this.tickUnits.get(pos);
     }
 

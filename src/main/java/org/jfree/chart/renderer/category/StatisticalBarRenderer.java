@@ -63,7 +63,7 @@
  */
 
 package org.jfree.chart.renderer.category;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -220,7 +220,7 @@ public class StatisticalBarRenderer extends BarRenderer
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset data, /*@NonNegative*/ int row, /*@NonNegative*/ int column,
+            ValueAxis rangeAxis, CategoryDataset data, @NonNegative int row, @NonNegative int column,
             int pass) {
 
         int visibleRow = state.getVisibleSeriesIndex(row);
@@ -266,9 +266,9 @@ public class StatisticalBarRenderer extends BarRenderer
                                       CategoryAxis domainAxis,
                                       ValueAxis rangeAxis,
                                       StatisticalCategoryDataset dataset,
-                                      /*@NonNegative*/ int visibleRow,
-                                      /*@NonNegative*/ int row,
-                                      /*@NonNegative*/ int column) {
+                                      @NonNegative int visibleRow,
+                                      @NonNegative int row,
+                                      @NonNegative int column) {
 
         // BAR Y
         double rectY = calculateBarW0(plot, PlotOrientation.HORIZONTAL, 
@@ -413,9 +413,9 @@ public class StatisticalBarRenderer extends BarRenderer
                                     CategoryAxis domainAxis,
                                     ValueAxis rangeAxis,
                                     StatisticalCategoryDataset dataset,
-                                    /*@NonNegative*/ int visibleRow,
-                                    /*@NonNegative*/ int row,
-                                    /*@NonNegative*/ int column) {
+                                    @NonNegative int visibleRow,
+                                    @NonNegative int row,
+                                    @NonNegative int column) {
 
         // BAR X
         double rectX = calculateBarW0(plot, PlotOrientation.VERTICAL, dataArea,

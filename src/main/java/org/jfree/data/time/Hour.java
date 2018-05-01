@@ -65,7 +65,7 @@
  */
 
 package org.jfree.data.time;
-/*>>> import org.checkerframework.common.value.qual.*; */
+import org.checkerframework.common.value.qual.*;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -93,7 +93,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
     private Day day;
 
     /** The hour. */
-    /*@IntRange(from = 0, to = 23)*/ private byte hour;
+    @IntRange(from = 0, to = 23) private byte hour;
 
     /** The first millisecond. */
     private long firstMillisecond;
@@ -114,7 +114,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
      * @param hour  the hour (in the range 0 to 23).
      * @param day  the day ({@code null} not permitted).
      */
-    public Hour(/*@IntRange(from = 0, to = 23)*/ int hour, Day day) {
+    public Hour(@IntRange(from = 0, to = 23) int hour, Day day) {
         Args.nullNotPermitted(day, "day");
         this.hour = (byte) hour;
         this.day = day;
@@ -129,7 +129,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
      * @param month  the month (1-12).
      * @param year  the year (1900-9999).
      */
-    public Hour(/*@IntRange(from = 0, to = 23)*/ int hour, /*@IntRange(from = 1, to = 31)*/ int day, /*@IntRange(from = 1, to = 12)*/int month, /*@IntRange(from = 1900, to = 9999)*/ int year) {
+    public Hour(@IntRange(from = 0, to = 23) int hour, @IntRange(from = 1, to = 31) int day, @IntRange(from = 1, to = 12) int month, @IntRange(from = 1900, to = 9999) int year) {
         this(hour, new Day(day, month, year));
     }
 
@@ -173,7 +173,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
      *
      * @return The hour (0 &lt;= hour &lt;= 23).
      */
-    public /*@IntRange(from = 0, to = 23)*/ int getHour() {
+    public @IntRange(from = 0, to = 23) int getHour() {
         return this.hour;
     }
 
@@ -191,7 +191,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
      *
      * @return The year.
      */
-    public /*@IntRange(from = 1900, to = 9999)*/ int getYear() {
+    public @IntRange(from = 1900, to = 9999) int getYear() {
         return this.day.getYear();
     }
 
@@ -200,7 +200,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
      *
      * @return The month.
      */
-    public /*@IntRange(from = 1, to = 12)*/ int getMonth() {
+    public @IntRange(from = 1, to = 12) int getMonth() {
         return this.day.getMonth();
     }
 
@@ -209,7 +209,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
      *
      * @return The day-of-the-month.
      */
-    public /*@IntRange(from = 1, to = 31)*/ int getDayOfMonth() {
+    public @IntRange(from = 1, to = 31) int getDayOfMonth() {
         return this.day.getDayOfMonth();
     }
 

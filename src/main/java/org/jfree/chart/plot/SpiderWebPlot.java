@@ -71,9 +71,9 @@
 
 package org.jfree.chart.plot;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -681,7 +681,7 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
      *
      * @see #setSeriesPaint(int, Paint)
      */
-    public Paint getSeriesPaint(/*@NonNegative*/ int series) {
+    public Paint getSeriesPaint(@NonNegative int series) {
 
         // return the override, if there is one...
         if (this.seriesPaint != null) {
@@ -714,7 +714,7 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
      *
      * @see #getSeriesPaint(int)
      */
-    public void setSeriesPaint(/*@NonNegative*/ int series, Paint paint) {
+    public void setSeriesPaint(@NonNegative int series, Paint paint) {
         this.seriesPaintList.setPaint(series, paint);
         fireChangeEvent();
     }
@@ -774,7 +774,7 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getSeriesOutlinePaint(/*@NonNegative*/ int series) {
+    public Paint getSeriesOutlinePaint(@NonNegative int series) {
         // return the override, if there is one...
         if (this.seriesOutlinePaint != null) {
             return this.seriesOutlinePaint;
@@ -794,7 +794,7 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
      * @param series  the series index (zero-based).
      * @param paint  the paint ({@code null} permitted).
      */
-    public void setSeriesOutlinePaint(/*@NonNegative*/ int series, Paint paint) {
+    public void setSeriesOutlinePaint(@NonNegative int series, Paint paint) {
         this.seriesOutlinePaintList.setPaint(series, paint);
         fireChangeEvent();
     }
@@ -850,7 +850,7 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
      *
      * @return The stroke (never {@code null}).
      */
-    public Stroke getSeriesOutlineStroke(/*@NonNegative*/ int series) {
+    public Stroke getSeriesOutlineStroke(@NonNegative int series) {
 
         // return the override, if there is one...
         if (this.seriesOutlineStroke != null) {
@@ -873,7 +873,7 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
      * @param series  the series index (zero-based).
      * @param stroke  the stroke ({@code null} permitted).
      */
-    public void setSeriesOutlineStroke(/*@NonNegative*/ int series, Stroke stroke) {
+    public void setSeriesOutlineStroke(@NonNegative int series, Stroke stroke) {
         this.seriesOutlineStrokeList.setStroke(series, stroke);
         fireChangeEvent();
     }
@@ -1260,7 +1260,7 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
                                  Rectangle2D plotArea,
                                  Point2D centre,
                                  PlotRenderingInfo info,
-                                 /*@NonNegative*/ int series, int catCount,
+                                 @NonNegative int series, int catCount,
                                  double headH, double headW) {
 
         Polygon polygon = new Polygon();
@@ -1383,7 +1383,7 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
      *
      * @see #getDataExtractOrder()
      */
-    protected Number getPlotValue(/*@NonNegative*/ int series, /*@NonNegative*/ int cat) {
+    protected Number getPlotValue(@NonNegative int series, @NonNegative int cat) {
         Number value = null;
         if (this.dataExtractOrder == TableOrder.BY_ROW) {
             value = this.dataset.getValue(series, cat);
@@ -1405,7 +1405,7 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
      * @param extent  the extent of the arc.
      */
     protected void drawLabel(Graphics2D g2, Rectangle2D plotArea, double value,
-                             /*@NonNegative*/ int cat, double startAngle, double extent) {
+                             @NonNegative int cat, double startAngle, double extent) {
         FontRenderContext frc = g2.getFontRenderContext();
 
         String label;

@@ -40,8 +40,8 @@
 
 package org.jfree.data.io;
 
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -156,7 +156,7 @@ public class CSV {
                                       List columnKeys) {
         Comparable rowKey = null;
         int fieldIndex = 0;
-        /*@IndexOrHigh("line")*/ int start = 0;
+        @IndexOrHigh("line") int start = 0;
         for (int i = 0; i < line.length(); i++) {
             if (line.charAt(i) == this.fieldDelimiter) {
                 if (fieldIndex == 0) {  // first field contains the row key
@@ -173,14 +173,14 @@ public class CSV {
                     );
                 }
                 @SuppressWarnings("index") // line is CSV formatted, so skipping is okay here
-                /*@IndexOrHigh("line")*/ int skipIndex = i + 1;
+                @IndexOrHigh("line") int skipIndex = i + 1;
                 start = skipIndex;
                 fieldIndex++;
             }
         }
 
         @SuppressWarnings("index") // CSV format guarantees at least one field
-        /*@Positive*/ int fieldIndexTmp = fieldIndex;
+        @Positive int fieldIndexTmp = fieldIndex;
         fieldIndex = fieldIndexTmp;
 
         Double value = Double.valueOf(

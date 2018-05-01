@@ -56,12 +56,12 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.MinLen; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.common.value.qual.MinLen;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -197,7 +197,7 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
      * @return 1.
      */
     @Override
-    public /*@NonNegative*/ int getPassCount() {
+    public @NonNegative int getPassCount() {
         return 1;
     }
 
@@ -222,7 +222,7 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            @NonNegative int series, @IndexFor("#8.getSeries(#9)") int item, CrosshairState crosshairState, int pass) {
 
         // setup for collecting optional entity info...
         EntityCollection entities = null;
@@ -245,7 +245,7 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
         // "hot spot" for the area (used by the chart entity)...
 
         @SuppressWarnings("index") // itemCount is at least one, so zero is an index
-        /*@IndexFor("dataset.getSeries(series)")*/ int zero = 0;
+        @IndexFor("dataset.getSeries(series)") int zero = 0;
 
         double x0 = dataset.getXValue(series, Math.max(item - 1, zero));
         double y0 = dataset.getYValue(series, Math.max(item - 1, zero));
@@ -256,7 +256,7 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
                 0));
 
         @SuppressWarnings("index") // itemCount must be positive if we have an index, which we do (item)
-        /*@Positive*/ int itemCount = dataset.getItemCount(series);
+        @Positive int itemCount = dataset.getItemCount(series);
         double x2 = dataset.getXValue(series, Math.min(item + 1,
                 itemCount - 1));
         double y2 = dataset.getYValue(series, Math.min(item + 1,
@@ -470,12 +470,12 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
      *     for all series values up to but excluding {@code series}
      *     for {@code index}.
      */
-    private double /*@MinLen(2)*/ [] getStackValues(TableXYDataset dataset,
-                                    /*@NonNegative*/ int series, /*@NonNegative*/ int index) {
+    private double @MinLen(2) [] getStackValues(TableXYDataset dataset,
+                                    @NonNegative int series, @NonNegative int index) {
         double[] result = new double[2];
         for (int i = 0; i < series; i++) {
             @SuppressWarnings("index") // index must be an index into all series < series is a precondition of this function
-            /*@IndexFor("dataset.getSeries(i)")*/ int iIndex = index;
+            @IndexFor("dataset.getSeries(i)") int iIndex = index;
             double v = dataset.getYValue(i, iIndex);
             if (!Double.isNaN(v)) {
                 if (v >= 0.0) {
@@ -498,7 +498,7 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
      *
      * @return A pair of average stack values.
      */
-    private double /*@ArrayLen(2)*/ [] averageStackValues(double /*@MinLen(2)*/ [] stack1, double /*@MinLen(2)*/ [] stack2) {
+    private double @ArrayLen(2) [] averageStackValues(double @MinLen(2) [] stack1, double @MinLen(2) [] stack2) {
         double[] result = new double[2];
         result[0] = (stack1[0] + stack2[0]) / 2.0;
         result[1] = (stack1[1] + stack2[1]) / 2.0;
@@ -515,7 +515,7 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
      *
      * @return A pair of average stack values.
      */
-    private double /*@ArrayLen(2)*/ [] adjustedStackValues(double /*@MinLen(2)*/ [] stack1, double /*@MinLen(2)*/ [] stack2) {
+    private double @ArrayLen(2) [] adjustedStackValues(double @MinLen(2) [] stack1, double @MinLen(2) [] stack2) {
         double[] result = new double[2];
         if (stack1[0] == 0.0 || stack2[0] == 0.0) {
             result[0] = 0.0;

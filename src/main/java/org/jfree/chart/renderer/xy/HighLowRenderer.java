@@ -67,9 +67,9 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -323,7 +323,7 @@ public class HighLowRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            @NonNegative int series, @IndexFor("#8.getSeries(#9)") int item, CrosshairState crosshairState, int pass) {
 
         double x = dataset.getXValue(series, item);
         if (!domainAxis.getRange().contains(x)) {
@@ -351,7 +351,7 @@ public class HighLowRenderer extends AbstractXYItemRenderer
             OHLCDataset hld = (OHLCDataset) dataset;
 
             @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/209
-            /*@IndexFor("hld.getSeries(series)")*/ int hldItem = item;
+            @IndexFor("hld.getSeries(series)") int hldItem = item;
 
             double yHigh = hld.getHighValue(series, hldItem);
             double yLow = hld.getLowValue(series, hldItem);

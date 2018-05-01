@@ -50,11 +50,11 @@
  */
 
 package org.jfree.chart.urls;
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -170,7 +170,7 @@ public class TimeSeriesURLGenerator implements XYURLGenerator, Serializable {
      * @return The generated URL.
      */
     @Override
-    public String generateURL(XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#1.getSeries(#2)")*/ int item) {
+    public String generateURL(XYDataset dataset, @NonNegative int series, @IndexFor("#1.getSeries(#2)") int item) {
         String result = this.prefix;
         boolean firstParameter = !result.contains("?");
         Comparable seriesKey = dataset.getSeriesKey(series);

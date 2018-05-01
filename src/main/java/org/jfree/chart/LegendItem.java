@@ -64,9 +64,9 @@
 
 package org.jfree.chart;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.*;
- */
+
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -119,10 +119,10 @@ public class LegendItem implements Cloneable, Serializable {
     private Comparable seriesKey;
 
     /** The dataset index. */
-    private /*@NonNegative*/ int datasetIndex;
+    private @NonNegative int datasetIndex;
 
     /** The series index. */
-    private /*@NonNegative*/ int series;
+    private @NonNegative int series;
 
     /** The label. */
     private String label;
@@ -520,7 +520,7 @@ public class LegendItem implements Cloneable, Serializable {
         char c = iterator.first();
         while (c != CharacterIterator.DONE) {
             @SuppressWarnings("index") // Correctness depends on the Character Iterator having count elements before supplying CharacterIterator.DONE
-            /*@IndexFor("chars")*/ int index = i;
+            @IndexFor("chars") int index = i;
             chars[index] = c;
             i++;
             c = iterator.next();
@@ -562,7 +562,7 @@ public class LegendItem implements Cloneable, Serializable {
      * @see #setDatasetIndex(int)
      * @see #getDataset()
      */
-    public /*@NonNegative*/ int getDatasetIndex() {
+    public @NonNegative int getDatasetIndex() {
         return this.datasetIndex;
     }
 
@@ -575,7 +575,7 @@ public class LegendItem implements Cloneable, Serializable {
      *
      * @see #getDatasetIndex()
      */
-    public void setDatasetIndex(/*@NonNegative*/ int index) {
+    public void setDatasetIndex(@NonNegative int index) {
         this.datasetIndex = index;
     }
 
@@ -610,7 +610,7 @@ public class LegendItem implements Cloneable, Serializable {
      *
      * @since 1.0.2
      */
-    public /*@NonNegative*/ int getSeriesIndex() {
+    public @NonNegative int getSeriesIndex() {
         return this.series;
     }
 
@@ -621,7 +621,7 @@ public class LegendItem implements Cloneable, Serializable {
      *
      * @since 1.0.2
      */
-    public void setSeriesIndex(/*@NonNegative*/ int index) {
+    public void setSeriesIndex(@NonNegative int index) {
         this.series = index;
     }
 

@@ -90,9 +90,9 @@
  */
 
 package org.jfree.data.time;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -144,7 +144,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
     protected List data;
 
     /** The maximum number of items for the series. */
-    private /*@NonNegative*/ int maximumItemCount;
+    private @NonNegative int maximumItemCount;
 
     /**
      * The maximum age of items for the series, specified as a number of
@@ -259,7 +259,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      * @return The item count.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount() {
+    public @NonNegative int getItemCount() {
         return this.data.size();
     }
 
@@ -282,7 +282,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @see #setMaximumItemCount(int)
      */
-    public /*@NonNegative*/ int getMaximumItemCount() {
+    public @NonNegative int getMaximumItemCount() {
         return this.maximumItemCount;
     }
 
@@ -297,7 +297,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @see #getMaximumItemCount()
      */
-    public void setMaximumItemCount(/*@NonNegative*/ int maximum) {
+    public void setMaximumItemCount(@NonNegative int maximum) {
         if (maximum < 0) {
             throw new IllegalArgumentException("Negative 'maximum' argument.");
         }
@@ -305,7 +305,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
         int count = this.data.size();
         if (count > maximum) {
             @SuppressWarnings({"index","value"}) // https://github.com/kelloggm/checker-framework/issues/158
-            /*@IntRange(from=0)*/ int deleteIndex = count - maximum - 1;
+            @IntRange(from=0) int deleteIndex = count - maximum - 1;
             // Extra assignment to kill the dataflow refinement.
             deleteIndex = deleteIndex;
             delete(0, deleteIndex);
@@ -483,7 +483,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      * 
      * @return The data item.
      */
-    public TimeSeriesDataItem getDataItem(/*@NonNegative*/ int index) {
+    public TimeSeriesDataItem getDataItem(@NonNegative int index) {
         TimeSeriesDataItem item = (TimeSeriesDataItem) this.data.get(index);
         return (TimeSeriesDataItem) item.clone();
     }
@@ -521,7 +521,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @since 1.0.14
      */
-    TimeSeriesDataItem getRawDataItem(/*@NonNegative*/ int index) {
+    TimeSeriesDataItem getRawDataItem(@NonNegative int index) {
         return (TimeSeriesDataItem) this.data.get(index);
     }
 
@@ -553,7 +553,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @return The time period.
      */
-    public RegularTimePeriod getTimePeriod(/*@NonNegative*/ int index) {
+    public RegularTimePeriod getTimePeriod(@NonNegative int index) {
         return getRawDataItem(index).getPeriod();
     }
 
@@ -624,7 +624,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @return The value (possibly {@code null}).
      */
-    public Number getValue(/*@NonNegative*/ int index) {
+    public Number getValue(@NonNegative int index) {
         return getRawDataItem(index).getValue();
     }
 
@@ -696,7 +696,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
                 int index = Collections.binarySearch(this.data, item);
                 if (index < 0) {
                     @SuppressWarnings("index") // binary search on list
-                    /*@NonNegative*/ int index1 = -index - 1;
+                    @NonNegative int index1 = -index - 1;
                     this.data.add(index1, item);
                     added = true;
                 }
@@ -819,7 +819,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      * @param index  the index of the data item.
      * @param value  the new value ({@code null} permitted).
      */
-    public void update(/*@NonNegative*/ int index, Number value) {
+    public void update(@NonNegative int index, Number value) {
         TimeSeriesDataItem item = (TimeSeriesDataItem) this.data.get(index);
         boolean iterate = false;
         Number oldYN = item.getValue();
@@ -947,7 +947,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
         else {
             item = (TimeSeriesDataItem) item.clone();
             @SuppressWarnings("index") // binary search on list
-            /*@NonNegative*/ int index1 = -index - 1;
+            @NonNegative int index1 = -index - 1;
             this.data.add(index1, item);
             updateBoundsForAddedItem(item);
 
@@ -1086,7 +1086,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      * @param start  the index of the first period to delete.
      * @param end  the index of the last period to delete.
      */
-    public void delete(/*@NonNegative*/ /*@LessThan("#2 + 1")*/ int start, /*@NonNegative*/ int end) {
+    public void delete(@NonNegative @LessThan("#2 + 1") int start, @NonNegative int end) {
         delete(start, end, true);
     }
 
@@ -1099,7 +1099,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @since 1.0.14
      */
-    public void delete(/*@NonNegative*/ /*@LessThan("#2 + 1")*/ int start, /*@NonNegative*/ int end, boolean notify) {
+    public void delete(@NonNegative @LessThan("#2 + 1") int start, @NonNegative int end, boolean notify) {
         if (end < start) {
             throw new IllegalArgumentException("Requires start <= end.");
         }
@@ -1149,7 +1149,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      *
      * @throws CloneNotSupportedException if there is a cloning problem.
      */
-    public TimeSeries createCopy(/*@NonNegative*/ int start, /*@NonNegative*/ int end)
+    public TimeSeries createCopy(@NonNegative int start, @NonNegative int end)
             throws CloneNotSupportedException {
         if (start < 0) {
             throw new IllegalArgumentException("Requires start >= 0.");
@@ -1221,7 +1221,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
             return copy;
         }
         @SuppressWarnings("index") // if endIndex < 0, emptyRange is true, so the function returns before we get here.
-        /*@NonNegative*/ int endIndex1 = endIndex;
+        @NonNegative int endIndex1 = endIndex;
         endIndex = endIndex1;
 
         return createCopy(startIndex, endIndex);

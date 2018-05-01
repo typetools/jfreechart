@@ -40,9 +40,9 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -105,8 +105,8 @@ public class GradientXYBarPainter implements XYBarPainter, Serializable {
      *              bar.
      */
     @Override
-    public void paintBar(Graphics2D g2, XYBarRenderer renderer, /*@NonNegative*/ int row,
-            /*@NonNegative*/ int column, RectangularShape bar, RectangleEdge base) {
+    public void paintBar(Graphics2D g2, XYBarRenderer renderer, @NonNegative int row,
+            @NonNegative int column, RectangularShape bar, RectangleEdge base) {
 
         Paint itemPaint = renderer.getItemPaint(row, column);
 
@@ -206,8 +206,8 @@ public class GradientXYBarPainter implements XYBarPainter, Serializable {
      * @param pegShadow  peg the shadow to the base of the bar?
      */
     @Override
-    public void paintBarShadow(Graphics2D g2, XYBarRenderer renderer, /*@NonNegative*/ int row,
-            /*@NonNegative*/ int column, RectangularShape bar, RectangleEdge base,
+    public void paintBarShadow(Graphics2D g2, XYBarRenderer renderer, @NonNegative int row,
+            @NonNegative int column, RectangularShape bar, RectangleEdge base,
             boolean pegShadow) {
 
         // handle a special case - if the bar colour has alpha == 0, it is
@@ -290,7 +290,7 @@ public class GradientXYBarPainter implements XYBarPainter, Serializable {
      *
      * @return An array containing four subregions.
      */
-    private Rectangle2D /*@ArrayLen(4)*/ [] splitVerticalBar(RectangularShape bar, double a,
+    private Rectangle2D @ArrayLen(4) [] splitVerticalBar(RectangularShape bar, double a,
             double b, double c) {
         Rectangle2D[] result = new Rectangle2D[4];
         double x0 = bar.getMinX();
@@ -319,7 +319,7 @@ public class GradientXYBarPainter implements XYBarPainter, Serializable {
      *
      * @return An array containing four subregions.
      */
-    private Rectangle2D /*@ArrayLen(4)*/ [] splitHorizontalBar(RectangularShape bar, double a,
+    private Rectangle2D @ArrayLen(4) [] splitHorizontalBar(RectangularShape bar, double a,
             double b, double c) {
         Rectangle2D[] result = new Rectangle2D[4];
         double y0 = bar.getMinY();

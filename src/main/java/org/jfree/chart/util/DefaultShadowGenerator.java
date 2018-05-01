@@ -41,8 +41,8 @@
  */
 
 package org.jfree.chart.util;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -64,7 +64,7 @@ public class DefaultShadowGenerator implements ShadowGenerator, Serializable {
     private static final long serialVersionUID = 2732993885591386064L;
 
     /** The shadow size. */
-    private /*@NonNegative*/ int shadowSize;
+    private @NonNegative int shadowSize;
 
     /** The shadow color. */
     private Color shadowColor;
@@ -94,7 +94,7 @@ public class DefaultShadowGenerator implements ShadowGenerator, Serializable {
      * @param distance  the shadow offset distance.
      * @param angle  the shadow offset angle (in radians).
      */
-    public DefaultShadowGenerator(/*@NonNegative*/ int size, Color color, float opacity,
+    public DefaultShadowGenerator(@NonNegative int size, Color color, float opacity,
             int distance, double angle) {
         Args.nullNotPermitted(color, "color");
         this.shadowSize = size;
@@ -240,7 +240,7 @@ public class DefaultShadowGenerator implements ShadowGenerator, Serializable {
                 int dead = (dataBuffer[bufferOffset] = a << 24 | shadowRgb);
 
                 @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158: historyIdx is always less than this.shadowSize, which is the length of aHistory
-                /*@IndexFor("aHistory")*/ int historyIdx1 = historyIdx;
+                @IndexFor("aHistory") int historyIdx1 = historyIdx;
 
                 // substract the oldest pixel from the sum
                 aSum -= aHistory[historyIdx1];
@@ -278,7 +278,7 @@ public class DefaultShadowGenerator implements ShadowGenerator, Serializable {
                         int dead = (dataBuffer[bufferOffset] = a << 24 | shadowRgb);
 
                 @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158: historyIdx is always less than this.shadowSize, which is the length of aHistory
-                /*@IndexFor("aHistory")*/ int historyIdx1 = historyIdx;
+                @IndexFor("aHistory") int historyIdx1 = historyIdx;
 
                 // substract the oldest pixel from the sum
                 aSum -= aHistory[historyIdx1];

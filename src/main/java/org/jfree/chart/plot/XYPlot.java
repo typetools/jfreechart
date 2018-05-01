@@ -234,11 +234,11 @@
  */
 
 package org.jfree.chart.plot;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>>
+import org.checkerframework.checker.index.qual.*;
+
 import org.checkerframework.common.value.qual.*;
 import org.checkerframework.dataflow.qual.Pure;
-*/
+
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -358,22 +358,22 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
     private RectangleInsets axisOffset;
 
     /** The domain axis / axes (used for the x-values). */
-    private Map</*@NonNegative*/ Integer, ValueAxis> domainAxes;
+    private Map<@NonNegative Integer, ValueAxis> domainAxes;
 
     /** The domain axis locations. */
-    private Map</*@NonNegative*/ Integer, AxisLocation> domainAxisLocations;
+    private Map<@NonNegative Integer, AxisLocation> domainAxisLocations;
 
     /** The range axis (used for the y-values). */
-    private Map</*@NonNegative*/ Integer, ValueAxis> rangeAxes;
+    private Map<@NonNegative Integer, ValueAxis> rangeAxes;
 
     /** The range axis location. */
-    private Map</*@NonNegative*/ Integer, AxisLocation> rangeAxisLocations;
+    private Map<@NonNegative Integer, AxisLocation> rangeAxisLocations;
 
     /** Storage for the datasets. */
-    private Map</*@NonNegative*/ Integer, XYDataset> datasets;
+    private Map<@NonNegative Integer, XYDataset> datasets;
 
     /** Storage for the renderers. */
-    private Map</*@NonNegative*/ Integer, XYItemRenderer> renderers;
+    private Map<@NonNegative Integer, XYItemRenderer> renderers;
 
     /**
      * Storage for the mapping between datasets/renderers and domain axes.  The
@@ -383,7 +383,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * entry for a dataset, it is assumed to map to the primary domain axis
      * (index = 0).
      */
-    private Map</*@NonNegative*/ Integer, List<Integer>> datasetToDomainAxesMap;
+    private Map<@NonNegative Integer, List<Integer>> datasetToDomainAxesMap;
 
     /**
      * Storage for the mapping between datasets/renderers and range axes.  The
@@ -393,13 +393,13 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * entry for a dataset, it is assumed to map to the primary domain axis
      * (index = 0).
      */
-    private Map</*@NonNegative*/ Integer, List<Integer>> datasetToRangeAxesMap;
+    private Map<@NonNegative Integer, List<Integer>> datasetToRangeAxesMap;
 
     /** The origin point for the quadrants (if drawn). */
     private transient Point2D quadrantOrigin = new Point2D.Double(0.0, 0.0);
 
     /** The paint used for each quadrant. */
-    private transient Paint /*@ArrayLen(4)*/ [] quadrantPaint
+    private transient Paint @ArrayLen(4) [] quadrantPaint
             = new Paint[] {null, null, null, null};
 
     /** A flag that controls whether the domain grid-lines are visible. */
@@ -533,16 +533,16 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
     private boolean rangeCrosshairLockedOnData = true;
 
     /** A map of lists of foreground markers (optional) for the domain axes. */
-    private Map</*@NonNegative*/ Integer, Collection> foregroundDomainMarkers;
+    private Map<@NonNegative Integer, Collection> foregroundDomainMarkers;
 
     /** A map of lists of background markers (optional) for the domain axes. */
-    private Map</*@NonNegative*/ Integer, Collection> backgroundDomainMarkers;
+    private Map<@NonNegative Integer, Collection> backgroundDomainMarkers;
 
     /** A map of lists of foreground markers (optional) for the range axes. */
-    private Map</*@NonNegative*/ Integer, Collection> foregroundRangeMarkers;
+    private Map<@NonNegative Integer, Collection> foregroundRangeMarkers;
 
     /** A map of lists of background markers (optional) for the range axes. */
-    private Map</*@NonNegative*/ Integer, Collection> backgroundRangeMarkers;
+    private Map<@NonNegative Integer, Collection> backgroundRangeMarkers;
 
     /**
      * A (possibly empty) list of annotations for the plot.  The list should
@@ -640,29 +640,29 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
 
         // allocate storage for datasets, axes and renderers (all optional)
 
-        HashMap domainAxes = new HashMap</*@NonNegative*/ Integer, ValueAxis>();
+        HashMap domainAxes = new HashMap<@NonNegative Integer, ValueAxis>();
         this.domainAxes = domainAxes;
 
-        HashMap domainAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>();
+        HashMap domainAxisLocations = new HashMap<@NonNegative Integer, AxisLocation>();
         this.domainAxisLocations = domainAxisLocations;
         this.foregroundDomainMarkers = new HashMap();
         this.backgroundDomainMarkers = new HashMap();
 
 
-        HashMap rangeAxes = new HashMap</*@NonNegative*/ Integer, ValueAxis>();
+        HashMap rangeAxes = new HashMap<@NonNegative Integer, ValueAxis>();
         this.rangeAxes = rangeAxes;
 
-        HashMap rangeAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>();
+        HashMap rangeAxisLocations = new HashMap<@NonNegative Integer, AxisLocation>();
         this.rangeAxisLocations = rangeAxisLocations;
         this.foregroundRangeMarkers = new HashMap();
         this.backgroundRangeMarkers = new HashMap();
 
 
-                HashMap datasets = new HashMap</*@NonNegative*/ Integer, XYDataset>();
+                HashMap datasets = new HashMap<@NonNegative Integer, XYDataset>();
         this.datasets = datasets;
 
 
-        HashMap renderers = new HashMap</*@NonNegative*/ Integer, XYItemRenderer>();
+        HashMap renderers = new HashMap<@NonNegative Integer, XYItemRenderer>();
         this.renderers = renderers;
 
         this.datasetToDomainAxesMap = new TreeMap();
@@ -756,7 +756,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * @see #setOrientation(PlotOrientation)
      */
     @Override
-    /*@Pure*/
+    @Pure
     public PlotOrientation getOrientation() {
         return this.orientation;
     }
@@ -826,7 +826,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #setDomainAxis(int, ValueAxis)
      */
-    public ValueAxis getDomainAxis(/*@NonNegative*/ int index) {
+    public ValueAxis getDomainAxis(@NonNegative int index) {
         ValueAxis result = this.domainAxes.get(index);
         if (result == null) {
             Plot parent = getParent();
@@ -861,7 +861,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * @see #getDomainAxis(int)
      * @see #setRangeAxis(int, ValueAxis)
      */
-    public void setDomainAxis(/*@NonNegative*/ int index, ValueAxis axis) {
+    public void setDomainAxis(@NonNegative int index, ValueAxis axis) {
         setDomainAxis(index, axis, true);
     }
 
@@ -875,7 +875,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #getDomainAxis(int)
      */
-    public void setDomainAxis(/*@NonNegative*/ int index, ValueAxis axis, boolean notify) {
+    public void setDomainAxis(@NonNegative int index, ValueAxis axis, boolean notify) {
         ValueAxis existing = getDomainAxis(index);
         if (existing != null) {
             existing.removeChangeListener(this);
@@ -915,7 +915,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #setDomainAxisLocation(AxisLocation)
      */
-    /*@Pure*/
+    @Pure
     public AxisLocation getDomainAxisLocation() {
         return (AxisLocation) this.domainAxisLocations.get(0);
     }
@@ -1010,7 +1010,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #setDomainAxisLocation(int, AxisLocation)
      */
-    public AxisLocation getDomainAxisLocation(/*@NonNegative*/ int index) {
+    public AxisLocation getDomainAxisLocation(@NonNegative int index) {
         AxisLocation result = this.domainAxisLocations.get(index);
         if (result == null) {
             result = AxisLocation.getOpposite(getDomainAxisLocation());
@@ -1028,7 +1028,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #getDomainAxisLocation(int)
      */
-    public void setDomainAxisLocation(/*@NonNegative*/ int index, AxisLocation location) {
+    public void setDomainAxisLocation(@NonNegative int index, AxisLocation location) {
         // delegate...
         setDomainAxisLocation(index, location, true);
     }
@@ -1047,7 +1047,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * @see #getDomainAxisLocation(int)
      * @see #setRangeAxisLocation(int, AxisLocation, boolean)
      */
-    public void setDomainAxisLocation(/*@NonNegative*/ int index, AxisLocation location,
+    public void setDomainAxisLocation(@NonNegative int index, AxisLocation location,
             boolean notify) {
         if (index == 0 && location == null) {
             throw new IllegalArgumentException(
@@ -1068,7 +1068,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #getRangeAxisEdge(int)
      */
-    public RectangleEdge getDomainAxisEdge(/*@NonNegative*/ int index) {
+    public RectangleEdge getDomainAxisEdge(@NonNegative int index) {
         AxisLocation location = getDomainAxisLocation(index);
         return Plot.resolveDomainAxisLocation(location, this.orientation);
     }
@@ -1120,7 +1120,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #setRangeAxisLocation(AxisLocation)
      */
-    /*@Pure*/
+    @Pure
     public AxisLocation getRangeAxisLocation() {
         return (AxisLocation) this.rangeAxisLocations.get(0);
     }
@@ -1175,7 +1175,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #setRangeAxis(int, ValueAxis)
      */
-    public ValueAxis getRangeAxis(/*@NonNegative*/ int index) {
+    public ValueAxis getRangeAxis(@NonNegative int index) {
         ValueAxis result = this.rangeAxes.get(index);
         if (result == null) {
             Plot parent = getParent();
@@ -1196,7 +1196,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #getRangeAxis(int)
      */
-    public void setRangeAxis(/*@NonNegative*/ int index, ValueAxis axis) {
+    public void setRangeAxis(@NonNegative int index, ValueAxis axis) {
         setRangeAxis(index, axis, true);
     }
 
@@ -1210,7 +1210,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #getRangeAxis(int)
      */
-    public void setRangeAxis(/*@NonNegative*/ int index, ValueAxis axis, boolean notify) {
+    public void setRangeAxis(@NonNegative int index, ValueAxis axis, boolean notify) {
         ValueAxis existing = getRangeAxis(index);
         if (existing != null) {
             existing.removeChangeListener(this);
@@ -1294,7 +1294,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #setRangeAxisLocation(int, AxisLocation)
      */
-    public AxisLocation getRangeAxisLocation(/*@NonNegative*/ int index) {
+    public AxisLocation getRangeAxisLocation(@NonNegative int index) {
         AxisLocation result = this.rangeAxisLocations.get(index);
         if (result == null) {
             result = AxisLocation.getOpposite(getRangeAxisLocation());
@@ -1311,7 +1311,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #getRangeAxisLocation(int)
      */
-    public void setRangeAxisLocation(/*@NonNegative*/ int index, AxisLocation location) {
+    public void setRangeAxisLocation(@NonNegative int index, AxisLocation location) {
         // delegate...
         setRangeAxisLocation(index, location, true);
     }
@@ -1330,7 +1330,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * @see #getRangeAxisLocation(int)
      * @see #setDomainAxisLocation(int, AxisLocation, boolean)
      */
-    public void setRangeAxisLocation(/*@NonNegative*/ int index, AxisLocation location,
+    public void setRangeAxisLocation(@NonNegative int index, AxisLocation location,
             boolean notify) {
         if (index == 0 && location == null) {
             throw new IllegalArgumentException(
@@ -1352,7 +1352,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * @see #getRangeAxisLocation(int)
      * @see #getOrientation()
      */
-    public RectangleEdge getRangeAxisEdge(/*@NonNegative*/ int index) {
+    public RectangleEdge getRangeAxisEdge(@NonNegative int index) {
         AxisLocation location = getRangeAxisLocation(index);
         return Plot.resolveRangeAxisLocation(location, this.orientation);
     }
@@ -1379,7 +1379,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #setDataset(int, XYDataset)
      */
-    public XYDataset getDataset(/*@NonNegative*/ int index) {
+    public XYDataset getDataset(@NonNegative int index) {
         return (XYDataset) this.datasets.get(index);
     }
 
@@ -1405,7 +1405,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #getDataset(int)
      */
-    public void setDataset(/*@NonNegative*/ int index, XYDataset dataset) {
+    public void setDataset(@NonNegative int index, XYDataset dataset) {
         XYDataset existing = getDataset(index);
         if (existing != null) {
             existing.removeChangeListener(this);
@@ -1437,8 +1437,8 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @return The index or -1.
      */
-    public /*@GTENegativeOne*/ int indexOf(XYDataset dataset) {
-        for (Map.Entry</*@NonNegative*/ Integer, XYDataset> entry: this.datasets.entrySet()) {
+    public @GTENegativeOne int indexOf(XYDataset dataset) {
+        for (Map.Entry<@NonNegative Integer, XYDataset> entry: this.datasets.entrySet()) {
             if (dataset == entry.getValue()) {
                 return entry.getKey();
             }
@@ -1455,7 +1455,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #mapDatasetToRangeAxis(int, int)
      */
-    public void mapDatasetToDomainAxis(/*@NonNegative*/ int index, int axisIndex) {
+    public void mapDatasetToDomainAxis(@NonNegative int index, int axisIndex) {
         List axisIndices = new java.util.ArrayList(1);
         axisIndices.add(new Integer(axisIndex));
         mapDatasetToDomainAxes(index, axisIndices);
@@ -1471,10 +1471,10 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @since 1.0.12
      */
-    public void mapDatasetToDomainAxes(/*@NonNegative*/ int index, List<Integer> axisIndices) {
+    public void mapDatasetToDomainAxes(@NonNegative int index, List<Integer> axisIndices) {
         Args.requireNonNegative(index, "index");
         checkAxisIndices(axisIndices);
-        /*@NonNegative*/ Integer key = index;
+        @NonNegative Integer key = index;
         this.datasetToDomainAxesMap.put(key, new ArrayList<Integer>(axisIndices));
         // fake a dataset change event to update axes...
         datasetChanged(new DatasetChangeEvent(this, getDataset(index)));
@@ -1489,7 +1489,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #mapDatasetToDomainAxis(int, int)
      */
-    public void mapDatasetToRangeAxis(/*@NonNegative*/ int index, int axisIndex) {
+    public void mapDatasetToRangeAxis(@NonNegative int index, int axisIndex) {
         List axisIndices = new java.util.ArrayList(1);
         axisIndices.add(new Integer(axisIndex));
         mapDatasetToRangeAxes(index, axisIndices);
@@ -1505,10 +1505,10 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @since 1.0.12
      */
-    public void mapDatasetToRangeAxes(/*@NonNegative*/ int index, List<Integer> axisIndices) {
+    public void mapDatasetToRangeAxes(@NonNegative int index, List<Integer> axisIndices) {
         Args.requireNonNegative(index, "index");
         checkAxisIndices(axisIndices);
-        /*@NonNegative*/ Integer key = index;
+        @NonNegative Integer key = index;
         this.datasetToRangeAxesMap.put(key, new ArrayList<Integer>(axisIndices));
         // fake a dataset change event to update axes...
         datasetChanged(new DatasetChangeEvent(this, getDataset(index)));
@@ -1521,7 +1521,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @param indices  the list of indices ({@code null} permitted).
      */
-    /*@Pure*/
+    @Pure
     private void checkAxisIndices(List<Integer> indices) {
         // axisIndices can be:
         // 1.  null;
@@ -1549,7 +1549,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @since 1.0.11
      */
-    public /*@NonNegative*/ int getRendererCount() {
+    public @NonNegative int getRendererCount() {
         return this.renderers.size();
     }
 
@@ -1573,8 +1573,8 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #setRenderer(int, XYItemRenderer)
      */
-    /*@Pure*/
-    public XYItemRenderer getRenderer(/*@NonNegative*/ int index) {
+    @Pure
+    public XYItemRenderer getRenderer(@NonNegative int index) {
         return (XYItemRenderer) this.renderers.get(index);
     }
 
@@ -1602,7 +1602,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #getRenderer(int)
      */
-    public void setRenderer(/*@NonNegative*/ int index, XYItemRenderer renderer) {
+    public void setRenderer(@NonNegative int index, XYItemRenderer renderer) {
         setRenderer(index, renderer, true);
     }
 
@@ -1618,7 +1618,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #getRenderer(int)
      */
-    public void setRenderer(/*@NonNegative*/ int index, XYItemRenderer renderer,
+    public void setRenderer(@NonNegative int index, XYItemRenderer renderer,
             boolean notify) {
         XYItemRenderer existing = getRenderer(index);
         if (existing != null) {
@@ -1711,8 +1711,8 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @return The renderer index.
      */
-    public /*@GTENegativeOne*/ int getIndexOf(XYItemRenderer renderer) {
-        for (Map.Entry</*@NonNegative*/ Integer, XYItemRenderer> entry
+    public @GTENegativeOne int getIndexOf(XYItemRenderer renderer) {
+        for (Map.Entry<@NonNegative Integer, XYItemRenderer> entry
                 : this.renderers.entrySet()) {
             if (entry.getValue() == renderer) {
                 return entry.getKey();
@@ -2382,7 +2382,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #setQuadrantPaint(int, Paint)
      */
-    public Paint getQuadrantPaint(/*@NonNegative*/ int index) {
+    public Paint getQuadrantPaint(@NonNegative int index) {
         if (index < 0 || index > 3) {
             throw new IllegalArgumentException("The index value (" + index
                     + ") should be in the range 0 to 3.");
@@ -2399,7 +2399,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #getQuadrantPaint(int)
      */
-    public void setQuadrantPaint(/*@NonNegative*/ int index, Paint paint) {
+    public void setQuadrantPaint(@NonNegative int index, Paint paint) {
         if (index < 0 || index > 3) {
             throw new IllegalArgumentException("The index value (" + index
                     + ") should be in the range 0 to 3.");
@@ -2449,14 +2449,14 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      */
     public void clearDomainMarkers() {
         if (this.backgroundDomainMarkers != null) {
-            Set</*@NonNegative*/ Integer> keys = this.backgroundDomainMarkers.keySet();
+            Set<@NonNegative Integer> keys = this.backgroundDomainMarkers.keySet();
             for (Integer key : keys) {
                 clearDomainMarkers(key);
             }
             this.backgroundDomainMarkers.clear();
         }
         if (this.foregroundDomainMarkers != null) {
-                    Set</*@NonNegative*/ Integer> keys = this.foregroundDomainMarkers.keySet();
+                    Set<@NonNegative Integer> keys = this.foregroundDomainMarkers.keySet();
             for (Integer key : keys) {
                 clearDomainMarkers(key);
             }
@@ -2473,7 +2473,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #clearRangeMarkers(int)
      */
-    public void clearDomainMarkers(/*@NonNegative*/ int index) {
+    public void clearDomainMarkers(@NonNegative int index) {
         Integer key = new Integer(index);
         if (this.backgroundDomainMarkers != null) {
             Collection markers
@@ -2517,7 +2517,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * @see #clearDomainMarkers(int)
      * @see #addRangeMarker(int, Marker, Layer)
      */
-    public void addDomainMarker(/*@NonNegative*/ int index, Marker marker, Layer layer) {
+    public void addDomainMarker(@NonNegative int index, Marker marker, Layer layer) {
         addDomainMarker(index, marker, layer, true);
     }
 
@@ -2536,7 +2536,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @since 1.0.10
      */
-    public void addDomainMarker(/*@NonNegative*/ int index, Marker marker, Layer layer,
+    public void addDomainMarker(@NonNegative int index, Marker marker, Layer layer,
             boolean notify) {
         Args.nullNotPermitted(marker, "marker");
         Args.nullNotPermitted(layer, "layer");
@@ -2546,7 +2546,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
                     new Integer(index));
             if (markers == null) {
                 markers = new java.util.ArrayList();
-                                /*@NonNegative*/ Integer i = index;
+                                @NonNegative Integer i = index;
                 this.foregroundDomainMarkers.put(i, markers);
             }
             markers.add(marker);
@@ -2556,7 +2556,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
                     new Integer(index));
             if (markers == null) {
                 markers = new java.util.ArrayList();
-                                /*@NonNegative*/ Integer i = index;
+                                @NonNegative Integer i = index;
                 this.backgroundDomainMarkers.put(i, markers);
             }
             markers.add(marker);
@@ -2611,7 +2611,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @since 1.0.7
      */
-    public boolean removeDomainMarker(/*@NonNegative*/ int index, Marker marker, Layer layer) {
+    public boolean removeDomainMarker(@NonNegative int index, Marker marker, Layer layer) {
         return removeDomainMarker(index, marker, layer, true);
     }
 
@@ -2629,7 +2629,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @since 1.0.10
      */
-    public boolean removeDomainMarker(/*@NonNegative*/ int index, Marker marker, Layer layer,
+    public boolean removeDomainMarker(@NonNegative int index, Marker marker, Layer layer,
             boolean notify) {
         ArrayList markers;
         if (layer == Layer.FOREGROUND) {
@@ -2690,7 +2690,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
     public void clearRangeMarkers() {
         if (this.backgroundRangeMarkers != null) {
 
-                    Set</*@NonNegative*/ Integer> keys = this.backgroundRangeMarkers.keySet();
+                    Set<@NonNegative Integer> keys = this.backgroundRangeMarkers.keySet();
             for (Integer key : keys) {
                 clearRangeMarkers(key);
             }
@@ -2698,7 +2698,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         }
         if (this.foregroundRangeMarkers != null) {
 
-                    Set</*@NonNegative*/ Integer> keys = this.foregroundRangeMarkers.keySet();
+                    Set<@NonNegative Integer> keys = this.foregroundRangeMarkers.keySet();
             for (Integer key : keys) {
                 clearRangeMarkers(key);
             }
@@ -2721,7 +2721,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * @see #clearRangeMarkers(int)
      * @see #addDomainMarker(int, Marker, Layer)
      */
-    public void addRangeMarker(/*@NonNegative*/ int index, Marker marker, Layer layer) {
+    public void addRangeMarker(@NonNegative int index, Marker marker, Layer layer) {
         addRangeMarker(index, marker, layer, true);
     }
 
@@ -2739,7 +2739,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @since 1.0.10
      */
-    public void addRangeMarker(/*@NonNegative*/ int index, Marker marker, Layer layer,
+    public void addRangeMarker(@NonNegative int index, Marker marker, Layer layer,
             boolean notify) {
         Collection markers;
         if (layer == Layer.FOREGROUND) {
@@ -2747,7 +2747,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
                     new Integer(index));
             if (markers == null) {
                 markers = new java.util.ArrayList();
-                                /*@NonNegative*/ Integer i = index;
+                                @NonNegative Integer i = index;
                 this.foregroundRangeMarkers.put(i, markers);
             }
             markers.add(marker);
@@ -2757,7 +2757,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
                     new Integer(index));
             if (markers == null) {
                 markers = new java.util.ArrayList();
-                                /*@NonNegative*/ Integer i = index;
+                                @NonNegative Integer i = index;
                 this.backgroundRangeMarkers.put(i, markers);
             }
             markers.add(marker);
@@ -2774,7 +2774,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @param index  the renderer index.
      */
-    public void clearRangeMarkers(/*@NonNegative*/ int index) {
+    public void clearRangeMarkers(@NonNegative int index) {
         Integer key = new Integer(index);
         if (this.backgroundRangeMarkers != null) {
             Collection markers
@@ -2847,7 +2847,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @since 1.0.7
      */
-    public boolean removeRangeMarker(/*@NonNegative*/ int index, Marker marker, Layer layer) {
+    public boolean removeRangeMarker(@NonNegative int index, Marker marker, Layer layer) {
         return removeRangeMarker(index, marker, layer, true);
     }
 
@@ -2865,7 +2865,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @since 1.0.10
      */
-    public boolean removeRangeMarker(/*@NonNegative*/ int index, Marker marker, Layer layer,
+    public boolean removeRangeMarker(@NonNegative int index, Marker marker, Layer layer,
             boolean notify) {
         Args.nullNotPermitted(marker, "marker");
         Args.nullNotPermitted(layer, "layer");
@@ -3276,20 +3276,20 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         // draw the markers that are associated with a specific dataset...
         for (XYDataset dataset: this.datasets.values()) {
             @SuppressWarnings("index") // guaranteed index: dataset is definitely a valid dataset, so its index will be nonnegative
-            /*@NonNegative*/ int datasetIndex = indexOf(dataset);
+            @NonNegative int datasetIndex = indexOf(dataset);
             drawDomainMarkers(g2, dataArea, datasetIndex, Layer.BACKGROUND);
         }
         for (XYDataset dataset: this.datasets.values()) {
             @SuppressWarnings("index") // guaranteed index: dataset is definitely a valid dataset, so its index will be nonnegative
-                    /*@NonNegative*/ int datasetIndex = indexOf(dataset);
+                    @NonNegative int datasetIndex = indexOf(dataset);
             drawRangeMarkers(g2, dataArea, datasetIndex, Layer.BACKGROUND);
         }
 
         // now draw annotations and render data items...
         boolean foundData = false;
         DatasetRenderingOrder order = getDatasetRenderingOrder();
-        List</*@NonNegative*/ Integer> rendererIndices = getRendererIndices(order);
-        List</*@NonNegative*/ Integer> datasetIndices = getDatasetIndices(order);
+        List<@NonNegative Integer> rendererIndices = getRendererIndices(order);
+        List<@NonNegative Integer> datasetIndices = getDatasetIndices(order);
 
         // draw background annotations
         for (int i : rendererIndices) {
@@ -3401,9 +3401,9 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * 
      * @return The list of indices. 
      */
-    private List< /*@NonNegative*/ Integer> getDatasetIndices(DatasetRenderingOrder order) {
-                List</*@NonNegative*/ /*@UnknownVal*/ Integer> result = new ArrayList</*@NonNegative*/ /*@UnknownVal*/ Integer>();
-        for (Entry< /*@NonNegative*/ Integer, XYDataset> entry : this.datasets.entrySet()) {
+    private List< @NonNegative Integer> getDatasetIndices(DatasetRenderingOrder order) {
+                List<@NonNegative Integer> result = new ArrayList<@NonNegative Integer>();
+        for (Entry< @NonNegative Integer, XYDataset> entry : this.datasets.entrySet()) {
             if (entry.getValue() != null) {
                 result.add(entry.getKey());
             }
@@ -3415,9 +3415,9 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         return result;
     }
 
-    private List< /*@NonNegative*/ Integer> getRendererIndices(DatasetRenderingOrder order) {
-                List</*@NonNegative*/ /*@UnknownVal*/ Integer> result = new ArrayList</*@NonNegative*/ /*@UnknownVal*/ Integer>();
-        for (Entry< /*@NonNegative*/ Integer, XYItemRenderer> entry : this.renderers.entrySet()) {
+    private List< @NonNegative Integer> getRendererIndices(DatasetRenderingOrder order) {
+                List<@NonNegative Integer> result = new ArrayList<@NonNegative Integer>();
+        for (Entry< @NonNegative Integer, XYItemRenderer> entry : this.renderers.entrySet()) {
             if (entry.getValue() != null) {
                 result.add(entry.getKey());
             }
@@ -3648,7 +3648,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         for (ValueAxis axis : this.domainAxes.values()) {
             if (axis != null) {
                 @SuppressWarnings("index") // guaranteed index: axis is guaranteed to be a domain axis, so axisIndex is NN
-                /*@NonNegative*/ int axisIndex = findDomainAxisIndex(axis);
+                @NonNegative int axisIndex = findDomainAxisIndex(axis);
                 axisCollection.add(axis, getDomainAxisEdge(axisIndex));
             }
         }
@@ -3657,7 +3657,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         for (ValueAxis axis : this.rangeAxes.values()) {
             if (axis != null) {
                 @SuppressWarnings("index") // guaranteed index: axis is guaranteed to be a range axis, so axisIndex is NN
-                /*@NonNegative*/ int axisIndex = findRangeAxisIndex(axis);
+                @NonNegative int axisIndex = findRangeAxisIndex(axis);
                 axisCollection.add(axis, getRangeAxisEdge(axisIndex));
             }
         }
@@ -3731,7 +3731,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @return A flag that indicates whether any data was actually rendered.
      */
-    public boolean render(Graphics2D g2, Rectangle2D dataArea, /*@NonNegative*/ int index,
+    public boolean render(Graphics2D g2, Rectangle2D dataArea, @NonNegative int index,
             PlotRenderingInfo info, CrosshairState crosshairState) {
 
         boolean foundData = false;
@@ -3767,14 +3767,14 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
                             continue;
                         }
                         if (state.getProcessVisibleItemsOnly()) {
-                            /*@NonNegative*/ int[] itemBounds = RendererUtils.findLiveItems(
+                            @NonNegative int[] itemBounds = RendererUtils.findLiveItems(
                                     dataset, series, xAxis.getLowerBound(),
                                     xAxis.getUpperBound());
                             firstItem = Math.max(itemBounds[0] - 1, 0);
                             lastItem = Math.min(itemBounds[1] + 1, lastItem);
                         }
                         @SuppressWarnings("index") // if 0 weren't a valid index, then this loop iteration is skipped above
-                        /*@IndexFor("dataset.getSeries(series)")*/ int firstItemTmp = firstItem;
+                        @IndexFor("dataset.getSeries(series)") int firstItemTmp = firstItem;
                         state.startSeriesPass(dataset, series, firstItemTmp,
                                 lastItem, pass, passCount);
                         for (int item = firstItem; item <= lastItem; item++) {
@@ -3795,17 +3795,17 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
                         int firstItem = 0;
                         int lastItem = dataset.getItemCount(series) - 1;
                         if (state.getProcessVisibleItemsOnly()) {
-                            /*@NonNegative*/ int[] itemBounds = RendererUtils.findLiveItems(
+                            @NonNegative int[] itemBounds = RendererUtils.findLiveItems(
                                     dataset, series, xAxis.getLowerBound(),
                                     xAxis.getUpperBound());
                             firstItem = Math.max(itemBounds[0] - 1, 0);
                             lastItem = Math.min(itemBounds[1] + 1, lastItem);
                         }
                         @SuppressWarnings("index") // if 0 weren't a valid index, then this loop iteration is skipped above
-                        /*@IndexFor("dataset.getSeries(series)")*/ int firstItemTmp = firstItem;
+                        @IndexFor("dataset.getSeries(series)") int firstItemTmp = firstItem;
 
                         @SuppressWarnings("index") // I think this is a bug, as lastItem is checked in the parallel code above to not be -1, but that check is elided here.
-                        /*@NonNegative*/ int lastItemTmp = lastItem;
+                        @NonNegative int lastItemTmp = lastItem;
 
                         state.startSeriesPass(dataset, series, firstItemTmp,
                                 lastItemTmp, pass, passCount);
@@ -3830,7 +3830,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @return The axis.
      */
-    public ValueAxis getDomainAxisForDataset(/*@NonNegative*/ int index) {
+    public ValueAxis getDomainAxisForDataset(@NonNegative int index) {
         Args.requireNonNegative(index, "index");
         ValueAxis valueAxis;
         List axisIndices = (List) this.datasetToDomainAxesMap.get(
@@ -3838,7 +3838,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         if (axisIndices != null) {
             // the first axis in the list is used for data <--> Java2D
             @SuppressWarnings("index") // first element of axisIndices is guaranteed NN
-            /*@NonNegative*/ int axisIndex = ((Integer) axisIndices.get(0)).intValue();
+            @NonNegative int axisIndex = ((Integer) axisIndices.get(0)).intValue();
             valueAxis = getDomainAxis(axisIndex);
         }
         else {
@@ -3854,7 +3854,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @return The axis.
      */
-    public ValueAxis getRangeAxisForDataset(/*@NonNegative*/ int index) {
+    public ValueAxis getRangeAxisForDataset(@NonNegative int index) {
         Args.requireNonNegative(index, "index");
         ValueAxis valueAxis;
         List axisIndices = (List) this.datasetToRangeAxesMap.get(
@@ -3862,7 +3862,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         if (axisIndices != null) {
             // the first axis in the list is used for data <--> Java2D
             @SuppressWarnings("index") // first element of axisIndices is guaranteed NN
-            /*@NonNegative*/ int axisIndex = ((Integer) axisIndices.get(0)).intValue();
+            @NonNegative int axisIndex = ((Integer) axisIndices.get(0)).intValue();
             valueAxis = getRangeAxis(axisIndex);
         }
         else {
@@ -4031,7 +4031,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * @param layer  the layer (foreground or background).
      */
     protected void drawDomainMarkers(Graphics2D g2, Rectangle2D dataArea,
-                                     /*@NonNegative*/ int index, Layer layer) {
+                                     @NonNegative int index, Layer layer) {
 
         XYItemRenderer r = getRenderer(index);
         if (r == null) {
@@ -4064,7 +4064,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      * @param layer  the layer (foreground or background).
      */
     protected void drawRangeMarkers(Graphics2D g2, Rectangle2D dataArea,
-                                    /*@NonNegative*/ int index, Layer layer) {
+                                    @NonNegative int index, Layer layer) {
 
         XYItemRenderer r = getRenderer(index);
         if (r == null) {
@@ -4123,7 +4123,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #getRangeMarkers(int, Layer)
      */
-    public Collection getDomainMarkers(/*@NonNegative*/ int index, Layer layer) {
+    public Collection getDomainMarkers(@NonNegative int index, Layer layer) {
         Collection result = null;
         Integer key = new Integer(index);
         if (layer == Layer.FOREGROUND) {
@@ -4149,7 +4149,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #getDomainMarkers(int, Layer)
      */
-    public Collection getRangeMarkers(/*@NonNegative*/ int index, Layer layer) {
+    public Collection getRangeMarkers(@NonNegative int index, Layer layer) {
         Collection result = null;
         Integer key = new Integer(index);
         if (layer == Layer.FOREGROUND) {
@@ -4395,7 +4395,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #getRangeAxisIndex(ValueAxis)
      */
-    public /*@GTENegativeOne*/ int getDomainAxisIndex(ValueAxis axis) {
+    public @GTENegativeOne int getDomainAxisIndex(ValueAxis axis) {
         int result = findDomainAxisIndex(axis);
         if (result < 0) {
             // try the parent plot
@@ -4408,8 +4408,8 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         return result;
     }
     
-    private /*@GTENegativeOne*/ int findDomainAxisIndex(ValueAxis axis) {
-        for (Map.Entry</*@NonNegative*/ Integer, ValueAxis> entry : this.domainAxes.entrySet()) {
+    private @GTENegativeOne int findDomainAxisIndex(ValueAxis axis) {
+        for (Map.Entry<@NonNegative Integer, ValueAxis> entry : this.domainAxes.entrySet()) {
             if (entry.getValue() == axis) {
                 return entry.getKey();
             }
@@ -4426,7 +4426,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @see #getDomainAxisIndex(ValueAxis)
      */
-    public /*@GTENegativeOne*/ int getRangeAxisIndex(ValueAxis axis) {
+    public @GTENegativeOne int getRangeAxisIndex(ValueAxis axis) {
         int result = findRangeAxisIndex(axis);
         if (result < 0) {
             // try the parent plot
@@ -4439,8 +4439,8 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         return result;
     }
 
-    private /*@GTENegativeOne*/ int findRangeAxisIndex(ValueAxis axis) {
-        for (Map.Entry</*@NonNegative*/ Integer, ValueAxis> entry : this.rangeAxes.entrySet()) {
+    private @GTENegativeOne int findRangeAxisIndex(ValueAxis axis) {
+        for (Map.Entry<@NonNegative Integer, ValueAxis> entry : this.rangeAxes.entrySet()) {
             if (entry.getValue() == axis) {
                 return entry.getKey();
             }
@@ -5276,7 +5276,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
      *
      * @return The series count.
      */
-    public /*@NonNegative*/ int getSeriesCount() {
+    public @NonNegative int getSeriesCount() {
         int result = 0;
         XYDataset dataset = getDataset();
         if (dataset != null) {
@@ -5328,7 +5328,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
                 continue;
             }
             @SuppressWarnings("index") // guaranteed index: dataset is came from this object, so indexOf returns NN
-            /*@NonNegative*/ int datasetIndex = indexOf(dataset);
+            @NonNegative int datasetIndex = indexOf(dataset);
             XYItemRenderer renderer = getRenderer(datasetIndex);
             if (renderer == null) {
                 renderer = getRenderer(0);
@@ -5590,13 +5590,13 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
                 axis.addChangeListener(clone);
             }
         }
-        clone.domainAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>(
+        clone.domainAxisLocations = new HashMap<@NonNegative Integer, AxisLocation>(
                 this.domainAxisLocations);
-        clone.rangeAxisLocations = new HashMap</*@NonNegative*/ Integer, AxisLocation>(
+        clone.rangeAxisLocations = new HashMap<@NonNegative Integer, AxisLocation>(
                 this.rangeAxisLocations);
 
         // the datasets are not cloned, but listeners need to be added...
-        clone.datasets = new HashMap</*@NonNegative*/ Integer, XYDataset>(this.datasets);
+        clone.datasets = new HashMap<@NonNegative Integer, XYDataset>(this.datasets);
         for (XYDataset dataset : clone.datasets.values()) {
             if (dataset != null) {
                 dataset.addChangeListener(clone);

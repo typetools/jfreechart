@@ -42,7 +42,7 @@
  */
 
 package org.jfree.chart.labels;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -125,7 +125,7 @@ public class StandardCategoryItemLabelGenerator
      * @return The label (possibly {@code null}).
      */
     @Override
-    public String generateLabel(CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column) {
+    public String generateLabel(CategoryDataset dataset, @NonNegative int row, @NonNegative int column) {
         return generateLabelString(dataset, row, column);
     }
 

@@ -39,11 +39,11 @@
  */
 
 package org.jfree.data.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 /**
  * An extension of the {@link XYZDataset} interface that allows a range of data
@@ -59,7 +59,7 @@ public interface IntervalXYZDataset extends XYZDataset {
      *
      * @return The starting X value for the specified series and item.
      */
-    public Number getStartXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item);
+    public Number getStartXValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
     /**
      * Returns the ending X value for the specified series and item.
@@ -69,7 +69,7 @@ public interface IntervalXYZDataset extends XYZDataset {
      *
      * @return The ending X value for the specified series and item.
      */
-    public Number getEndXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item);
+    public Number getEndXValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
     /**
      * Returns the starting Y value for the specified series and item.
@@ -79,7 +79,7 @@ public interface IntervalXYZDataset extends XYZDataset {
      *
      * @return The starting Y value for the specified series and item.
      */
-    public Number getStartYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item);
+    public Number getStartYValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
     /**
      * Returns the ending Y value for the specified series and item.
@@ -89,7 +89,7 @@ public interface IntervalXYZDataset extends XYZDataset {
      *
      * @return The ending Y value for the specified series and item.
      */
-    public Number getEndYValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item);
+    public Number getEndYValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
     /**
      * Returns the starting Z value for the specified series and item.
@@ -99,7 +99,7 @@ public interface IntervalXYZDataset extends XYZDataset {
      *
      * @return The starting Z value for the specified series and item.
      */
-    public Number getStartZValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item);
+    public Number getStartZValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
     /**
      * Returns the ending Z value for the specified series and item.
@@ -109,6 +109,6 @@ public interface IntervalXYZDataset extends XYZDataset {
      *
      * @return The ending Z value for the specified series and item.
      */
-    public Number getEndZValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item);
+    public Number getEndZValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
 }

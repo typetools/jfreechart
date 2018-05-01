@@ -39,7 +39,7 @@
  */
 
 package org.jfree.data.statistics;
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
 import java.io.Serializable;
 import org.jfree.chart.util.PublicCloneable;
@@ -72,7 +72,7 @@ public class SimpleHistogramBin implements Comparable,
     private boolean includeUpperBound;
 
     /** The item count. */
-    private /*@NonNegative*/ int itemCount;
+    private @NonNegative int itemCount;
 
     /**
      * Creates a new bin.
@@ -128,7 +128,7 @@ public class SimpleHistogramBin implements Comparable,
      *
      * @return The item count.
      */
-    public /*@NonNegative*/ int getItemCount() {
+    public @NonNegative int getItemCount() {
         return this.itemCount;
     }
 
@@ -137,7 +137,7 @@ public class SimpleHistogramBin implements Comparable,
      *
      * @param count  the item count.
      */
-    public void setItemCount(/*@NonNegative*/ int count) {
+    public void setItemCount(@NonNegative int count) {
         this.itemCount = count;
     }
 

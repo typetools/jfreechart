@@ -97,9 +97,9 @@
 
 package org.jfree.chart.renderer.category;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -152,7 +152,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return The pass count.
      */
-    public /*@NonNegative*/ int getPassCount();
+    public @NonNegative int getPassCount();
 
     /**
      * Returns the plot that the renderer has been assigned to (where
@@ -223,7 +223,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
     public CategoryItemRendererState initialise(Graphics2D g2,
                                                 Rectangle2D dataArea,
                                                 CategoryPlot plot,
-                                                /*@NonNegative*/ int rendererIndex,
+                                                @NonNegative int rendererIndex,
                                                 PlotRenderingInfo info);
 
     /**
@@ -235,7 +235,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return A boolean.
      */
-    public boolean getItemVisible(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
+    public boolean getItemVisible(@NonNegative int series, @NonNegative int item);
 
     /**
      * Returns a boolean that indicates whether or not the specified series
@@ -245,7 +245,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return A boolean.
      */
-    public boolean isSeriesVisible(/*@NonNegative*/ int series);
+    public boolean isSeriesVisible(@NonNegative int series);
 
     /**
      * Returns the flag that controls whether a series is visible.
@@ -256,7 +256,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesVisible(int, Boolean)
      */
-    public Boolean getSeriesVisible(/*@NonNegative*/ int series);
+    public Boolean getSeriesVisible(@NonNegative int series);
 
     /**
      * Sets the flag that controls whether a series is visible and sends a
@@ -267,7 +267,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesVisible(int)
      */
-    public void setSeriesVisible(/*@NonNegative*/ int series, Boolean visible);
+    public void setSeriesVisible(@NonNegative int series, Boolean visible);
 
     /**
      * Sets the flag that controls whether a series is visible and, if
@@ -280,7 +280,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesVisible(int)
      */
-    public void setSeriesVisible(/*@NonNegative*/ int series, Boolean visible, boolean notify);
+    public void setSeriesVisible(@NonNegative int series, Boolean visible, boolean notify);
 
     /**
      * Returns the default visibility for all series.
@@ -322,7 +322,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return A boolean.
      */
-    public boolean isSeriesVisibleInLegend(/*@NonNegative*/ int series);
+    public boolean isSeriesVisibleInLegend(@NonNegative int series);
 
     /**
      * Returns the flag that controls whether a series is visible in the
@@ -336,7 +336,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesVisibleInLegend(int, Boolean)
      */
-    public Boolean getSeriesVisibleInLegend(/*@NonNegative*/ int series);
+    public Boolean getSeriesVisibleInLegend(@NonNegative int series);
 
     /**
      * Sets the flag that controls whether a series is visible in the legend
@@ -347,7 +347,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesVisibleInLegend(int)
      */
-    public void setSeriesVisibleInLegend(/*@NonNegative*/ int series, Boolean visible);
+    public void setSeriesVisibleInLegend(@NonNegative int series, Boolean visible);
 
     /**
      * Sets the flag that controls whether a series is visible in the legend
@@ -360,7 +360,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesVisibleInLegend(int)
      */
-    public void setSeriesVisibleInLegend(/*@NonNegative*/ int series, Boolean visible,
+    public void setSeriesVisibleInLegend(@NonNegative int series, Boolean visible,
                                          boolean notify);
 
     /**
@@ -404,7 +404,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getItemPaint(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Paint getItemPaint(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the paint used to fill an item drawn by the renderer.
@@ -415,7 +415,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesPaint(int, Paint)
      */
-    public Paint getSeriesPaint(/*@NonNegative*/ int series);
+    public Paint getSeriesPaint(@NonNegative int series);
 
     /**
      * Sets the paint used for a series and sends a {@link RendererChangeEvent}
@@ -426,9 +426,9 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesPaint(int)
      */
-    public void setSeriesPaint(/*@NonNegative*/ int series, Paint paint);
+    public void setSeriesPaint(@NonNegative int series, Paint paint);
 
-    public void setSeriesPaint(/*@NonNegative*/ int series, Paint paint, boolean notify);
+    public void setSeriesPaint(@NonNegative int series, Paint paint, boolean notify);
 
     /**
      * Returns the default paint.
@@ -461,7 +461,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getItemFillPaint(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Paint getItemFillPaint(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the paint used to fill an item drawn by the renderer.
@@ -472,7 +472,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesFillPaint(int, Paint)
      */
-    public Paint getSeriesFillPaint(/*@NonNegative*/ int series);
+    public Paint getSeriesFillPaint(@NonNegative int series);
 
     /**
      * Sets the paint used for a series outline and sends a
@@ -483,7 +483,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesFillPaint(int)
      */
-    public void setSeriesFillPaint(/*@NonNegative*/ int series, Paint paint);
+    public void setSeriesFillPaint(@NonNegative int series, Paint paint);
 
     /**
      * Returns the default outline paint.
@@ -514,7 +514,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getItemOutlinePaint(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Paint getItemOutlinePaint(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the paint used to outline an item drawn by the renderer.
@@ -525,7 +525,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesOutlinePaint(int, Paint)
      */
-    public Paint getSeriesOutlinePaint(/*@NonNegative*/ int series);
+    public Paint getSeriesOutlinePaint(@NonNegative int series);
 
     /**
      * Sets the paint used for a series outline and sends a
@@ -536,9 +536,9 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesOutlinePaint(int)
      */
-    public void setSeriesOutlinePaint(/*@NonNegative*/ int series, Paint paint);
+    public void setSeriesOutlinePaint(@NonNegative int series, Paint paint);
 
-    public void setSeriesOutlinePaint(/*@NonNegative*/ int series, Paint paint, boolean notify);
+    public void setSeriesOutlinePaint(@NonNegative int series, Paint paint, boolean notify);
 
     /**
      * Returns the default outline paint.
@@ -571,7 +571,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return The stroke (never {@code null}).
      */
-    public Stroke getItemStroke(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Stroke getItemStroke(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the stroke used to draw the items in a series.
@@ -582,7 +582,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesStroke(int, Stroke)
      */
-    public Stroke getSeriesStroke(/*@NonNegative*/ int series);
+    public Stroke getSeriesStroke(@NonNegative int series);
 
     /**
      * Sets the stroke used for a series and sends a
@@ -593,9 +593,9 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesStroke(int)
      */
-    public void setSeriesStroke(/*@NonNegative*/ int series, Stroke stroke);
+    public void setSeriesStroke(@NonNegative int series, Stroke stroke);
 
-    public void setSeriesStroke(/*@NonNegative*/ int series, Stroke stroke, boolean notify);
+    public void setSeriesStroke(@NonNegative int series, Stroke stroke, boolean notify);
 
     /**
      * Returns the default stroke.
@@ -632,7 +632,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return The stroke (never {@code null}).
      */
-    public Stroke getItemOutlineStroke(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Stroke getItemOutlineStroke(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the stroke used to outline the items in a series.
@@ -643,7 +643,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesOutlineStroke(int, Stroke)
      */
-    public Stroke getSeriesOutlineStroke(/*@NonNegative*/ int series);
+    public Stroke getSeriesOutlineStroke(@NonNegative int series);
 
     /**
      * Sets the outline stroke used for a series and sends a
@@ -654,9 +654,9 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesOutlineStroke(int)
      */
-    public void setSeriesOutlineStroke(/*@NonNegative*/ int series, Stroke stroke);
+    public void setSeriesOutlineStroke(@NonNegative int series, Stroke stroke);
 
-    public void setSeriesOutlineStroke(/*@NonNegative*/ int series, Stroke stroke, boolean notify);
+    public void setSeriesOutlineStroke(@NonNegative int series, Stroke stroke, boolean notify);
 
     /**
      * Returns the default outline stroke.
@@ -689,7 +689,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return The shape (never {@code null}).
      */
-    public Shape getItemShape(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Shape getItemShape(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns a shape used to represent the items in a series.
@@ -700,7 +700,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesShape(int, Shape)
      */
-    public Shape getSeriesShape(/*@NonNegative*/ int series);
+    public Shape getSeriesShape(@NonNegative int series);
 
     /**
      * Sets the shape used for a series and sends a {@link RendererChangeEvent}
@@ -711,9 +711,9 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesShape(int)
      */
-    public void setSeriesShape(/*@NonNegative*/ int series, Shape shape);
+    public void setSeriesShape(@NonNegative int series, Shape shape);
 
-    public void setSeriesShape(/*@NonNegative*/ int series, Shape shape, boolean notify);
+    public void setSeriesShape(@NonNegative int series, Shape shape, boolean notify);
 
     /**
      * Returns the default shape.
@@ -747,7 +747,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return A boolean.
      */
-    public boolean isItemLabelVisible(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public boolean isItemLabelVisible(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns {@code true} if the item labels for a series are visible,
@@ -759,7 +759,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesItemLabelsVisible(int, Boolean)
      */
-    public boolean isSeriesItemLabelsVisible(/*@NonNegative*/ int series);
+    public boolean isSeriesItemLabelsVisible(@NonNegative int series);
 
     /**
      * Sets a flag that controls the visibility of the item labels for a series.
@@ -769,7 +769,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #isSeriesItemLabelsVisible(int)
      */
-    public void setSeriesItemLabelsVisible(/*@NonNegative*/ int series, boolean visible);
+    public void setSeriesItemLabelsVisible(@NonNegative int series, boolean visible);
 
     /**
      * Sets a flag that controls the visibility of the item labels for a series.
@@ -779,7 +779,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #isSeriesItemLabelsVisible(int)
      */
-    public void setSeriesItemLabelsVisible(/*@NonNegative*/ int series, Boolean visible);
+    public void setSeriesItemLabelsVisible(@NonNegative int series, Boolean visible);
 
     /**
      * Sets the visibility of item labels for a series and, if requested, sends
@@ -792,7 +792,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #isSeriesItemLabelsVisible(int)
      */
-    public void setSeriesItemLabelsVisible(/*@NonNegative*/ int series, Boolean visible,
+    public void setSeriesItemLabelsVisible(@NonNegative int series, Boolean visible,
                                            boolean notify);
 
     /**
@@ -839,7 +839,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return The generator (possibly {@code null}).
      */
-    public CategoryItemLabelGenerator getItemLabelGenerator(/*@NonNegative*/ int series,
+    public CategoryItemLabelGenerator getItemLabelGenerator(@NonNegative int series,
             int item);
 
     /**
@@ -851,7 +851,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesItemLabelGenerator(int, CategoryItemLabelGenerator)
      */
-    public CategoryItemLabelGenerator getSeriesItemLabelGenerator(/*@NonNegative*/ int series);
+    public CategoryItemLabelGenerator getSeriesItemLabelGenerator(@NonNegative int series);
 
     /**
      * Sets the item label generator for a series and sends a
@@ -862,10 +862,10 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesItemLabelGenerator(int)
      */
-    public void setSeriesItemLabelGenerator(/*@NonNegative*/ int series,
+    public void setSeriesItemLabelGenerator(@NonNegative int series,
             CategoryItemLabelGenerator generator);
 
-    public void setSeriesItemLabelGenerator(/*@NonNegative*/ int series,
+    public void setSeriesItemLabelGenerator(@NonNegative int series,
             CategoryItemLabelGenerator generator, boolean notify);
 
     /**
@@ -902,7 +902,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return The generator (possibly {@code null}).
      */
-    public CategoryToolTipGenerator getToolTipGenerator(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public CategoryToolTipGenerator getToolTipGenerator(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the tool tip generator for the specified series (a "layer 1"
@@ -914,7 +914,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesToolTipGenerator(int, CategoryToolTipGenerator)
      */
-    public CategoryToolTipGenerator getSeriesToolTipGenerator(/*@NonNegative*/ int series);
+    public CategoryToolTipGenerator getSeriesToolTipGenerator(@NonNegative int series);
 
     /**
      * Sets the tool tip generator for a series and sends a
@@ -926,10 +926,10 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesToolTipGenerator(int)
      */
-    public void setSeriesToolTipGenerator(/*@NonNegative*/ int series,
+    public void setSeriesToolTipGenerator(@NonNegative int series,
             CategoryToolTipGenerator generator);
 
-    public void setSeriesToolTipGenerator(/*@NonNegative*/ int series,
+    public void setSeriesToolTipGenerator(@NonNegative int series,
             CategoryToolTipGenerator generator, boolean notify);
 
     /**
@@ -965,7 +965,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return The font (never {@code null}).
      */
-    public Font getItemLabelFont(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Font getItemLabelFont(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the font for all the item labels in a series.
@@ -976,7 +976,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesItemLabelFont(int, Font)
      */
-    public Font getSeriesItemLabelFont(/*@NonNegative*/ int series);
+    public Font getSeriesItemLabelFont(@NonNegative int series);
 
     /**
      * Sets the item label font for a series and sends a
@@ -987,9 +987,9 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesItemLabelFont(int)
      */
-    public void setSeriesItemLabelFont(/*@NonNegative*/ int series, Font font);
+    public void setSeriesItemLabelFont(@NonNegative int series, Font font);
 
-    public void setSeriesItemLabelFont(/*@NonNegative*/ int series, Font font, boolean notify);
+    public void setSeriesItemLabelFont(@NonNegative int series, Font font, boolean notify);
 
     /**
      * Returns the default item label font (this is used when no other font
@@ -1023,7 +1023,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return The paint (never {@code null}).
      */
-    public Paint getItemLabelPaint(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Paint getItemLabelPaint(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the paint used to draw the item labels for a series.
@@ -1034,7 +1034,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesItemLabelPaint(int, Paint)
      */
-    public Paint getSeriesItemLabelPaint(/*@NonNegative*/ int series);
+    public Paint getSeriesItemLabelPaint(@NonNegative int series);
 
     /**
      * Sets the item label paint for a series and sends a
@@ -1045,9 +1045,9 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesItemLabelPaint(int)
      */
-    public void setSeriesItemLabelPaint(/*@NonNegative*/ int series, Paint paint);
+    public void setSeriesItemLabelPaint(@NonNegative int series, Paint paint);
 
-    public void setSeriesItemLabelPaint(/*@NonNegative*/ int series, Paint paint, boolean notify);
+    public void setSeriesItemLabelPaint(@NonNegative int series, Paint paint, boolean notify);
 
     /**
      * Returns the default item label paint.
@@ -1080,7 +1080,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return The item label position (never {@code null}).
      */
-    public ItemLabelPosition getPositiveItemLabelPosition(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public ItemLabelPosition getPositiveItemLabelPosition(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the item label position for all positive values in a series.
@@ -1091,7 +1091,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesPositiveItemLabelPosition(int, ItemLabelPosition)
      */
-    public ItemLabelPosition getSeriesPositiveItemLabelPosition(/*@NonNegative*/ int series);
+    public ItemLabelPosition getSeriesPositiveItemLabelPosition(@NonNegative int series);
 
     /**
      * Sets the item label position for all positive values in a series and
@@ -1102,7 +1102,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesPositiveItemLabelPosition(int)
      */
-    public void setSeriesPositiveItemLabelPosition(/*@NonNegative*/ int series,
+    public void setSeriesPositiveItemLabelPosition(@NonNegative int series,
             ItemLabelPosition position);
 
     /**
@@ -1116,7 +1116,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesPositiveItemLabelPosition(int)
      */
-    public void setSeriesPositiveItemLabelPosition(/*@NonNegative*/ int series,
+    public void setSeriesPositiveItemLabelPosition(@NonNegative int series,
             ItemLabelPosition position, boolean notify);
 
     /**
@@ -1162,7 +1162,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return The item label position.
      */
-    public ItemLabelPosition getNegativeItemLabelPosition(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public ItemLabelPosition getNegativeItemLabelPosition(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the item label position for all negative values in a series.
@@ -1173,7 +1173,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesNegativeItemLabelPosition(int, ItemLabelPosition)
      */
-    public ItemLabelPosition getSeriesNegativeItemLabelPosition(/*@NonNegative*/ int series);
+    public ItemLabelPosition getSeriesNegativeItemLabelPosition(@NonNegative int series);
 
     /**
      * Sets the item label position for negative values in a series and sends a
@@ -1184,7 +1184,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesNegativeItemLabelPosition(int)
      */
-    public void setSeriesNegativeItemLabelPosition(/*@NonNegative*/ int series,
+    public void setSeriesNegativeItemLabelPosition(@NonNegative int series,
                                                    ItemLabelPosition position);
 
     /**
@@ -1198,7 +1198,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesNegativeItemLabelPosition(int)
      */
-    public void setSeriesNegativeItemLabelPosition(/*@NonNegative*/ int series,
+    public void setSeriesNegativeItemLabelPosition(@NonNegative int series,
             ItemLabelPosition position, boolean notify);
 
     /**
@@ -1234,13 +1234,13 @@ public interface CategoryItemRenderer extends LegendItemSource {
 
     // CREATE ENTITIES
 
-    public boolean getItemCreateEntity(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
+    public boolean getItemCreateEntity(@NonNegative int series, @NonNegative int item);
 
-    public Boolean getSeriesCreateEntities(/*@NonNegative*/ int series);
+    public Boolean getSeriesCreateEntities(@NonNegative int series);
 
-    public void setSeriesCreateEntities(/*@NonNegative*/ int series, Boolean create);
+    public void setSeriesCreateEntities(@NonNegative int series, Boolean create);
 
-    public void setSeriesCreateEntities(/*@NonNegative*/ int series, Boolean create,
+    public void setSeriesCreateEntities(@NonNegative int series, Boolean create,
             boolean notify);
 
     public boolean getDefaultCreateEntities();
@@ -1260,7 +1260,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return The item URL generator.
      */
-    public CategoryURLGenerator getItemURLGenerator(/*@NonNegative*/ int series, /*@NonNegative*/ int item);
+    public CategoryURLGenerator getItemURLGenerator(@NonNegative int series, @NonNegative int item);
 
     /**
      * Returns the item URL generator for a series.
@@ -1271,7 +1271,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #setSeriesItemURLGenerator(int, CategoryURLGenerator)
      */
-    public CategoryURLGenerator getSeriesItemURLGenerator(/*@NonNegative*/ int series);
+    public CategoryURLGenerator getSeriesItemURLGenerator(@NonNegative int series);
 
     /**
      * Sets the item URL generator for a series.
@@ -1281,10 +1281,10 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @see #getSeriesItemURLGenerator(int)
      */
-    public void setSeriesItemURLGenerator(/*@NonNegative*/ int series,
+    public void setSeriesItemURLGenerator(@NonNegative int series,
                                           CategoryURLGenerator generator);
 
-    public void setSeriesItemURLGenerator(/*@NonNegative*/ int series,
+    public void setSeriesItemURLGenerator(@NonNegative int series,
             CategoryURLGenerator generator, boolean notify);
 
     /**
@@ -1318,7 +1318,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      *
      * @return The legend item (possibly {@code null}).
      */
-    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series);
+    public LegendItem getLegendItem(@NonNegative int datasetIndex, @NonNegative int series);
 
     /**
      * Draws a background for the data area.
@@ -1356,7 +1356,7 @@ public interface CategoryItemRenderer extends LegendItemSource {
      */
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column,
+            ValueAxis rangeAxis, CategoryDataset dataset, @NonNegative int row, @NonNegative int column,
             int pass);
 
     /**

@@ -40,8 +40,8 @@
  */
 
 package org.jfree.data.xml;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.*; */
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.common.value.qual.*;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -142,7 +142,7 @@ public class ValueHandler extends DefaultHandler implements DatasetTags {
      */
     @Override
     @SuppressWarnings("index") // need xml annotations
-    public void characters(char[] ch, /*@IndexOrHigh("#1")*/ int start, /*@IndexOrHigh("#1")*/ int length) {
+    public void characters(char[] ch, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int length) {
         if (this.currentText != null) {
             this.currentText.append(String.copyValueOf(ch, start, length));
         }

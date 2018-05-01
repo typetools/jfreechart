@@ -44,13 +44,13 @@
  */
 
 package org.jfree.chart.labels;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
 
-/*>>>
+
 import org.checkerframework.common.value.qual.MinLen;
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -168,7 +168,7 @@ public class BubbleXYItemLabelGenerator extends AbstractXYItemLabelGenerator
      * @return The item label (possibly {@code null}).
      */
     @Override
-    public String generateLabel(XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#1.getSeries(#2)")*/ int item) {
+    public String generateLabel(XYDataset dataset, @NonNegative int series, @IndexFor("#1.getSeries(#2)") int item) {
         return generateLabelString(dataset, series, item);
     }
 
@@ -182,13 +182,13 @@ public class BubbleXYItemLabelGenerator extends AbstractXYItemLabelGenerator
      * @return The label (possibly {@code null}).
      */
     @Override
-    public String generateLabelString(XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#1.getSeries(#2)")*/ int item) {
+    public String generateLabelString(XYDataset dataset, @NonNegative int series, @IndexFor("#1.getSeries(#2)") int item) {
         String result;
         Object[] items;
         if (dataset instanceof XYZDataset) {
             XYZDataset xyzDataset = (XYZDataset) dataset;
             @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-                    /*@IndexFor("xyzDataset.getSeries(series)")*/ int item1 = item;
+                    @IndexFor("xyzDataset.getSeries(series)") int item1 = item;
             items = createItemArray(xyzDataset, series, item1);
         }
         else {
@@ -208,8 +208,8 @@ public class BubbleXYItemLabelGenerator extends AbstractXYItemLabelGenerator
      *
      * @return The items (never {@code null}).
      */
-    protected Object /*@MinLen(4)*/ [] createItemArray(XYZDataset dataset,
-                                       /*@NonNegative*/ int series, /*@IndexFor("#1.getSeries(#2)")*/ int item) {
+    protected Object @MinLen(4) [] createItemArray(XYZDataset dataset,
+                                       @NonNegative int series, @IndexFor("#1.getSeries(#2)") int item) {
 
         Object[] result = new Object[4];
         result[0] = dataset.getSeriesKey(series).toString();

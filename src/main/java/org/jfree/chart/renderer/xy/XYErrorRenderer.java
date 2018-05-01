@@ -42,9 +42,9 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -307,14 +307,14 @@ public class XYErrorRenderer extends XYLineAndShapeRenderer {
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            @NonNegative int series, @IndexFor("#8.getSeries(#9)") int item, CrosshairState crosshairState, int pass) {
 
         if (pass == 0 && dataset instanceof IntervalXYDataset
                 && getItemVisible(series, item)) {
             IntervalXYDataset ixyd = (IntervalXYDataset) dataset;
 
             @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-            /*@IndexFor("ixyd.getSeries(series)")*/ int ixydItem = item;
+            @IndexFor("ixyd.getSeries(series)") int ixydItem = item;
 
             PlotOrientation orientation = plot.getOrientation();
             if (this.drawXError) {

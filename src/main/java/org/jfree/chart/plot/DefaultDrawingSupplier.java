@@ -48,10 +48,10 @@
 
  package org.jfree.chart.plot;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.IndexFor;
- */
+
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -113,37 +113,37 @@ public class DefaultDrawingSupplier implements DrawingSupplier, Cloneable,
     private transient Paint[] paintSequence;
 
     /** The current paint index. */
-    private /*@NonNegative*/ int paintIndex;
+    private @NonNegative int paintIndex;
 
     /** The outline paint sequence. */
     private transient Paint[] outlinePaintSequence;
 
     /** The current outline paint index. */
-    private /*@NonNegative*/ int outlinePaintIndex;
+    private @NonNegative int outlinePaintIndex;
 
     /** The fill paint sequence. */
     private transient Paint[] fillPaintSequence;
 
     /** The current fill paint index. */
-    private /*@NonNegative*/ int fillPaintIndex;
+    private @NonNegative int fillPaintIndex;
 
     /** The stroke sequence. */
     private transient Stroke[] strokeSequence;
 
     /** The current stroke index. */
-    private /*@NonNegative*/ int strokeIndex;
+    private @NonNegative int strokeIndex;
 
     /** The outline stroke sequence. */
     private transient Stroke[] outlineStrokeSequence;
 
     /** The current outline stroke index. */
-    private /*@NonNegative*/ int outlineStrokeIndex;
+    private @NonNegative int outlineStrokeIndex;
 
     /** The shape sequence. */
     private transient Shape[] shapeSequence;
 
     /** The current shape index. */
-    private /*@NonNegative*/ int shapeIndex;
+    private @NonNegative int shapeIndex;
 
     /**
      * Creates a new supplier, with default sequences for fill paint, outline

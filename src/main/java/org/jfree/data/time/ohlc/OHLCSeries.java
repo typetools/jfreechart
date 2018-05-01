@@ -41,7 +41,7 @@
  */
 
 package org.jfree.data.time.ohlc;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import org.jfree.chart.util.Args;
 import org.jfree.data.ComparableObjectItem;
@@ -75,7 +75,7 @@ public class OHLCSeries extends ComparableObjectSeries {
      *
      * @return The time period.
      */
-    public RegularTimePeriod getPeriod(/*@NonNegative*/ int index) {
+    public RegularTimePeriod getPeriod(@NonNegative int index) {
         OHLCItem item = (OHLCItem) getDataItem(index);
         return item.getPeriod();
     }
@@ -88,7 +88,7 @@ public class OHLCSeries extends ComparableObjectSeries {
      * @return The data item.
      */
     @Override
-    public ComparableObjectItem getDataItem(/*@NonNegative*/ int index) {
+    public ComparableObjectItem getDataItem(@NonNegative int index) {
         return super.getDataItem(index);
     }
 
@@ -137,7 +137,7 @@ public class OHLCSeries extends ComparableObjectSeries {
      * @since 1.0.14
      */
     @Override
-    public ComparableObjectItem remove(/*@NonNegative*/ int index) {
+    public ComparableObjectItem remove(@NonNegative int index) {
         return super.remove(index);
     }
 

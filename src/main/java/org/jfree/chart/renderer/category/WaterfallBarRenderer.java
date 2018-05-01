@@ -59,7 +59,7 @@
  */
 
 package org.jfree.chart.renderer.category;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -312,7 +312,7 @@ public class WaterfallBarRenderer extends BarRenderer {
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column,
+            ValueAxis rangeAxis, CategoryDataset dataset, @NonNegative int row, @NonNegative int column,
             int pass) {
 
         double previous = state.getSeriesRunningTotal();

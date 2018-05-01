@@ -27,10 +27,10 @@
  */
 
 package org.jfree.chart.ui;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.*;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -51,7 +51,7 @@ public class LCBLayout implements LayoutManager, Serializable {
     private static final int COLUMNS = 3;
 
     /** Tracks the column widths. */
-    private int /*@ArrayLen(3)*/ [] colWidth;
+    private int @ArrayLen(3) [] colWidth;
 
     /** Tracks the row heights. */
     private int[] rowHeight;
@@ -70,7 +70,7 @@ public class LCBLayout implements LayoutManager, Serializable {
      *
      * @param maxrows  the maximum number of rows.
      */
-    public LCBLayout(/*@NonNegative*/ int maxrows) {
+    public LCBLayout(@NonNegative int maxrows) {
         this.labelGap = 10;
         this.buttonGap = 6;
         this.vGap = 2;
@@ -92,7 +92,7 @@ public class LCBLayout implements LayoutManager, Serializable {
             Insets insets = parent.getInsets();
             int ncomponents = parent.getComponentCount();
             @SuppressWarnings("index") // documentation bug: (parent's components / COLUMNS) must be less than the max rows for this LCBLayout, or this will crash, and that should be documented, or this will crash. I believe this is by design, but it's not good code.
-            /*@IndexOrHigh("this.rowHeight")*/ int nrows = ncomponents / COLUMNS;
+            @IndexOrHigh("this.rowHeight") int nrows = ncomponents / COLUMNS;
             for (int c = 0; c < COLUMNS; c++) {
                 for (int r = 0; r < nrows; r++) {
                     Component component = parent.getComponent(r * COLUMNS + c);
@@ -134,7 +134,7 @@ public class LCBLayout implements LayoutManager, Serializable {
             Insets insets = parent.getInsets();
             int ncomponents = parent.getComponentCount();
             @SuppressWarnings("index") // documentation bug: (parent's components / COLUMNS) must be less than the max rows for this LCBLayout, or this will crash, and that should be documented, or this will crash. I believe this is by design, but it's not good code.
-            /*@IndexOrHigh("this.rowHeight")*/ int nrows = ncomponents / COLUMNS;
+            @IndexOrHigh("this.rowHeight") int nrows = ncomponents / COLUMNS;
             for (int c = 0; c < COLUMNS; c++) {
                 for (int r = 0; r < nrows; r++) {
                     Component component = parent.getComponent(r * COLUMNS + c);
@@ -174,7 +174,7 @@ public class LCBLayout implements LayoutManager, Serializable {
             Insets insets = parent.getInsets();
             int ncomponents = parent.getComponentCount();
             @SuppressWarnings("index") // documentation bug: (parent's components / COLUMNS) must be less than the max rows for this LCBLayout, or this will crash, and that should be documented, or this will crash. I believe this is by design, but it's not good code.
-            /*@IndexOrHigh("this.rowHeight")*/ int nrows = ncomponents / COLUMNS;
+            @IndexOrHigh("this.rowHeight") int nrows = ncomponents / COLUMNS;
             for (int c = 0; c < COLUMNS; c++) {
                 for (int r = 0; r < nrows; r++) {
                     Component component = parent.getComponent(r * COLUMNS + c);

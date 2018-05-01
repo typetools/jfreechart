@@ -88,12 +88,12 @@
  */
 
 package org.jfree.data.time;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
@@ -245,7 +245,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    public /*@NonNegative*/ int getSeriesCount() {
+    public @NonNegative int getSeriesCount() {
         return this.data.size();
     }
 
@@ -259,7 +259,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      *
      * @since 1.0.6
      */
-    public /*@GTENegativeOne*/ int indexOf(TimeSeries series) {
+    public @GTENegativeOne int indexOf(TimeSeries series) {
         Args.nullNotPermitted(series, "series");
         return this.data.indexOf(series);
     }
@@ -271,7 +271,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      *
      * @return The series.
      */
-    public TimeSeries getSeries(/*@NonNegative*/ int series) {
+    public TimeSeries getSeries(@NonNegative int series) {
         if ((series < 0) || (series >= getSeriesCount())) {
             throw new IllegalArgumentException(
                 "The 'series' argument is out of bounds (" + series + ").");
@@ -308,7 +308,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The key for a series.
      */
     @Override
-    public Comparable getSeriesKey(/*@NonNegative*/ int series) {
+    public Comparable getSeriesKey(@NonNegative int series) {
         // check arguments...delegated
         // fetch the series name...
         return getSeries(series).getKey();
@@ -324,7 +324,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * 
      * @since 1.0.17
      */
-    public /*@GTENegativeOne*/ int getSeriesIndex(Comparable key) {
+    public @GTENegativeOne int getSeriesIndex(Comparable key) {
         Args.nullNotPermitted(key, "key");
         int seriesCount = getSeriesCount();
         for (int i = 0; i < seriesCount; i++) {
@@ -369,7 +369,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      *
      * @param index  the series index (zero-based).
      */
-    public void removeSeries(/*@NonNegative*/ int index) {
+    public void removeSeries(@NonNegative int index) {
         TimeSeries series = getSeries(index);
         if (series != null) {
             removeSeries(series);
@@ -406,7 +406,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      */
     @Override
     @SuppressWarnings("index") // array-list interop: getSeries(series).getItemCount is LengthOf(this.getSeries)
-    public /*@LengthOf("this.getSeries(#1)")*/ int getItemCount(/*@NonNegative*/ int series) {
+    public @LengthOf("this.getSeries(#1)") int getItemCount(@NonNegative int series) {
         return getSeries(series).getItemCount();
     }
 
@@ -419,7 +419,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The x-value.
      */
     @Override
-    public double getXValue(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public double getXValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         TimeSeries s = (TimeSeries) this.data.get(series);
         RegularTimePeriod period = s.getTimePeriod(item);
         return getX(period);
@@ -434,7 +434,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getX(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         TimeSeries ts = (TimeSeries) this.data.get(series);
         RegularTimePeriod period = ts.getTimePeriod(item);
         return new Long(getX(period));
@@ -470,7 +470,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public synchronized Number getStartX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public synchronized Number getStartX(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         TimeSeries ts = (TimeSeries) this.data.get(series);
         return new Long(ts.getTimePeriod(item).getFirstMillisecond(
                 this.workingCalendar));
@@ -485,7 +485,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public synchronized Number getEndX(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public synchronized Number getEndX(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         TimeSeries ts = (TimeSeries) this.data.get(series);
         return new Long(ts.getTimePeriod(item).getLastMillisecond(
                 this.workingCalendar));
@@ -500,7 +500,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value (possibly {@code null}).
      */
     @Override
-    public Number getY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getY(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         TimeSeries ts = (TimeSeries) this.data.get(series);
         return ts.getValue(item);
     }
@@ -514,7 +514,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value (possibly {@code null}).
      */
     @Override
-    public Number getStartY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getStartY(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         return getY(series, item);
     }
 
@@ -527,7 +527,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return The value (possibly {@code null}).
      */
     @Override
-    public Number getEndY(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item) {
+    public Number getEndY(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         return getY(series, item);
     }
 
@@ -542,7 +542,7 @@ public class TimeSeriesCollection extends AbstractIntervalXYDataset
      * @return An array containing the (two) indices of the items surrounding
      *         the time.
      */
-    public int /*@ArrayLen(2)*/ [] getSurroundingItems(/*@NonNegative*/ int series, long milliseconds) {
+    public int @ArrayLen(2) [] getSurroundingItems(@NonNegative int series, long milliseconds) {
         int[] result = new int[] {-1, -1};
         for (int i = 0; i < this.getItemCount(series); i++) {
             Number x = getX(series, i);

@@ -39,8 +39,8 @@
  */
 
 package org.jfree.data.xml;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.*; */
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.common.value.qual.*;
 
 import java.util.Stack;
 
@@ -82,7 +82,7 @@ public class RootHandler extends DefaultHandler implements DatasetTags {
      */
     @Override
     @SuppressWarnings("index") // need xml annotations
-    public void characters(char[] ch, /*@IndexOrHigh("#1")*/ int start, /*@IndexOrHigh("#1")*/ int length)
+    public void characters(char[] ch, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int length)
         throws SAXException {
         DefaultHandler handler = getCurrentHandler();
         if (handler != this) {

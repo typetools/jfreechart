@@ -41,7 +41,7 @@
  */
 
 package org.jfree.data.xy;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import org.jfree.data.ComparableObjectItem;
 import org.jfree.data.ComparableObjectSeries;
@@ -115,7 +115,7 @@ public class XIntervalSeries extends ComparableObjectSeries {
      *
      * @return The x-value (never {@code null}).
      */
-    public Number getX(/*@NonNegative*/ int index) {
+    public Number getX(@NonNegative int index) {
         XIntervalDataItem item = (XIntervalDataItem) getDataItem(index);
         return item.getX();
     }
@@ -129,7 +129,7 @@ public class XIntervalSeries extends ComparableObjectSeries {
      *
      * @since 1.0.10
      */
-    public double getXLowValue(/*@NonNegative*/ int index) {
+    public double getXLowValue(@NonNegative int index) {
         XIntervalDataItem item = (XIntervalDataItem) getDataItem(index);
         return item.getXLowValue();
     }
@@ -143,7 +143,7 @@ public class XIntervalSeries extends ComparableObjectSeries {
      *
      * @since 1.0.10
      */
-    public double getXHighValue(/*@NonNegative*/ int index) {
+    public double getXHighValue(@NonNegative int index) {
         XIntervalDataItem item = (XIntervalDataItem) getDataItem(index);
         return item.getXHighValue();
     }
@@ -155,7 +155,7 @@ public class XIntervalSeries extends ComparableObjectSeries {
      *
      * @return The y-value.
      */
-    public double getYValue(/*@NonNegative*/ int index) {
+    public double getYValue(@NonNegative int index) {
         XIntervalDataItem item = (XIntervalDataItem) getDataItem(index);
         return item.getYValue();
     }
@@ -168,7 +168,7 @@ public class XIntervalSeries extends ComparableObjectSeries {
      * @return The data item.
      */
     @Override
-    public ComparableObjectItem getDataItem(/*@NonNegative*/ int index) {
+    public ComparableObjectItem getDataItem(@NonNegative int index) {
         return super.getDataItem(index);
     }
 

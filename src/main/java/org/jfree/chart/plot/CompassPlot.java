@@ -67,13 +67,13 @@
 
 package org.jfree.chart.plot;
 
-/*>>>
+
 import org.checkerframework.common.value.qual.MinLen;
 import org.checkerframework.checker.index.qual.SameLen;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.LTLengthOf;
 import org.checkerframework.checker.index.qual.IndexFor;
- */
+
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -171,11 +171,11 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
 
     /** An array of value datasets. */
     @SuppressWarnings("index") // synced update: this.datasets and this.seriesNeedle are always updated in tandem
-    private ValueDataset /*@MinLen(1)*/ /*@SameLen("this.seriesNeedle")*/ [] datasets = new ValueDataset[1];
+    private ValueDataset @MinLen(1) @SameLen("this.seriesNeedle") [] datasets = new ValueDataset[1];
 
     /** An array of needles. */
     @SuppressWarnings("index") // synced update: this.datasets and this.seriesNeedle are always updated in tandem
-    private MeterNeedle /*@MinLen(1)*/ /*@SameLen("this.datasets")*/ [] seriesNeedle = new MeterNeedle[1];
+    private MeterNeedle @MinLen(1) @SameLen("this.datasets") [] seriesNeedle = new MeterNeedle[1];
 
     /** The resourceBundle for the localization. */
     protected static ResourceBundle localizationResources
@@ -379,7 +379,7 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
      *
      * @see #setSeriesOutlinePaint(int, Paint)
      */
-    public void setSeriesPaint(/*@NonNegative*/ int series, Paint paint) {
+    public void setSeriesPaint(@NonNegative int series, Paint paint) {
        // super.setSeriesPaint(series, paint);
         if ((series >= 0) && (series < this.seriesNeedle.length)) {
             this.seriesNeedle[series].setFillPaint(paint);
@@ -394,7 +394,7 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
      *
      * @see #setSeriesPaint(int, Paint)
      */
-    public void setSeriesOutlinePaint(/*@NonNegative*/ int series, Paint p) {
+    public void setSeriesOutlinePaint(@NonNegative int series, Paint p) {
 
         if ((series >= 0) && (series < this.seriesNeedle.length)) {
             this.seriesNeedle[series].setOutlinePaint(p);
@@ -410,7 +410,7 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
      *
      * @see #setSeriesOutlinePaint(int, Paint)
      */
-    public void setSeriesOutlineStroke(/*@NonNegative*/ int series, Stroke stroke) {
+    public void setSeriesOutlineStroke(@NonNegative int series, Stroke stroke) {
 
         if ((series >= 0) && (series < this.seriesNeedle.length)) {
             this.seriesNeedle[series].setOutlineStroke(stroke);
@@ -448,7 +448,7 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
      *
      * @see #setSeriesNeedle(int)
      */
-    public void setSeriesNeedle(/*@NonNegative*/ int index, int type) {
+    public void setSeriesNeedle(@NonNegative int index, int type) {
         switch (type) {
             case 0:
                 setSeriesNeedle(index, new ArrowNeedle(true));
@@ -503,7 +503,7 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
      * @param index  the series index.
      * @param needle  the needle.
      */
-    public void setSeriesNeedle(/*@NonNegative*/ int index, MeterNeedle needle) {
+    public void setSeriesNeedle(@NonNegative int index, MeterNeedle needle) {
         if ((needle != null) && (index < this.seriesNeedle.length)) {
             this.seriesNeedle[index] = needle;
         }
@@ -551,7 +551,7 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
             }
 
             @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/202: arrays have correlated but non-equal length
-            /*@LTLengthOf(value = {"t", "p", "p", "this.datasets"}, offset = {"0", "0", "-1", "-1"})*/ int newI = this.datasets.length;
+            @LTLengthOf(value = {"t", "p", "p", "this.datasets"}, offset = {"0", "0", "-1", "-1"}) int newI = this.datasets.length;
             i = newI;
             t[i] = dataset;
             p[i] = ((needle != null) ? needle : p[i - 1]);
@@ -560,10 +560,10 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
             MeterNeedle[] b = this.seriesNeedle;
 
             @SuppressWarnings({"index", "value"}) // synced update: these two values are being changed together, but they go out of sync as the change occurs
-            ValueDataset /*@MinLen(1)*/ /*@SameLen("this.seriesNeedle")*/ [] t0 = t;
+            ValueDataset @MinLen(1) @SameLen("this.seriesNeedle") [] t0 = t;
 
             @SuppressWarnings({"index", "value"}) // synced update: these two values are being changed together, but they go out of sync as the change occurs
-            MeterNeedle /*@MinLen(1)*/ /*@SameLen("this.datasets")*/ [] p0 = p;
+            MeterNeedle @MinLen(1) @SameLen("this.datasets") [] p0 = p;
 
             this.datasets = t0;
             this.seriesNeedle = p0;

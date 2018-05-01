@@ -41,10 +41,10 @@
 
 package org.jfree.chart.axis;
 
-/*>>>
+
 import org.checkerframework.common.value.qual.ArrayLen;
 import org.checkerframework.common.value.qual.IntRange;
- */
+
 
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
@@ -69,10 +69,10 @@ import org.jfree.data.time.Month;
 public class MonthDateFormat extends DateFormat {
 
     /** The symbols used for the months. */
-    private String /*@ArrayLen(12)*/ [] months;
+    private String @ArrayLen(12) [] months;
 
     /** Flags that control which months will have the year appended. */
-    private boolean /*@ArrayLen(13)*/ [] showYear;
+    private boolean @ArrayLen(13) [] showYear;
 
     /** The year formatter. */
     private DateFormat yearFormatter;
@@ -168,14 +168,14 @@ public class MonthDateFormat extends DateFormat {
      * @param yearFormatter  the year formatter.
      */
     public MonthDateFormat(TimeZone zone, Locale locale, int chars,
-                           boolean /*@ArrayLen(13)*/ [] showYear, DateFormat yearFormatter) {
+                           boolean @ArrayLen(13) [] showYear, DateFormat yearFormatter) {
         Args.nullNotPermitted(locale, "locale");
         DateFormatSymbols dfs = new DateFormatSymbols(locale);
         String[] monthsFromLocale = dfs.getMonths();
         this.months = new String[12];
         for (int i = 0; i < 12; i++) {
             @SuppressWarnings({"index", "value"}) // https://github.com/typetools/checker-framework/issues/1669
-            /*@IntRange(from = 0, to = 11)*/ int i1 = i;
+            @IntRange(from = 0, to = 11) int i1 = i;
             if (chars > 0) {
                 this.months[i1] = monthsFromLocale[i1].substring(0,
                         Math.min(chars, monthsFromLocale[i1].length()));
@@ -208,7 +208,7 @@ public class MonthDateFormat extends DateFormat {
                                FieldPosition fieldPosition) {
         this.calendar.setTime(date);
         @SuppressWarnings({"index", "value"}) // calendar get: calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
-        /*@IntRange(from=0, to=11)*/ int month = this.calendar.get(Calendar.MONTH);
+        @IntRange(from=0, to=11) int month = this.calendar.get(Calendar.MONTH);
         toAppendTo.append(this.months[month]);
         if (this.showYear[month]) {
             toAppendTo.append(this.yearFormatter.format(date));

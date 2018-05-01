@@ -45,7 +45,7 @@
  */
 
 package org.jfree.chart.plot.dial;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -81,7 +81,7 @@ public abstract class DialPointer extends AbstractDialLayer
     /**
      * The dataset index for the needle.
      */
-    /*@NonNegative*/ int datasetIndex;
+    @NonNegative int datasetIndex;
 
     /**
      * Creates a new {@code DialPointer} instance.
@@ -95,7 +95,7 @@ public abstract class DialPointer extends AbstractDialLayer
      *
      * @param datasetIndex  the dataset index.
      */
-    protected DialPointer(/*@NonNegative*/ int datasetIndex) {
+    protected DialPointer(@NonNegative int datasetIndex) {
         this.radius = 0.9;
         this.datasetIndex = datasetIndex;
     }
@@ -107,7 +107,7 @@ public abstract class DialPointer extends AbstractDialLayer
      *
      * @see #getDatasetIndex()
      */
-    public /*@NonNegative*/ int getDatasetIndex() {
+    public @NonNegative int getDatasetIndex() {
         return this.datasetIndex;
     }
 
@@ -119,7 +119,7 @@ public abstract class DialPointer extends AbstractDialLayer
      *
      * @see #getDatasetIndex()
      */
-    public void setDatasetIndex(/*@NonNegative*/ int index) {
+    public void setDatasetIndex(@NonNegative int index) {
         this.datasetIndex = index;
         notifyListeners(new DialLayerChangeEvent(this));
     }
@@ -236,7 +236,7 @@ public abstract class DialPointer extends AbstractDialLayer
          *
          * @param datasetIndex  the dataset index.
          */
-        public Pin(/*@NonNegative*/ int datasetIndex) {
+        public Pin(@NonNegative int datasetIndex) {
             super(datasetIndex);
             this.paint = Color.RED;
             this.stroke = new BasicStroke(3.0f, BasicStroke.CAP_ROUND,
@@ -429,7 +429,7 @@ public abstract class DialPointer extends AbstractDialLayer
          *
          * @param datasetIndex  the dataset index.
          */
-        public Pointer(/*@NonNegative*/ int datasetIndex) {
+        public Pointer(@NonNegative int datasetIndex) {
             super(datasetIndex);
             this.widthRadius = 0.05;
             this.fillPaint = Color.GRAY;

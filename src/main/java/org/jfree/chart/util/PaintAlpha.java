@@ -43,8 +43,8 @@
 
 package org.jfree.chart.util;
 
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -254,7 +254,7 @@ public class PaintAlpha {
         final int   wid = ras.getWidth();
 
         @SuppressWarnings("index") // wid is NN, as is img.getSampleModel().getNumBands(). Both require JDK annotations on classes in java.awt.image
-        /*@NonNegative*/ int pixLength = wid * img.getSampleModel().getNumBands();
+        @NonNegative int pixLength = wid * img.getSampleModel().getNumBands();
 
         /**/  int[] pix = new int[pixLength];
         /* (pix-buffer is large enough for all pixels of one row) */

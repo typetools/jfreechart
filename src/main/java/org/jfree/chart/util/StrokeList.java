@@ -28,9 +28,9 @@
 
 package org.jfree.chart.util;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.awt.Stroke;
 import java.io.IOException;
@@ -56,7 +56,7 @@ public class StrokeList extends AbstractObjectList {
      *
      * @return The object.
      */
-    public Stroke getStroke(/*@NonNegative*/ int index) {
+    public Stroke getStroke(@NonNegative int index) {
         return (Stroke) get(index);
     }
 
@@ -66,7 +66,7 @@ public class StrokeList extends AbstractObjectList {
      * @param index  the index (zero-based).
      * @param stroke  the {@link Stroke}.
      */
-    public void setStroke(/*@NonNegative*/ int index, Stroke stroke) {
+    public void setStroke(@NonNegative int index, Stroke stroke) {
         set(index, stroke);
     }
 

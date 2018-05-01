@@ -46,12 +46,12 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -409,7 +409,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
      * @return {@code 2}.
      */
     @Override
-    public /*@NonNegative*/ int getPassCount() {
+    public @NonNegative int getPassCount() {
         return 2;
     }
 
@@ -433,7 +433,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            @NonNegative int series, @IndexFor("#8.getSeries(#9)") int item, CrosshairState crosshairState, int pass) {
 
         Shape hotspot;
         EntityCollection entities = null;
@@ -496,7 +496,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
                 }
             }
             @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot See XYDotRenderer#drawItem - this is the same problem
-            /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
+            @NonNegative int datasetIndex = plot.indexOf(dataset);
             updateCrosshairValues(crosshairState, x, y, datasetIndex,
                     transX, transY, orientation);
 
@@ -516,7 +516,7 @@ public class XYShapeRenderer extends AbstractXYItemRenderer
      *
      * @return The paint.
      */
-    protected Paint getPaint(XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#1.getSeries(#2)")*/ int item) {
+    protected Paint getPaint(XYDataset dataset, @NonNegative int series, @IndexFor("#1.getSeries(#2)") int item) {
         Paint p;
         if (dataset instanceof XYZDataset) {
             @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212

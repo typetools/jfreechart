@@ -41,7 +41,7 @@
  */
 
 package org.jfree.data.time;
-/*>>> import org.checkerframework.dataflow.qual.Pure; */
+import org.checkerframework.dataflow.qual.Pure;
 
 import java.util.Date;
 
@@ -57,7 +57,7 @@ public interface TimePeriod extends Comparable {
      *
      * @return The start date/time (never {@code null}).
      */
-    /*@Pure*/
+    @Pure
     public Date getStart();
 
     /**

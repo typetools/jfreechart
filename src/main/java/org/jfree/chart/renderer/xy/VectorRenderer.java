@@ -46,9 +46,9 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
@@ -225,7 +225,7 @@ public class VectorRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            @NonNegative int series, @IndexFor("#8.getSeries(#9)") int item, CrosshairState crosshairState, int pass) {
 
         double x = dataset.getXValue(series, item);
         double y = dataset.getYValue(series, item);
@@ -234,7 +234,7 @@ public class VectorRenderer extends AbstractXYItemRenderer
         if (dataset instanceof VectorXYDataset) {
             VectorXYDataset vectorXYDataset = (VectorXYDataset) dataset;
             @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-            /*@IndexFor("vectorXYDataset.getSeries(series)")*/ int vectorXYItem = item;
+            @IndexFor("vectorXYDataset.getSeries(series)") int vectorXYItem = item;
             dx = vectorXYDataset.getVectorXValue(series, vectorXYItem);
             dy = vectorXYDataset.getVectorYValue(series, vectorXYItem);
         }

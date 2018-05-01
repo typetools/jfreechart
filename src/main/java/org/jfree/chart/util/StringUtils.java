@@ -28,7 +28,7 @@
 
 package org.jfree.chart.util;
 
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
 /**
  * String utilities.
@@ -70,7 +70,7 @@ public class StringUtils {
         }
 
         @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/154
-        /*@NonNegative*/ int toffset = base.length() - end.length();
+        @NonNegative int toffset = base.length() - end.length();
         return base.regionMatches(true, toffset, end, 0, end.length());
     }
 

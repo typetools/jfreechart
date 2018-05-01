@@ -54,12 +54,12 @@
  */
 
 package org.jfree.chart.labels;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.MinLen; */
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.common.value.qual.MinLen;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -239,7 +239,7 @@ public class AbstractXYItemLabelGenerator implements Cloneable, Serializable {
      *
      * @return The label (possibly {@code null}).
      */
-    public String generateLabelString(XYDataset dataset, /*@NonNegative*/ int series, /*@IndexFor("#1.getSeries(#2)")*/ int item) {
+    public String generateLabelString(XYDataset dataset, @NonNegative int series, @IndexFor("#1.getSeries(#2)") int item) {
         String result;
         Object[] items = createItemArray(dataset, series, item);
         result = MessageFormat.format(this.formatString, items);
@@ -268,8 +268,8 @@ public class AbstractXYItemLabelGenerator implements Cloneable, Serializable {
      * @return An array of three items from the dataset formatted as
      *         {@code String} objects (never {@code null}).
      */
-    protected Object /*@MinLen(3)*/ [] createItemArray(XYDataset dataset, /*@NonNegative*/ int series,
-                                       /*@IndexFor("#1.getSeries(#2)")*/ int item) {
+    protected Object @MinLen(3) [] createItemArray(XYDataset dataset, @NonNegative int series,
+                                       @IndexFor("#1.getSeries(#2)") int item) {
         Object[] result = new Object[3];
         result[0] = dataset.getSeriesKey(series).toString();
 

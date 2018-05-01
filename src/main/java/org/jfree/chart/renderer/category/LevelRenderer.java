@@ -51,9 +51,9 @@
 
 package org.jfree.chart.renderer.category;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -184,7 +184,7 @@ public class LevelRenderer extends AbstractCategoryItemRenderer
      */
     @Override
     public CategoryItemRendererState initialise(Graphics2D g2,
-            Rectangle2D dataArea, CategoryPlot plot, /*@NonNegative*/ int rendererIndex,
+            Rectangle2D dataArea, CategoryPlot plot, @NonNegative int rendererIndex,
             PlotRenderingInfo info) {
         CategoryItemRendererState state = super.initialise(g2, dataArea, plot,
                 rendererIndex, info);
@@ -201,7 +201,7 @@ public class LevelRenderer extends AbstractCategoryItemRenderer
      * @param state  the renderer state.
      */
     protected void calculateItemWidth(CategoryPlot plot,
-            Rectangle2D dataArea, /*@NonNegative*/ int rendererIndex,
+            Rectangle2D dataArea, @NonNegative int rendererIndex,
             CategoryItemRendererState state) {
 
         CategoryAxis domainAxis = getDomainAxis(plot, rendererIndex);
@@ -254,7 +254,7 @@ public class LevelRenderer extends AbstractCategoryItemRenderer
      */
     protected double calculateBarW0(CategoryPlot plot, 
             PlotOrientation orientation, Rectangle2D dataArea,
-            CategoryAxis domainAxis, CategoryItemRendererState state, /*@NonNegative*/ int row,
+            CategoryAxis domainAxis, CategoryItemRendererState state, @NonNegative int row,
             int column) {
         // calculate bar width...
         double space;
@@ -302,7 +302,7 @@ public class LevelRenderer extends AbstractCategoryItemRenderer
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, /*@NonNegative*/ int row, /*@NonNegative*/ int column,
+            ValueAxis rangeAxis, CategoryDataset dataset, @NonNegative int row, @NonNegative int column,
             int pass) {
 
         // nothing is drawn if the row index is not included in the list with
@@ -364,7 +364,7 @@ public class LevelRenderer extends AbstractCategoryItemRenderer
 
         // submit the current data point as a crosshair candidate
         @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
-        /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
+        @NonNegative int datasetIndex = plot.indexOf(dataset);
         updateCrosshairValues(state.getCrosshairState(),
                 dataset.getRowKey(row), dataset.getColumnKey(column), value,
                 datasetIndex, barW0, barL, orientation);
@@ -388,7 +388,7 @@ public class LevelRenderer extends AbstractCategoryItemRenderer
      * @return The width of one series.
      */
     protected double calculateSeriesWidth(double space, CategoryAxis axis,
-                                          int categories, /*@NonNegative*/ int series) {
+                                          int categories, @NonNegative int series) {
         double factor = 1.0 - getItemMargin() - axis.getLowerMargin()
                         - axis.getUpperMargin();
         if (categories > 1) {

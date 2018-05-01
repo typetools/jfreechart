@@ -28,14 +28,14 @@
 
 package org.jfree.chart.util;
 
-/*>>>
+
 import org.checkerframework.common.value.qual.IntVal;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.GTENegativeOne;
 import org.checkerframework.checker.index.qual.LengthOf;
 import org.checkerframework.checker.index.qual.LTLengthOf;
 import org.checkerframework.checker.index.qual.IndexFor;
- */
+
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -52,16 +52,16 @@ public class AbstractObjectList implements Cloneable, Serializable {
     private static final long serialVersionUID = 7789833772597351595L;
     
     /** The default initial capacity of the list. */
-    public static final /*@NonNegative*/ int DEFAULT_INITIAL_CAPACITY = 8;
+    public static final @NonNegative int DEFAULT_INITIAL_CAPACITY = 8;
 
     /** Storage for the objects. */
     private transient Object[] objects;
 
     /** The current list size. */
-    private /*@LengthOf("this.objects")*/ int size = 0;
+    private @LengthOf("this.objects") int size = 0;
 
     /** The default increment. */
-    private /*@NonNegative*/ int increment = DEFAULT_INITIAL_CAPACITY;
+    private @NonNegative int increment = DEFAULT_INITIAL_CAPACITY;
 
     /**
      * Creates a new list with the default initial capacity.
@@ -75,7 +75,7 @@ public class AbstractObjectList implements Cloneable, Serializable {
      *
      * @param initialCapacity  the initial capacity.
      */
-    protected AbstractObjectList(/*@NonNegative*/ int initialCapacity) {
+    protected AbstractObjectList(@NonNegative int initialCapacity) {
         this (initialCapacity, initialCapacity);
     }
 
@@ -85,7 +85,7 @@ public class AbstractObjectList implements Cloneable, Serializable {
      * @param initialCapacity  the initial capacity.
      * @param increment  the increment.
      */
-    protected AbstractObjectList(/*@NonNegative*/ int initialCapacity, /*@NonNegative*/ int increment) {
+    protected AbstractObjectList(@NonNegative int initialCapacity, @NonNegative int increment) {
         this.objects = new Object[initialCapacity];
         this.increment = increment;
     }
@@ -98,7 +98,7 @@ public class AbstractObjectList implements Cloneable, Serializable {
      *
      * @return The object or {@code null}.
      */
-    protected Object get(/*@NonNegative*/ int index) {
+    protected Object get(@NonNegative int index) {
         Object result = null;
         if (index >= 0 && index < this.size) {
             result = this.objects[index];
@@ -112,19 +112,19 @@ public class AbstractObjectList implements Cloneable, Serializable {
      * @param index  the object index.
      * @param object  the object ({@code null} permitted).
      */
-    protected void set(/*@NonNegative*/ int index, Object object) {
+    protected void set(@NonNegative int index, Object object) {
         if (index < 0) {
             throw new IllegalArgumentException("Requires index >= 0.");
         }
         if (index >= this.objects.length) {
             Object[] enlarged = new Object[index + this.increment];
             @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/176
-            /*@LTLengthOf(value={"this.objects", "enlarged"}, offset={"0 - 1", "0 - 1"})*/ int tmp = this.objects.length;
+            @LTLengthOf(value={"this.objects", "enlarged"}, offset={"0 - 1", "0 - 1"}) int tmp = this.objects.length;
             System.arraycopy(this.objects, 0, enlarged, 0, tmp);
             this.objects = enlarged;
         }
         @SuppressWarnings("index") // if index wasn't large enough before, this.objects was enlarged by the code above
-        /*@IndexFor("this.objects")*/ int newIndex = index;
+        @IndexFor("this.objects") int newIndex = index;
         index = newIndex;
         this.objects[index] = object;
         this.size = Math.max(this.size, index + 1);
@@ -155,7 +155,7 @@ public class AbstractObjectList implements Cloneable, Serializable {
      *
      * @return The index or -1.
      */
-    protected /*@GTENegativeOne*/ int indexOf(Object object) {
+    protected @GTENegativeOne int indexOf(Object object) {
         for (int index = 0; index < this.size; index++) {
             if (this.objects[index] == object) {
                 return (index);
@@ -269,7 +269,7 @@ public class AbstractObjectList implements Cloneable, Serializable {
         final int count = stream.readInt();
         for (int i = 0; i < count; i++) {
             @SuppressWarnings("index") // stream only contains GTEN1 ints? or is this a bug?
-            final /*@GTENegativeOne*/ int index = stream.readInt();
+            final @GTENegativeOne int index = stream.readInt();
             if (index != -1) {
                 set(index, stream.readObject());
             }

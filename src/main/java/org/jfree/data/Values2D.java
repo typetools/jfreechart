@@ -39,8 +39,8 @@
  */
 
 package org.jfree.data;
-/*>>> import org.checkerframework.dataflow.qual.Pure; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 /**
  * A general purpose interface that can be used to access a table of values.
@@ -52,15 +52,15 @@ public interface Values2D {
      *
      * @return The row count.
      */
-    public /*@NonNegative*/ int getRowCount();
+    public @NonNegative int getRowCount();
 
     /**
      * Returns the number of columns in the table.
      *
      * @return The column count.
      */
-    /*@Pure*/
-    public /*@NonNegative*/ int getColumnCount();
+    @Pure
+    public @NonNegative int getColumnCount();
 
     /**
      * Returns a value from the table.
@@ -73,7 +73,7 @@ public interface Values2D {
      * @throws IndexOutOfBoundsException if the {@code row}
      *         or {@code column} is out of bounds.
      */
-    /*@Pure*/
-    public Number getValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    @Pure
+    public Number getValue(@NonNegative int row, @NonNegative int column);
 
 }

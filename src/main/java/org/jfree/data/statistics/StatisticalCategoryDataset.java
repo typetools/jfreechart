@@ -44,7 +44,7 @@
  */
 
 package org.jfree.data.statistics;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import org.jfree.data.category.CategoryDataset;
 
@@ -62,7 +62,7 @@ public interface StatisticalCategoryDataset extends CategoryDataset {
      *
      * @return The mean value (possibly {@code null}).
      */
-    public Number getMeanValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Number getMeanValue(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the mean value for an item.
@@ -82,7 +82,7 @@ public interface StatisticalCategoryDataset extends CategoryDataset {
      *
      * @return The standard deviation (possibly {@code null}).
      */
-    public Number getStdDevValue(/*@NonNegative*/ int row, /*@NonNegative*/ int column);
+    public Number getStdDevValue(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the standard deviation value for an item.

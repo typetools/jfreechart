@@ -46,9 +46,9 @@
 
 package org.jfree.chart.labels;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.io.Serializable;
 import java.util.List;
@@ -81,7 +81,7 @@ public class CustomXYToolTipGenerator implements XYToolTipGenerator,
      *
      * @return The list count.
      */
-    public /*@NonNegative*/ int getListCount() {
+    public @NonNegative int getListCount() {
         return this.toolTipSeries.size();
     }
 
@@ -92,7 +92,7 @@ public class CustomXYToolTipGenerator implements XYToolTipGenerator,
      *
      * @return The tooltip count.
      */
-    public /*@NonNegative*/ int getToolTipCount(/*@NonNegative*/ int list) {
+    public @NonNegative int getToolTipCount(@NonNegative int list) {
 
         int result = 0;
         List tooltips = (List) this.toolTipSeries.get(list);
@@ -110,7 +110,7 @@ public class CustomXYToolTipGenerator implements XYToolTipGenerator,
      *
      * @return The tool tip text.
      */
-    public String getToolTipText(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public String getToolTipText(@NonNegative int series, @NonNegative int item) {
 
         String result = null;
 
@@ -145,7 +145,7 @@ public class CustomXYToolTipGenerator implements XYToolTipGenerator,
      * @return The tooltip text.
      */
     @Override
-    public String generateToolTip(XYDataset data, /*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    public String generateToolTip(XYDataset data, @NonNegative int series, @NonNegative int item) {
         return getToolTipText(series, item);
     }
 

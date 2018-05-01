@@ -47,8 +47,8 @@
 
 package org.jfree.data.statistics;
 
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.*; */
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.common.value.qual.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -198,7 +198,7 @@ public abstract class BoxAndWhiskerCalculator {
             }
             else {
                 @SuppressWarnings({"index","value"}) // since count is a nonnegative even number, this expression is >= 0
-                /*@IntRange(from=0)*/ int count1 = count / 2 - 1;
+                @IntRange(from=0) int count1 = count / 2 - 1;
                 count1 = count1;
                 result = Statistics.calculateMedian(values, 0, count1);
             }

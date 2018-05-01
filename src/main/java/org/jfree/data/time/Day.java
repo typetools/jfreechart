@@ -64,8 +64,8 @@
  */
 
 package org.jfree.data.time;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -128,7 +128,7 @@ public class Day extends RegularTimePeriod implements Serializable {
      * @param month  the month (1 to 12).
      * @param year  the year (1900 &lt;= year &lt;= 9999).
      */
-    public Day(/*@IntRange(from = 1, to = 31)*/ int day, /*@IntRange(from = 1, to = 12)*/ int month, /*@IntRange(from = 1900, to = 9999)*/ int year) {
+    public Day(@IntRange(from = 1, to = 31) int day, @IntRange(from = 1, to = 12) int month, @IntRange(from = 1900, to = 9999) int year) {
         this.serialDate = SerialDate.createInstance(day, month, year);
         peg(Calendar.getInstance());
     }
@@ -197,7 +197,7 @@ public class Day extends RegularTimePeriod implements Serializable {
      *
      * @return The year.
      */
-    public /*@IntRange(from=1900, to=9999)*/ int getYear() {
+    public @IntRange(from=1900, to=9999) int getYear() {
         return this.serialDate.getYYYY();
     }
 
@@ -206,7 +206,7 @@ public class Day extends RegularTimePeriod implements Serializable {
      *
      * @return The month.
      */
-    public /*@IntRange(from=1, to=12)*/ int getMonth() {
+    public @IntRange(from=1, to=12) int getMonth() {
         return this.serialDate.getMonth();
     }
 
@@ -215,7 +215,7 @@ public class Day extends RegularTimePeriod implements Serializable {
      *
      * @return The day of the month.
      */
-    public /*@IntRange(from = 1, to = 31)*/ int getDayOfMonth() {
+    public @IntRange(from = 1, to = 31) int getDayOfMonth() {
         return this.serialDate.getDayOfMonth();
     }
 

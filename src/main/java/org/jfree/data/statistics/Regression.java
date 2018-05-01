@@ -45,13 +45,13 @@
  */
 
 package org.jfree.data.statistics;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.*;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import org.jfree.chart.util.Args;
 import org.jfree.data.xy.XYDataset;
@@ -70,7 +70,7 @@ public abstract class Regression {
      *
      * @return The parameters.
      */
-    public static double /*@ArrayLen(2)*/ [] getOLSRegression(double /*@MinLen(2)*/ [] /*@MinLen(2)*/ [] data) {
+    public static double @ArrayLen(2) [] getOLSRegression(double /*@MinLen(2)*/ [] @MinLen(2) [] data) {
 
         int n = data.length;
         if (n < 2) {
@@ -114,7 +114,7 @@ public abstract class Regression {
      *
      * @return The parameters.
      */
-    public static double /*@ArrayLen(2)*/ [] getOLSRegression(XYDataset data, /*@NonNegative*/ int series) {
+    public static double @ArrayLen(2) [] getOLSRegression(XYDataset data, @NonNegative int series) {
 
         int n = data.getItemCount(series);
         if (n < 2) {
@@ -157,7 +157,7 @@ public abstract class Regression {
      *
      * @return The parameters.
      */
-    public static double /*@ArrayLen(2)*/ [] getPowerRegression(double /*@MinLen(2)*/ [] /*@MinLen(2)*/ [] data) {
+    public static double @ArrayLen(2) [] getPowerRegression(double /*@MinLen(2)*/ [] @MinLen(2) [] data) {
 
         int n = data.length;
         if (n < 2) {
@@ -201,7 +201,7 @@ public abstract class Regression {
      *
      * @return The parameters.
      */
-    public static double /*@ArrayLen(2)*/ [] getPowerRegression(XYDataset data, /*@NonNegative*/ int series) {
+    public static double @ArrayLen(2) [] getPowerRegression(XYDataset data, @NonNegative int series) {
 
         int n = data.getItemCount(series);
         if (n < 2) {
@@ -255,7 +255,7 @@ public abstract class Regression {
      * @since 1.0.14
      */
     public static double[] getPolynomialRegression(XYDataset dataset,
-            /*@NonNegative*/ int series, /*@Positive*/ int order) {
+            @NonNegative int series, @Positive int order) {
         Args.nullNotPermitted(dataset, "dataset");
         int itemCount = dataset.getItemCount(series);
         if (itemCount < order + 1) {
@@ -263,7 +263,7 @@ public abstract class Regression {
         }
         double[][] data = new double[2][itemCount];
         @SuppressWarnings("index") // validItems will only be used as a index if there is at least one item
-        /*@LTLengthOf(value={"data[0]","data[1]"}, offset={"0","0"})*/ /*@NonNegative*/ int validItems = 0;
+        @LTLengthOf(value={"data[0]","data[1]"}, offset={"0","0"}) @NonNegative int validItems = 0;
         for(int item = 0; item < itemCount; item++){
             double x = dataset.getXValue(series, item);
             double y = dataset.getYValue(series, item);
@@ -271,17 +271,17 @@ public abstract class Regression {
                 data[0][validItems] = x;
                 data[1][validItems] = y;
                 @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/219: validItems is incremented at most as often as item, which is a valid index
-                /*@LTLengthOf(value={"data[0]","data[1]"}, offset={"0","0"})*/ /*@NonNegative*/ int validItemsTmp = validItems + 1;
+                @LTLengthOf(value={"data[0]","data[1]"}, offset={"0","0"}) @NonNegative int validItemsTmp = validItems + 1;
                 validItems = validItemsTmp;
             }
         }
         if (validItems < order + 1) {
             throw new IllegalArgumentException("Not enough data.");
         }
-        /*@Positive*/ int equations = order + 1;
-        /*@Positive*/ int coefficients = order + 2;
+        @Positive int equations = order + 1;
+        @Positive int coefficients = order + 2;
         double[] result = new double[equations + 1];
-        double[] /*@MinLen(1)*/ [] matrix = new double[equations][coefficients];
+        double[] @MinLen(1) [] matrix = new double[equations][coefficients];
         double sumX = 0.0;
         double sumY = 0.0;
 
@@ -293,7 +293,7 @@ public abstract class Regression {
                     matrix[eq][coe] += Math.pow(data[0][item],eq + coe);
                 }
                 @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/202: coefficients is positive, and matrix's subarrays are all exactly `coefficients` long
-                /*@IndexFor("matrix[eq]")*/ int coe1 = coefficients - 1;
+                @IndexFor("matrix[eq]") int coe1 = coefficients - 1;
                 matrix[eq][coe1] += data[1][item]
                         * Math.pow(data[0][item],eq);
             }
@@ -344,9 +344,9 @@ public abstract class Regression {
      *
      * @return The new matrix.
      */
-    private static double[][] calculateSubMatrix(double /*@MinLen(1)*/ [] /*@MinLen(1)*/ [] matrix){
-        /*@Positive*/ int equations = matrix.length;
-        /*@Positive*/ int coefficients = matrix[0].length;
+    private static double[][] calculateSubMatrix(double @MinLen(1) [] @MinLen(1) [] matrix){
+        @Positive int equations = matrix.length;
+        @Positive int coefficients = matrix[0].length;
         double[][] result = new double[equations - 1][coefficients - 1];
         for (int eq = 1; eq < equations; eq++) {
             double factor = matrix[0][0] / matrix[eq][0];
@@ -354,7 +354,7 @@ public abstract class Regression {
             for (int coe = 1; coe < matrix[eq].length && coe < matrix[0].length; coe++) {
                 int resultEq = eq - 1;
                 @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/202: result is one smaller in both dimensions than matrix, and coe is an index for matrix. Also note the use of a temporary here: the Index Checker's java expression parser chokes on "result[eq - 1]"
-                /*@IndexFor("result[resultEq]")*/ int resultCoe = coe -1;
+                @IndexFor("result[resultEq]") int resultCoe = coe -1;
                 result[resultEq][resultCoe] = matrix[0][coe] - matrix[eq][coe]
                         * factor;
             }
@@ -363,7 +363,7 @@ public abstract class Regression {
             return result;
         }
         @SuppressWarnings({"value", "index"}) // https://github.com/kelloggm/checker-framework/issues/158: equations != 1 -> equations >= 2 -> result is minlen(1)
-        double /*@MinLen(1)*/ [] /*@MinLen(1)*/ [] result1 = result;
+        double @MinLen(1) [] @MinLen(1) [] result1 = result;
 
         // check for zero pivot element
         if (result1[0][0] == 0) {
@@ -373,11 +373,11 @@ public abstract class Regression {
                     found = true;
                     double[] temp = result1[0];
                     @SuppressWarnings("index") // result1 is a rectangular array
-                    /*@IndexOrHigh({"result1[i]", "result1[0]"})*/ int result1ILength = result1[i].length;
+                    @IndexOrHigh({"result1[i]", "result1[0]"}) int result1ILength = result1[i].length;
                     System.arraycopy(result1[i], 0, result1[0], 0, 
                             result1ILength);
                     @SuppressWarnings("index") // result1 is a rectangular array
-                    /*@IndexOrHigh({"result1[i]", "temp", "result1[0]"})*/ int tempLen = temp.length;
+                    @IndexOrHigh({"result1[i]", "temp", "result1[0]"}) int tempLen = temp.length;
                     System.arraycopy(temp, 0, result1[i], 0, tempLen);
                     break;
                 }

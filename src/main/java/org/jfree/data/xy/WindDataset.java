@@ -40,11 +40,11 @@
  */
 
 package org.jfree.data.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 /**
  * Interface for a dataset that supplies wind intensity and direction values
@@ -63,7 +63,7 @@ public interface WindDataset extends XYDataset {
      *
      * @return The wind direction.
      */
-    public Number getWindDirection(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item);
+    public Number getWindDirection(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
     /**
      * Returns the wind force on the Beaufort scale (0 to 12).  See:
@@ -77,6 +77,6 @@ public interface WindDataset extends XYDataset {
      *
      * @return The wind force.
      */
-    public Number getWindForce(/*@NonNegative*/ int series, /*@IndexFor("this.getSeries(#1)")*/ int item);
+    public Number getWindForce(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
 }

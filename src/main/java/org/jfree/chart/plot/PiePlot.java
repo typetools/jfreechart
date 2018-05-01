@@ -174,7 +174,7 @@
  */
 
 package org.jfree.chart.plot;
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -303,7 +303,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
     private PieDataset dataset;
 
     /** The pie index (used by the {@link MultiplePiePlot} class). */
-    private /*@NonNegative*/ int pieIndex;
+    private @NonNegative int pieIndex;
 
     /**
      * The amount of space left around the outside of the pie plot, expressed
@@ -662,7 +662,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
      *
      * @see #setPieIndex(int)
      */
-    public /*@NonNegative*/ int getPieIndex() {
+    public @NonNegative int getPieIndex() {
         return this.pieIndex;
     }
 
@@ -674,7 +674,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
      *
      * @see #getPieIndex()
      */
-    public void setPieIndex(/*@NonNegative*/ int index) {
+    public void setPieIndex(@NonNegative int index) {
         this.pieIndex = index;
     }
 
@@ -2539,7 +2539,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
      * @param state  state information for one chart.
      * @param currentPass  the current pass index.
      */
-    protected void drawItem(Graphics2D g2, /*@NonNegative*/ int section, Rectangle2D dataArea,
+    protected void drawItem(Graphics2D g2, @NonNegative int section, Rectangle2D dataArea,
                             PiePlotState state, int currentPass) {
 
         Number n = this.dataset.getValue(section);
@@ -2967,7 +2967,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
                             new Line2D.Float(), new BasicStroke(), Color.BLACK);
                     item.setDataset(getDataset());
                     @SuppressWarnings("index") // guaranteed index: key came from the list of keys for this dataset, so getIndex has to return non-negative
-                    /*@NonNegative*/ int newSeriesIndex = this.dataset.getIndex(key);
+                    @NonNegative int newSeriesIndex = this.dataset.getIndex(key);
                     item.setSeriesIndex(newSeriesIndex);
                     item.setSeriesKey(key);
                     result.add(item);

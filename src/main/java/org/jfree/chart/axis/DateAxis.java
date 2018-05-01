@@ -138,7 +138,7 @@
 
 package org.jfree.chart.axis;
 
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -1008,7 +1008,7 @@ public class DateAxis extends ValueAxis implements Cloneable, Serializable {
         }
         else if (DateTickUnitType.MONTH.equals(unit.getUnitType())) {
             @SuppressWarnings("index") // if this is a month, then current >= 1, so the below is safe
-            /*@NonNegative*/ int valueTmp = count * ((current + 1) / count) - 1;
+            @NonNegative int valueTmp = count * ((current + 1) / count) - 1;
             value = valueTmp;
             years = calendar.get(Calendar.YEAR);
             calendar.clear(Calendar.MILLISECOND);

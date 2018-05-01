@@ -40,8 +40,8 @@
  */
 
 package org.jfree.data;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.util.List;
 
@@ -60,7 +60,7 @@ public interface KeyedValues2D extends Values2D {
      *
      * @throws IndexOutOfBoundsException if {@code row} is out of bounds.
      */
-    public Comparable getRowKey(/*@NonNegative*/ int row);
+    public Comparable getRowKey(@NonNegative int row);
 
     /**
      * Returns the row index for a given key.
@@ -69,7 +69,7 @@ public interface KeyedValues2D extends Values2D {
      *
      * @return The row index, or {@code -1} if the key is unrecognised.
      */
-    public /*@GTENegativeOne*/ int getRowIndex(Comparable key);
+    public @GTENegativeOne int getRowIndex(Comparable key);
 
     /**
      * Returns the row keys.
@@ -87,7 +87,7 @@ public interface KeyedValues2D extends Values2D {
      *
      * @throws IndexOutOfBoundsException if {@code row} is out of bounds.
      */
-    public Comparable getColumnKey(/*@NonNegative*/ int column);
+    public Comparable getColumnKey(@NonNegative int column);
 
     /**
      * Returns the column index for a given key.
@@ -96,7 +96,7 @@ public interface KeyedValues2D extends Values2D {
      *
      * @return The column index, or {@code -1} if the key is unrecognised.
      */
-    public /*@GTENegativeOne*/ int getColumnIndex(Comparable key);
+    public @GTENegativeOne int getColumnIndex(Comparable key);
 
     /**
      * Returns the column keys.

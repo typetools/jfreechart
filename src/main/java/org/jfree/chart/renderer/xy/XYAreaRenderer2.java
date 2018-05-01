@@ -85,12 +85,12 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -235,7 +235,7 @@ public class XYAreaRenderer2 extends AbstractXYItemRenderer
      * @return A legend item for the series.
      */
     @Override
-    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(@NonNegative int datasetIndex, @NonNegative int series) {
         LegendItem result = null;
         XYPlot xyplot = getPlot();
         if (xyplot != null) {
@@ -293,7 +293,7 @@ public class XYAreaRenderer2 extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
          Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
          ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-         /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+         @NonNegative int series, @IndexFor("#8.getSeries(#9)") int item, CrosshairState crosshairState, int pass) {
 
         if (!getItemVisible(series, item)) {
             return;
@@ -311,7 +311,7 @@ public class XYAreaRenderer2 extends AbstractXYItemRenderer
                 plot.getRangeAxisEdge());
 
         @SuppressWarnings("index") // itemCount is at least one, so zero is an index
-        /*@IndexFor("dataset.getSeries(series)")*/ int zero = 0;
+        @IndexFor("dataset.getSeries(series)") int zero = 0;
 
         // get the previous point and the next point so we can calculate a
         // "hot spot" for the area (used by the chart entity)...
@@ -326,7 +326,7 @@ public class XYAreaRenderer2 extends AbstractXYItemRenderer
                 plot.getRangeAxisEdge());
 
         @SuppressWarnings("index") // itemCount must be positive, since we have an index (item)
-        /*@Positive*/ int itemCount = dataset.getItemCount(series);
+        @Positive int itemCount = dataset.getItemCount(series);
         double x2 = dataset.getXValue(series, Math.min(item + 1,
                 itemCount - 1));
         double y2 = dataset.getYValue(series, Math.min(item + 1,
@@ -380,7 +380,7 @@ public class XYAreaRenderer2 extends AbstractXYItemRenderer
         }
 
         @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
-        /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
+        @NonNegative int datasetIndex = plot.indexOf(dataset);
         updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
                 transX1, transY1, orientation);
 

@@ -48,8 +48,8 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.*; */
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.common.value.qual.*;
 
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
@@ -301,7 +301,7 @@ public class XYSplineRenderer extends XYLineAndShapeRenderer {
     @Override
     protected void drawPrimaryLineAsPath(XYItemRendererState state,
             Graphics2D g2, XYPlot plot, XYDataset dataset, int pass,
-            /*@NonNegative*/ int series, /*@IndexFor("#4.getSeries(#6)")*/ int item, ValueAxis xAxis, ValueAxis yAxis,
+            @NonNegative int series, @IndexFor("#4.getSeries(#6)") int item, ValueAxis xAxis, ValueAxis yAxis,
             Rectangle2D dataArea) {
 
         XYSplineState s = (XYSplineState) state;
@@ -377,7 +377,7 @@ public class XYSplineRenderer extends XYLineAndShapeRenderer {
                 } else {
                     // construct spline
                     @SuppressWarnings({"index", "value"}) // array-list interop: s.points is minlen 3 at this point
-                    /*@IntRange(from = 3)*/ int np = s.points.size(); // number of points
+                    @IntRange(from = 3) int np = s.points.size(); // number of points
                     float[] d = new float[np]; // Newton form coefficients
                     float[] x = new float[np]; // x-coordinates of nodes
                     float y, oldy;
@@ -464,7 +464,7 @@ public class XYSplineRenderer extends XYLineAndShapeRenderer {
     }
     
     private void solveTridiag(float[] sub, float[] diag, float[] sup,
-            float[] b, /*@IndexFor({"#1", "#2", "#3", "#4"})*/ int n) {
+            float[] b, @IndexFor({"#1", "#2", "#3", "#4"}) int n) {
 /*      solve linear system with tridiagonal n by n matrix a
         using Gaussian elimination *without* pivoting
         where   a(i,i-1) = sub[i]  for 2<=i<=n

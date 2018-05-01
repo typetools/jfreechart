@@ -46,10 +46,10 @@
 
 package org.jfree.chart.axis;
 
-/*>>>
+
 import org.checkerframework.common.value.qual.ArrayLen;
 import org.checkerframework.common.value.qual.IntRange;
- */
+
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -74,11 +74,11 @@ public class QuarterDateFormat extends DateFormat
     private static final long serialVersionUID = -6738465248529797176L;
 
     /** Symbols for regular quarters. */
-    public static final String /*@ArrayLen(4)*/ [] REGULAR_QUARTERS = new String[] {"1", "2",
+    public static final String @ArrayLen(4) [] REGULAR_QUARTERS = new String[] {"1", "2",
             "3", "4"};
 
     /** Symbols for roman numbered quarters. */
-    public static final String /*@ArrayLen(4)*/ [] ROMAN_QUARTERS  = new String[] {"I", "II",
+    public static final String @ArrayLen(4) [] ROMAN_QUARTERS  = new String[] {"I", "II",
             "III", "IV"};
 
     /**
@@ -86,11 +86,11 @@ public class QuarterDateFormat extends DateFormat
      *
      * @since 1.0.6
      */
-    public static final String /*@ArrayLen(4)*/ [] GREEK_QUARTERS = new String[] {"\u0391",
+    public static final String @ArrayLen(4) [] GREEK_QUARTERS = new String[] {"\u0391",
             "\u0392", "\u0393", "\u0394"};
 
     /** The strings. */
-    private String /*@ArrayLen(4)*/ [] quarters = REGULAR_QUARTERS;
+    private String @ArrayLen(4) [] quarters = REGULAR_QUARTERS;
 
     /** A flag that controls whether the quarter or the year goes first. */
     private boolean quarterFirst;
@@ -117,7 +117,7 @@ public class QuarterDateFormat extends DateFormat
      * @param zone  the time zone ({@code null} not permitted).
      * @param quarterSymbols  the quarter symbols.
      */
-    public QuarterDateFormat(TimeZone zone, String /*@ArrayLen(4)*/ [] quarterSymbols) {
+    public QuarterDateFormat(TimeZone zone, String @ArrayLen(4) [] quarterSymbols) {
         this(zone, quarterSymbols, false);
     }
 
@@ -131,7 +131,7 @@ public class QuarterDateFormat extends DateFormat
      *
      * @since 1.0.6
      */
-    public QuarterDateFormat(TimeZone zone, String /*@ArrayLen(4)*/ [] quarterSymbols,
+    public QuarterDateFormat(TimeZone zone, String @ArrayLen(4) [] quarterSymbols,
             boolean quarterFirst) {
         Args.nullNotPermitted(zone, "zone");
         this.calendar = new GregorianCalendar(zone);
@@ -160,7 +160,7 @@ public class QuarterDateFormat extends DateFormat
         this.calendar.setTime(date);
         int year = this.calendar.get(Calendar.YEAR);
         @SuppressWarnings({"index", "value"}) // calendar get: calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
-        /*@IntRange(from=0, to=11)*/ int month = this.calendar.get(Calendar.MONTH);
+        @IntRange(from=0, to=11) int month = this.calendar.get(Calendar.MONTH);
         int quarter = month / 3;
         if (this.quarterFirst) {
             toAppendTo.append(this.quarters[quarter]);

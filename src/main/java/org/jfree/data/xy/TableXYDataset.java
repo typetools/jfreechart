@@ -41,7 +41,7 @@
  */
 
 package org.jfree.data.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
 
 /**
@@ -59,6 +59,6 @@ public interface TableXYDataset extends XYDataset {
      *
      * @return The item count.
      */
-    public /*@NonNegative*/ int getItemCount();
+    public @NonNegative int getItemCount();
 
 }

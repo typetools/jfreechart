@@ -42,9 +42,9 @@
 
 package org.jfree.chart.title;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.awt.Graphics2D;
 import java.awt.Shape;
@@ -85,7 +85,7 @@ public class LegendItemBlockContainer extends BlockContainer {
     private int datasetIndex;
 
     /** The series index. */
-    private /*@NonNegative*/ int series;
+    private @NonNegative int series;
 
     /** The tool tip text (can be {@code null}). */
     private String toolTipText;
@@ -136,7 +136,7 @@ public class LegendItemBlockContainer extends BlockContainer {
      *
      * @return The series index.
      */
-    public /*@NonNegative*/ int getSeriesIndex() {
+    public @NonNegative int getSeriesIndex() {
         return this.series;
     }
 

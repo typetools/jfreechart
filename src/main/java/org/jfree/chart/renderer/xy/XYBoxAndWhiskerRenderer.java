@@ -77,12 +77,12 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -309,7 +309,7 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
      *
      * @since 1.0.10
      */
-    protected Paint lookupBoxPaint(/*@NonNegative*/ int series, /*@NonNegative*/ int item) {
+    protected Paint lookupBoxPaint(@NonNegative int series, @NonNegative int item) {
         Paint p = getBoxPaint();
         if (p != null) {
             return p;
@@ -344,7 +344,7 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            @NonNegative int series, @IndexFor("#8.getSeries(#9)") int item, CrosshairState crosshairState, int pass) {
 
         PlotOrientation orientation = plot.getOrientation();
 
@@ -379,8 +379,8 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
      */
     public void drawHorizontalItem(Graphics2D g2, Rectangle2D dataArea,
             PlotRenderingInfo info, XYPlot plot, ValueAxis domainAxis,
-            ValueAxis rangeAxis, XYDataset dataset, /*@NonNegative*/ int series,
-            /*@IndexFor("#7.getSeries(#8)")*/ int item, CrosshairState crosshairState, int pass) {
+            ValueAxis rangeAxis, XYDataset dataset, @NonNegative int series,
+            @IndexFor("#7.getSeries(#8)") int item, CrosshairState crosshairState, int pass) {
 
         // setup for collecting optional entity info...
         EntityCollection entities = null;
@@ -392,7 +392,7 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
                 = (BoxAndWhiskerXYDataset) dataset;
 
         @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-        /*@IndexFor("boxAndWhiskerData.getSeries(series)")*/ int boxAndWhiskerItem = item;
+        @IndexFor("boxAndWhiskerData.getSeries(series)") int boxAndWhiskerItem = item;
 
         Number x = boxAndWhiskerData.getX(series, boxAndWhiskerItem);
         Number yMax = boxAndWhiskerData.getMaxRegularValue(series, boxAndWhiskerItem);
@@ -522,8 +522,8 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
      */
     public void drawVerticalItem(Graphics2D g2, Rectangle2D dataArea,
             PlotRenderingInfo info, XYPlot plot, ValueAxis domainAxis,
-            ValueAxis rangeAxis, XYDataset dataset, /*@NonNegative*/ int series,
-            /*@IndexFor("#7.getSeries(#8)")*/ int item, CrosshairState crosshairState, int pass) {
+            ValueAxis rangeAxis, XYDataset dataset, @NonNegative int series,
+            @IndexFor("#7.getSeries(#8)") int item, CrosshairState crosshairState, int pass) {
 
         // setup for collecting optional entity info...
         EntityCollection entities = null;
@@ -535,7 +535,7 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
             = (BoxAndWhiskerXYDataset) dataset;
 
         @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-        /*@IndexFor("boxAndWhiskerData.getSeries(series)")*/ int boxAndWhiskerItem = item;
+        @IndexFor("boxAndWhiskerData.getSeries(series)") int boxAndWhiskerItem = item;
 
         Number x = boxAndWhiskerData.getX(series, boxAndWhiskerItem);
         Number yMax = boxAndWhiskerData.getMaxRegularValue(series, boxAndWhiskerItem);

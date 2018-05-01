@@ -43,7 +43,7 @@
  */
 
 package org.jfree.chart.renderer;
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
 import java.awt.Color;
 import java.awt.Paint;
@@ -199,7 +199,7 @@ public class WaferMapRenderer extends AbstractRenderer {
      * @return The paint index.
      */
     @SuppressWarnings("index") // paint indices are always non negative
-    private /*@NonNegative*/ int getPaintIndex(Number value) {
+    private @NonNegative int getPaintIndex(Number value) {
         return ((Integer) this.paintIndex.get(value)).intValue();
     }
 

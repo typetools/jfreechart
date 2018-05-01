@@ -49,10 +49,10 @@
  */
 
 package org.jfree.data.time;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.common.value.qual.*; */
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.common.value.qual.*;
 
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import org.jfree.chart.util.Args;
 import org.jfree.data.xy.XYDataset;
@@ -78,7 +78,7 @@ public class MovingAverage {
      * @return A collection of moving average time series.
      */
     public static TimeSeriesCollection createMovingAverage(
-            TimeSeriesCollection source, String suffix, /*@Positive*/ int periodCount,
+            TimeSeriesCollection source, String suffix, @Positive int periodCount,
             int skip) {
 
         Args.nullNotPermitted(source, "source");
@@ -112,7 +112,7 @@ public class MovingAverage {
      * @return The moving average series.
      */
     public static TimeSeries createMovingAverage(TimeSeries source,
-            String name, /*@Positive*/ int periodCount, int skip) {
+            String name, @Positive int periodCount, int skip) {
 
         Args.nullNotPermitted(source, "source");
         if (periodCount < 1) {
@@ -194,7 +194,7 @@ public class MovingAverage {
      * @return The moving average series.
      */
     public static TimeSeries createPointMovingAverage(TimeSeries source,
-            String name, /*@Positive*/ int pointCount) {
+            String name, @Positive int pointCount) {
 
         Args.nullNotPermitted(source, "source");
         if (pointCount < 2) {
@@ -286,7 +286,7 @@ public class MovingAverage {
      * @return The dataset.
      */
     public static XYSeries createMovingAverage(XYDataset source,
-            /*@NonNegative*/ int series, String name, double period, double skip) {
+            @NonNegative int series, String name, double period, double skip) {
 
         Args.nullNotPermitted(source, "source");
         if (period < Double.MIN_VALUE) {

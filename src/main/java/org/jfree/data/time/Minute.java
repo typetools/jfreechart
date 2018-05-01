@@ -66,7 +66,7 @@
  */
 
 package org.jfree.data.time;
-/*>>> import org.checkerframework.common.value.qual.*; */
+import org.checkerframework.common.value.qual.*;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -94,10 +94,10 @@ public class Minute extends RegularTimePeriod implements Serializable {
     private Day day;
 
     /** The hour in which the minute falls. */
-    /*@IntRange(from = 0, to = 23)*/ private byte hour;
+    @IntRange(from = 0, to = 23) private byte hour;
 
     /** The minute. */
-    /*@IntRange(from = 0, to = 59)*/ private byte minute;
+    @IntRange(from = 0, to = 59) private byte minute;
 
     /** The first millisecond. */
     private long firstMillisecond;
@@ -118,7 +118,7 @@ public class Minute extends RegularTimePeriod implements Serializable {
      * @param minute  the minute (0 to 59).
      * @param hour  the hour ({@code null} not permitted).
      */
-    public Minute(/*@IntRange(from = 0, to = 59)*/ int minute, Hour hour) {
+    public Minute(@IntRange(from = 0, to = 59) int minute, Hour hour) {
         Args.nullNotPermitted(hour, "hour");
         this.minute = (byte) minute;
         this.hour = (byte) hour.getHour();
@@ -171,7 +171,7 @@ public class Minute extends RegularTimePeriod implements Serializable {
      * @param month  the month (1-12).
      * @param year  the year (1900-9999).
      */
-    public Minute(/*@IntRange(from = 0, to = 59)*/ int minute, /*@IntRange(from = 0, to = 23)*/ int hour, /*@IntRange(from = 1, to = 31)*/ int day, /*@IntRange(from = 1, to = 12)*/ int month, /*@IntRange(from = 1900, to = 9999)*/ int year) {
+    public Minute(@IntRange(from = 0, to = 59) int minute, @IntRange(from = 0, to = 23) int hour, @IntRange(from = 1, to = 31) int day, @IntRange(from = 1, to = 12) int month, @IntRange(from = 1900, to = 9999) int year) {
         this(minute, new Hour(hour, new Day(day, month, year)));
     }
 
@@ -202,7 +202,7 @@ public class Minute extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.3
      */
-    public /*@IntRange(from = 0, to = 23)*/ int getHourValue() {
+    public @IntRange(from = 0, to = 23) int getHourValue() {
         return this.hour;
     }
 
@@ -211,7 +211,7 @@ public class Minute extends RegularTimePeriod implements Serializable {
      *
      * @return The minute.
      */
-    public /*@IntRange(from = 0, to = 59)*/ int getMinute() {
+    public @IntRange(from = 0, to = 59) int getMinute() {
         return this.minute;
     }
 

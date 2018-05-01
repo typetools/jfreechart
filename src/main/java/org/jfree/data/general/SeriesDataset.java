@@ -42,11 +42,11 @@
  */
 
 package org.jfree.data.general;
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.xy.IntervalXYDataset;
@@ -70,7 +70,7 @@ public interface SeriesDataset extends Dataset {
      *
      * @return The series count.
      */
-    public /*@NonNegative*/ int getSeriesCount();
+    public @NonNegative int getSeriesCount();
 
     /**
      * Returns the key for a series.
@@ -80,7 +80,7 @@ public interface SeriesDataset extends Dataset {
      *
      * @return The key for the series.
      */
-    public Comparable getSeriesKey(/*@NonNegative*/ int series);
+    public Comparable getSeriesKey(@NonNegative int series);
 
     /**
      * Returns the index of the series with the specified key, or -1 if there
@@ -90,7 +90,7 @@ public interface SeriesDataset extends Dataset {
      *
      * @return The index, or -1.
      */
-    public /*@GTENegativeOne*/ int indexOf(Comparable seriesKey);
+    public @GTENegativeOne int indexOf(Comparable seriesKey);
 
     /**
      * This is a ghost method for use in annotations. It is never called at runtime, and should never be invoked.
@@ -100,6 +100,6 @@ public interface SeriesDataset extends Dataset {
      * @param series a series index
      * @return a representation of the series
      */
-    Series getSeries(/*@NonNegative*/ int series) throws Exception;
+    Series getSeries(@NonNegative int series) throws Exception;
 
 }

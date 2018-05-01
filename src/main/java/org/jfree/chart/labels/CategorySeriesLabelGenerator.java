@@ -42,9 +42,9 @@
 
 package org.jfree.chart.labels;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import org.jfree.data.category.CategoryDataset;
 
@@ -66,6 +66,6 @@ public interface CategorySeriesLabelGenerator {
      *
      * @return A series label.
      */
-    public String generateLabel(CategoryDataset dataset, /*@NonNegative*/ int series);
+    public String generateLabel(CategoryDataset dataset, @NonNegative int series);
 
 }

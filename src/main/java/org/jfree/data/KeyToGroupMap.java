@@ -44,8 +44,8 @@
  */
 
 package org.jfree.data;
-/*>>> import org.checkerframework.dataflow.qual.Pure; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.checker.index.qual.*;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -101,8 +101,8 @@ public class KeyToGroupMap implements Cloneable, PublicCloneable, Serializable {
      *
      * @return The number of groups in the map.
      */
-    /*@Pure*/
-    public /*@Positive*/ int getGroupCount() {
+    @Pure
+    public @Positive int getGroupCount() {
         return this.groups.size() + 1;
     }
 
@@ -134,7 +134,7 @@ public class KeyToGroupMap implements Cloneable, PublicCloneable, Serializable {
      * @return The group index (or -1 if the group is not represented within
      *         the map).
      */
-    public /*@GTENegativeOne*/ int getGroupIndex(Comparable group) {
+    public @GTENegativeOne int getGroupIndex(Comparable group) {
         int result = this.groups.indexOf(group);
         if (result < 0) {
             if (this.defaultGroup.equals(group)) {
@@ -205,7 +205,7 @@ public class KeyToGroupMap implements Cloneable, PublicCloneable, Serializable {
      *
      * @return The key count.
      */
-    public /*@NonNegative*/ int getKeyCount(Comparable group) {
+    public @NonNegative int getKeyCount(Comparable group) {
         Args.nullNotPermitted(group, "group");
         int result = 0;
         Iterator iterator = this.keyToGroupMap.values().iterator();

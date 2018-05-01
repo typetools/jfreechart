@@ -56,9 +56,9 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -121,11 +121,11 @@ public class WindItemRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D plotArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            @NonNegative int series, @IndexFor("#8.getSeries(#9)") int item, CrosshairState crosshairState, int pass) {
 
         WindDataset windData = (WindDataset) dataset;
         @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-            /*@IndexFor("windData.getSeries(series)")*/ int windItem = item;
+            @IndexFor("windData.getSeries(series)") int windItem = item;
 
         Paint seriesPaint = getItemPaint(series, item);
         Stroke seriesStroke = getItemStroke(series, item);

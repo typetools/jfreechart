@@ -39,9 +39,9 @@
  */
 
 package org.jfree.data.general;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.*;
 
 /**
  * A dataset that represents a rectangular grid of (x, y, z) values.  The x
@@ -59,7 +59,7 @@ public interface HeatMapDataset {
      * 
      * @return The number of x-values (always &gt; 0).
      */
-    public /*@Positive*/ /*@LTEqLengthOf("this.getData()")*/ int getXSampleCount();
+    public @Positive @LTEqLengthOf("this.getData()") int getXSampleCount();
 
     /**
      * Returns the number of y values (or samples) for the dataset.  The
@@ -68,7 +68,7 @@ public interface HeatMapDataset {
      *
      * @return The number of y-values (always &gt; 0).
      */
-    public /*@Positive*/ /*@LTEqLengthOf("this.getData()[0]")*/ int getYSampleCount();
+    public @Positive @LTEqLengthOf("this.getData()[0]") int getYSampleCount();
 
     /**
      * Returns the lowest x-value represented in this dataset.  A requirement
@@ -113,7 +113,7 @@ public interface HeatMapDataset {
      * 
      * @return The x-value.
      */
-    public double getXValue(/*@NonNegative*/ int xIndex);
+    public double getXValue(@NonNegative int xIndex);
 
     /**
      * A convenience method that returns the y-value for the given index.
@@ -122,7 +122,7 @@ public interface HeatMapDataset {
      * 
      * @return The y-value.
      */
-    public double getYValue(/*@NonNegative*/ int yIndex);
+    public double getYValue(@NonNegative int yIndex);
 
     /**
      * Returns the z-value at the specified sample position in the dataset.
@@ -133,7 +133,7 @@ public interface HeatMapDataset {
      *
      * @return The z-value.
      */
-    public double getZValue(/*@IndexFor("this.getData()")*/ int xIndex, /*@IndexFor("this.getData()[0]")*/ int yIndex);
+    public double getZValue(@IndexFor("this.getData()") int xIndex, @IndexFor("this.getData()[0]") int yIndex);
 
     /**
      * Returns the z-value at the specified sample position in the dataset.
@@ -152,10 +152,10 @@ public interface HeatMapDataset {
      *
      * @return The z-value (possibly {@code null}).
      */
-    public Number getZ(/*@IndexFor("this.getData()")*/ int xIndex, /*@IndexFor("this.getData()[0]")*/ int yIndex);
+    public Number getZ(@IndexFor("this.getData()") int xIndex, @IndexFor("this.getData()[0]") int yIndex);
 
     /**
      * This is a ghost method. Implementations should return null.
      */
-    public double /*@MinLen(1)*/ [] /*@MinLen(1)*/ [] getData();
+    public double @MinLen(1) [] @MinLen(1) [] getData();
 }

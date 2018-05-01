@@ -56,8 +56,8 @@
  */
 
 package org.jfree.data.general;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -109,7 +109,7 @@ public class DefaultPieDataset extends AbstractDataset
      * @return The item count.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount() {
+    public @NonNegative int getItemCount() {
         return this.data.getItemCount();
     }
 
@@ -136,7 +136,7 @@ public class DefaultPieDataset extends AbstractDataset
      *     specified range.
      */
     @Override
-    public Comparable getKey(/*@NonNegative*/ int item) {
+    public Comparable getKey(@NonNegative int item) {
         return this.data.getKey(item);
     }
 
@@ -151,7 +151,7 @@ public class DefaultPieDataset extends AbstractDataset
      *     {@code null}.
      */
     @Override
-    public /*@GTENegativeOne*/ int getIndex(Comparable key) {
+    public @GTENegativeOne int getIndex(Comparable key) {
         return this.data.getIndex(key);
     }
 
@@ -163,7 +163,7 @@ public class DefaultPieDataset extends AbstractDataset
      * @return The value (possibly {@code null}).
      */
     @Override
-    public Number getValue(/*@NonNegative*/ int item) {
+    public Number getValue(@NonNegative int item) {
         Number result = null;
         if (getItemCount() > item) {
             result = this.data.getValue(item);
@@ -228,7 +228,7 @@ public class DefaultPieDataset extends AbstractDataset
      *
      * @since 1.0.6
      */
-    public void insertValue(/*@NonNegative*/ int position, Comparable key, double value) {
+    public void insertValue(@NonNegative int position, Comparable key, double value) {
         insertValue(position, key, new Double(value));
     }
 
@@ -245,7 +245,7 @@ public class DefaultPieDataset extends AbstractDataset
      *
      * @since 1.0.6
      */
-    public void insertValue(/*@NonNegative*/ int position, Comparable key, Number value) {
+    public void insertValue(@NonNegative int position, Comparable key, Number value) {
         this.data.insertValue(position, key, value);
         fireDatasetChanged();
     }

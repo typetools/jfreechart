@@ -42,7 +42,7 @@
  */
 
 package org.jfree.data.general;
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -62,10 +62,10 @@ public class WaferMapDataset extends AbstractDataset {
     private DefaultKeyedValues2D data;
 
     /** wafer x dimension */
-    private /*@NonNegative*/ int maxChipX;
+    private @NonNegative int maxChipX;
 
     /** wafer y dimension */
-    private /*@NonNegative*/ int maxChipY;
+    private @NonNegative int maxChipY;
 
     /** space to draw between chips */
     private double chipSpace;
@@ -85,7 +85,7 @@ public class WaferMapDataset extends AbstractDataset {
      * @param maxChipX  the wafer x-dimension.
      * @param maxChipY  the wafer y-dimension.
      */
-    public WaferMapDataset(/*@NonNegative*/ int maxChipX, /*@NonNegative*/ int maxChipY) {
+    public WaferMapDataset(@NonNegative int maxChipX, @NonNegative int maxChipY) {
         this(maxChipX, maxChipY, null);
     }
 
@@ -96,7 +96,7 @@ public class WaferMapDataset extends AbstractDataset {
      * @param maxChipY  the wafer y-dimension.
      * @param chipSpace  the space between chips.
      */
-    public WaferMapDataset(/*@NonNegative*/ int maxChipX, /*@NonNegative*/ int maxChipY, Number chipSpace) {
+    public WaferMapDataset(@NonNegative int maxChipX, @NonNegative int maxChipY, Number chipSpace) {
 
         this.maxValue = new Double(Double.NEGATIVE_INFINITY);
         this.minValue = new Double(Double.POSITIVE_INFINITY);
@@ -131,7 +131,7 @@ public class WaferMapDataset extends AbstractDataset {
      * @param x  the x-index.
      * @param y  the y-index.
      */
-    public void addValue(int v, /*@NonNegative*/ int x, /*@NonNegative*/ int y) {
+    public void addValue(int v, @NonNegative int x, @NonNegative int y) {
         setValue(new Double(v), new Integer(x), new Integer(y));
     }
 
@@ -157,7 +157,7 @@ public class WaferMapDataset extends AbstractDataset {
      *
      * @return The number of unique values.
      */
-    public /*@NonNegative*/ int getUniqueValueCount() {
+    public @NonNegative int getUniqueValueCount() {
         return getUniqueValues().size();
     }
 
@@ -263,7 +263,7 @@ public class WaferMapDataset extends AbstractDataset {
      *
      * @return The number of chips in the x-dimension.
      */
-    public /*@NonNegative*/ int getMaxChipX() {
+    public @NonNegative int getMaxChipX() {
         return this.maxChipX;
     }
 
@@ -272,7 +272,7 @@ public class WaferMapDataset extends AbstractDataset {
      *
      * @param maxChipX  the number of chips in the x-dimension.
      */
-    public void setMaxChipX(/*@NonNegative*/ int maxChipX) {
+    public void setMaxChipX(@NonNegative int maxChipX) {
         this.maxChipX = maxChipX;
     }
 
@@ -281,7 +281,7 @@ public class WaferMapDataset extends AbstractDataset {
      *
      * @return The number of chips.
      */
-    public /*@NonNegative*/ int getMaxChipY() {
+    public @NonNegative int getMaxChipY() {
         return this.maxChipY;
     }
 
@@ -290,7 +290,7 @@ public class WaferMapDataset extends AbstractDataset {
      *
      * @param maxChipY  the number of chips.
      */
-    public void setMaxChipY(/*@NonNegative*/ int maxChipY) {
+    public void setMaxChipY(@NonNegative int maxChipY) {
         this.maxChipY = maxChipY;
     }
 

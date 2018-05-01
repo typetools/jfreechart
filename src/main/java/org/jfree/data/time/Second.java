@@ -61,7 +61,7 @@
  */
 
 package org.jfree.data.time;
-/*>>> import org.checkerframework.common.value.qual.*; */
+import org.checkerframework.common.value.qual.*;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -89,13 +89,13 @@ public class Second extends RegularTimePeriod implements Serializable {
     private Day day;
 
     /** The hour of the day. */
-    /*@IntRange(from = 0, to = 23)*/ private byte hour;
+    @IntRange(from = 0, to = 23) private byte hour;
 
     /** The minute. */
-    /*@IntRange(from = 0, to = 59)*/ private byte minute;
+    @IntRange(from = 0, to = 59) private byte minute;
 
     /** The second. */
-    /*@IntRange(from = 0, to = 59)*/ private byte second;
+    @IntRange(from = 0, to = 59) private byte second;
 
     /**
      * The first millisecond.  We don't store the last millisecond, because it
@@ -116,7 +116,7 @@ public class Second extends RegularTimePeriod implements Serializable {
      * @param second  the second (0 to 59).
      * @param minute  the minute ({@code null} not permitted).
      */
-    public Second(/*@IntRange(from = 0, to = 59)*/ int second, Minute minute) {
+    public Second(@IntRange(from = 0, to = 59) int second, Minute minute) {
         Args.requireInRange(second, "second", 
                 Second.FIRST_SECOND_IN_MINUTE, Second.LAST_SECOND_IN_MINUTE);
         Args.nullNotPermitted(minute, "minute");
@@ -137,8 +137,8 @@ public class Second extends RegularTimePeriod implements Serializable {
      * @param month  the month (1-12).
      * @param year  the year (1900-9999).
      */
-    public Second(/*@IntRange(from = 0, to = 59)*/ int second, /*@IntRange(from = 0, to = 59)*/ int minute, /*@IntRange(from = 0, to = 23)*/ int hour,
-                  /*@IntRange(from = 1, to = 31)*/ int day, /*@IntRange(from = 1, to = 12)*/ int month, /*@IntRange(from = 1900, to = 9999)*/ int year) {
+    public Second(@IntRange(from = 0, to = 59) int second, @IntRange(from = 0, to = 59) int minute, @IntRange(from = 0, to = 23) int hour,
+                  @IntRange(from = 1, to = 31) int day, @IntRange(from = 1, to = 12) int month, @IntRange(from = 1900, to = 9999) int year) {
         this(second, new Minute(minute, hour, day, month, year));
     }
 
@@ -179,7 +179,7 @@ public class Second extends RegularTimePeriod implements Serializable {
      *
      * @return The second (0 - 59).
      */
-    public /*@IntRange(from = 0, to = 59)*/ int getSecond() {
+    public @IntRange(from = 0, to = 59) int getSecond() {
         return this.second;
     }
 

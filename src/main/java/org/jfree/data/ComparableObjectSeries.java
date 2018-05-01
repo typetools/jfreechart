@@ -41,8 +41,8 @@
  */
 
 package org.jfree.data;
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -66,7 +66,7 @@ public class ComparableObjectSeries extends Series
     protected List data;
 
     /** The maximum number of items for the series. */
-    private /*@NonNegative*/ int maximumItemCount = Integer.MAX_VALUE;
+    private @NonNegative int maximumItemCount = Integer.MAX_VALUE;
 
     /** A flag that controls whether the items are automatically sorted. */
     private boolean autoSort;
@@ -130,7 +130,7 @@ public class ComparableObjectSeries extends Series
      * @return The item count.
      */
     @Override
-    public /*@NonNegative*/ int getItemCount() {
+    public @NonNegative int getItemCount() {
         return this.data.size();
     }
 
@@ -141,7 +141,7 @@ public class ComparableObjectSeries extends Series
      * @return The maximum item count.
      * @see #setMaximumItemCount(int)
      */
-    public /*@NonNegative*/ int getMaximumItemCount() {
+    public @NonNegative int getMaximumItemCount() {
         return this.maximumItemCount;
     }
 
@@ -159,7 +159,7 @@ public class ComparableObjectSeries extends Series
      *
      * @param maximum  the maximum number of items for the series.
      */
-    public void setMaximumItemCount(/*@NonNegative*/ int maximum) {
+    public void setMaximumItemCount(@NonNegative int maximum) {
         this.maximumItemCount = maximum;
         boolean dataRemoved = false;
         while (this.data.size() > maximum) {
@@ -221,7 +221,7 @@ public class ComparableObjectSeries extends Series
             int index = Collections.binarySearch(this.data, item);
             if (index < 0) {
                 @SuppressWarnings("index") // binary search on list
-                /*@NonNegative*/ int reverseIndex = -index - 1;
+                @NonNegative int reverseIndex = -index - 1;
                 this.data.add(reverseIndex, item);
             }
             else {
@@ -318,7 +318,7 @@ public class ComparableObjectSeries extends Series
      * @param index  the item (zero based index).
      * @param y  the new value ({@code null} permitted).
      */
-    protected void updateByIndex(/*@NonNegative*/ int index, Object y) {
+    protected void updateByIndex(@NonNegative int index, Object y) {
         ComparableObjectItem item = getDataItem(index);
         item.setObject(y);
         fireSeriesChanged();
@@ -331,7 +331,7 @@ public class ComparableObjectSeries extends Series
      *
      * @return The data item with the specified index.
      */
-    protected ComparableObjectItem getDataItem(/*@NonNegative*/ int index) {
+    protected ComparableObjectItem getDataItem(@NonNegative int index) {
         return (ComparableObjectItem) this.data.get(index);
     }
 
@@ -342,7 +342,7 @@ public class ComparableObjectSeries extends Series
      * @param start  the start index (zero-based).
      * @param end  the end index (zero-based).
      */
-    protected void delete(/*@NonNegative*/ int start, /*@NonNegative*/ int end) {
+    protected void delete(@NonNegative int start, @NonNegative int end) {
         for (int i = start; i <= end; i++) {
             this.data.remove(start);
         }
@@ -369,7 +369,7 @@ public class ComparableObjectSeries extends Series
      *
      * @return The item removed.
      */
-    protected ComparableObjectItem remove(/*@NonNegative*/ int index) {
+    protected ComparableObjectItem remove(@NonNegative int index) {
         ComparableObjectItem result = (ComparableObjectItem) this.data.remove(
                 index);
         fireSeriesChanged();

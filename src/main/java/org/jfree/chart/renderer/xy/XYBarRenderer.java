@@ -105,11 +105,11 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -737,7 +737,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
      * @return A legend item for the series.
      */
     @Override
-    public LegendItem getLegendItem(/*@NonNegative*/ int datasetIndex, /*@NonNegative*/ int series) {
+    public LegendItem getLegendItem(@NonNegative int datasetIndex, @NonNegative int series) {
         XYPlot xyplot = getPlot();
         if (xyplot == null) {
             return null;
@@ -809,7 +809,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            @NonNegative int series, @IndexFor("#8.getSeries(#9)") int item, CrosshairState crosshairState, int pass) {
 
         if (!getItemVisible(series, item)) {
             return;
@@ -817,7 +817,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
         IntervalXYDataset intervalDataset = (IntervalXYDataset) dataset;
 
         @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-        /*@IndexFor("intervalDataset.getSeries(series)")*/ int intervalItem = item;
+        @IndexFor("intervalDataset.getSeries(series)") int intervalItem = item;
 
         double value0;
         double value1;
@@ -949,7 +949,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
         double transY1 = rangeAxis.valueToJava2D(y1, dataArea,
                 plot.getRangeAxisEdge());
         @SuppressWarnings("index") // plot and dataset must be associated with each other. This is assumed but not checked. A bug?
-        /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
+        @NonNegative int datasetIndex = plot.indexOf(dataset);
         updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
                 transX1, transY1, plot.getOrientation());
 
@@ -977,7 +977,7 @@ public class XYBarRenderer extends AbstractXYItemRenderer
      * @param negative  a flag indicating a negative value.
      */
     protected void drawItemLabel(Graphics2D g2, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#2.getSeries(#3)")*/ int item, XYPlot plot, XYItemLabelGenerator generator,
+            @NonNegative int series, @IndexFor("#2.getSeries(#3)") int item, XYPlot plot, XYItemLabelGenerator generator,
             Rectangle2D bar, boolean negative) {
 
         if (generator == null) {

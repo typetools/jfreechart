@@ -39,7 +39,7 @@
  */
 
 package org.jfree.chart.axis;
-/*>>> import org.checkerframework.checker.index.qual.*; */
+import org.checkerframework.checker.index.qual.*;
 
 import java.io.ObjectStreamException;
 import java.io.Serializable;
@@ -87,7 +87,7 @@ public class DateTickUnitType implements Serializable {
     private String name;
 
     /** The corresponding field value in Java's Calendar class. */
-    private /*@NonNegative*/ int calendarField;
+    private @NonNegative int calendarField;
 
     /**
      * Private constructor.
@@ -95,7 +95,7 @@ public class DateTickUnitType implements Serializable {
      * @param name  the name.
      * @param calendarField  the calendar field.
      */
-    private DateTickUnitType(String name, /*@NonNegative*/ int calendarField) {
+    private DateTickUnitType(String name, @NonNegative int calendarField) {
         this.name = name;
         this.calendarField = calendarField;
     }
@@ -105,7 +105,7 @@ public class DateTickUnitType implements Serializable {
      *
      * @return The calendar field.
      */
-    public /*@NonNegative*/ int getCalendarField() {
+    public @NonNegative int getCalendarField() {
         return this.calendarField;
     }
 

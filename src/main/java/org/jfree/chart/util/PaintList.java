@@ -28,9 +28,9 @@
 
 package org.jfree.chart.util;
 
-/*>>>
+
 import org.checkerframework.checker.index.qual.NonNegative;
- */
+
 
 import java.awt.Paint;
 import java.io.IOException;
@@ -58,7 +58,7 @@ public class PaintList extends AbstractObjectList {
      *
      * @return The object.
      */
-    public Paint getPaint(/*@NonNegative*/ int index) {
+    public Paint getPaint(@NonNegative int index) {
         return (Paint) get(index);
     }
 
@@ -68,7 +68,7 @@ public class PaintList extends AbstractObjectList {
      * @param index  the index (zero-based).
      * @param paint  the {@link Paint}.
      */
-    public void setPaint(/*@NonNegative*/ int index, Paint paint) {
+    public void setPaint(@NonNegative int index, Paint paint) {
         set(index, paint);
     }
 

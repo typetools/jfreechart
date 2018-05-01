@@ -46,9 +46,9 @@
  */
 
 package org.jfree.chart.renderer.xy;
-/*>>> import org.checkerframework.common.value.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.*; */
-/*>>> import org.checkerframework.checker.index.qual.NonNegative; */
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
@@ -352,7 +352,7 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            /*@NonNegative*/ int series, /*@IndexFor("#8.getSeries(#9)")*/ int item, CrosshairState crosshairState, int pass) {
+            @NonNegative int series, @IndexFor("#8.getSeries(#9)") int item, CrosshairState crosshairState, int pass) {
 
         double x = dataset.getXValue(series, item);
         double y = dataset.getYValue(series, item);
@@ -360,7 +360,7 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
         if (dataset instanceof XYZDataset) {
             XYZDataset xyzDataset = ((XYZDataset) dataset);
             @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
-            /*@IndexFor("xyzDataset.getSeries(series)")*/ int xyzItem = item;
+            @IndexFor("xyzDataset.getSeries(series)") int xyzItem = item;
             z = xyzDataset.getZValue(series, xyzItem);
         }
 
@@ -396,7 +396,7 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
         }
 
         @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
-        /*@NonNegative*/ int datasetIndex = plot.indexOf(dataset);
+        @NonNegative int datasetIndex = plot.indexOf(dataset);
         double transX = domainAxis.valueToJava2D(x, dataArea,
                 plot.getDomainAxisEdge());
         double transY = rangeAxis.valueToJava2D(y, dataArea,
