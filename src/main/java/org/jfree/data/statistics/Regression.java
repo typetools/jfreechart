@@ -70,7 +70,7 @@ public abstract class Regression {
      *
      * @return The parameters.
      */
-    public static double @ArrayLen(2) [] getOLSRegression(double /*@MinLen(2)*/ [] @MinLen(2) [] data) {
+    public static double @ArrayLen(2) [] getOLSRegression(double @MinLen(2) [] @MinLen(2) [] data) {
 
         int n = data.length;
         if (n < 2) {
@@ -157,7 +157,7 @@ public abstract class Regression {
      *
      * @return The parameters.
      */
-    public static double @ArrayLen(2) [] getPowerRegression(double /*@MinLen(2)*/ [] @MinLen(2) [] data) {
+    public static double @ArrayLen(2) [] getPowerRegression(double @MinLen(2) [] @MinLen(2) [] data) {
 
         int n = data.length;
         if (n < 2) {

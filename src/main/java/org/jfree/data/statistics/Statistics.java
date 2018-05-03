@@ -332,7 +332,7 @@ public abstract class Statistics {
      *
      * @return A double array with the intercept in [0] and the slope in [1].
      */
-    public static double @ArrayLen(2) [] getLinearFit(Number /*@SameLen("#2")*/ [] xData, Number @SameLen("#1") [] yData) {
+    public static double @ArrayLen(2) [] getLinearFit(Number @SameLen("#2") [] xData, Number @SameLen("#1") [] yData) {
 
         Args.nullNotPermitted(xData, "xData");
         Args.nullNotPermitted(yData, "yData");
@@ -444,7 +444,7 @@ public abstract class Statistics {
      * @return A double[][] the length of the data set in the first dimension,
      *         with two doubles for x and y in the second dimension
      */
-    public static double[] @ArrayLen(2) [] getMovingAverage(Number /*@SameLen("#2")*/ [] xData, Number @SameLen("#1") [] yData,
+    public static double[] @ArrayLen(2) [] getMovingAverage(Number @SameLen("#2") [] xData, Number @SameLen("#1") [] yData,
             @IndexFor("#1") int period) {
 
         // check arguments...

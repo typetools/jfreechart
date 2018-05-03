@@ -82,7 +82,7 @@ public class SpreadsheetDate extends SerialDate {
      * @param month  the month (in the range 1 to 12).
      * @param year  the year (in the range 1900 to 9999).
      */
-    public SpreadsheetDate(@IntRange(from = 1, to = 31) int day, /*@IntRange(from = 1, to = 12)*/ int month, @IntRange(from = 1, to = 9999) int year) {
+    public SpreadsheetDate(@IntRange(from = 1, to = 31) int day, @IntRange(from = 1, to = 12) int month, @IntRange(from = 1, to = 9999) int year) {
 
         if ((year >= 1900) && (year <= 9999)) {
             this.year = year;
@@ -445,7 +445,7 @@ public class SpreadsheetDate extends SerialDate {
      *
      * @return the serial number from the day, month and year.
      */
-    private @IntRange(from = 2, to = 2958465) int calcSerial(/*@IntRange(from = 1, to = 31)*/ int d, /*@IntRange(from=1,to=12)*/ int m, @IntRange(from = 1900, to = 9999) int y) {
+    private @IntRange(from = 2, to = 2958465) int calcSerial(@IntRange(from = 1, to = 31) int d, /*@IntRange(from=1,to=12)*/ int m, @IntRange(from = 1900, to = 9999) int y) {
         @SuppressWarnings({"index", "value"}) // Though passing y - 1 is technically incorrect iff y = 1900, leapYearCount returns zero if passed 1899 (same as 1900).
         int yy = ((y - 1900) * 365) + SerialDate.leapYearCount(y - 1);
         @SuppressWarnings({"index", "value"}) // Preceding month can't be December - month must be 1 - 12 (12 -> current month is december).

@@ -242,7 +242,7 @@ public abstract class DataUtils {
      * @return An array of {@code double}.
      */
     @SuppressWarnings("value") // the result array is manifestly the same size as the parameter
-    public static Number @SameLen("#1") /*@PolyValue*/ [][] createNumberArray2D(double @PolyValue [][] data) {
+    public static Number @SameLen("#1") @PolyValue [][] createNumberArray2D(double @PolyValue [][] data) {
         Args.nullNotPermitted(data, "data");
         int l1 = data.length;
         Number[][] result = new Number[data.length][];

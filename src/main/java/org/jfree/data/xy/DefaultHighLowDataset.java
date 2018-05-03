@@ -101,10 +101,10 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @param volume  the volume values ({@code null} not permitted).
      */
     @SuppressWarnings("samelen") // While initializing object, SameLen invariants between the fields will be broken (because one field must be initialized before the others). The annotations on the parameters guarantee the invariant holds after the constructor finishes executing.
-    public DefaultHighLowDataset(Comparable seriesKey, Date @SameLen({"#2", "#3", "#4", "#4", "#5", "#6", "#7"}) [] date,
-            double @SameLen({"#2", "#3", "#4", "#4", "#5", "#6", "#7"}) [] high, double @SameLen({"#2", "#3", "#4", "#4", "#5", "#6", "#7"}) [] low,
-            double @SameLen({"#2", "#3", "#4", "#4", "#5", "#6", "#7"}) [] open, double @SameLen({"#2", "#3", "#4", "#4", "#5", "#6", "#7"}) [] close,
-            double @SameLen({"#2", "#3", "#4", "#4", "#5", "#6", "#7"}) [] volume) {
+    public DefaultHighLowDataset(Comparable seriesKey, Date @SameLen({"#2", "#3", "#4", "#5", "#6", "#7"}) [] date,
+            double @SameLen({"#2", "#3", "#4", "#5", "#6", "#7"}) [] high, double @SameLen({"#2", "#3", "#4", "#5", "#6", "#7"}) [] low,
+            double @SameLen({"#2", "#3", "#4", "#5", "#6", "#7"}) [] open, double @SameLen({"#2", "#3", "#4", "#5", "#6", "#7"}) [] close,
+            double @SameLen({"#2", "#3", "#4", "#5", "#6", "#7"}) [] volume) {
 
         Args.nullNotPermitted(seriesKey, "seriesKey");
         Args.nullNotPermitted(date, "date");

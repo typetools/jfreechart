@@ -271,7 +271,7 @@ public class GanttChartTest  {
      *
      * @return a date.
      */
-    private static Date date(@IntRange(from = 1, to = 31) int day, /*@IntRange(from = 1, to = 12)*/ int month, @IntRange(from = 1900, to = 9999) int year) {
+    private static Date date(@IntRange(from = 1, to = 31) int day, @IntRange(from = 1, to = 12) int month, @IntRange(from = 1900, to = 9999) int year) {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
