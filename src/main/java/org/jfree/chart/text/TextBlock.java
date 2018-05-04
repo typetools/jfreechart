@@ -30,7 +30,6 @@ package org.jfree.chart.text;
 
 import org.checkerframework.common.value.qual.ArrayLen;
 
-
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Paint;

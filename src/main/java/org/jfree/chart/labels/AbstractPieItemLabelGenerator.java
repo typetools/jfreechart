@@ -50,7 +50,6 @@ import org.checkerframework.checker.index.qual.*;
 
 import org.checkerframework.common.value.qual.MinLen;
 
-
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.text.NumberFormat;

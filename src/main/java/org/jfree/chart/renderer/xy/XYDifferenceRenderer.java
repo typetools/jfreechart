@@ -86,7 +86,6 @@ package org.jfree.chart.renderer.xy;
 import org.checkerframework.checker.index.qual.*;
 import org.checkerframework.common.value.qual.*;
 
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;

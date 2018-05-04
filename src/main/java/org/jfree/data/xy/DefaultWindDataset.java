@@ -52,7 +52,6 @@ import org.checkerframework.checker.index.qual.*;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.common.value.qual.ArrayLen;
 
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;

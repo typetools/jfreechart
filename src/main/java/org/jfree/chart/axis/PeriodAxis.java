@@ -68,7 +68,6 @@ package org.jfree.chart.axis;
 import org.checkerframework.common.value.qual.ArrayLen;
 import org.checkerframework.common.value.qual.IntVal;
 
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.FontMetrics;

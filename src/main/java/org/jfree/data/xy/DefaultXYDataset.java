@@ -47,7 +47,6 @@ import org.checkerframework.checker.index.qual.*;
 
 import org.checkerframework.common.value.qual.ArrayLen;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
