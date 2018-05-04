@@ -39,6 +39,7 @@
  */
 
 package org.jfree.chart.plot;
+
 import org.checkerframework.checker.index.qual.*;
 
 import java.awt.geom.Point2D;

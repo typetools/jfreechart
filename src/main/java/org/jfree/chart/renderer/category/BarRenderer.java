@@ -95,6 +95,7 @@
  */
 
 package org.jfree.chart.renderer.category;
+
 import org.checkerframework.common.value.qual.*;
 
 

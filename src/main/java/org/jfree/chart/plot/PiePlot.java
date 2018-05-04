@@ -174,6 +174,7 @@
  */
 
 package org.jfree.chart.plot;
+
 import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.AlphaComposite;

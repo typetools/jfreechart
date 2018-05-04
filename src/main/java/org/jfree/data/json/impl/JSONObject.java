@@ -23,7 +23,6 @@
 
 package org.jfree.data.json.impl;
 
-
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;

@@ -28,14 +28,12 @@
 
 package org.jfree.chart.util;
 
-
 import org.checkerframework.common.value.qual.IntVal;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.GTENegativeOne;
 import org.checkerframework.checker.index.qual.LengthOf;
 import org.checkerframework.checker.index.qual.LTLengthOf;
 import org.checkerframework.checker.index.qual.IndexFor;
-
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

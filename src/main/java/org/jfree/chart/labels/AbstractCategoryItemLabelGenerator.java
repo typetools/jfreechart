@@ -45,6 +45,7 @@
  */
 
 package org.jfree.chart.labels;
+
 import org.checkerframework.common.value.qual.MinLen;
 import org.checkerframework.checker.index.qual.NonNegative;
 

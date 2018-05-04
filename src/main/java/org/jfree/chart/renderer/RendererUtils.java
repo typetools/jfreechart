@@ -44,7 +44,6 @@
 
 package org.jfree.chart.renderer;
 
-
 import org.checkerframework.common.value.qual.*;
 import org.checkerframework.checker.index.qual.*;
 

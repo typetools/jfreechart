@@ -67,13 +67,11 @@
 
 package org.jfree.chart.plot;
 
-
 import org.checkerframework.common.value.qual.MinLen;
 import org.checkerframework.checker.index.qual.SameLen;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.LTLengthOf;
 import org.checkerframework.checker.index.qual.IndexFor;
-
 
 import java.awt.BasicStroke;
 import java.awt.Color;

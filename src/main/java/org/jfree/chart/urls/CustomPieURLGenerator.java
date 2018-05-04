@@ -41,6 +41,7 @@
  */
 
 package org.jfree.chart.urls;
+
 import org.checkerframework.common.value.qual.*;
 import org.checkerframework.checker.index.qual.*;
 

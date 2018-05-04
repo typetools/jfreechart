@@ -27,6 +27,7 @@
  */
 
 package org.jfree.chart.text;
+
 import org.checkerframework.common.value.qual.*;
 import org.checkerframework.common.value.qual.*;
 import org.checkerframework.checker.index.qual.*;

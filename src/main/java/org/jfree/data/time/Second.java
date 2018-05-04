@@ -61,6 +61,7 @@
  */
 
 package org.jfree.data.time;
+
 import org.checkerframework.common.value.qual.*;
 
 import java.io.Serializable;

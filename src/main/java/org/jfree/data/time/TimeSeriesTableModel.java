@@ -42,6 +42,7 @@
  */
 
 package org.jfree.data.time;
+
 import org.checkerframework.checker.index.qual.NonNegative;
 
 import javax.swing.table.AbstractTableModel;

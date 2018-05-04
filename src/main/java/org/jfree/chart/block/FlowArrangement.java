@@ -42,9 +42,7 @@
 
 package org.jfree.chart.block;
 
-
 import org.checkerframework.checker.index.qual.SameLen;
-
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;

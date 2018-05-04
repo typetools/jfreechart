@@ -61,6 +61,7 @@
  */
 
 package org.jfree.data.statistics;
+
 import org.checkerframework.common.value.qual.*;
 import org.checkerframework.checker.index.qual.*;
 import org.checkerframework.checker.index.qual.*;

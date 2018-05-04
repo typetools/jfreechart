@@ -42,6 +42,7 @@
  */
 
 package org.jfree.data.general;
+
 import org.checkerframework.checker.index.qual.*;
 
 import java.util.Set;

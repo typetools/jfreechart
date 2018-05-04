@@ -47,6 +47,7 @@
  */
 
 package org.jfree.data.time;
+
 import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.checker.index.qual.GTENegativeOne;
 import org.checkerframework.checker.index.qual.NonNegative;

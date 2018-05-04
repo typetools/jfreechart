@@ -71,6 +71,7 @@
  */
 
 package org.jfree.data.jdbc;
+
 import org.checkerframework.checker.index.qual.*;
 
 import java.sql.Connection;

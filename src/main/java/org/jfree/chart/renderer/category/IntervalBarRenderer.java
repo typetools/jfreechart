@@ -68,6 +68,7 @@
  */
 
 package org.jfree.chart.renderer.category;
+
 import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.Graphics2D;

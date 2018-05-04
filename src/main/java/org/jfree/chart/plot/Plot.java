@@ -135,7 +135,6 @@
 
 package org.jfree.chart.plot;
 
-
 import org.checkerframework.dataflow.qual.Pure;
 
 

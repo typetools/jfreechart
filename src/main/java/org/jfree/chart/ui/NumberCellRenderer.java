@@ -27,6 +27,7 @@
  */
 
 package org.jfree.chart.ui;
+
 import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.Component;

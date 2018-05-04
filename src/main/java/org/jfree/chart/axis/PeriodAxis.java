@@ -65,7 +65,6 @@
 
 package org.jfree.chart.axis;
 
-
 import org.checkerframework.common.value.qual.ArrayLen;
 import org.checkerframework.common.value.qual.IntVal;
 

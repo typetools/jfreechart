@@ -48,10 +48,8 @@
 
  package org.jfree.chart.plot;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.IndexFor;
-
 
 import java.awt.BasicStroke;
 import java.awt.Color;

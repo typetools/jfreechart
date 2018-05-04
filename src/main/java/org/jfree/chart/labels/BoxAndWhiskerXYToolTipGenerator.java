@@ -48,6 +48,7 @@
  */
 
 package org.jfree.chart.labels;
+
 import org.checkerframework.common.value.qual.*;
 import org.checkerframework.checker.index.qual.*;
 

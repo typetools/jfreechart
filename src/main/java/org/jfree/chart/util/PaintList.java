@@ -28,7 +28,6 @@
 
 package org.jfree.chart.util;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.Paint;

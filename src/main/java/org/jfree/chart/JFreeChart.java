@@ -154,6 +154,7 @@
  */
 
 package org.jfree.chart;
+
 import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.AlphaComposite;

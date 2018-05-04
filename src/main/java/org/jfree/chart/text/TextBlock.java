@@ -28,7 +28,6 @@
 
 package org.jfree.chart.text;
 
-
 import org.checkerframework.common.value.qual.ArrayLen;
 
 

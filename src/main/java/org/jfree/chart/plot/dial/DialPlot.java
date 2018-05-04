@@ -45,6 +45,7 @@
  */
 
 package org.jfree.chart.plot.dial;
+
 import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.Graphics2D;

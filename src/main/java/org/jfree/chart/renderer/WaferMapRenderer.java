@@ -43,6 +43,7 @@
  */
 
 package org.jfree.chart.renderer;
+
 import org.checkerframework.checker.index.qual.*;
 
 import java.awt.Color;

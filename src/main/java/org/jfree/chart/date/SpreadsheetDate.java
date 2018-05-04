@@ -28,7 +28,6 @@
 
 package org.jfree.chart.date;
 
-
 import org.checkerframework.common.value.qual.ArrayLen;
 import org.checkerframework.common.value.qual.IntRange;
 import org.checkerframework.checker.index.qual.*;

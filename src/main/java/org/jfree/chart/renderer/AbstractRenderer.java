@@ -99,7 +99,6 @@
 
 package org.jfree.chart.renderer;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
 
 import java.awt.BasicStroke;

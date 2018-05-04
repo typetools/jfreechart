@@ -50,6 +50,7 @@
  */
 
 package org.jfree.data.gantt;
+
 import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.checker.index.qual.*;
 

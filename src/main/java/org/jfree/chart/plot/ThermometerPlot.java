@@ -93,11 +93,9 @@
 
 package org.jfree.chart.plot;
 
-
 import org.checkerframework.common.value.qual.ArrayLen;
 import org.checkerframework.common.value.qual.IntVal;
 import org.checkerframework.checker.index.qual.IndexFor;
-
 
 import java.awt.BasicStroke;
 import java.awt.Color;

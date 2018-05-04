@@ -55,6 +55,7 @@
  */
 
 package org.jfree.data.general;
+
 import org.checkerframework.checker.index.qual.*;
 
 import java.beans.PropertyChangeListener;

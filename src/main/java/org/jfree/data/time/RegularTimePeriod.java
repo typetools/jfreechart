@@ -53,6 +53,7 @@
  */
 
 package org.jfree.data.time;
+
 import org.checkerframework.dataflow.qual.Pure;
 
 import java.lang.reflect.Constructor;

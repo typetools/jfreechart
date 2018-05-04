@@ -41,6 +41,7 @@
  */
 
 package org.jfree.chart.block;
+
 import org.checkerframework.checker.index.qual.*;
 
 import java.awt.Graphics2D;

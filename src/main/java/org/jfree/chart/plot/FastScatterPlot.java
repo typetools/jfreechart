@@ -68,11 +68,9 @@
 
 package org.jfree.chart.plot;
 
-
 import org.checkerframework.common.value.qual.ArrayLen;
 import org.checkerframework.checker.index.qual.SameLen;
 import org.checkerframework.checker.index.qual.PolySameLen;
-
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;

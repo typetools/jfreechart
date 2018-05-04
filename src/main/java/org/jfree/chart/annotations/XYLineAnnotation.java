@@ -50,6 +50,7 @@
  */
 
 package org.jfree.chart.annotations;
+
 import org.checkerframework.checker.index.qual.*;
 
 import java.awt.BasicStroke;
