@@ -67,7 +67,6 @@ package org.jfree.chart;
 
 import org.checkerframework.checker.index.qual.*;
 
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;

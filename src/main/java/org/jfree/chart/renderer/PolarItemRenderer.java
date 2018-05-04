@@ -44,7 +44,6 @@ package org.jfree.chart.renderer;
 
 import org.checkerframework.checker.index.qual.NonNegative;
 
-
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;

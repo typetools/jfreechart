@@ -48,9 +48,7 @@
 package org.jfree.data.xy;
 import org.checkerframework.checker.index.qual.*;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
-
 
 import org.jfree.data.DomainOrder;
 import org.jfree.data.general.SeriesDataset;

@@ -49,7 +49,6 @@ package org.jfree.data.category;
 
 import org.checkerframework.checker.index.qual.NonNegative;
 
-
 /**
  * A category dataset that defines a value range for each series/category
  * combination.

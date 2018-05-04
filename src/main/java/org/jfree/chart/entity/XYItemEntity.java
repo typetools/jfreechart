@@ -53,7 +53,6 @@ package org.jfree.chart.entity;
 
 import org.checkerframework.checker.index.qual.NonNegative;
 
-
 import java.awt.Shape;
 
 import org.jfree.data.xy.XYDataset;

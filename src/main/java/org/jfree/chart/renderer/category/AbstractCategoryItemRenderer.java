@@ -114,7 +114,6 @@ package org.jfree.chart.renderer.category;
 
 import org.checkerframework.checker.index.qual.*;
 
-
 import java.awt.AlphaComposite;
 import java.awt.Composite;
 import java.awt.Font;

@@ -64,9 +64,7 @@
 package org.jfree.chart.renderer;
 import org.checkerframework.checker.index.qual.*;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
-
 
 import java.awt.AlphaComposite;
 import java.awt.Composite;

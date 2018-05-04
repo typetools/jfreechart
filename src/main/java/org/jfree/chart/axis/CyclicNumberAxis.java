@@ -54,7 +54,6 @@ package org.jfree.chart.axis;
 import org.checkerframework.common.value.qual.ArrayLen;
 import org.checkerframework.checker.index.qual.NonNegative;
 
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;

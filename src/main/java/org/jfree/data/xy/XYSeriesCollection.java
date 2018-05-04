@@ -66,9 +66,7 @@
 package org.jfree.data.xy;
 import org.checkerframework.checker.index.qual.*;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
-
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;

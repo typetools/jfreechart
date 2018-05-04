@@ -42,9 +42,7 @@
 package org.jfree.data.xy;
 import org.checkerframework.checker.index.qual.*;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
-
 
 /**
  * An base class that you can use to create new implementations of the

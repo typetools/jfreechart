@@ -47,7 +47,6 @@ import org.checkerframework.common.value.qual.MinLen;
 
 import org.checkerframework.checker.index.qual.NonNegative;
 
-
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.MessageFormat;

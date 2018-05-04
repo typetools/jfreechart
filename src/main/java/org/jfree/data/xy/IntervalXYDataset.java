@@ -44,9 +44,7 @@
 package org.jfree.data.xy;
 import org.checkerframework.checker.index.qual.*;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
-
 
 /**
  * An extension of the {@link XYDataset} interface that allows an x-interval

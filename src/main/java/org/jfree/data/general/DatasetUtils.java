@@ -132,9 +132,7 @@ import org.checkerframework.common.value.qual.*;
 import org.checkerframework.checker.index.qual.*;
 import org.checkerframework.checker.index.qual.*;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
-
 
 import java.util.ArrayList;
 import java.util.Iterator;

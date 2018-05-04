@@ -46,7 +46,6 @@ package org.jfree.data.xy;
 
 import org.checkerframework.checker.index.qual.*;
 
-
 /**
  * Represent a data set where Y is a symbolic values. Each symbolic value is
  * linked with an Integer.

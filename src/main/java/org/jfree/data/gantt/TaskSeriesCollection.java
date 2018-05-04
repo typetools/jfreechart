@@ -53,9 +53,7 @@ package org.jfree.data.gantt;
 import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.checker.index.qual.*;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
-
 
 import java.io.Serializable;
 import java.util.Iterator;

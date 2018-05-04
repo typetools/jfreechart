@@ -42,9 +42,7 @@ package org.jfree.data.gantt;
 import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.checker.index.qual.*;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
-
 
 import java.util.Collections;
 import java.util.List;

@@ -49,9 +49,7 @@ import org.checkerframework.common.value.qual.*;
 import org.checkerframework.checker.index.qual.*;
 import org.checkerframework.checker.index.qual.*;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
-
 
 import org.jfree.chart.util.Args;
 import org.jfree.data.xy.XYDataset;

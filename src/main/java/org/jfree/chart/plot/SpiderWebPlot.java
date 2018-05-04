@@ -74,7 +74,6 @@ package org.jfree.chart.plot;
 
 import org.checkerframework.checker.index.qual.NonNegative;
 
-
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;

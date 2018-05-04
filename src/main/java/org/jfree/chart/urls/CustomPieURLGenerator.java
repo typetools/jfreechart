@@ -44,9 +44,7 @@ package org.jfree.chart.urls;
 import org.checkerframework.common.value.qual.*;
 import org.checkerframework.checker.index.qual.*;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
-
 
 import java.io.Serializable;
 import java.util.ArrayList;

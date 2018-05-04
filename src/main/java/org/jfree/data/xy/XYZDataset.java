@@ -44,9 +44,7 @@
 package org.jfree.data.xy;
 import org.checkerframework.checker.index.qual.*;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
-
 
 /**
  * The interface through which JFreeChart obtains data in the form of (x, y, z)

@@ -52,7 +52,6 @@ package org.jfree.chart.urls;
 
 import org.checkerframework.checker.index.qual.NonNegative;
 
-
 import java.io.Serializable;
 import org.jfree.chart.util.ObjectUtils;
 import org.jfree.chart.util.Args;

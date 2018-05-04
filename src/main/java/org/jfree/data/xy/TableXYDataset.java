@@ -43,7 +43,6 @@
 package org.jfree.data.xy;
 import org.checkerframework.checker.index.qual.*;
 
-
 /**
  * A dataset containing one or more data series containing (x, y) data items,
  * where all series in the dataset share the same set of x-values.  This is a

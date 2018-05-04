@@ -115,7 +115,6 @@
 package org.jfree.chart.axis;
 import org.checkerframework.checker.index.qual.NonNegative;
 
-
 import org.checkerframework.common.value.qual.ArrayLen;
 import org.checkerframework.dataflow.qual.Pure;
 

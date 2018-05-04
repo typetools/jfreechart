@@ -43,9 +43,7 @@
 package org.jfree.data.xy;
 import org.checkerframework.checker.index.qual.*;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
-
 
 /**
  * Represent a data set where X is a symbolic values. Each symbolic value is

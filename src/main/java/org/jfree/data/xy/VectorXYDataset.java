@@ -47,7 +47,6 @@ package org.jfree.data.xy;
 
 import org.checkerframework.checker.index.qual.*;
 
-
 /**
  * An extension of the {@link XYDataset} interface that allows a vector to be
  * defined at a specific (x, y) location.

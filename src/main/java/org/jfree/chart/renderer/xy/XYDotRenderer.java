@@ -57,9 +57,7 @@ package org.jfree.chart.renderer.xy;
 import org.checkerframework.common.value.qual.*;
 import org.checkerframework.checker.index.qual.*;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
-
 
 import java.awt.Graphics2D;
 import java.awt.Paint;

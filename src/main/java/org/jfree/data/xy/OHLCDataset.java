@@ -49,9 +49,7 @@
 package org.jfree.data.xy;
 import org.checkerframework.checker.index.qual.*;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
-
 
 /**
  * An interface that defines data in the form of (x, high, low, open, close)

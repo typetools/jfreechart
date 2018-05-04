@@ -43,9 +43,7 @@
 package org.jfree.chart.labels;
 import org.checkerframework.checker.index.qual.*;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
-
 
 import org.jfree.data.xy.XYZDataset;
 

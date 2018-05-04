@@ -29,9 +29,7 @@
 package org.jfree.chart.util;
 import org.checkerframework.checker.index.qual.*;
 
-
 import org.checkerframework.checker.index.qual.NonNegative;
-
 
 /**
  * A list of objects that can grow as required.
