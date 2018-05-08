@@ -128,7 +128,7 @@ public class TickUnits implements TickUnitSource, Cloneable, Serializable {
      * @return A tick unit that is larger than the supplied unit.
      */
     @Override
-    @SuppressWarnings("index") // binary search on list
+    @SuppressWarnings("index") // binary search on list, which SearchIndex does not handle because lists are not fixed-size data structure
     public TickUnit getLargerTickUnit(TickUnit unit) {
         int index = Collections.binarySearch(this.tickUnits, unit);
         if (index >= 0) {
@@ -151,7 +151,7 @@ public class TickUnits implements TickUnitSource, Cloneable, Serializable {
      * @return A unit from the collection.
      */
     @Override
-    @SuppressWarnings("index") // binary search on list
+    @SuppressWarnings("index") // binary search on list, which SearchIndex does not handle because lists are not fixed-size data structure
     public TickUnit getCeilingTickUnit(TickUnit unit) {
         int index = Collections.binarySearch(this.tickUnits, unit);
         if (index >= 0) {

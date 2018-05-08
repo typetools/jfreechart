@@ -696,7 +696,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
             else {
                 int index = Collections.binarySearch(this.data, item);
                 if (index < 0) {
-                    @SuppressWarnings("index") // binary search on list
+                    @SuppressWarnings("index") // binary search on list, which SearchIndex does not handle because lists are not fixed-size data structure
                     @NonNegative int index1 = -index - 1;
                     this.data.add(index1, item);
                     added = true;
@@ -947,7 +947,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
         }
         else {
             item = (TimeSeriesDataItem) item.clone();
-            @SuppressWarnings("index") // binary search on list
+            @SuppressWarnings("index") // binary search on list, which SearchIndex does not handle because lists are not fixed-size data structure
             @NonNegative int index1 = -index - 1;
             this.data.add(index1, item);
             updateBoundsForAddedItem(item);

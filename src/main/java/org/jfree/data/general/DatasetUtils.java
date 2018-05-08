@@ -1639,7 +1639,7 @@ public final class DatasetUtils {
                     if (dataset instanceof IntervalXYDataset) {
                         IntervalXYDataset intervalXYData
                             = (IntervalXYDataset) dataset;
-                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+                        @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
                         double valueTmp = intervalXYData.getStartXValue(series, item);
                         value = valueTmp;
                     }
@@ -1696,7 +1696,7 @@ public final class DatasetUtils {
                     if (dataset instanceof IntervalXYDataset) {
                         IntervalXYDataset intervalXYData
                             = (IntervalXYDataset) dataset;
-                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+                        @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
                         double valueTmp = intervalXYData.getEndXValue(series, item);
                         value = valueTmp;
                     }
@@ -1805,13 +1805,13 @@ public final class DatasetUtils {
                     if (dataset instanceof IntervalXYDataset) {
                         IntervalXYDataset intervalXYData
                                 = (IntervalXYDataset) dataset;
-                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+                        @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
                                 double valueTmp = intervalXYData.getStartYValue(series, item);
                         value = valueTmp;
                     }
                     else if (dataset instanceof OHLCDataset) {
                         OHLCDataset highLowData = (OHLCDataset) dataset;
-                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+                        @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
                         double valueTmp = highLowData.getLowValue(series, item);
                         value = valueTmp;
                     }
@@ -1922,13 +1922,13 @@ public final class DatasetUtils {
                     if (dataset instanceof IntervalXYDataset) {
                         IntervalXYDataset intervalXYData
                                 = (IntervalXYDataset) dataset;
-                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+                        @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
                                double valueTmp = intervalXYData.getEndYValue(series, item);
                         value = valueTmp;
                     }
                     else if (dataset instanceof OHLCDataset) {
                         OHLCDataset highLowData = (OHLCDataset) dataset;
-                        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+                        @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
                                double valueTmp = highLowData.getHighValue(series, item);
                         value = valueTmp;
                     }

@@ -671,7 +671,7 @@ public class CandlestickRenderer extends AbstractXYItemRenderer
         }
 
         OHLCDataset highLowData = (OHLCDataset) dataset;
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+        @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
         @IndexFor("highLowData.getSeries(series)") int highLowItem = item;
 
         double x = highLowData.getXValue(series, highLowItem);
@@ -732,7 +732,7 @@ public class CandlestickRenderer extends AbstractXYItemRenderer
                 case WIDTHMETHOD_INTERVALDATA:
                     IntervalXYDataset intervalDataset
                             = (IntervalXYDataset) dataset;
-                    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+                    @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
                     @NonNegative @UpperBoundBottom int intervalXYItem = item;
                     double startPos = domainAxis.valueToJava2D(
                             intervalDataset.getStartXValue(series, intervalXYItem),

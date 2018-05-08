@@ -196,7 +196,7 @@ public class XYBubbleRenderer extends AbstractXYItemRenderer
         if (dataset instanceof XYZDataset) {
             XYZDataset xyzData = (XYZDataset) dataset;
 
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+            @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
             @IndexFor("xyzData.getSeries(series)") int xyzItem = item;
             z = xyzData.getZValue(series, xyzItem);
         }

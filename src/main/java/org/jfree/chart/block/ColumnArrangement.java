@@ -310,7 +310,7 @@ public class ColumnArrangement implements Arrangement, Serializable {
      *
      * @return The size after the arrangement.
      */
-    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/152
+    @SuppressWarnings("index") // @LengthIs https://github.com/kelloggm/checker-framework/issues/152
     protected Size2D arrangeNN(BlockContainer container, Graphics2D g2) {
         double y = 0.0;
         double height = 0.0;

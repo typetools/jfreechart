@@ -125,7 +125,7 @@ public class WindItemRenderer extends AbstractXYItemRenderer
             @NonNegative int series, @IndexFor("#8.getSeries(#9)") int item, CrosshairState crosshairState, int pass) {
 
         WindDataset windData = (WindDataset) dataset;
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+        @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
             @IndexFor("windData.getSeries(series)") int windItem = item;
 
         Paint seriesPaint = getItemPaint(series, item);

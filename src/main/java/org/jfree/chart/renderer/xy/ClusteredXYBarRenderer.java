@@ -230,7 +230,7 @@ public class ClusteredXYBarRenderer extends XYBarRenderer
             @NonNegative int series, @IndexFor("#8.getSeries(#9)") int item, CrosshairState crosshairState, int pass) {
 
         IntervalXYDataset intervalDataset = (IntervalXYDataset) dataset;
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+        @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
         @IndexFor("intervalDataset.getSeries(series)") int intervalXYItem = item;
 
         double y0;

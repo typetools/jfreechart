@@ -227,7 +227,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The starting X value.
      */
     @Override
-    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212: interval delegate and this.getSeries have the same conceptual length
+    @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212: interval delegate and this.getSeries have the same conceptual length
     public Number getStartX(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         return this.intervalDelegate.getStartX(series, item);
     }
@@ -241,7 +241,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The ending X value.
      */
     @Override
-    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212: interval delegate and this.getSeries have the same conceptual length
+    @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212: interval delegate and this.getSeries have the same conceptual length
     public Number getEndX(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         return this.intervalDelegate.getEndX(series, item);
     }

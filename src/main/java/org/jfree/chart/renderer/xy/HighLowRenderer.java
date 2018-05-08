@@ -351,7 +351,7 @@ public class HighLowRenderer extends AbstractXYItemRenderer
         if (dataset instanceof OHLCDataset) {
             OHLCDataset hld = (OHLCDataset) dataset;
 
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/209
+            @SuppressWarnings("index") // SameLen to a method with any argument https://github.com/kelloggm/checker-framework/issues/209
             @IndexFor("hld.getSeries(series)") int hldItem = item;
 
             double yHigh = hld.getHighValue(series, hldItem);

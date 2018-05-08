@@ -130,7 +130,7 @@ public class CSV {
             if (line.charAt(i) == this.fieldDelimiter) {
                 if (fieldIndex > 0) {  // first field is ignored, since
                                        // column 0 is for row keys
-                    @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/138
+                    @SuppressWarnings("index") // MinLen type refinement in for loop https://github.com/kelloggm/checker-framework/issues/138
                     String key = line.substring(start, i);
                     keys.add(removeStringDelimiters(key));
                 }

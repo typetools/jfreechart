@@ -234,7 +234,7 @@ public class VectorRenderer extends AbstractXYItemRenderer
         double dy = 0.0;
         if (dataset instanceof VectorXYDataset) {
             VectorXYDataset vectorXYDataset = (VectorXYDataset) dataset;
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+            @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
             @IndexFor("vectorXYDataset.getSeries(series)") int vectorXYItem = item;
             dx = vectorXYDataset.getVectorXValue(series, vectorXYItem);
             dy = vectorXYDataset.getVectorYValue(series, vectorXYItem);

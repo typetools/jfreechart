@@ -390,7 +390,7 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
         BoxAndWhiskerXYDataset boxAndWhiskerData
                 = (BoxAndWhiskerXYDataset) dataset;
 
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+        @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
         @IndexFor("boxAndWhiskerData.getSeries(series)") int boxAndWhiskerItem = item;
 
         Number x = boxAndWhiskerData.getX(series, boxAndWhiskerItem);
@@ -533,7 +533,7 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
         BoxAndWhiskerXYDataset boxAndWhiskerData
             = (BoxAndWhiskerXYDataset) dataset;
 
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+        @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
         @IndexFor("boxAndWhiskerData.getSeries(series)") int boxAndWhiskerItem = item;
 
         Number x = boxAndWhiskerData.getX(series, boxAndWhiskerItem);

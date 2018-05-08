@@ -410,7 +410,7 @@ public class XYBlockRenderer extends AbstractXYItemRenderer
         double z = 0.0;
         if (dataset instanceof XYZDataset) {
             XYZDataset xyzDataset = ((XYZDataset) dataset);
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+            @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
             @IndexFor("xyzDataset.getSeries(series)") int xyzItem = item;
             z = xyzDataset.getZValue(series, xyzItem);
         }

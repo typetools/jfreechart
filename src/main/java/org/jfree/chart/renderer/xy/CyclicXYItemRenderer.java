@@ -361,7 +361,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @param y  the y values.
          * @param delegateSet  the dataset.
          */
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/213
+        @SuppressWarnings("index") // SameLen on custom collections requires a suppressed warning to establish representation invariant https://github.com/kelloggm/checker-framework/issues/213
         public OverwriteDataSet(double @SameLen("#2") [] x, double @SameLen("#1") [] y,
                                 XYDataset delegateSet) {
             this.delegateSet = delegateSet;
@@ -390,7 +390,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The item count.
          */
         @Override
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/209
+        @SuppressWarnings("index") // SameLen to a method with any argument https://github.com/kelloggm/checker-framework/issues/209
         public @LengthOf("this.getSeries(#1)") int getItemCount(@NonNegative int series) {
             return this.x.length;
         }
@@ -404,7 +404,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The x-value.
          */
         @Override
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/209
+        @SuppressWarnings("index") // SameLen to a method with any argument https://github.com/kelloggm/checker-framework/issues/209
         public Number getX(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
             return this.x[item];
         }
@@ -437,7 +437,7 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @return The y-value.
          */
         @Override
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/209
+        @SuppressWarnings("index") // SameLen to a method with any argument https://github.com/kelloggm/checker-framework/issues/209
         public Number getY(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
             return this.y[item];
         }

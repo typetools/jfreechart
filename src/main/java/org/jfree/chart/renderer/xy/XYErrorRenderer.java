@@ -314,7 +314,7 @@ public class XYErrorRenderer extends XYLineAndShapeRenderer {
                 && getItemVisible(series, item)) {
             IntervalXYDataset ixyd = (IntervalXYDataset) dataset;
 
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+            @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
             @IndexFor("ixyd.getSeries(series)") int ixydItem = item;
 
             PlotOrientation orientation = plot.getOrientation();

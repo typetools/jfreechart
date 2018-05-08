@@ -186,7 +186,7 @@ public class BubbleXYItemLabelGenerator extends AbstractXYItemLabelGenerator
         Object[] items;
         if (dataset instanceof XYZDataset) {
             XYZDataset xyzDataset = (XYZDataset) dataset;
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+            @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
                     @IndexFor("xyzDataset.getSeries(series)") int item1 = item;
             items = createItemArray(xyzDataset, series, item1);
         }

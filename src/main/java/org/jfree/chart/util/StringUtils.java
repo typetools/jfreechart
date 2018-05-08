@@ -65,13 +65,11 @@ public class StringUtils {
      * @return true, if the string ends with the given ending text.
      */
     public static boolean endsWithIgnoreCase(String base, String end) {
-        if (base.length() < end.length()) {
+        int baseLen = base.length();
+        if (baseLen < end.length()) {
             return false;
         }
-
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/154
-        @NonNegative int toffset = base.length() - end.length();
-        return base.regionMatches(true, toffset, end, 0, end.length());
+        return base.regionMatches(true, baseLen - end.length(), end, 0, end.length());
     }
 
     /**

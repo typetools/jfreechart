@@ -221,7 +221,7 @@ public class ComparableObjectSeries extends Series
         if (this.autoSort) {
             int index = Collections.binarySearch(this.data, item);
             if (index < 0) {
-                @SuppressWarnings("index") // binary search on list
+                @SuppressWarnings("index") // binary search on list, which SearchIndex does not handle because lists are not fixed-size data structure
                 @NonNegative int reverseIndex = -index - 1;
                 this.data.add(reverseIndex, item);
             }

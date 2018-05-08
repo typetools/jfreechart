@@ -154,7 +154,7 @@ public class IntervalXYToolTipGenerator extends AbstractXYItemLabelGenerator
     protected Object@MinLen(7) [] createItemArray(XYDataset dataset, @NonNegative int series,
             @IndexFor("#1.getSeries(#2)") int item) {
         IntervalXYDataset intervalDataset = null;
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/212
+        @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
         @IndexFor("intervalDataset.getSeries(series)") int itemIntervalDataset = item;
         if (dataset instanceof IntervalXYDataset) {
             intervalDataset = (IntervalXYDataset) dataset;
