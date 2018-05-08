@@ -203,7 +203,7 @@ public class BoxAndWhiskerRendererTest {
                 = new DefaultBoxAndWhiskerCategoryDataset() {
 
             @Override
-            public Number getQ1Value(@NonNegative int row, @NonNegative int column) {
+            public Number getQ1Value(int row, int column) {
                 return null;
             }
 
@@ -248,7 +248,7 @@ public class BoxAndWhiskerRendererTest {
                 = new DefaultBoxAndWhiskerCategoryDataset() {
 
             @Override
-            public Number getQ1Value(@NonNegative int row, @NonNegative int column) {
+            public Number getQ1Value(int row, int column) {
                 return null;
             }
 

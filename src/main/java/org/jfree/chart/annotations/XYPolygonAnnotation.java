@@ -221,20 +221,19 @@ public class XYPolygonAnnotation extends AbstractXYAnnotation
         RectangleEdge rangeEdge = Plot.resolveRangeAxisLocation(
                 plot.getRangeAxisLocation(), orientation);
 
-        GeneralPath area = new GeneralPath();
-
-        @SuppressWarnings("index") // Length is checked above, and all functions called in-between are pure
         double x = domainAxis.valueToJava2D(this.polygon[0], dataArea,
                 domainEdge);
-        @SuppressWarnings("index") // Length is checked above, and all functions called in-between are pure
         double y = rangeAxis.valueToJava2D(this.polygon[1], dataArea,
                 rangeEdge);
+
+        GeneralPath area = new GeneralPath();
+
         if (orientation == PlotOrientation.HORIZONTAL) {
             area.moveTo((float) y, (float) x);
             for (int i = 2; i < this.polygon.length; i += 2) {
                 x = domainAxis.valueToJava2D(this.polygon[i], dataArea,
                         domainEdge);
-                @SuppressWarnings("index") // polygon always has an even number of elements, and i is an odd index
+                @SuppressWarnings("index") // polygon always has an even number of elements, and i is even and less than the length of polygon, so i + 1 must be an index
                 double y1 = this.polygon[i + 1];
                 y = rangeAxis.valueToJava2D(y1, dataArea,
                         rangeEdge);
@@ -247,7 +246,7 @@ public class XYPolygonAnnotation extends AbstractXYAnnotation
             for (int i = 2; i < this.polygon.length; i += 2) {
                 x = domainAxis.valueToJava2D(this.polygon[i], dataArea,
                         domainEdge);
-                @SuppressWarnings("index") // polygon always has an even number of elements, and i is an odd index
+                @SuppressWarnings("index") // polygon always has an even number of elements, and i is even and less than the length of polygon, so i + 1 must be an index
                 double y1 = this.polygon[i + 1];
                 y = rangeAxis.valueToJava2D(y1, dataArea,
                         rangeEdge);

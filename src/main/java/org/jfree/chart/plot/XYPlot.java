@@ -240,7 +240,6 @@ import org.checkerframework.checker.index.qual.*;
 import org.checkerframework.common.value.qual.*;
 import org.checkerframework.dataflow.qual.Pure;
 
-
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;

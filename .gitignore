@@ -2,8 +2,6 @@
 /target/
 /javadoc/
 
-build/
-
 # Eclipse files #
 /.classpath
 /.project

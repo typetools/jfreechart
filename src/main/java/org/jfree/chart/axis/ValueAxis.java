@@ -119,7 +119,6 @@ import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.common.value.qual.ArrayLen;
 import org.checkerframework.dataflow.qual.Pure;
 
-
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
