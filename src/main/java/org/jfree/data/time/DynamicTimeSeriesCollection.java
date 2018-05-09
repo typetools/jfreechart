@@ -428,7 +428,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         }
         if (fillNeeded) {
             for (i = copyLength; i < this.historyCount; i++) {
-                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+                @SuppressWarnings("index") // String array bug https://github.com/kelloggm/checker-framework/issues/205
                 @LTLengthOf("this.valueHistory[seriesNumber]") int i0 = i;
                 this.valueHistory[seriesNumber].enterData(i0, 0.0f);
             }
@@ -474,7 +474,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         // But if that series array already exists, just overwrite its contents
         //synchronized(this)
         //{
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+        @SuppressWarnings("index") // String array bug https://github.com/kelloggm/checker-framework/issues/205
                 @LTLengthOf("this.valueHistory[seriesNumber]") int index0 = index;
             this.valueHistory[seriesNumber].enterData(index0, value);
         //}
@@ -594,7 +594,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
             oldMax = this.maxValue.floatValue();
         }
         for (int s = 0; s < getSeriesCount(); s++) {
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+            @SuppressWarnings("index") // String array bug https://github.com/kelloggm/checker-framework/issues/205
                 @LTLengthOf("this.valueHistory[s]") int oldestAt = this.oldestAt;
             if (this.valueHistory[s].getData(oldestAt) == oldMax) {
                 extremaChanged = true;
@@ -609,7 +609,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         //  wipe the next (about to be used) set of data slots
         float wiper = (float) 0.0;
         for (int s = 0; s < getSeriesCount(); s++) {
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+            @SuppressWarnings("index") // String array bug https://github.com/kelloggm/checker-framework/issues/205
                 @LTLengthOf("this.valueHistory[s]") int newestAt = this.newestAt;
             this.valueHistory[s].enterData(newestAt, wiper);
         }
@@ -654,7 +654,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
         double max = 0.0f;
         for (int s = 0; s < getSeriesCount(); s++) {
             for (int i = 0; i < this.historyCount; i++) {
-                @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+                @SuppressWarnings("index") // String array bug https://github.com/kelloggm/checker-framework/issues/205
                 @LTLengthOf("this.getSeries(s)") int i0 = i;
                 double tmp = getYValue(s, i0);
                 if (tmp > max) {
@@ -707,7 +707,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
                 @SameLen("this.pointsInTime") ValueSequence valueSequence = new ValueSequence(this.historyCount);
                 this.valueHistory[s] = valueSequence;
             }
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+            @SuppressWarnings("index") // String array bug https://github.com/kelloggm/checker-framework/issues/205
                 @LTLengthOf("this.valueHistory[s]") int newestAt = this.newestAt;
             this.valueHistory[s].enterData(newestAt, newData[s]);
         }
@@ -734,7 +734,7 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
                 @SameLen("this.pointsInTime") ValueSequence valueSequence = new ValueSequence(this.historyCount);
                 this.valueHistory[s] = valueSequence;
             }
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/205
+            @SuppressWarnings("index") // String array bug https://github.com/kelloggm/checker-framework/issues/205
                 @LTLengthOf("this.valueHistory[s]") int insertionIndex0 = insertionIndex;
             this.valueHistory[s].enterData(insertionIndex0, newData[s]);
         }

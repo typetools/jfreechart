@@ -223,7 +223,7 @@ public abstract class SerialDate implements Comparable, Serializable,
 
         final String[] shortWeekdayNames 
             = DATE_FORMAT_SYMBOLS.getShortWeekdays();
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/179
+        @SuppressWarnings("index") // SameLen checker could use the Value Checker https://github.com/kelloggm/checker-framework/issues/179
         final String @SameLen("shortWeekdayNames") [] weekDayNames = DATE_FORMAT_SYMBOLS.getWeekdays();
 
         int result = -1;
@@ -352,7 +352,7 @@ public abstract class SerialDate implements Comparable, Serializable,
      *
      * @return a string representing the supplied month.
      */
-    public static String monthCodeToString(@IntRange(from=1, to=12) int month) {
+    public static String monthCodeToString(@IntRange(from = 1, to = 12) int month) {
         return monthCodeToString(month, false);
     }
 
@@ -367,7 +367,7 @@ public abstract class SerialDate implements Comparable, Serializable,
      *
      * @return a string representing the supplied month.
      */
-    public static String monthCodeToString(@IntRange(from=1, to=12) int month, boolean shortened) {
+    public static String monthCodeToString(@IntRange(from = 1, to = 12) int month, boolean shortened) {
 
         // check arguments...
         if (!isValidMonthCode(month)) {
@@ -378,12 +378,10 @@ public abstract class SerialDate implements Comparable, Serializable,
         final String @ArrayLen(13) [] months;
 
         if (shortened) {
-            final String[] monthsTmp = DATE_FORMAT_SYMBOLS.getShortMonths();
-            months = monthsTmp;
+            months = DATE_FORMAT_SYMBOLS.getShortMonths();
         }
         else {
-            final String[] monthsTmp = DATE_FORMAT_SYMBOLS.getMonths();
-            months = monthsTmp;
+            months = DATE_FORMAT_SYMBOLS.getMonths();
         }
 
         return months[month - 1];
@@ -405,8 +403,7 @@ public abstract class SerialDate implements Comparable, Serializable,
     public static @IntRange(from = -1, to = 12) int stringToMonthCode(String s) {
 
         final String[] shortMonthNames = DATE_FORMAT_SYMBOLS.getShortMonths();
-        @SuppressWarnings("index") // Need annotations on Date Format Symbols
-        final String @SameLen("shortMonthNames") [] monthNames = DATE_FORMAT_SYMBOLS.getMonths();
+        final String[] monthNames = DATE_FORMAT_SYMBOLS.getMonths();
 
         int result = -1;
         s = s.trim();
@@ -492,8 +489,8 @@ public abstract class SerialDate implements Comparable, Serializable,
      *
      * @return the number of leap years from 1900 to the specified year (if year is 9999, 1964 leap years).
      */
-    @SuppressWarnings({"index", "value"}) // imprecision wrt ranges
-    public static @IntRange(from = 0, to = 1964) int leapYearCount(@IntRange(from = 1900, to = 9999)int yyyy) {
+    @SuppressWarnings({"index", "value"}) // The Value Checker loses some precision here, I believe due to imprecise estimation of division on ranges
+    public static @IntRange(from = 0, to = 1964) int leapYearCount(@IntRange(from = 1900, to = 9999) int yyyy) {
         int leap4 = (yyyy - 1896) / 4;
         int leap100 = (yyyy - 1800) / 100;
         int leap400 = (yyyy - 1600) / 400;
@@ -510,7 +507,7 @@ public abstract class SerialDate implements Comparable, Serializable,
      * @return the number of the last day of the month.
      */
     @SuppressWarnings({"index", "value"}) // February has 28 days, so 1 is only added to 28, not 31.
-    public static @IntRange(from = 28, to = 31) int lastDayOfMonth(@IntRange(from=1, to=12) int month, int yyyy) {
+    public static @IntRange(from = 28, to = 31) int lastDayOfMonth(@IntRange(from = 1, to = 12) int month, int yyyy) {
 
         final int result = LAST_DAY_OF_MONTH[month];
         if (month != FEBRUARY) {
@@ -552,17 +549,15 @@ public abstract class SerialDate implements Comparable, Serializable,
      *
      * @return a new date.
      */
-    @SuppressWarnings({"index", "value"}) // True positive, fixed upstream bug
     public static SerialDate addMonths(int months, SerialDate base) {
         int yy = (12 * base.getYYYY() + base.getMonth() + months - 1) / 12;
         if (yy < MINIMUM_YEAR_SUPPORTED || yy > MAXIMUM_YEAR_SUPPORTED) {
             throw new IllegalArgumentException("Call to addMonths resulted in unsupported year");
         }
         int mm = (12 * base.getYYYY() + base.getMonth() + months - 1) % 12 + 1;
-        int lastDayOfMonth = SerialDate.lastDayOfMonth(mm, yy);
-        @SuppressWarnings({"index", "value"}) // https://github.com/typetools/checker-framework/issues/1687
+        @SuppressWarnings({"index", "value"}) // Value Checker support for Math#min and Math#max https://github.com/typetools/checker-framework/issues/1687
         @IntRange(from = 1, to = 31) int dd = Math.min(base.getDayOfMonth(),
-                lastDayOfMonth);
+                SerialDate.lastDayOfMonth(mm, yy));
         return SerialDate.createInstance(dd, mm, yy);
     }
 
@@ -575,7 +570,6 @@ public abstract class SerialDate implements Comparable, Serializable,
      *
      * @return A new date.
      */
-    @SuppressWarnings({"index", "value"}) // True positive, fixed upstream bug
     public static SerialDate addYears(int years, SerialDate base) {
         int baseY = base.getYYYY();
         int baseM = base.getMonth();
@@ -840,7 +834,7 @@ public abstract class SerialDate implements Comparable, Serializable,
      *
      * @return the month of the year.
      */
-    public abstract @IntRange(from=1, to=12) int getMonth();
+    public abstract @IntRange(from = 1, to = 12) int getMonth();
 
     /**
      * Returns the day of the month.

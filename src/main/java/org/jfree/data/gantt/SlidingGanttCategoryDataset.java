@@ -176,10 +176,9 @@ public class SlidingGanttCategoryDataset extends AbstractDataset
     @Override
     public @GTENegativeOne int getColumnIndex(Comparable key) {
         int index = this.underlying.getColumnIndex(key);
-        if (index >= this.firstCategoryIndex && index <= lastCategoryIndex()) {
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158
-            @NonNegative int result = index - this.firstCategoryIndex;
-            return result;
+        int firstCategoryIndex = this.firstCategoryIndex;
+        if (index >= firstCategoryIndex && index <= lastCategoryIndex()) {
+            return index - firstCategoryIndex;
         }
         return -1;  // we didn't find the key
     }

@@ -116,9 +116,9 @@ public class AbstractObjectList implements Cloneable, Serializable {
         }
         if (index >= this.objects.length) {
             Object[] enlarged = new Object[index + this.increment];
-            //@SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/176
-            //@LTLengthOf(value={"this.objects", "enlarged"}, offset={"0 - 1", "0 - 1"}) int tmp = this.objects.length;
-            System.arraycopy(this.objects, 0, enlarged, 0, this.objects.length);
+            @SuppressWarnings("index") // this.objects.length <= index <= enlarged.length
+            @LTLengthOf(value={"this.objects", "enlarged"}, offset={"-1", "-1"}) int objectsLen = this.objects.length;
+            System.arraycopy(this.objects, 0, enlarged, 0, objectsLen);
             this.objects = enlarged;
         }
         @SuppressWarnings("index") // if index wasn't large enough before, this.objects was enlarged by the code above

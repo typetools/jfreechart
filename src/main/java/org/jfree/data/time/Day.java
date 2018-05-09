@@ -207,7 +207,7 @@ public class Day extends RegularTimePeriod implements Serializable {
      *
      * @return The month.
      */
-    public @IntRange(from=1, to=12) int getMonth() {
+    public @IntRange(from = 1, to = 12) int getMonth() {
         return this.serialDate.getMonth();
     }
 

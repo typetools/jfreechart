@@ -172,7 +172,7 @@ public class MonthDateFormat extends DateFormat {
         String[] monthsFromLocale = dfs.getMonths();
         this.months = new String[12];
         for (int i = 0; i < 12; i++) {
-            @SuppressWarnings({"index", "value"}) // https://github.com/typetools/checker-framework/issues/1669
+            @SuppressWarnings({"index", "value"}) // loop index is bounded by loop https://github.com/typetools/checker-framework/issues/1669
             @IntRange(from = 0, to = 11) int i1 = i;
             if (chars > 0) {
                 this.months[i1] = monthsFromLocale[i1].substring(0,
