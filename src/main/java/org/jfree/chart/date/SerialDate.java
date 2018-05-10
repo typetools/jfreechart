@@ -403,7 +403,8 @@ public abstract class SerialDate implements Comparable, Serializable,
     public static @IntRange(from = -1, to = 12) int stringToMonthCode(String s) {
 
         final String[] shortMonthNames = DATE_FORMAT_SYMBOLS.getShortMonths();
-        final String[] monthNames = DATE_FORMAT_SYMBOLS.getMonths();
+        @SuppressWarnings("index") // DateFormatSymbols can't be annotated correctly because of https://github.com/kelloggm/checker-framework/issues/223
+        final String @SameLen("shortMonthNames") [] monthNames = DATE_FORMAT_SYMBOLS.getMonths();
 
         int result = -1;
         s = s.trim();
@@ -554,10 +555,10 @@ public abstract class SerialDate implements Comparable, Serializable,
         if (yy < MINIMUM_YEAR_SUPPORTED || yy > MAXIMUM_YEAR_SUPPORTED) {
             throw new IllegalArgumentException("Call to addMonths resulted in unsupported year");
         }
-        int mm = (12 * base.getYYYY() + base.getMonth() + months - 1) % 12 + 1;
+        @SuppressWarnings({"index", "value"}) // if months is negative, then yy would be out of range and the exception above is thrown.
+        @IntRange(from = 1, to = 12) int mm = (12 * base.getYYYY() + base.getMonth() + months - 1) % 12 + 1;
         @SuppressWarnings({"index", "value"}) // Value Checker support for Math#min and Math#max https://github.com/typetools/checker-framework/issues/1687
-        @IntRange(from = 1, to = 31) int dd = Math.min(base.getDayOfMonth(),
-                SerialDate.lastDayOfMonth(mm, yy));
+        @IntRange(from = 1, to = 31) int dd = Math.min(base.getDayOfMonth(), SerialDate.lastDayOfMonth(mm, yy));
         return SerialDate.createInstance(dd, mm, yy);
     }
 
@@ -579,7 +580,8 @@ public abstract class SerialDate implements Comparable, Serializable,
         if (targetY < MINIMUM_YEAR_SUPPORTED || targetY > MAXIMUM_YEAR_SUPPORTED) {
             throw new IllegalArgumentException("Call to addYears resulted in unsupported year");
         }
-        int targetD = Math.min(baseD, SerialDate.lastDayOfMonth(baseM, targetY));
+        @SuppressWarnings({"index", "value"}) // Value Checker support for Math#min and Math#max https://github.com/typetools/checker-framework/issues/1687
+        @IntRange(from = 1, to = 31) int targetD = Math.min(baseD, SerialDate.lastDayOfMonth(baseM, targetY));
         return SerialDate.createInstance(targetD, baseM, targetY);
     }
 
