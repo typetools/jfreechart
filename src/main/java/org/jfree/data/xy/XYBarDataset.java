@@ -126,7 +126,6 @@ public class XYBarDataset extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
     public @NonNegative int getSeriesCount() {
         return this.underlying.getSeriesCount();
     }

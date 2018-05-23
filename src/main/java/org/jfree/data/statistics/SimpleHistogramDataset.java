@@ -166,7 +166,6 @@ public class SimpleHistogramDataset extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    @SuppressWarnings("index") // array-list interop: the underlying data structure here is a list, but this method's annotation expects an array
     public @LengthOf("this.getSeries(#1)") int getItemCount(@NonNegative int series) {
         return this.bins.size();
     }

@@ -172,7 +172,6 @@ public class CSV {
                         (Comparable) columnKeys.get(fieldIndex - 1)
                     );
                 }
-                @SuppressWarnings("index") // line is CSV formatted, so skipping is okay here
                 @IndexOrHigh("line") int skipIndex = i + 1;
                 start = skipIndex;
                 fieldIndex++;
