@@ -389,9 +389,8 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
      * Use this as-is during setup only, or add the synchronized keyword around
      * the copy loop.
      */
-    public void addSeries(float[] values, @NonNegative int seriesNumber,
+    public void addSeries(float @LengthOf("this.historyCount")[] values, @NonNegative int seriesNumber,
             Comparable seriesKey) {
-
         invalidateRangeInfo();
         int i;
         if (values == null) {
@@ -409,17 +408,16 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
             this.seriesCount++;
         }
         // But if that series array already exists, just overwrite its contents
+        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158: this.valueHistory[seriesNumber]'s length is <= this.historyCount
+        @IndexFor({"this.valueHistory[seriesNumber]","values"}) int historyCount = this.historyCount;
 
         // Avoid IndexOutOfBoundsException:
         int srcLength = values.length;
-        @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158: this.valueHistory[seriesNumber]'s length is <= this.historyCount
-        @LTEqLengthOf({"this.valueHistory[seriesNumber]", "values"}) int copyLength = this.historyCount;
+        int copyLength = historyCount;
         boolean fillNeeded = false;
-        if (srcLength < this.historyCount) {
+        if (srcLength < historyCount) {
             fillNeeded = true;
-            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158: this.valueHistory[seriesNumber]'s length is <= this.historyCount
-            @LTEqLengthOf({"this.valueHistory[seriesNumber]", "values"}) int newCopyLength = srcLength;
-            copyLength = newCopyLength;
+            copyLength = srcLength;
         }
         //{
         for (i = 0; i < copyLength; i++) { // deep copy from values[], caller
@@ -427,10 +425,8 @@ public class DynamicTimeSeriesCollection extends AbstractIntervalXYDataset
             this.valueHistory[seriesNumber].enterData(i, values[i]);
         }
         if (fillNeeded) {
-            for (i = copyLength; i < this.historyCount; i++) {
-                @SuppressWarnings("index") // String array bug https://github.com/kelloggm/checker-framework/issues/205
-                @LTLengthOf("this.valueHistory[seriesNumber]") int i0 = i;
-                this.valueHistory[seriesNumber].enterData(i0, 0.0f);
+            for (i = copyLength; i < historyCount; i++) {
+                this.valueHistory[seriesNumber].enterData(i, 0.0f);
             }
         }
       //}
