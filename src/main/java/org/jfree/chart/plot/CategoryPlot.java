@@ -2425,10 +2425,9 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
     public void clearDomainMarkers() {
         if (this.backgroundDomainMarkers != null) {
             
-                    Set<@NonNegative Integer> keys = this.backgroundDomainMarkers.keySet();
-            Iterator iterator = keys.iterator();
+            Set<@NonNegative Integer> keys = this.backgroundDomainMarkers.keySet();
+            Iterator<@NonNegative Integer> iterator = keys.iterator();
             while (iterator.hasNext()) {
-                @SuppressWarnings({"index", "value"}) // iterator over a set of nonnegative integers always returns a nonnegative integer?
                 @NonNegative Integer key = (Integer) iterator.next();
                 clearDomainMarkers(key.intValue());
             }
@@ -2437,9 +2436,8 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         if (this.foregroundDomainMarkers != null) {
 
             Set<@NonNegative Integer> keys = this.foregroundDomainMarkers.keySet();
-            Iterator iterator = keys.iterator();
+            Iterator<@NonNegative Integer> iterator = keys.iterator();
             while (iterator.hasNext()) {
-                @SuppressWarnings({"index", "value"}) // iterator over a set of nonnegative integers always returns a nonnegative integer?
                 @NonNegative Integer key = (Integer) iterator.next();
                 clearDomainMarkers(key.intValue());
             }
@@ -2702,9 +2700,8 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         if (this.backgroundRangeMarkers != null) {
 
                     Set<@NonNegative Integer> keys = this.backgroundRangeMarkers.keySet();
-            Iterator iterator = keys.iterator();
+            Iterator<@NonNegative Integer> iterator = keys.iterator();
             while (iterator.hasNext()) {
-                @SuppressWarnings({"index", "value"}) // iterator over a set of nonnegative integers always returns a nonnegative integer?
                 @NonNegative Integer key = (Integer) iterator.next();
                 clearRangeMarkers(key.intValue());
             }
@@ -2713,9 +2710,8 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         if (this.foregroundRangeMarkers != null) {
 
                     Set<@NonNegative Integer> keys = this.foregroundRangeMarkers.keySet();
-            Iterator iterator = keys.iterator();
+            Iterator<@NonNegative Integer> iterator = keys.iterator();
             while (iterator.hasNext()) {
-                @SuppressWarnings({"index", "value"}) // iterator over a set of nonnegative integers always returns a nonnegative integer?
                 @NonNegative Integer key = (Integer) iterator.next();
                 clearRangeMarkers(key.intValue());
             }
