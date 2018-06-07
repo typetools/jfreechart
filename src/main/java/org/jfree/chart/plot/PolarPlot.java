@@ -259,7 +259,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      * entry for a dataset, it is assumed to map to the primary domain axis
      * (index = 0).
      */
-    private Map datasetToAxesMap;
+    private Map<@NonNegative Integer, List<@NonNegative Integer>> datasetToAxesMap;
 
     /**
      * Default constructor.
@@ -288,7 +288,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
         this.angleTickUnit = new NumberTickUnit(DEFAULT_ANGLE_TICK_UNIT_SIZE);
 
         this.axes = new ObjectList();
-        this.datasetToAxesMap = new TreeMap();
+        this.datasetToAxesMap = new TreeMap<>();
         this.axes.set(0, radiusAxis);
         if (radiusAxis != null) {
             radiusAxis.setPlot(this);
@@ -1250,13 +1250,12 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      *
      * @since 1.0.14
      */
-    public void mapDatasetToAxes(@NonNegative int index, List axisIndices) {
+    public void mapDatasetToAxes(@NonNegative int index, List<@NonNegative Integer> axisIndices) {
         if (index < 0) {
             throw new IllegalArgumentException("Requires 'index' >= 0.");
         }
         checkAxisIndices(axisIndices);
-        Integer key = new Integer(index);
-        this.datasetToAxesMap.put(key, new ArrayList(axisIndices));
+        this.datasetToAxesMap.put(index, new ArrayList<>(axisIndices));
         // fake a dataset change event to update axes...
         datasetChanged(new DatasetChangeEvent(this, getDataset(index)));
     }
@@ -1303,12 +1302,10 @@ public class PolarPlot extends Plot implements ValueAxisPlot, Zoomable,
      */
     public ValueAxis getAxisForDataset(@NonNegative int index) {
         ValueAxis valueAxis;
-        List axisIndices = (List) this.datasetToAxesMap.get(
-                new Integer(index));
+        List<@NonNegative Integer> axisIndices = this.datasetToAxesMap.get(index);
         if (axisIndices != null) {
             // the first axis in the list is used for data <--> Java2D
-            @SuppressWarnings("index") // guaranteed index: axesIndices[0] is always NN
-            @NonNegative int axisIndex = ((Integer) axisIndices.get(0)).intValue();
+            @NonNegative int axisIndex = axisIndices.get(0);
             valueAxis = getAxis(axisIndex);
         }
         else {

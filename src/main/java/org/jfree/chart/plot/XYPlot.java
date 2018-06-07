@@ -3058,7 +3058,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
             // reserve space for the domain axes...
             for (ValueAxis axis: this.domainAxes.values()) {
                 if (axis != null) {
-                    @SuppressWarnings("index") // guaranteed index: axis is guaranteed to be a domain axis, so findDomainAxisIndex will return NN
+                    @SuppressWarnings("index") // rewrite guaranteed index: axis is guaranteed to be a domain axis, so findDomainAxisIndex will return NN
                     RectangleEdge edge = getDomainAxisEdge(
                             findDomainAxisIndex(axis));
                     space = axis.reserveSpace(g2, this, plotArea, edge, space);
@@ -3105,7 +3105,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
             // reserve space for the range axes...
             for (ValueAxis axis: this.rangeAxes.values()) {
                 if (axis != null) {
-                    @SuppressWarnings("index") // guaranteed index: axis is guaranteed to be a range axis, so findRangeAxisIndex will return NN
+                    @SuppressWarnings("index") // rewrite guaranteed index: axis is guaranteed to be a range axis, so findRangeAxisIndex will return NN
                      RectangleEdge edge = getRangeAxisEdge(
                             findRangeAxisIndex(axis));
                     space = axis.reserveSpace(g2, this, plotArea, edge, space);
@@ -3275,12 +3275,12 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
 
         // draw the markers that are associated with a specific dataset...
         for (XYDataset dataset: this.datasets.values()) {
-            @SuppressWarnings("index") // guaranteed index: dataset is definitely a valid dataset, so its index will be nonnegative
+            @SuppressWarnings("index") // rewrite guaranteed index: dataset is definitely a valid dataset, so its index will be nonnegative
             @NonNegative int datasetIndex = indexOf(dataset);
             drawDomainMarkers(g2, dataArea, datasetIndex, Layer.BACKGROUND);
         }
         for (XYDataset dataset: this.datasets.values()) {
-            @SuppressWarnings("index") // guaranteed index: dataset is definitely a valid dataset, so its index will be nonnegative
+            @SuppressWarnings("index") // rewrite guaranteed index: dataset is definitely a valid dataset, so its index will be nonnegative
                     @NonNegative int datasetIndex = indexOf(dataset);
             drawRangeMarkers(g2, dataArea, datasetIndex, Layer.BACKGROUND);
         }
@@ -3647,7 +3647,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         // add domain axes to lists...
         for (ValueAxis axis : this.domainAxes.values()) {
             if (axis != null) {
-                @SuppressWarnings("index") // guaranteed index: axis is guaranteed to be a domain axis, so axisIndex is NN
+                @SuppressWarnings("index") // rewrite guaranteed index: axis is guaranteed to be a domain axis, so axisIndex is NN
                 @NonNegative int axisIndex = findDomainAxisIndex(axis);
                 axisCollection.add(axis, getDomainAxisEdge(axisIndex));
             }
@@ -3656,7 +3656,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
         // add range axes to lists...
         for (ValueAxis axis : this.rangeAxes.values()) {
             if (axis != null) {
-                @SuppressWarnings("index") // guaranteed index: axis is guaranteed to be a range axis, so axisIndex is NN
+                @SuppressWarnings("index") // rewrite guaranteed index: axis is guaranteed to be a range axis, so axisIndex is NN
                 @NonNegative int axisIndex = findRangeAxisIndex(axis);
                 axisCollection.add(axis, getRangeAxisEdge(axisIndex));
             }
@@ -5327,7 +5327,7 @@ public class XYPlot extends Plot implements ValueAxisPlot, Pannable, Zoomable,
             if (dataset == null) {
                 continue;
             }
-            @SuppressWarnings("index") // guaranteed index: dataset is came from this object, so indexOf returns NN
+            @SuppressWarnings("index") // rewrite guaranteed index: dataset is came from this object, so indexOf returns NN
             @NonNegative int datasetIndex = indexOf(dataset);
             XYItemRenderer renderer = getRenderer(datasetIndex);
             if (renderer == null) {

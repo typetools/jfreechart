@@ -361,7 +361,6 @@ public class CyclicXYItemRenderer extends StandardXYItemRenderer
          * @param y  the y values.
          * @param delegateSet  the dataset.
          */
-        @SuppressWarnings("index") // SameLen on custom collections requires a suppressed warning to establish representation invariant https://github.com/kelloggm/checker-framework/issues/213
         public OverwriteDataSet(double @SameLen("#2") [] x, double @SameLen("#1") [] y,
                                 XYDataset delegateSet) {
             this.delegateSet = delegateSet;

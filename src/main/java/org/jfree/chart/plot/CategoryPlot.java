@@ -2193,7 +2193,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         // get the legend items for the datasets...
         for (CategoryDataset dataset: this.datasets.values()) {
             if (dataset != null) {
-                @SuppressWarnings("index") // guaranteed index: indexOf cannot return -1 here because we're looking up the indexOf an element we already know is in the dataset
+                @SuppressWarnings("index") // rewrite guaranteed index: indexOf cannot return -1 here because we're looking up the indexOf an element we already know is in the dataset
                 @NonNegative int datasetIndex = indexOf(dataset);
                 CategoryItemRenderer renderer = getRenderer(datasetIndex);
                 if (renderer != null) {
@@ -2425,10 +2425,9 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
     public void clearDomainMarkers() {
         if (this.backgroundDomainMarkers != null) {
             
-                    Set<@NonNegative Integer> keys = this.backgroundDomainMarkers.keySet();
-            Iterator iterator = keys.iterator();
+            Set<@NonNegative Integer> keys = this.backgroundDomainMarkers.keySet();
+            Iterator<@NonNegative Integer> iterator = keys.iterator();
             while (iterator.hasNext()) {
-                @SuppressWarnings({"index", "value"}) // iterator over a set of nonnegative integers always returns a nonnegative integer?
                 @NonNegative Integer key = (Integer) iterator.next();
                 clearDomainMarkers(key.intValue());
             }
@@ -2437,9 +2436,8 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         if (this.foregroundDomainMarkers != null) {
 
             Set<@NonNegative Integer> keys = this.foregroundDomainMarkers.keySet();
-            Iterator iterator = keys.iterator();
+            Iterator<@NonNegative Integer> iterator = keys.iterator();
             while (iterator.hasNext()) {
-                @SuppressWarnings({"index", "value"}) // iterator over a set of nonnegative integers always returns a nonnegative integer?
                 @NonNegative Integer key = (Integer) iterator.next();
                 clearDomainMarkers(key.intValue());
             }
@@ -2702,9 +2700,8 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         if (this.backgroundRangeMarkers != null) {
 
                     Set<@NonNegative Integer> keys = this.backgroundRangeMarkers.keySet();
-            Iterator iterator = keys.iterator();
+            Iterator<@NonNegative Integer> iterator = keys.iterator();
             while (iterator.hasNext()) {
-                @SuppressWarnings({"index", "value"}) // iterator over a set of nonnegative integers always returns a nonnegative integer?
                 @NonNegative Integer key = (Integer) iterator.next();
                 clearRangeMarkers(key.intValue());
             }
@@ -2713,9 +2710,8 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         if (this.foregroundRangeMarkers != null) {
 
                     Set<@NonNegative Integer> keys = this.foregroundRangeMarkers.keySet();
-            Iterator iterator = keys.iterator();
+            Iterator<@NonNegative Integer> iterator = keys.iterator();
             while (iterator.hasNext()) {
-                @SuppressWarnings({"index", "value"}) // iterator over a set of nonnegative integers always returns a nonnegative integer?
                 @NonNegative Integer key = (Integer) iterator.next();
                 clearRangeMarkers(key.intValue());
             }
@@ -3405,7 +3401,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
             // reserve space for any domain axes...
             for (CategoryAxis xAxis : this.domainAxes.values()) {
                 if (xAxis != null) {
-                    @SuppressWarnings("index") // guaranteed index: xAxis is guaranteed to be in the set, so IndexOf returns NN
+                    @SuppressWarnings("index") // rewrite guaranteed index: xAxis is guaranteed to be in the set, so IndexOf returns NN
                     @NonNegative int i = getDomainAxisIndex(xAxis);
                     RectangleEdge edge = getDomainAxisEdge(i);
                     space = xAxis.reserveSpace(g2, this, plotArea, edge, space);
@@ -3450,7 +3446,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
             // reserve space for the range axes (if any)...
             for (ValueAxis yAxis : this.rangeAxes.values()) {
                 if (yAxis != null) {
-                    @SuppressWarnings("index") // guaranteed index: yAxis is guaranteed to be in the set, so indexOf returns NN
+                    @SuppressWarnings("index") // rewrite guaranteed index: yAxis is guaranteed to be in the set, so indexOf returns NN
                     @NonNegative int i = findRangeAxisIndex(yAxis);
                     RectangleEdge edge = getRangeAxisEdge(i);
                     space = yAxis.reserveSpace(g2, this, plotArea, edge, space);
@@ -3619,12 +3615,12 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
 
         // draw the markers...
         for (CategoryItemRenderer renderer : this.renderers.values()) {
-            @SuppressWarnings("index") // guaranteed index: renderer is one of the renderers of this object, so getIndexOf must return nonnegative
+            @SuppressWarnings("index") // rewrite guaranteed index: renderer is one of the renderers of this object, so getIndexOf must return nonnegative
             @NonNegative int i = getIndexOf(renderer);
             drawDomainMarkers(g2, dataArea, i, Layer.BACKGROUND);
         }
         for (CategoryItemRenderer renderer : this.renderers.values()) {
-            @SuppressWarnings("index") // guaranteed index: renderer is one of the renderers of this object, so getIndexOf must return nonnegative
+            @SuppressWarnings("index") // rewrite guaranteed index: renderer is one of the renderers of this object, so getIndexOf must return nonnegative
             @NonNegative int i = getIndexOf(renderer);
             drawRangeMarkers(g2, dataArea, i, Layer.BACKGROUND);
         }
@@ -3803,7 +3799,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         // add domain axes to lists...
         for (CategoryAxis xAxis : this.domainAxes.values()) {
             if (xAxis != null) {
-                @SuppressWarnings("index") // guaranteed index: xAxis is guaranteed to have an index, so getDomainAxisIndex return NN
+                @SuppressWarnings("index") // rewrite guaranteed index: xAxis is guaranteed to have an index, so getDomainAxisIndex return NN
                 @NonNegative int index = getDomainAxisIndex(xAxis);
                 axisCollection.add(xAxis, getDomainAxisEdge(index));
             }
@@ -3812,7 +3808,7 @@ public class CategoryPlot extends Plot implements ValueAxisPlot, Pannable,
         // add range axes to lists...
         for (ValueAxis yAxis : this.rangeAxes.values()) {
             if (yAxis != null) {
-                @SuppressWarnings("index") // guaranteed index: yAxis is guaranteed to have an index, so getRangeAxisIndex return NN
+                @SuppressWarnings("index") // rewrite guaranteed index: yAxis is guaranteed to have an index, so getRangeAxisIndex return NN
                 @NonNegative int index = findRangeAxisIndex(yAxis);
                 axisCollection.add(yAxis, getRangeAxisEdge(index));
             }

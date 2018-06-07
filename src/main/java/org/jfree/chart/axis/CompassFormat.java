@@ -113,7 +113,7 @@ public class CompassFormat extends NumberFormat {
         if (direction < 0.0) {
             direction = direction + 360.0;
         }
-        @SuppressWarnings({"index", "value"}) // Math.floor needs annotations?
+        @SuppressWarnings({"index", "value"}) // Needs @DoubleRange
         @IntRange(from = 0, to = 15) int index = ((int) Math.floor(direction / 11.25) + 1) / 2;
         return directions[index];
     }

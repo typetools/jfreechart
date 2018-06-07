@@ -338,7 +338,6 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      *     specified range.
      */
     @Override
-    @SuppressWarnings("index") // array-list interop: the underlying data structure here is a list, but this method's annotation expects an array
     public @LengthOf("this.getSeries(#1)") int getItemCount(@NonNegative int series) {
         return getBins(series).size();
     }

@@ -483,7 +483,6 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      * @return A boolean.
      */
     @Override
-    @SuppressWarnings("index") // array-list interop: Equality test relies on well-formedness of other object, which can't be annotated perfectly because of array-list interop
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -554,7 +553,6 @@ public class DefaultIntervalXYDataset extends AbstractIntervalXYDataset
      *         a key that cannot be cloned.
      */
     @Override
-    @SuppressWarnings("index") // clone assumes that the dataset is well-formed.
     public Object clone() throws CloneNotSupportedException {
         DefaultIntervalXYDataset clone
                 = (DefaultIntervalXYDataset) super.clone();

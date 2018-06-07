@@ -206,12 +206,11 @@ public class CategoryItemRendererState extends RendererState {
      * 
      * @since 1.0.13
      */
-    @SuppressWarnings("index") // this.visibleSeries only contains nonnegatives. The result array is a copy of this array
     public @NonNegative int[] getVisibleSeriesArray() {
         if (this.visibleSeries == null) {
             return null;
         }
-        int[] result = new int[this.visibleSeries.length];
+        @NonNegative int[] result = new int[this.visibleSeries.length];
         System.arraycopy(this.visibleSeries, 0, result, 0,
                 this.visibleSeries.length);
         return result;
