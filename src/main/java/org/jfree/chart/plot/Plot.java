@@ -135,6 +135,8 @@
 
 package org.jfree.chart.plot;
 
+import org.checkerframework.dataflow.qual.Pure;
+
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -1486,6 +1488,7 @@ public abstract class Plot implements AxisChangeListener,
      *
      * @return The edge (never {@code null}).
      */
+    @Pure
     public static RectangleEdge resolveDomainAxisLocation(
             AxisLocation location, PlotOrientation orientation) {
 
@@ -1541,6 +1544,7 @@ public abstract class Plot implements AxisChangeListener,
      *
      * @return The edge (never {@code null}).
      */
+    @Pure
     public static RectangleEdge resolveRangeAxisLocation(
             AxisLocation location, PlotOrientation orientation) {
 

@@ -41,6 +41,9 @@
 
 package org.jfree.data.xml;
 
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.common.value.qual.*;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -139,7 +142,8 @@ public class ValueHandler extends DefaultHandler implements DatasetTags {
      * @param length  the length of the valid character data.
      */
     @Override
-    public void characters(char[] ch, int start, int length) {
+    @SuppressWarnings("index") // need xml annotations
+    public void characters(char[] ch, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int length) {
         if (this.currentText != null) {
             this.currentText.append(String.copyValueOf(ch, start, length));
         }

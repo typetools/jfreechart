@@ -49,6 +49,10 @@
 
 package org.jfree.data.xy;
 
+import org.checkerframework.checker.index.qual.*;
+
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import org.jfree.chart.util.PublicCloneable;
 import org.jfree.data.DefaultKeyedValues2D;
 import org.jfree.data.DomainInfo;
@@ -159,7 +163,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The series count.
      */
     @Override
-    public int getSeriesCount() {
+    public @NonNegative int getSeriesCount() {
         return this.values.getColumnCount();
     }
 
@@ -171,7 +175,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The key for a series.
      */
     @Override
-    public Comparable getSeriesKey(int series) {
+    public Comparable getSeriesKey(@NonNegative int series) {
         return this.values.getColumnKey(series);
     }
 
@@ -181,7 +185,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    public int getItemCount() {
+    public @NonNegative int getItemCount() {
         return this.values.getRowCount();
     }
 
@@ -194,9 +198,11 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The item count.
      */
     @Override
-    public int getItemCount(int series) {
-        return getItemCount();  // all series have the same number of items in
+    public @LengthOf("this.getSeries(#1)") int getItemCount(@NonNegative int series) {
+        @SuppressWarnings("index") // The annotation on this method's return type isn't quite sensical, because there's no way to express the correct invariant here. Warnings are suppressed throughout these classes, but callers have a good interface.
+        @LengthOf("this.getSeries(#1)") int result =  getItemCount();  // all series have the same number of items in
                                 // this dataset
+        return result;
     }
 
     /**
@@ -208,7 +214,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The value.
      */
     @Override
-    public Number getX(int series, int item) {
+    public Number getX(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         return (Number) this.values.getRowKey(item);
     }
 
@@ -221,7 +227,8 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The starting X value.
      */
     @Override
-    public Number getStartX(int series, int item) {
+    @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212: interval delegate and this.getSeries have the same conceptual length
+    public Number getStartX(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         return this.intervalDelegate.getStartX(series, item);
     }
 
@@ -234,7 +241,8 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The ending X value.
      */
     @Override
-    public Number getEndX(int series, int item) {
+    @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212: interval delegate and this.getSeries have the same conceptual length
+    public Number getEndX(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         return this.intervalDelegate.getEndX(series, item);
     }
 
@@ -247,7 +255,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The y value (possibly {@code null}).
      */
     @Override
-    public Number getY(int series, int item) {
+    public Number getY(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         return this.values.getValue(item, series);
     }
 
@@ -260,7 +268,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The starting Y value.
      */
     @Override
-    public Number getStartY(int series, int item) {
+    public Number getStartY(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         return getY(series, item);
     }
 
@@ -273,7 +281,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The ending Y value.
      */
     @Override
-    public Number getEndY(int series, int item) {
+    public Number getEndY(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         return getY(series, item);
     }
 

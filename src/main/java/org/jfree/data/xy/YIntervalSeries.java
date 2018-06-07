@@ -42,6 +42,8 @@
 
 package org.jfree.data.xy;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import org.jfree.data.ComparableObjectItem;
 import org.jfree.data.ComparableObjectSeries;
 import org.jfree.data.general.SeriesChangeEvent;
@@ -114,7 +116,7 @@ public class YIntervalSeries extends ComparableObjectSeries {
      *
      * @return The x-value (never {@code null}).
      */
-    public Number getX(int index) {
+    public Number getX(@NonNegative int index) {
         YIntervalDataItem item = (YIntervalDataItem) getDataItem(index);
         return item.getX();
     }
@@ -126,7 +128,7 @@ public class YIntervalSeries extends ComparableObjectSeries {
      *
      * @return The y-value.
      */
-    public double getYValue(int index) {
+    public double getYValue(@NonNegative int index) {
         YIntervalDataItem item = (YIntervalDataItem) getDataItem(index);
         return item.getYValue();
     }
@@ -141,7 +143,7 @@ public class YIntervalSeries extends ComparableObjectSeries {
      *
      * @since 1.0.5
      */
-    public double getYLowValue(int index) {
+    public double getYLowValue(@NonNegative int index) {
         YIntervalDataItem item = (YIntervalDataItem) getDataItem(index);
         return item.getYLowValue();
     }
@@ -156,7 +158,7 @@ public class YIntervalSeries extends ComparableObjectSeries {
      *
      * @since 1.0.5
      */
-    public double getYHighValue(int index) {
+    public double getYHighValue(@NonNegative int index) {
         YIntervalDataItem item = (YIntervalDataItem) getDataItem(index);
         return item.getYHighValue();
     }
@@ -169,7 +171,7 @@ public class YIntervalSeries extends ComparableObjectSeries {
      * @return The data item.
      */
     @Override
-    public ComparableObjectItem getDataItem(int index) {
+    public ComparableObjectItem getDataItem(@NonNegative int index) {
         return super.getDataItem(index);
     }
 

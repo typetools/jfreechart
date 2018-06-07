@@ -44,6 +44,9 @@
 
 package org.jfree.data;
 
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.util.List;
 
 /**
@@ -68,7 +71,7 @@ public interface KeyedValues extends Values {
      * @throws IndexOutOfBoundsException if {@code index} is not in the
      *     specified range.
      */
-    public Comparable getKey(int index);
+    public Comparable getKey(@NonNegative int index);
 
     /**
      * Returns the index for a given key.
@@ -79,7 +82,7 @@ public interface KeyedValues extends Values {
      *
      * @throws IllegalArgumentException if {@code key} is {@code null}.
      */
-    public int getIndex(Comparable key);
+    public @GTENegativeOne int getIndex(Comparable key);
 
     /**
      * Returns the keys for the values in the collection.  Note that you can

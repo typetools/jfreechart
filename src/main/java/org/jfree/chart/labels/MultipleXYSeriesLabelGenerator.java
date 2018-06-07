@@ -44,6 +44,12 @@
 
 package org.jfree.chart.labels;
 
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+
+import org.checkerframework.common.value.qual.MinLen;
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -104,7 +110,7 @@ public class MultipleXYSeriesLabelGenerator implements XYSeriesLabelGenerator,
      * @param series  the series index.
      * @param label  the label.
      */
-    public void addSeriesLabel(int series, String label) {
+    public void addSeriesLabel(@NonNegative int series, String label) {
         Integer key = new Integer(series);
         List labelList = (List) this.seriesLabelLists.get(key);
         if (labelList == null) {
@@ -119,7 +125,7 @@ public class MultipleXYSeriesLabelGenerator implements XYSeriesLabelGenerator,
      *
      * @param series  the series index.
      */
-    public void clearSeriesLabels(int series) {
+    public void clearSeriesLabels(@NonNegative int series) {
         Integer key = new Integer(series);
         this.seriesLabelLists.put(key, null);
     }
@@ -134,7 +140,7 @@ public class MultipleXYSeriesLabelGenerator implements XYSeriesLabelGenerator,
      * @return A series label.
      */
     @Override
-    public String generateLabel(XYDataset dataset, int series) {
+    public String generateLabel(XYDataset dataset, @NonNegative int series) {
         Args.nullNotPermitted(dataset, "dataset");
         StringBuilder label = new StringBuilder();
         label.append(MessageFormat.format(this.formatPattern,
@@ -162,7 +168,7 @@ public class MultipleXYSeriesLabelGenerator implements XYSeriesLabelGenerator,
      *
      * @return The items (never {@code null}).
      */
-    protected Object[] createItemArray(XYDataset dataset, int series) {
+    protected Object @MinLen(1) [] createItemArray(XYDataset dataset, @NonNegative int series) {
         Object[] result = new Object[1];
         result[0] = dataset.getSeriesKey(series).toString();
         return result;

@@ -42,6 +42,7 @@
 
 package org.jfree.data.xy;
 
+import org.checkerframework.checker.index.qual.*;
 
 /**
  * A dataset containing one or more data series containing (x, y) data items,
@@ -50,6 +51,7 @@ package org.jfree.data.xy;
  * x-values between series). This is used primarily by the
  * {@link org.jfree.chart.renderer.xy.StackedXYAreaRenderer}.
  */
+@SuppressWarnings("index") // I think this is a documentation bug. The annotation on getItemCount below is correct, I believe, but it's inconsistent with the documentation on this interface.
 public interface TableXYDataset extends XYDataset {
 
     /**
@@ -57,6 +59,6 @@ public interface TableXYDataset extends XYDataset {
      *
      * @return The item count.
      */
-    public int getItemCount();
+    public @NonNegative int getItemCount();
 
 }

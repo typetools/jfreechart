@@ -44,6 +44,8 @@
 
 package org.jfree.chart.renderer;
 
+import org.checkerframework.checker.index.qual.*;
+
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Shape;
@@ -197,7 +199,8 @@ public class WaferMapRenderer extends AbstractRenderer {
      *
      * @return The paint index.
      */
-    private int getPaintIndex(Number value) {
+    @SuppressWarnings("index") // paint indices are always non negative
+    private @NonNegative int getPaintIndex(Number value) {
         return ((Integer) this.paintIndex.get(value)).intValue();
     }
 
@@ -301,6 +304,7 @@ public class WaferMapRenderer extends AbstractRenderer {
                     String label = entry.getKey().toString();
                     String description = label;
                     Shape shape = new Rectangle2D.Double(1d, 1d, 1d, 1d);
+                    @SuppressWarnings("index") // paint indices are always nonnegative
                     Paint paint = lookupSeriesPaint(
                             ((Integer) entry.getValue()).intValue());
                     Paint outlinePaint = Color.BLACK;
@@ -324,7 +328,8 @@ public class WaferMapRenderer extends AbstractRenderer {
                                 (Integer) entry.getValue()).toString();
                         String description = label;
                         Shape shape = new Rectangle2D.Double(1d, 1d, 1d, 1d);
-                        Paint paint = getSeriesPaint(
+                        @SuppressWarnings("index") // paint indices are always nonnegative
+                                Paint paint = getSeriesPaint(
                             ((Integer) entry.getValue()).intValue()
                         );
                         Paint outlinePaint = Color.BLACK;

@@ -41,6 +41,9 @@
 
 package org.jfree.chart.util;
 
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+
 import java.awt.Graphics2D;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
@@ -174,7 +177,7 @@ public class AttrStringUtils {
                 y + textAdj[1] + rotateAdj[1]);        
     }
         
-    private static float[] deriveTextBoundsAnchorOffsets(Graphics2D g2,
+    private static float @ArrayLen(3) [] deriveTextBoundsAnchorOffsets(Graphics2D g2,
             AttributedString text, TextAnchor anchor, Rectangle2D textBounds) {
 
         TextLayout layout = new TextLayout(text.getIterator(), g2.getFontRenderContext());
@@ -231,7 +234,7 @@ public class AttrStringUtils {
      *
      * @return  The offsets.
      */
-    private static float[] deriveRotationAnchorOffsets(Graphics2D g2, 
+    private static float @ArrayLen(2) [] deriveRotationAnchorOffsets(Graphics2D g2,
             AttributedString text, TextAnchor anchor) {
 
         float[] result = new float[2];

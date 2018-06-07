@@ -47,6 +47,8 @@
 
 package org.jfree.data.xy;
 
+import org.checkerframework.checker.index.qual.*;
+
 import java.io.Serializable;
 
 import org.jfree.data.general.Series;
@@ -61,7 +63,7 @@ public class MatrixSeries extends Series implements Serializable {
     private static final long serialVersionUID = 7934188527308315704L;
 
     /** Series matrix values */
-    protected double[][] data;
+    protected double @SameLen("this") [] @SameLen("this.data") [] data;
 
     /**
      * Constructs a new matrix series.
@@ -73,7 +75,8 @@ public class MatrixSeries extends Series implements Serializable {
      * @param rows  the number of rows.
      * @param columns  the number of columns.
      */
-    public MatrixSeries(String name, int rows, int columns) {
+    @SuppressWarnings("index") // SameLen on custom collections requires a suppressed warning to establish representation invariant https://github.com/kelloggm/checker-framework/issues/213
+    public MatrixSeries(String name, @NonNegative int rows, @NonNegative int columns) {
         super(name);
         this.data = new double[rows][columns];
         zeroAll();
@@ -84,7 +87,8 @@ public class MatrixSeries extends Series implements Serializable {
      *
      * @return The number of columns in this matrix series.
      */
-    public int getColumnsCount() {
+    @SuppressWarnings("index") // documentation bug: this method assumes that there is at least one row, but the documentation doesn't say so. This is a documentation bug.
+    public @LengthOf("this.data") int getColumnsCount() {
         return this.data[0].length;
     }
 
@@ -99,7 +103,7 @@ public class MatrixSeries extends Series implements Serializable {
      *
      * @see #get(int, int)
      */
-    public Number getItem(int itemIndex) {
+    public Number getItem(@NonNegative int itemIndex) {
         int i = getItemRow(itemIndex);
         int j = getItemColumn(itemIndex);
 
@@ -116,7 +120,7 @@ public class MatrixSeries extends Series implements Serializable {
      *
      * @return The column of the specified item.
      */
-    public int getItemColumn(int itemIndex) {
+    public @IndexFor("this.data") int getItemColumn(@NonNegative int itemIndex) {
         //assert itemIndex >= 0 && itemIndex < getItemCount();
         return itemIndex % getColumnsCount();
     }
@@ -128,7 +132,7 @@ public class MatrixSeries extends Series implements Serializable {
      * @return The item count.
      */
     @Override
-    public int getItemCount() {
+    public @NonNegative int getItemCount() {
         return getRowCount() * getColumnsCount();
     }
 
@@ -140,7 +144,8 @@ public class MatrixSeries extends Series implements Serializable {
      *
      * @return The row of the specified item.
      */
-    public int getItemRow(int itemIndex) {
+    @SuppressWarnings("index") // dividing the index by the column count results in a row index
+    public @IndexFor("this") int getItemRow(@NonNegative int itemIndex) {
         //assert itemIndex >= 0 && itemIndex < getItemCount();
         return itemIndex / getColumnsCount();
     }
@@ -151,7 +156,7 @@ public class MatrixSeries extends Series implements Serializable {
      *
      * @return The number of rows in this matrix series.
      */
-    public int getRowCount() {
+    public @LengthOf("this") int getRowCount() {
         return this.data.length;
     }
 
@@ -167,7 +172,7 @@ public class MatrixSeries extends Series implements Serializable {
      * @see #getItem(int)
      * @see #update(int, int, double)
      */
-    public double get(int i, int j) {
+    public double get(@IndexFor("this") int i, @IndexFor("this.data") int j) {
         return this.data[i][j];
     }
 
@@ -181,7 +186,7 @@ public class MatrixSeries extends Series implements Serializable {
      *
      * @see #get(int, int)
      */
-    public void update(int i, int j, double mij) {
+    public void update(@IndexFor("this") int i, @IndexFor("this.data") int j, double mij) {
         this.data[i][j] = mij;
         fireSeriesChanged();
     }
@@ -228,7 +233,9 @@ public class MatrixSeries extends Series implements Serializable {
         }
         for (int r = 0; r < getRowCount(); r++) {
             for (int c = 0; c < getColumnsCount(); c++) {
-                if (get(r, c) != that.get(r, c)) {
+                @SuppressWarnings("index") // row and column counts have to be equal, as checked above
+                boolean test = get(r, c) != that.get(r, c);
+                if (test) {
                     return false;
                 }
             }

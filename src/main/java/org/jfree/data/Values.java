@@ -43,6 +43,8 @@
 
 package org.jfree.data;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 /**
  * An interface through which (single-dimension) data values can be accessed.
  */
@@ -53,7 +55,7 @@ public interface Values {
      *
      * @return The item count (possibly zero).
      */
-    public int getItemCount();
+    public @NonNegative int getItemCount();
 
     /**
      * Returns the value with the specified index.
@@ -66,6 +68,6 @@ public interface Values {
      * @throws IndexOutOfBoundsException if {@code index} is not in the
      *     specified range.
      */
-    public Number getValue(int index);
+    public Number getValue(@NonNegative int index);
 
 }

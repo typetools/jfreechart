@@ -40,6 +40,8 @@
 
 package org.jfree.data.statistics;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.util.List;
 
 import org.jfree.data.category.CategoryDataset;
@@ -60,7 +62,7 @@ public interface MultiValueCategoryDataset extends CategoryDataset {
      *
      * @return The list of values.
      */
-    public List getValues(int row, int column);
+    public List getValues(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns a list (possibly empty) of the values for the specified item.

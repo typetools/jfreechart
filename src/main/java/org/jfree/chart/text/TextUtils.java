@@ -28,6 +28,11 @@
 
 package org.jfree.chart.text;
 
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.*;
+
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -161,7 +166,7 @@ public class TextUtils {
         TextBlock result = new TextBlock();
         BreakIterator iterator = BreakIterator.getLineInstance();
         iterator.setText(text);
-        int current = 0;
+        @NonNegative int current = 0;
         int lines = 0;
         int length = text.length();
         while (current < length && lines < maxLines) {
@@ -173,7 +178,11 @@ public class TextUtils {
             } else if (next == current) {
                 next++; // we must take one more character or we'll loop forever
             }
-            result.addLine(text.substring(current, next), font, paint);
+
+            @SuppressWarnings("index") // https://github.com/kelloggm/checker-framework/issues/158: next is either < current < text.length, or next = current + 1 <= text.length
+            @IndexOrHigh("text") int next1 = next;
+
+            result.addLine(text.substring(current, next1), font, paint);
             lines++;
             current = next;
             while (current < text.length()&& text.charAt(current) == '\n') {
@@ -210,7 +219,7 @@ public class TextUtils {
      *
      * @return The index of the next line break.
      */
-    private static int nextLineBreak(String text, int start, float width, 
+    private static @GTENegativeOne int nextLineBreak(String text, @IndexOrHigh("#1") int start, float width,
             BreakIterator iterator, TextMeasurer measurer) {
 
         // this method is (loosely) based on code in JFreeReport's
@@ -224,14 +233,19 @@ public class TextUtils {
             newline = Integer.MAX_VALUE;
         }
         while (((end = iterator.following(current)) != BreakIterator.DONE)) {
-            x += measurer.getStringWidth(text, current, end);
+            @SuppressWarnings("index") // an assumption of this method is that the BreakIterator is associated with text
+            float dx = measurer.getStringWidth(text, current, end);
+            x += dx;
             if (x > width) {
                 if (firstWord) {
-                    while (measurer.getStringWidth(text, start, end) > width) {
+                    while (dx > width) {
                         end--;
                         if (end <= start) {
                             return end;
                         }
+                        @SuppressWarnings("index") // an assumption of this method is that the BreakIterator is associated with text
+                                float dxNew = measurer.getStringWidth(text, start, end);
+                        dx = dxNew;
                     }
                     return end;
                 }
@@ -359,7 +373,7 @@ public class TextUtils {
      *
      * @return  The offsets.
      */
-    private static float[] deriveTextBoundsAnchorOffsets(Graphics2D g2,
+    private static float @ArrayLen(3) [] deriveTextBoundsAnchorOffsets(Graphics2D g2,
             String text, TextAnchor anchor, Rectangle2D textBounds) {
 
         float[] result = new float[3];
@@ -580,7 +594,7 @@ public class TextUtils {
      *
      * @return  The offsets.
      */
-    private static float[] deriveTextBoundsAnchorOffsets(Graphics2D g2,
+    private static float @ArrayLen(2) [] deriveTextBoundsAnchorOffsets(Graphics2D g2,
             String text, TextAnchor anchor) {
 
         float[] result = new float[2];
@@ -635,7 +649,7 @@ public class TextUtils {
      *
      * @return The offsets.
      */
-    private static float[] deriveRotationAnchorOffsets(Graphics2D g2,
+    private static float @ArrayLen(2) [] deriveRotationAnchorOffsets(Graphics2D g2,
             String text, TextAnchor anchor) {
 
         float[] result = new float[2];

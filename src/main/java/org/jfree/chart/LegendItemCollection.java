@@ -45,6 +45,8 @@
 
 package org.jfree.chart;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
@@ -94,7 +96,7 @@ public class LegendItemCollection implements Cloneable, Serializable {
      *
      * @return The legend item.
      */
-    public LegendItem get(int index) {
+    public LegendItem get(@NonNegative int index) {
         return (LegendItem) this.items.get(index);
     }
 
@@ -103,7 +105,7 @@ public class LegendItemCollection implements Cloneable, Serializable {
      *
      * @return The item count.
      */
-    public int getItemCount() {
+    public @NonNegative int getItemCount() {
         return this.items.size();
     }
 

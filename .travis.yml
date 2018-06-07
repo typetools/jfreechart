@@ -1,0 +1,4 @@
+language: java
+sudo: false
+script:
+  - travis_wait mvn compile

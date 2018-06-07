@@ -49,6 +49,12 @@
 
 package org.jfree.chart.labels;
 
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+
+import org.checkerframework.common.value.qual.MinLen;
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.MessageFormat;
@@ -123,8 +129,8 @@ public class BoxAndWhiskerXYToolTipGenerator extends StandardXYToolTipGenerator
      * @return The items (never {@code null}).
      */
     @Override
-    protected Object[] createItemArray(XYDataset dataset, int series,
-                                       int item) {
+    protected Object @MinLen(8) [] createItemArray(XYDataset dataset, @NonNegative int series,
+                                       @IndexFor("#1.getSeries(#2)") int item) {
         Object[] result = new Object[8];
         result[0] = dataset.getSeriesKey(series).toString();
         Number x = dataset.getX(series, item);
@@ -138,12 +144,14 @@ public class BoxAndWhiskerXYToolTipGenerator extends StandardXYToolTipGenerator
 
         if (dataset instanceof BoxAndWhiskerXYDataset) {
             BoxAndWhiskerXYDataset d = (BoxAndWhiskerXYDataset) dataset;
-            result[2] = formatter.format(d.getMeanValue(series, item));
-            result[3] = formatter.format(d.getMedianValue(series, item));
-            result[4] = formatter.format(d.getMinRegularValue(series, item));
-            result[5] = formatter.format(d.getMaxRegularValue(series, item));
-            result[6] = formatter.format(d.getQ1Value(series, item));
-            result[7] = formatter.format(d.getQ3Value(series, item));
+            @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
+            @IndexFor("d.getSeries(series)") int itemD = item;
+            result[2] = formatter.format(d.getMeanValue(series, itemD));
+            result[3] = formatter.format(d.getMedianValue(series, itemD));
+            result[4] = formatter.format(d.getMinRegularValue(series, itemD));
+            result[5] = formatter.format(d.getMaxRegularValue(series, itemD));
+            result[6] = formatter.format(d.getQ1Value(series, itemD));
+            result[7] = formatter.format(d.getQ3Value(series, itemD));
         }
         return result;
     }

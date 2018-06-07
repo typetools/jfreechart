@@ -28,6 +28,8 @@
 
 package org.jfree.chart.util;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.awt.Paint;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -54,7 +56,7 @@ public class PaintList extends AbstractObjectList {
      *
      * @return The object.
      */
-    public Paint getPaint(int index) {
+    public Paint getPaint(@NonNegative int index) {
         return (Paint) get(index);
     }
 
@@ -64,7 +66,7 @@ public class PaintList extends AbstractObjectList {
      * @param index  the index (zero-based).
      * @param paint  the {@link Paint}.
      */
-    public void setPaint(int index, Paint paint) {
+    public void setPaint(@NonNegative int index, Paint paint) {
         set(index, paint);
     }
 
@@ -139,6 +141,7 @@ public class PaintList extends AbstractObjectList {
      * @throws IOException  if there is an I/O error.
      * @throws ClassNotFoundException  if there is a classpath problem.
      */
+    @SuppressWarnings("index") // stream must have been constructed from an instance of this class
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
 
         stream.defaultReadObject();

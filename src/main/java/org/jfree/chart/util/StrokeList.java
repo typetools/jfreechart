@@ -28,6 +28,8 @@
 
 package org.jfree.chart.util;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.awt.Stroke;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -52,7 +54,7 @@ public class StrokeList extends AbstractObjectList {
      *
      * @return The object.
      */
-    public Stroke getStroke(int index) {
+    public Stroke getStroke(@NonNegative int index) {
         return (Stroke) get(index);
     }
 
@@ -62,7 +64,7 @@ public class StrokeList extends AbstractObjectList {
      * @param index  the index (zero-based).
      * @param stroke  the {@link Stroke}.
      */
-    public void setStroke(int index, Stroke stroke) {
+    public void setStroke(@NonNegative int index, Stroke stroke) {
         set(index, stroke);
     }
 
@@ -145,6 +147,7 @@ public class StrokeList extends AbstractObjectList {
      * @throws IOException  if there is an I/O error.
      * @throws ClassNotFoundException  if there is a classpath problem.
      */
+    @SuppressWarnings("index") // stream must have been constructed from an instance of this class
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
 
         stream.defaultReadObject();

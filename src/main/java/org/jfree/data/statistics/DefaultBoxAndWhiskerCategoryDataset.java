@@ -56,6 +56,9 @@
 
 package org.jfree.data.statistics;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.checker.index.qual.*;
+
 import java.util.List;
 import org.jfree.chart.util.ObjectUtils;
 import org.jfree.chart.util.PublicCloneable;
@@ -80,23 +83,23 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
     private double minimumRangeValue;
 
     /** The row index for the cell that the minimum range value comes from. */
-    private int minimumRangeValueRow;
+    private @GTENegativeOne int minimumRangeValueRow;
 
     /**
      * The column index for the cell that the minimum range value comes from.
      */
-    private int minimumRangeValueColumn;
+    private @GTENegativeOne int minimumRangeValueColumn;
 
     /** The maximum range value. */
     private double maximumRangeValue;
 
     /** The row index for the cell that the maximum range value comes from. */
-    private int maximumRangeValueRow;
+    private @GTENegativeOne int maximumRangeValueRow;
 
     /**
      * The column index for the cell that the maximum range value comes from.
      */
-    private int maximumRangeValueColumn;
+    private @GTENegativeOne int maximumRangeValueColumn;
 
     /**
      * Creates a new dataset.
@@ -227,7 +230,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      *
      * @since 1.0.7
      */
-    public void removeRow(int rowIndex) {
+    public void removeRow(@NonNegative int rowIndex) {
         this.data.removeRow(rowIndex);
         updateBounds();
         fireDatasetChanged();
@@ -259,7 +262,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      *
      * @since 1.0.7
      */
-    public void removeColumn(int columnIndex) {
+    public void removeColumn(@NonNegative int columnIndex) {
         this.data.removeColumn(columnIndex);
         updateBounds();
         fireDatasetChanged();
@@ -301,7 +304,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      *
      * @return The item.
      */
-    public BoxAndWhiskerItem getItem(int row, int column) {
+    public BoxAndWhiskerItem getItem(@NonNegative int row, @NonNegative int column) {
         return (BoxAndWhiskerItem) this.data.getObject(row, column);
     }
 
@@ -317,7 +320,8 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getValue(Comparable, Comparable)
      */
     @Override
-    public Number getValue(int row, int column) {
+    @Pure
+    public Number getValue(@NonNegative int row, @NonNegative int column) {
         return getMedianValue(row, column);
     }
 
@@ -348,7 +352,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public Number getMeanValue(int row, int column) {
+    public Number getMeanValue(@NonNegative int row, @NonNegative int column) {
 
         Number result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(row,
@@ -392,7 +396,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public Number getMedianValue(int row, int column) {
+    public Number getMedianValue(@NonNegative int row, @NonNegative int column) {
         Number result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(row,
                 column);
@@ -434,7 +438,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public Number getQ1Value(int row, int column) {
+    public Number getQ1Value(@NonNegative int row, @NonNegative int column) {
         Number result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(
                 row, column);
@@ -476,7 +480,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public Number getQ3Value(int row, int column) {
+    public Number getQ3Value(@NonNegative int row, @NonNegative int column) {
         Number result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(
                 row, column);
@@ -517,7 +521,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getColumnKey(int)
      */
     @Override
-    public int getColumnIndex(Comparable key) {
+    public @GTENegativeOne int getColumnIndex(Comparable key) {
         return this.data.getColumnIndex(key);
     }
 
@@ -531,7 +535,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getColumnIndex(Comparable)
      */
     @Override
-    public Comparable getColumnKey(int column) {
+    public Comparable getColumnKey(@NonNegative int column) {
         return this.data.getColumnKey(column);
     }
 
@@ -557,7 +561,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getRowKey(int)
      */
     @Override
-    public int getRowIndex(Comparable key) {
+    public @GTENegativeOne int getRowIndex(Comparable key) {
         // defer null argument check
         return this.data.getRowIndex(key);
     }
@@ -572,7 +576,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getRowIndex(Comparable)
      */
     @Override
-    public Comparable getRowKey(int row) {
+    public Comparable getRowKey(@NonNegative int row) {
         return this.data.getRowKey(row);
     }
 
@@ -596,7 +600,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getColumnCount()
      */
     @Override
-    public int getRowCount() {
+    public @NonNegative int getRowCount() {
         return this.data.getRowCount();
     }
 
@@ -608,7 +612,8 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getRowCount()
      */
     @Override
-    public int getColumnCount() {
+    @Pure
+    public @NonNegative int getColumnCount() {
         return this.data.getColumnCount();
     }
 
@@ -666,7 +671,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public Number getMinRegularValue(int row, int column) {
+    public Number getMinRegularValue(@NonNegative int row, @NonNegative int column) {
         Number result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(
                 row, column);
@@ -708,7 +713,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public Number getMaxRegularValue(int row, int column) {
+    public Number getMaxRegularValue(@NonNegative int row, @NonNegative int column) {
         Number result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(
                 row, column);
@@ -750,7 +755,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public Number getMinOutlier(int row, int column) {
+    public Number getMinOutlier(@NonNegative int row, @NonNegative int column) {
         Number result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(
                 row, column);
@@ -792,7 +797,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public Number getMaxOutlier(int row, int column) {
+    public Number getMaxOutlier(@NonNegative int row, @NonNegative int column) {
         Number result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(
                 row, column);
@@ -834,7 +839,7 @@ public class DefaultBoxAndWhiskerCategoryDataset extends AbstractDataset
      * @see #getItem(int, int)
      */
     @Override
-    public List getOutliers(int row, int column) {
+    public List getOutliers(@NonNegative int row, @NonNegative int column) {
         List result = null;
         BoxAndWhiskerItem item = (BoxAndWhiskerItem) this.data.getObject(
                 row, column);

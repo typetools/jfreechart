@@ -74,6 +74,8 @@
 
 package org.jfree.data.time;
 
+import org.checkerframework.common.value.qual.*;
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -103,10 +105,10 @@ public class Week extends RegularTimePeriod implements Serializable {
     public static final int LAST_WEEK_IN_YEAR = 53;
 
     /** The year in which the week falls. */
-    private short year;
+    private @IntRange(from = 0, to = 9999) short year;
 
     /** The week (1-53). */
-    private byte week;
+    private @IntRange(from = 1, to = 53) byte week;
 
     /** The first millisecond. */
     private long firstMillisecond;
@@ -128,7 +130,7 @@ public class Week extends RegularTimePeriod implements Serializable {
      * @param week  the week (1 to 53).
      * @param year  the year (1900 to 9999).
      */
-    public Week(int week, int year) {
+    public Week(@IntRange(from = 1, to = 53) int week, @IntRange(from = 0, to = 9999) int year) {
         if ((week < FIRST_WEEK_IN_YEAR) && (week > LAST_WEEK_IN_YEAR)) {
             throw new IllegalArgumentException(
                     "The 'week' argument must be in the range 1 - 53.");
@@ -144,7 +146,7 @@ public class Week extends RegularTimePeriod implements Serializable {
      * @param week  the week (1 to 53).
      * @param year  the year (1900 to 9999).
      */
-    public Week(int week, Year year) {
+    public Week(@IntRange(from = 1, to = 53) int week, Year year) {
         if ((week < FIRST_WEEK_IN_YEAR) && (week > LAST_WEEK_IN_YEAR)) {
             throw new IllegalArgumentException(
                     "The 'week' argument must be in the range 1 - 53.");
@@ -179,6 +181,7 @@ public class Week extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.7
      */
+    @SuppressWarnings({"index", "value"}) // calendar get: calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
     public Week(Date time, TimeZone zone, Locale locale) {
         Args.nullNotPermitted(time, "time");
         Args.nullNotPermitted(zone, "zone");
@@ -223,7 +226,7 @@ public class Week extends RegularTimePeriod implements Serializable {
      *
      * @return The year.
      */
-    public int getYearValue() {
+    public @IntRange(from = -9999, to = 9999) int getYearValue() {
         return this.year;
     }
 
@@ -232,7 +235,7 @@ public class Week extends RegularTimePeriod implements Serializable {
      *
      * @return The week.
      */
-    public int getWeek() {
+    public @IntRange(from = 1, to = 53) int getWeek() {
         return this.week;
     }
 
@@ -301,8 +304,10 @@ public class Week extends RegularTimePeriod implements Serializable {
                 int yy = this.year - 1;
                 Calendar prevYearCalendar = Calendar.getInstance();
                 prevYearCalendar.set(yy, Calendar.DECEMBER, 31);
-                result = new Week(prevYearCalendar.getActualMaximum(
+                @SuppressWarnings({"index", "value"}) // calendar get: calendar.getActualMaximum is a combined getter for various calendar fields, and therefore has no sensical annotation
+                        Week resultTmp = new Week(prevYearCalendar.getActualMaximum(
                         Calendar.WEEK_OF_YEAR), yy);
+                result = resultTmp;
             }
             else {
                 result = null;
@@ -331,7 +336,8 @@ public class Week extends RegularTimePeriod implements Serializable {
         else {
             Calendar calendar = Calendar.getInstance();
             calendar.set(this.year, Calendar.DECEMBER, 31);
-            int actualMaxWeek
+            @SuppressWarnings({"index", "value"}) // calendar get: calendar.getActualMaximum is a combined getter for various calendar fields, and therefore has no sensical annotation
+                    @IntRange(from = 52, to = 53) int actualMaxWeek
                 = calendar.getActualMaximum(Calendar.WEEK_OF_YEAR);
             if (this.week < actualMaxWeek) {
                 result = new Week(this.week + 1, this.year);
@@ -522,6 +528,7 @@ public class Week extends RegularTimePeriod implements Serializable {
      * @return {@code null} if the string is not parseable, the week
      *         otherwise.
      */
+    @SuppressWarnings({"index", "value"}) // parsing code relies on wellformedness of the String passed in
     public static Week parseWeek(String s) {
 
         Week result = null;

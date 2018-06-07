@@ -49,6 +49,8 @@
 
 package org.jfree.chart.urls;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.io.Serializable;
 import org.jfree.chart.util.ObjectUtils;
 import org.jfree.chart.util.Args;
@@ -129,7 +131,7 @@ public class StandardXYURLGenerator implements XYURLGenerator, Serializable {
      * @return The generated URL.
      */
     @Override
-    public String generateURL(XYDataset dataset, int series, int item) {
+    public String generateURL(XYDataset dataset, @NonNegative int series, @NonNegative int item) {
         // TODO: URLEncode?
         String url = this.prefix;
         boolean firstParameter = url.indexOf("?") == -1;

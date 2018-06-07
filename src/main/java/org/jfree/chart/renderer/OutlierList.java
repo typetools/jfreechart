@@ -44,6 +44,8 @@
 
 package org.jfree.chart.renderer;
 
+import org.checkerframework.checker.index.qual.*;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -103,7 +105,7 @@ public class OutlierList {
      *
      * @return The item count.
      */
-    public int getItemCount() {
+    public @NonNegative int getItemCount() {
         return this.outliers.size();
     }
 

@@ -94,6 +94,8 @@
 
 package org.jfree.chart.renderer.category;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
@@ -200,7 +202,7 @@ public class StackedBarRenderer extends BarRenderer
      * @return The number of passes required by the renderer.
      */
     @Override
-    public int getPassCount() {
+    public @NonNegative int getPassCount() {
         return 3;
     }
 
@@ -235,7 +237,7 @@ public class StackedBarRenderer extends BarRenderer
      */
     @Override
     protected void calculateBarWidth(CategoryPlot plot, Rectangle2D dataArea,
-            int rendererIndex, CategoryItemRendererState state) {
+            @NonNegative int rendererIndex, CategoryItemRendererState state) {
 
         // calculate the bar width
         CategoryAxis xAxis = plot.getDomainAxisForDataset(rendererIndex);
@@ -286,8 +288,8 @@ public class StackedBarRenderer extends BarRenderer
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, int row,
-            int column, int pass) {
+            ValueAxis rangeAxis, CategoryDataset dataset, @NonNegative int row,
+            @NonNegative int column, int pass) {
 
         if (!isSeriesVisible(row)) {
             return;

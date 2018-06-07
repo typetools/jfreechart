@@ -44,6 +44,8 @@
 
 package org.jfree.data.xy;
 
+import org.checkerframework.checker.index.qual.*;
+
 /**
  * An extension of the {@link XYDataset} interface that allows a vector to be
  * defined at a specific (x, y) location.
@@ -60,7 +62,7 @@ public interface VectorXYDataset extends XYDataset {
      *
      * @return The x-component of the vector.
      */
-    public double getVectorXValue(int series, int item);
+    public double getVectorXValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
     /**
      * Returns the y-component of the vector for an item in a series.
@@ -70,7 +72,7 @@ public interface VectorXYDataset extends XYDataset {
      *
      * @return The y-component of the vector.
      */
-    public double getVectorYValue(int series, int item);
+    public double getVectorYValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
     /**
      * Returns the vector for an item in a series.  Depending on the particular
@@ -84,6 +86,6 @@ public interface VectorXYDataset extends XYDataset {
      *
      * @return The vector (possibly {@code null}).
      */
-    public Vector getVector(int series, int item);
+    public Vector getVector(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
 }

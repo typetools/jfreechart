@@ -28,6 +28,8 @@
 
 package org.jfree.chart.util;
 
+import org.checkerframework.checker.index.qual.*;
+
 /**
  * String utilities.
  */
@@ -63,10 +65,11 @@ public class StringUtils {
      * @return true, if the string ends with the given ending text.
      */
     public static boolean endsWithIgnoreCase(String base, String end) {
-        if (base.length() < end.length()) {
+        int baseLen = base.length();
+        if (baseLen < end.length()) {
             return false;
         }
-        return base.regionMatches(true, base.length() - end.length(), end, 0, end.length());
+        return base.regionMatches(true, baseLen - end.length(), end, 0, end.length());
     }
 
     /**

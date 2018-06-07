@@ -45,6 +45,11 @@
 
 package org.jfree.chart.renderer.xy;
 
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
@@ -100,7 +105,7 @@ public class SamplingXYLineRenderer extends AbstractXYItemRenderer
      * @return The pass count.
      */
     @Override
-    public int getPassCount() {
+    public @NonNegative int getPassCount() {
         return 1;
     }
 
@@ -168,8 +173,8 @@ public class SamplingXYLineRenderer extends AbstractXYItemRenderer
          * @param passCount  the number of passes.
          */
         @Override
-        public void startSeriesPass(XYDataset dataset, int series,
-                int firstItem, int lastItem, int pass, int passCount) {
+        public void startSeriesPass(XYDataset dataset, @NonNegative int series,
+                @IndexFor("#1.getSeries(#2)") int firstItem, @IndexFor("#1.getSeries(#2)") int lastItem, int pass, int passCount) {
             this.seriesPath.reset();
             this.intervalPath.reset();
             this.lastPointGood = false;
@@ -234,7 +239,7 @@ public class SamplingXYLineRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state, 
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            int series, int item, CrosshairState crosshairState, int pass) {
+            @NonNegative int series, @IndexFor("#8.getSeries(#9)") int item, CrosshairState crosshairState, int pass) {
 
         // do nothing if item is not visible
         if (!getItemVisible(series, item)) {

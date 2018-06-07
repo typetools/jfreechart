@@ -50,6 +50,8 @@
 
 package org.jfree.chart.entity;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
@@ -98,7 +100,7 @@ public class StandardEntityCollection implements EntityCollection,
      * @see #add(ChartEntity)
      */
     @Override
-    public ChartEntity getEntity(int index) {
+    public ChartEntity getEntity(@NonNegative int index) {
         return (ChartEntity) this.entities.get(index);
     }
 

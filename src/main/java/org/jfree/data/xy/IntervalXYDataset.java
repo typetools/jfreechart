@@ -43,6 +43,10 @@
 
 package org.jfree.data.xy;
 
+import org.checkerframework.checker.index.qual.*;
+
+import org.checkerframework.checker.index.qual.NonNegative;
+
 /**
  * An extension of the {@link XYDataset} interface that allows an x-interval
  * and a y-interval to be defined.  Note that the x and y values defined
@@ -62,7 +66,7 @@ public interface IntervalXYDataset extends XYDataset {
      *
      * @return The lower bound of the x-interval ({@code null} permitted).
      */
-    public Number getStartX(int series, int item);
+    public Number getStartX(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
     /**
      * Returns the lower bound of the x-interval (as a double primitive) for
@@ -75,7 +79,7 @@ public interface IntervalXYDataset extends XYDataset {
      *
      * @see #getStartX(int, int)
      */
-    public double getStartXValue(int series, int item);
+    public double getStartXValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
     /**
      * Returns the upper bound of the x-interval for the specified series and
@@ -87,7 +91,7 @@ public interface IntervalXYDataset extends XYDataset {
      *
      * @return The upper bound of the x-interval ({@code null} permitted).
      */
-    public Number getEndX(int series, int item);
+    public Number getEndX(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
     /**
      * Returns the upper bound of the x-interval (as a double primitive) for
@@ -100,7 +104,7 @@ public interface IntervalXYDataset extends XYDataset {
      *
      * @see #getEndX(int, int)
      */
-    public double getEndXValue(int series, int item);
+    public double getEndXValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
     /**
      * Returns the lower bound of the y-interval for the specified series and
@@ -112,7 +116,7 @@ public interface IntervalXYDataset extends XYDataset {
      *
      * @return The lower bound of the y-interval ({@code null} permitted).
      */
-    public Number getStartY(int series, int item);
+    public Number getStartY(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
     /**
      * Returns the lower bound of the y-interval (as a double primitive) for
@@ -125,7 +129,7 @@ public interface IntervalXYDataset extends XYDataset {
      *
      * @see #getStartY(int, int)
      */
-    public double getStartYValue(int series, int item);
+    public double getStartYValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
     /**
      * Returns the upper bound of the y-interval for the specified series and
@@ -137,7 +141,7 @@ public interface IntervalXYDataset extends XYDataset {
      *
      * @return The upper bound of the y-interval ({@code null} permitted).
      */
-    public Number getEndY(int series, int item);
+    public Number getEndY(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
     /**
      * Returns the upper bound of the y-interval (as a double primitive) for
@@ -150,6 +154,6 @@ public interface IntervalXYDataset extends XYDataset {
      *
      * @see #getEndY(int, int)
      */
-    public double getEndYValue(int series, int item);
+    public double getEndYValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item);
 
 }

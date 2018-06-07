@@ -41,6 +41,9 @@
 
 package org.jfree.chart.labels;
 
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+
 import java.text.DateFormat;
 import java.text.NumberFormat;
 
@@ -103,8 +106,8 @@ public class IntervalCategoryToolTipGenerator
      * @return The items (never {@code null}).
      */
     @Override
-    protected Object[] createItemArray(CategoryDataset dataset,
-                                       int row, int column) {
+    protected Object @MinLen(5) [] createItemArray(CategoryDataset dataset,
+                                       @NonNegative int row, @NonNegative int column) {
         Object[] result = new Object[5];
         result[0] = dataset.getRowKey(row).toString();
         result[1] = dataset.getColumnKey(column).toString();

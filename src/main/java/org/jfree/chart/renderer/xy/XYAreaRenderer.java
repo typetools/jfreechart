@@ -88,6 +88,11 @@
 
 package org.jfree.chart.renderer.xy;
 
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.awt.BasicStroke;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
@@ -435,7 +440,7 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
      * @return A legend item for the series.
      */
     @Override
-    public LegendItem getLegendItem(int datasetIndex, int series) {
+    public LegendItem getLegendItem(@NonNegative int datasetIndex, @NonNegative int series) {
         LegendItem result = null;
         XYPlot xyplot = getPlot();
         if (xyplot != null) {
@@ -493,7 +498,7 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            int series, int item, CrosshairState crosshairState, int pass) {
+            @NonNegative int series, @IndexFor("#8.getSeries(#9)") int item, CrosshairState crosshairState, int pass) {
 
         if (!getItemVisible(series, item)) {
             return;
@@ -513,9 +518,12 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
 
         // get the previous point and the next point so we can calculate a
         // "hot spot" for the area (used by the chart entity)...
-        int itemCount = dataset.getItemCount(series);
-        double x0 = dataset.getXValue(series, Math.max(item - 1, 0));
-        double y0 = dataset.getYValue(series, Math.max(item - 1, 0));
+        @SuppressWarnings("index") // itemCount needs to be at least 1 if we have an index (which we do - item).
+        @Positive int itemCount = dataset.getItemCount(series);
+        @SuppressWarnings("index") // itemCount is at least one, so zero is an index
+        @IndexFor("dataset.getSeries(series)") int zero_const = 0;
+        double x0 = dataset.getXValue(series, Math.max(item - 1, zero_const));
+        double y0 = dataset.getYValue(series, Math.max(item - 1, zero_const));
         if (Double.isNaN(y0)) {
             y0 = 0.0;
         }
@@ -645,7 +653,8 @@ public class XYAreaRenderer extends AbstractXYItemRenderer
             }
         }
 
-        int datasetIndex = plot.indexOf(dataset);
+        @SuppressWarnings("index") // documentation bug: dataset is assumed to be associated with plot
+        @NonNegative int datasetIndex = plot.indexOf(dataset);
         updateCrosshairValues(crosshairState, x1, y1, datasetIndex,
                 transX1, transY1, orientation);
 

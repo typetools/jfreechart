@@ -60,6 +60,8 @@
 
 package org.jfree.chart.renderer.category;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
@@ -323,7 +325,7 @@ public class MinMaxCategoryRenderer extends AbstractCategoryItemRenderer {
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, int row, int column,
+            ValueAxis rangeAxis, CategoryDataset dataset, @NonNegative int row, @NonNegative int column,
             int pass) {
 
         // first check the number we are plotting...

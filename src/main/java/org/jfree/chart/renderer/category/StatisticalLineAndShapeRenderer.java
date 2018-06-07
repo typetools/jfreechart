@@ -58,6 +58,8 @@
 
 package org.jfree.chart.renderer.category;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
@@ -221,7 +223,7 @@ public class StatisticalLineAndShapeRenderer extends LineAndShapeRenderer
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, int row, int column,
+            ValueAxis rangeAxis, CategoryDataset dataset, @NonNegative int row, @NonNegative int column,
             int pass) {
 
         // do nothing if item is not visible

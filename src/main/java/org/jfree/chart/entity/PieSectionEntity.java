@@ -54,6 +54,8 @@
 
 package org.jfree.chart.entity;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.awt.Shape;
 import java.io.Serializable;
 
@@ -149,7 +151,7 @@ public class PieSectionEntity extends ChartEntity
      *
      * @see #getPieIndex()
      */
-    public void setPieIndex(int index) {
+    public void setPieIndex(@NonNegative int index) {
         this.pieIndex = index;
     }
 
@@ -171,7 +173,7 @@ public class PieSectionEntity extends ChartEntity
      *
      * @see #getSectionIndex()
      */
-    public void setSectionIndex(int index) {
+    public void setSectionIndex(@NonNegative int index) {
         this.sectionIndex = index;
     }
 

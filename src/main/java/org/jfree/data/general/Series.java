@@ -56,6 +56,8 @@
 
 package org.jfree.data.general;
 
+import org.checkerframework.checker.index.qual.*;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyVetoException;
@@ -235,7 +237,7 @@ public abstract class Series implements Cloneable, Serializable {
      *
      * @return The number of data items in the series.
      */
-    public abstract int getItemCount();
+    public abstract @NonNegative int getItemCount();
 
     /**
      * Returns a clone of the series.

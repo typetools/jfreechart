@@ -41,6 +41,8 @@
 
 package org.jfree.chart.plot;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.io.Serializable;
 import java.util.List;
 import org.jfree.chart.util.Args;
@@ -70,7 +72,7 @@ public abstract class AbstractPieLabelDistributor implements Serializable {
      *
      * @return The label record.
      */
-    public PieLabelRecord getPieLabelRecord(int index) {
+    public PieLabelRecord getPieLabelRecord(@NonNegative int index) {
         return (PieLabelRecord) this.labels.get(index);
     }
 
@@ -89,7 +91,7 @@ public abstract class AbstractPieLabelDistributor implements Serializable {
      *
      * @return The item count.
      */
-    public int getItemCount() {
+    public @NonNegative int getItemCount() {
         return this.labels.size();
     }
 

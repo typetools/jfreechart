@@ -57,6 +57,10 @@
 
 package org.jfree.data.statistics;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.util.List;
 import org.jfree.chart.util.PublicCloneable;
 
@@ -152,7 +156,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The mean value (possibly {@code null}).
      */
     @Override
-    public Number getMeanValue(int row, int column) {
+    public Number getMeanValue(@NonNegative int row, @NonNegative int column) {
         Number result = null;
         MeanAndStandardDeviation masd = (MeanAndStandardDeviation)
                 this.data.getObject(row, column);
@@ -172,7 +176,8 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The value (possibly {@code null}).
      */
     @Override
-    public Number getValue(int row, int column) {
+    @Pure
+    public Number getValue(@NonNegative int row, @NonNegative int column) {
         return getMeanValue(row, column);
     }
 
@@ -218,7 +223,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The standard deviation (possibly {@code null}).
      */
     @Override
-    public Number getStdDevValue(int row, int column) {
+    public Number getStdDevValue(@NonNegative int row, @NonNegative int column) {
         Number result = null;
         MeanAndStandardDeviation masd = (MeanAndStandardDeviation)
                 this.data.getObject(row, column);
@@ -255,7 +260,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The column index.
      */
     @Override
-    public int getColumnIndex(Comparable key) {
+    public @GTENegativeOne int getColumnIndex(Comparable key) {
         // defer null argument check
         return this.data.getColumnIndex(key);
     }
@@ -268,7 +273,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The column key.
      */
     @Override
-    public Comparable getColumnKey(int column) {
+    public Comparable getColumnKey(@NonNegative int column) {
         return this.data.getColumnKey(column);
     }
 
@@ -290,7 +295,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The row index.
      */
     @Override
-    public int getRowIndex(Comparable key) {
+    public @GTENegativeOne int getRowIndex(Comparable key) {
         // defer null argument check
         return this.data.getRowIndex(key);
     }
@@ -303,7 +308,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @return The row key.
      */
     @Override
-    public Comparable getRowKey(int row) {
+    public Comparable getRowKey(@NonNegative int row) {
         return this.data.getRowKey(row);
     }
 
@@ -325,7 +330,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @see #getColumnCount()
      */
     @Override
-    public int getRowCount() {
+    public @NonNegative int getRowCount() {
         return this.data.getRowCount();
     }
 
@@ -337,7 +342,8 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      * @see #getRowCount()
      */
     @Override
-    public int getColumnCount() {
+    @Pure
+    public @NonNegative int getColumnCount() {
         return this.data.getColumnCount();
     }
 
@@ -478,7 +484,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      *
      * @since 1.0.7
      */
-    public void removeRow(int rowIndex) {
+    public void removeRow(@NonNegative int rowIndex) {
         this.data.removeRow(rowIndex);
         updateBounds();
         fireDatasetChanged();
@@ -510,7 +516,7 @@ public class DefaultStatisticalCategoryDataset extends AbstractDataset
      *
      * @since 1.0.7
      */
-    public void removeColumn(int columnIndex) {
+    public void removeColumn(@NonNegative int columnIndex) {
         this.data.removeColumn(columnIndex);
         updateBounds();
         fireDatasetChanged();

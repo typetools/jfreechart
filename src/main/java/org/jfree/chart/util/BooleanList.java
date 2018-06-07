@@ -28,6 +28,8 @@
 
 package org.jfree.chart.util;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 /**
  * A list of {@code Boolean} objects.
  */
@@ -49,7 +51,7 @@ public class BooleanList extends AbstractObjectList {
      *
      * @return a {@link Boolean} from the list.
      */
-    public Boolean getBoolean(int index) {
+    public Boolean getBoolean(@NonNegative int index) {
         return (Boolean) get(index);
     }
 
@@ -60,7 +62,7 @@ public class BooleanList extends AbstractObjectList {
      * @param index  the index (zero-based).
      * @param b  the boolean.
      */
-    public void setBoolean(int index, Boolean b) {
+    public void setBoolean(@NonNegative int index, Boolean b) {
         set(index, b);
     }
 

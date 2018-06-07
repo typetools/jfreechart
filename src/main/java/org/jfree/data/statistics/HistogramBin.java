@@ -44,6 +44,8 @@
 
 package org.jfree.data.statistics;
 
+import org.checkerframework.checker.index.qual.*;
+
 import java.io.Serializable;
 
 /**
@@ -55,7 +57,7 @@ public class HistogramBin implements Cloneable, Serializable {
     private static final long serialVersionUID = 7614685080015589931L;
 
     /** The number of items in the bin. */
-    private int count;
+    private @NonNegative int count;
 
     /** The start boundary. */
     private double startBoundary;
@@ -84,7 +86,7 @@ public class HistogramBin implements Cloneable, Serializable {
      *
      * @return The item count.
      */
-    public int getCount() {
+    public @NonNegative int getCount() {
         return this.count;
     }
 

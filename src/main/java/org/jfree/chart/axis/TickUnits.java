@@ -55,6 +55,8 @@
 
 package org.jfree.chart.axis;
 
+import org.checkerframework.checker.index.qual.*;
+
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -114,7 +116,7 @@ public class TickUnits implements TickUnitSource, Cloneable, Serializable {
      *
      * @return The tickunit.
      */
-    public TickUnit get(int pos) {
+    public TickUnit get(@NonNegative int pos) {
         return (TickUnit) this.tickUnits.get(pos);
     }
 
@@ -126,6 +128,7 @@ public class TickUnits implements TickUnitSource, Cloneable, Serializable {
      * @return A tick unit that is larger than the supplied unit.
      */
     @Override
+    @SuppressWarnings("index") // binary search on list, which SearchIndex does not handle because lists are not fixed-size data structure
     public TickUnit getLargerTickUnit(TickUnit unit) {
         int index = Collections.binarySearch(this.tickUnits, unit);
         if (index >= 0) {
@@ -148,6 +151,7 @@ public class TickUnits implements TickUnitSource, Cloneable, Serializable {
      * @return A unit from the collection.
      */
     @Override
+    @SuppressWarnings("index") // binary search on list, which SearchIndex does not handle because lists are not fixed-size data structure
     public TickUnit getCeilingTickUnit(TickUnit unit) {
         int index = Collections.binarySearch(this.tickUnits, unit);
         if (index >= 0) {

@@ -40,6 +40,9 @@
 
 package org.jfree.data.xml;
 
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.common.value.qual.*;
+
 import java.util.Stack;
 
 import org.xml.sax.SAXException;
@@ -79,7 +82,8 @@ public class RootHandler extends DefaultHandler implements DatasetTags {
      * @throws SAXException for errors.
      */
     @Override
-    public void characters(char[] ch, int start, int length)
+    @SuppressWarnings("index") // need xml annotations
+    public void characters(char[] ch, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int length)
         throws SAXException {
         DefaultHandler handler = getCurrentHandler();
         if (handler != this) {

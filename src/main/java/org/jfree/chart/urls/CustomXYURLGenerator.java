@@ -47,6 +47,8 @@
 
 package org.jfree.chart.urls;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +80,7 @@ public class CustomXYURLGenerator implements XYURLGenerator, Cloneable,
      *
      * @return The list count.
      */
-    public int getListCount() {
+    public @NonNegative int getListCount() {
         return this.urlSeries.size();
     }
 
@@ -89,7 +91,7 @@ public class CustomXYURLGenerator implements XYURLGenerator, Cloneable,
      *
      * @return The URL count.
      */
-    public int getURLCount(int list) {
+    public int getURLCount(@NonNegative int list) {
         int result = 0;
         List urls = (List) this.urlSeries.get(list);
         if (urls != null) {
@@ -106,7 +108,7 @@ public class CustomXYURLGenerator implements XYURLGenerator, Cloneable,
      *
      * @return The URL (possibly {@code null}).
      */
-    public String getURL(int series, int item) {
+    public String getURL(@NonNegative int series, @NonNegative int item) {
         String result = null;
         if (series < getListCount()) {
             List urls = (List) this.urlSeries.get(series);
@@ -129,7 +131,7 @@ public class CustomXYURLGenerator implements XYURLGenerator, Cloneable,
      * @return A string containing the URL (possibly {@code null}).
      */
     @Override
-    public String generateURL(XYDataset dataset, int series, int item) {
+    public String generateURL(XYDataset dataset, @NonNegative int series, @NonNegative int item) {
         return getURL(series, item);
     }
 

@@ -49,6 +49,8 @@
 
 package org.jfree.data.xy;
 
+import org.checkerframework.checker.index.qual.*;
+
 import java.util.Arrays;
 import java.util.Date;
 import org.jfree.chart.util.Args;
@@ -66,22 +68,22 @@ public class DefaultHighLowDataset extends AbstractXYDataset
     private Comparable seriesKey;
 
     /** Storage for the dates. */
-    private Date[] date;
+    private Date @SameLen({"this.high", "this.date", "this.low", "this.open", "this.close", "this.volume"}) [] date;
 
     /** Storage for the high values. */
-    private Number[] high;
+    private Number @SameLen({"this.high", "this.date", "this.low", "this.open", "this.close", "this.volume"}) [] high;
 
     /** Storage for the low values. */
-    private Number[] low;
+    private Number @SameLen({"this.high", "this.date", "this.low", "this.open", "this.close", "this.volume"}) [] low;
 
     /** Storage for the open values. */
-    private Number[] open;
+    private Number @SameLen({"this.high", "this.date", "this.low", "this.open", "this.close", "this.volume"}) [] open;
 
     /** Storage for the close values. */
-    private Number[] close;
+    private Number @SameLen({"this.high", "this.date", "this.low", "this.open", "this.close", "this.volume"}) [] close;
 
     /** Storage for the volume values. */
-    private Number[] volume;
+    private Number @SameLen({"this.high", "this.date", "this.low", "this.open", "this.close", "this.volume"}) [] volume;
 
     /**
      * Constructs a new high/low/open/close dataset.
@@ -98,9 +100,11 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @param close  the close values ({@code null} not permitted).
      * @param volume  the volume values ({@code null} not permitted).
      */
-    public DefaultHighLowDataset(Comparable seriesKey, Date[] date,
-            double[] high, double[] low, double[] open, double[] close,
-            double[] volume) {
+    @SuppressWarnings("samelen") // While initializing object, SameLen invariants between the fields will be broken (because one field must be initialized before the others). The annotations on the parameters guarantee the invariant holds after the constructor finishes executing.
+    public DefaultHighLowDataset(Comparable seriesKey, Date @SameLen({"#2", "#3", "#4", "#5", "#6", "#7"}) [] date,
+            double @SameLen({"#2", "#3", "#4", "#5", "#6", "#7"}) [] high, double @SameLen({"#2", "#3", "#4", "#5", "#6", "#7"}) [] low,
+            double @SameLen({"#2", "#3", "#4", "#5", "#6", "#7"}) [] open, double @SameLen({"#2", "#3", "#4", "#5", "#6", "#7"}) [] close,
+            double @SameLen({"#2", "#3", "#4", "#5", "#6", "#7"}) [] volume) {
 
         Args.nullNotPermitted(seriesKey, "seriesKey");
         Args.nullNotPermitted(date, "date");
@@ -123,7 +127,7 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @return The series key (never {@code null}).
      */
     @Override
-    public Comparable getSeriesKey(int series) {
+    public Comparable getSeriesKey(@NonNegative int series) {
         return this.seriesKey;
     }
 
@@ -142,8 +146,10 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @see #getXDate(int, int)
      */
     @Override
-    public Number getX(int series, int item) {
-        return new Long(this.date[item].getTime());
+    public Number getX(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
+        @SuppressWarnings("index") // array-list interop: the annotation on this method cannot expose the implementation detail of this class being backed by an array
+                Number result =  new Long(this.date[item].getTime());
+        return result;
     }
 
     /**
@@ -158,8 +164,10 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      *
      * @see #getX(int, int)
      */
-    public Date getXDate(int series, int item) {
-        return this.date[item];
+    public Date getXDate(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
+        @SuppressWarnings("index") // array-list interop: the annotation on this method cannot expose the implementation detail of this class being backed by an array
+        Date result = this.date[item];
+        return result;
     }
 
     /**
@@ -176,7 +184,7 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @see #getYValue(int, int)
      */
     @Override
-    public Number getY(int series, int item) {
+    public Number getY(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         return getClose(series, item);
     }
 
@@ -191,8 +199,10 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @see #getHighValue(int, int)
      */
     @Override
-    public Number getHigh(int series, int item) {
-        return this.high[item];
+    public Number getHigh(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
+        @SuppressWarnings("index") // array-list interop: the annotation on this method cannot expose the implementation detail of this class being backed by an array
+                Number result = this.high[item];
+        return result;
     }
 
     /**
@@ -207,7 +217,7 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @see #getHigh(int, int)
      */
     @Override
-    public double getHighValue(int series, int item) {
+    public double getHighValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         double result = Double.NaN;
         Number h = getHigh(series, item);
         if (h != null) {
@@ -227,8 +237,10 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @see #getLowValue(int, int)
      */
     @Override
-    public Number getLow(int series, int item) {
-        return this.low[item];
+    public Number getLow(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
+        @SuppressWarnings("index") // array-list interop: the annotation on this method cannot expose the implementation detail of this class being backed by an array
+        Number result = this.low[item];
+        return result;
     }
 
     /**
@@ -243,7 +255,7 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @see #getLow(int, int)
      */
     @Override
-    public double getLowValue(int series, int item) {
+    public double getLowValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         double result = Double.NaN;
         Number l = getLow(series, item);
         if (l != null) {
@@ -263,8 +275,10 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @see #getOpenValue(int, int)
      */
     @Override
-    public Number getOpen(int series, int item) {
-        return this.open[item];
+    public Number getOpen(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
+        @SuppressWarnings("index") // array-list interop: the annotation on this method cannot expose the implementation detail of this class being backed by an array
+        Number result = this.open[item];
+        return result;
     }
 
     /**
@@ -279,7 +293,7 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @see #getOpen(int, int)
      */
     @Override
-    public double getOpenValue(int series, int item) {
+    public double getOpenValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         double result = Double.NaN;
         Number open = getOpen(series, item);
         if (open != null) {
@@ -299,8 +313,10 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @see #getCloseValue(int, int)
      */
     @Override
-    public Number getClose(int series, int item) {
-        return this.close[item];
+    public Number getClose(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
+        @SuppressWarnings("index") // array-list interop: the annotation on this method cannot expose the implementation detail of this class being backed by an array
+        Number result = this.close[item];
+        return result;
     }
 
     /**
@@ -315,7 +331,7 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @see #getClose(int, int)
      */
     @Override
-    public double getCloseValue(int series, int item) {
+    public double getCloseValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         double result = Double.NaN;
         Number c = getClose(series, item);
         if (c != null) {
@@ -335,8 +351,10 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @see #getVolumeValue(int, int)
      */
     @Override
-    public Number getVolume(int series, int item) {
-        return this.volume[item];
+    public Number getVolume(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
+        @SuppressWarnings("index") // array-list interop: the annotation on this method cannot expose the implementation detail of this class being backed by an array
+        Number result = this.volume[item];
+        return result;
     }
 
     /**
@@ -351,7 +369,7 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @see #getVolume(int, int)
      */
     @Override
-    public double getVolumeValue(int series, int item) {
+    public double getVolumeValue(@NonNegative int series, @IndexFor("this.getSeries(#1)") int item) {
         double result = Double.NaN;
         Number v = getVolume(series, item);
         if (v != null) {
@@ -368,7 +386,7 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @return The number of series.
      */
     @Override
-    public int getSeriesCount() {
+    public @NonNegative int getSeriesCount() {
         return 1;
     }
 
@@ -380,8 +398,10 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      * @return The number of items in the specified series.
      */
     @Override
-    public int getItemCount(int series) {
-        return this.date.length;
+    public @LengthOf("this.getSeries(#1)") int getItemCount(@NonNegative int series) {
+        @SuppressWarnings("index") // the annotation on this method isn't quite sensical, but it's the closest we can get, and is safe.
+        @LengthOf("this.getSeries(#1)") int result = this.date.length;
+        return result;
     }
 
     /**
@@ -432,7 +452,7 @@ public class DefaultHighLowDataset extends AbstractXYDataset
      *
      * @return The data as an array of Number objects.
      */
-    public static Number[] createNumberArray(double[] data) {
+    public static Number @SameLen("#1") [] createNumberArray(double[] data) {
         Number[] result = new Number[data.length];
         for (int i = 0; i < data.length; i++) {
             result[i] = new Double(data[i]);

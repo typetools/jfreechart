@@ -45,6 +45,8 @@
 
 package org.jfree.chart.renderer.category;
 
+import org.checkerframework.checker.index.qual.*;
+
 import org.jfree.chart.plot.CategoryCrosshairState;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.renderer.RendererState;
@@ -62,7 +64,7 @@ public class CategoryItemRendererState extends RendererState {
     private double seriesRunningTotal;
 
     /** The array with the indices of the visible series.*/
-    private int[] visibleSeries;
+    private @NonNegative int[] visibleSeries;
 
     /**
      * State information for crosshairs in the plot (this is updated by the
@@ -168,7 +170,7 @@ public class CategoryItemRendererState extends RendererState {
      *
      * @since 1.0.13
      */
-    public int getVisibleSeriesIndex(int rowIndex) {
+    public int getVisibleSeriesIndex(@NonNegative int rowIndex) {
         if (this.visibleSeries == null) {
             return rowIndex;
         }
@@ -204,11 +206,11 @@ public class CategoryItemRendererState extends RendererState {
      * 
      * @since 1.0.13
      */
-    public int[] getVisibleSeriesArray() {
+    public @NonNegative int[] getVisibleSeriesArray() {
         if (this.visibleSeries == null) {
             return null;
         }
-        int[] result = new int[this.visibleSeries.length];
+        @NonNegative int[] result = new int[this.visibleSeries.length];
         System.arraycopy(this.visibleSeries, 0, result, 0,
                 this.visibleSeries.length);
         return result;
@@ -221,7 +223,7 @@ public class CategoryItemRendererState extends RendererState {
      *
      * @since 1.0.13
      */
-    public void setVisibleSeriesArray(int[] visibleSeries) {
+    public void setVisibleSeriesArray(@NonNegative int[] visibleSeries) {
         this.visibleSeries = visibleSeries;
     }
 

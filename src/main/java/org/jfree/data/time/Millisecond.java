@@ -60,6 +60,8 @@
 
 package org.jfree.data.time;
 
+import org.checkerframework.common.value.qual.*;
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -85,16 +87,16 @@ public class Millisecond extends RegularTimePeriod implements Serializable {
     private Day day;
 
     /** The hour in the day. */
-    private byte hour;
+    @IntRange(from = 0, to = 23) private byte hour;
 
     /** The minute. */
-    private byte minute;
+    @IntRange(from = 0, to = 59) private byte minute;
 
     /** The second. */
-    private byte second;
+    @IntRange(from = 0, to = 59) private byte second;
 
     /** The millisecond. */
-    private int millisecond;
+    @IntRange(from = 0, to = 999) private int millisecond;
 
     /**
      * The pegged millisecond.
@@ -114,7 +116,7 @@ public class Millisecond extends RegularTimePeriod implements Serializable {
      * @param millisecond  the millisecond (0-999).
      * @param second  the second.
      */
-    public Millisecond(int millisecond, Second second) {
+    public Millisecond(@IntRange(from = 0, to = 999) int millisecond, Second second) {
         this.millisecond = millisecond;
         this.second = (byte) second.getSecond();
         this.minute = (byte) second.getMinute().getMinute();
@@ -134,8 +136,8 @@ public class Millisecond extends RegularTimePeriod implements Serializable {
      * @param month  the month (1-12).
      * @param year  the year (1900-9999).
      */
-    public Millisecond(int millisecond, int second, int minute, int hour,
-                       int day, int month, int year) {
+    public Millisecond(@IntRange(from = 0, to = 999) int millisecond, @IntRange(from = 0, to = 59) int second, @IntRange(from = 0, to = 59) int minute, @IntRange(from = 0, to = 23) int hour,
+                       @IntRange(from = 1, to = 31) int day, @IntRange(from = 1, to = 12) int month, @IntRange(from = 1900, to = 9999) int year) {
 
         this(millisecond, new Second(second, minute, hour, day, month, year));
 
@@ -161,6 +163,7 @@ public class Millisecond extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.13
      */
+    @SuppressWarnings({"index", "value"}) // calendar get: calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
     public Millisecond(Date time, TimeZone zone, Locale locale) {
         Calendar calendar = Calendar.getInstance(zone, locale);
         calendar.setTime(time);

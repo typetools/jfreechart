@@ -43,6 +43,10 @@
 
 package org.jfree.chart.renderer.xy;
 
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Stroke;
@@ -304,17 +308,21 @@ public class XYErrorRenderer extends XYLineAndShapeRenderer {
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
-            int series, int item, CrosshairState crosshairState, int pass) {
+            @NonNegative int series, @IndexFor("#8.getSeries(#9)") int item, CrosshairState crosshairState, int pass) {
 
         if (pass == 0 && dataset instanceof IntervalXYDataset
                 && getItemVisible(series, item)) {
             IntervalXYDataset ixyd = (IntervalXYDataset) dataset;
+
+            @SuppressWarnings("index") // retain information when casting https://github.com/kelloggm/checker-framework/issues/212
+            @IndexFor("ixyd.getSeries(series)") int ixydItem = item;
+
             PlotOrientation orientation = plot.getOrientation();
             if (this.drawXError) {
                 // draw the error bar for the x-interval
-                double x0 = ixyd.getStartXValue(series, item);
-                double x1 = ixyd.getEndXValue(series, item);
-                double y = ixyd.getYValue(series, item);
+                double x0 = ixyd.getStartXValue(series, ixydItem);
+                double x1 = ixyd.getEndXValue(series, ixydItem);
+                double y = ixyd.getYValue(series, ixydItem);
                 RectangleEdge edge = plot.getDomainAxisEdge();
                 double xx0 = domainAxis.valueToJava2D(x0, dataArea, edge);
                 double xx1 = domainAxis.valueToJava2D(x1, dataArea, edge);
@@ -352,9 +360,9 @@ public class XYErrorRenderer extends XYLineAndShapeRenderer {
             }
             if (this.drawYError) {
                 // draw the error bar for the y-interval
-                double y0 = ixyd.getStartYValue(series, item);
-                double y1 = ixyd.getEndYValue(series, item);
-                double x = ixyd.getXValue(series, item);
+                double y0 = ixyd.getStartYValue(series, ixydItem);
+                double y1 = ixyd.getEndYValue(series, ixydItem);
+                double x = ixyd.getXValue(series, ixydItem);
                 RectangleEdge edge = plot.getRangeAxisEdge();
                 double yy0 = rangeAxis.valueToJava2D(y0, dataArea, edge);
                 double yy1 = rangeAxis.valueToJava2D(y1, dataArea, edge);

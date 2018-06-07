@@ -66,6 +66,8 @@
 
 package org.jfree.data.time;
 
+import org.checkerframework.common.value.qual.*;
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -92,7 +94,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
     private Day day;
 
     /** The hour. */
-    private byte hour;
+    @IntRange(from = 0, to = 23) private byte hour;
 
     /** The first millisecond. */
     private long firstMillisecond;
@@ -113,7 +115,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
      * @param hour  the hour (in the range 0 to 23).
      * @param day  the day ({@code null} not permitted).
      */
-    public Hour(int hour, Day day) {
+    public Hour(@IntRange(from = 0, to = 23) int hour, Day day) {
         Args.nullNotPermitted(day, "day");
         this.hour = (byte) hour;
         this.day = day;
@@ -128,7 +130,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
      * @param month  the month (1-12).
      * @param year  the year (1900-9999).
      */
-    public Hour(int hour, int day, int month, int year) {
+    public Hour(@IntRange(from = 0, to = 23) int hour, @IntRange(from = 1, to = 31) int day, @IntRange(from = 1, to = 12) int month, @IntRange(from = 1900, to = 9999) int year) {
         this(hour, new Day(day, month, year));
     }
 
@@ -155,6 +157,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
      *
      * @since 1.0.13
      */
+    @SuppressWarnings({"index", "value"}) // calendar get: calendar.get is a combined getter for various calendar fields, and therefore has no sensical annotation
     public Hour(Date time, TimeZone zone, Locale locale) {
         Args.nullNotPermitted(time, "time");
         Args.nullNotPermitted(zone, "zone");
@@ -171,7 +174,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
      *
      * @return The hour (0 &lt;= hour &lt;= 23).
      */
-    public int getHour() {
+    public @IntRange(from = 0, to = 23) int getHour() {
         return this.hour;
     }
 
@@ -189,7 +192,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
      *
      * @return The year.
      */
-    public int getYear() {
+    public @IntRange(from = 1900, to = 9999) int getYear() {
         return this.day.getYear();
     }
 
@@ -198,7 +201,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
      *
      * @return The month.
      */
-    public int getMonth() {
+    public @IntRange(from = 1, to = 12) int getMonth() {
         return this.day.getMonth();
     }
 
@@ -207,7 +210,7 @@ public class Hour extends RegularTimePeriod implements Serializable {
      *
      * @return The day-of-the-month.
      */
-    public int getDayOfMonth() {
+    public @IntRange(from = 1, to = 31) int getDayOfMonth() {
         return this.day.getDayOfMonth();
     }
 

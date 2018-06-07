@@ -47,6 +47,8 @@
 
 package org.jfree.chart.entity;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -92,7 +94,7 @@ public interface EntityCollection {
      *
      * @return An entity.
      */
-    public ChartEntity getEntity(int index);
+    public ChartEntity getEntity(@NonNegative int index);
 
     /**
      * Returns the entity count.

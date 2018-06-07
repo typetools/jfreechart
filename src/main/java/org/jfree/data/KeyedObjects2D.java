@@ -45,6 +45,9 @@
 
 package org.jfree.data;
 
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
@@ -85,7 +88,7 @@ public class KeyedObjects2D implements Cloneable, Serializable {
      *
      * @see #getColumnCount()
      */
-    public int getRowCount() {
+    public @NonNegative int getRowCount() {
         return this.rowKeys.size();
     }
 
@@ -96,7 +99,7 @@ public class KeyedObjects2D implements Cloneable, Serializable {
      *
      * @see #getRowCount()
      */
-    public int getColumnCount() {
+    public @NonNegative int getColumnCount() {
         return this.columnKeys.size();
     }
 
@@ -110,7 +113,7 @@ public class KeyedObjects2D implements Cloneable, Serializable {
      *
      * @see #getObject(Comparable, Comparable)
      */
-    public Object getObject(int row, int column) {
+    public Object getObject(@NonNegative int row, @NonNegative int column) {
         Object result = null;
         KeyedObjects rowData = (KeyedObjects) this.rows.get(row);
         if (rowData != null) {
@@ -134,7 +137,7 @@ public class KeyedObjects2D implements Cloneable, Serializable {
      *
      * @see #getRowIndex(Comparable)
      */
-    public Comparable getRowKey(int row) {
+    public Comparable getRowKey(@NonNegative int row) {
         return (Comparable) this.rowKeys.get(row);
     }
 
@@ -148,7 +151,7 @@ public class KeyedObjects2D implements Cloneable, Serializable {
      *
      * @see #getRowKey(int)
      */
-    public int getRowIndex(Comparable key) {
+    public @GTENegativeOne int getRowIndex(Comparable key) {
         Args.nullNotPermitted(key, "key");
         return this.rowKeys.indexOf(key);
     }
@@ -173,7 +176,7 @@ public class KeyedObjects2D implements Cloneable, Serializable {
      *
      * @see #getColumnIndex(Comparable)
      */
-    public Comparable getColumnKey(int column) {
+    public Comparable getColumnKey(@NonNegative int column) {
         return (Comparable) this.columnKeys.get(column);
     }
 
@@ -187,7 +190,7 @@ public class KeyedObjects2D implements Cloneable, Serializable {
      *
      * @see #getColumnKey(int)
      */
-    public int getColumnIndex(Comparable key) {
+    public @GTENegativeOne int getColumnIndex(Comparable key) {
         Args.nullNotPermitted(key, "key");
         return this.columnKeys.indexOf(key);
     }
@@ -352,7 +355,7 @@ public class KeyedObjects2D implements Cloneable, Serializable {
      *
      * @see #removeColumn(int)
      */
-    public void removeRow(int rowIndex) {
+    public void removeRow(@NonNegative int rowIndex) {
         this.rowKeys.remove(rowIndex);
         this.rows.remove(rowIndex);
     }
@@ -382,7 +385,7 @@ public class KeyedObjects2D implements Cloneable, Serializable {
      *
      * @see #removeRow(int)
      */
-    public void removeColumn(int columnIndex) {
+    public void removeColumn(@NonNegative int columnIndex) {
         Comparable columnKey = getColumnKey(columnIndex);
         removeColumn(columnKey);
     }

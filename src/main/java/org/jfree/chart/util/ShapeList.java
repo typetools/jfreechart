@@ -28,6 +28,8 @@
 
 package org.jfree.chart.util;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.awt.Shape;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -52,7 +54,7 @@ public class ShapeList extends AbstractObjectList {
      *
      * @return The object.
      */
-    public Shape getShape(int index) {
+    public Shape getShape(@NonNegative int index) {
         return (Shape) get(index);
     }
 
@@ -63,7 +65,7 @@ public class ShapeList extends AbstractObjectList {
      * @param index  the index (zero-based).
      * @param shape  the {@link Shape}.
      */
-    public void setShape(int index, Shape shape) {
+    public void setShape(@NonNegative int index, Shape shape) {
         set(index, shape);
     }
 
@@ -148,6 +150,7 @@ public class ShapeList extends AbstractObjectList {
      * @throws IOException  if there is an I/O error.
      * @throws ClassNotFoundException  if there is a classpath problem.
      */
+    @SuppressWarnings("index") // readObject assumes that the object read is actually an object of this class
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
 
         stream.defaultReadObject();

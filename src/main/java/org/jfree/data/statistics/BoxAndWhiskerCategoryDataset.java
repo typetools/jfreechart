@@ -45,6 +45,8 @@
 
 package org.jfree.data.statistics;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.util.List;
 
 import org.jfree.data.category.CategoryDataset;
@@ -63,7 +65,7 @@ public interface BoxAndWhiskerCategoryDataset extends CategoryDataset {
      *
      * @return The mean value.
      */
-    public Number getMeanValue(int row, int column);
+    public Number getMeanValue(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the average value for an item.
@@ -83,7 +85,7 @@ public interface BoxAndWhiskerCategoryDataset extends CategoryDataset {
      *
      * @return The median value.
      */
-    public Number getMedianValue(int row, int column);
+    public Number getMedianValue(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the median value for an item.
@@ -103,7 +105,7 @@ public interface BoxAndWhiskerCategoryDataset extends CategoryDataset {
      *
      * @return The q1median value.
      */
-    public Number getQ1Value(int row, int column);
+    public Number getQ1Value(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the q1median value for an item.
@@ -123,7 +125,7 @@ public interface BoxAndWhiskerCategoryDataset extends CategoryDataset {
      *
      * @return The q3median value.
      */
-    public Number getQ3Value(int row, int column);
+    public Number getQ3Value(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the q3median value for an item.
@@ -143,7 +145,7 @@ public interface BoxAndWhiskerCategoryDataset extends CategoryDataset {
      *
      * @return The minimum regular value.
      */
-    public Number getMinRegularValue(int row, int column);
+    public Number getMinRegularValue(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the minimum regular (non-outlier) value for an item.
@@ -163,7 +165,7 @@ public interface BoxAndWhiskerCategoryDataset extends CategoryDataset {
      *
      * @return The maximum regular value.
      */
-    public Number getMaxRegularValue(int row, int column);
+    public Number getMaxRegularValue(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the maximum regular (non-outlier) value for an item.
@@ -183,7 +185,7 @@ public interface BoxAndWhiskerCategoryDataset extends CategoryDataset {
      *
      * @return The minimum outlier.
      */
-    public Number getMinOutlier(int row, int column);
+    public Number getMinOutlier(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the minimum outlier (non-farout) for an item.
@@ -203,7 +205,7 @@ public interface BoxAndWhiskerCategoryDataset extends CategoryDataset {
      *
      * @return The maximum outlier.
      */
-    public Number getMaxOutlier(int row, int column);
+    public Number getMaxOutlier(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns the maximum outlier (non-farout) for an item.
@@ -224,7 +226,7 @@ public interface BoxAndWhiskerCategoryDataset extends CategoryDataset {
      *
      * @return A list of outliers for an item.
      */
-    public List getOutliers(int row, int column);
+    public List getOutliers(@NonNegative int row, @NonNegative int column);
 
     /**
      * Returns a list of outlier values for an item.  The list may be empty,

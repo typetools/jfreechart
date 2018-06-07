@@ -68,6 +68,10 @@
 
 package org.jfree.chart.renderer.category;
 
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.common.value.qual.*;
+import org.checkerframework.checker.index.qual.NonNegative;
+
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
@@ -158,7 +162,7 @@ public class StackedAreaRenderer extends AreaRenderer
      * @return The number of passes required by the renderer.
      */
     @Override
-    public int getPassCount() {
+    public @NonNegative int getPassCount() {
         return 2;
     }
 
@@ -200,7 +204,7 @@ public class StackedAreaRenderer extends AreaRenderer
     @Override
     public void drawItem(Graphics2D g2, CategoryItemRendererState state,
             Rectangle2D dataArea, CategoryPlot plot, CategoryAxis domainAxis,
-            ValueAxis rangeAxis, CategoryDataset dataset, int row, int column,
+            ValueAxis rangeAxis, CategoryDataset dataset, @NonNegative int row, @NonNegative int column,
             int pass) {
 
         if (!isSeriesVisible(row)) {
@@ -251,7 +255,8 @@ public class StackedAreaRenderer extends AreaRenderer
         double xx0 = domainAxis.getCategoryStart(column, getColumnCount(),
                 dataArea, plot.getDomainAxisEdge());
 
-        int itemCount = dataset.getColumnCount();
+        @SuppressWarnings("index") // Possible bug. I don't see anything that implies that there is an item in the dataset, but I might I have missed it
+        @Positive int itemCount = dataset.getColumnCount();
         double y2 = 0.0;
         n = dataset.getValue(row, Math.min(column + 1, itemCount - 1));
         if (n != null) {
@@ -412,8 +417,8 @@ public class StackedAreaRenderer extends AreaRenderer
      *     for all series values up to but excluding {@code series}
      *     for {@code index}.
      */
-    protected double[] getStackValues(CategoryDataset dataset,
-            int series, int index, int[] validRows) {
+    protected double @ArrayLen(2) [] getStackValues(CategoryDataset dataset,
+            int series, @NonNegative int index, @NonNegative int[] validRows) {
         double[] result = new double[2];
         double total = 0.0;
         if (this.renderAsPercentages) {
@@ -452,7 +457,7 @@ public class StackedAreaRenderer extends AreaRenderer
      *
      * @return A pair of average stack values.
      */
-    private double[] averageStackValues(double[] stack1, double[] stack2) {
+    private double @ArrayLen(2) [] averageStackValues(double @MinLen(2) [] stack1, double @MinLen(2) [] stack2) {
         double[] result = new double[2];
         result[0] = (stack1[0] + stack2[0]) / 2.0;
         result[1] = (stack1[1] + stack2[1]) / 2.0;
@@ -469,7 +474,7 @@ public class StackedAreaRenderer extends AreaRenderer
      *
      * @return A pair of average stack values.
      */
-    private double[] adjustedStackValues(double[] stack1, double[] stack2) {
+    private double @ArrayLen(2) [] adjustedStackValues(double @MinLen(2) [] stack1, double @MinLen(2) [] stack2) {
         double[] result = new double[2];
         if (stack1[0] == 0.0 || stack2[0] == 0.0) {
             result[0] = 0.0;
